@@ -1,0 +1,114 @@
+﻿{
+    "experiment":  {
+                       "name":  "PCG_T4_5_Epoch_Run",
+                       "description":  "Polar Collision Grid baseline reproduction experiment",
+                       "repository_branch":  "reproduction",
+                       "method":  4,
+                       "dataset":  "HBS",
+                       "hardware":  "Google Colab Tesla T4",
+                       "status":  "Archived; reproducibility validation in progress"
+                   },
+    "training_configuration":  {
+                                   "epochs":  5,
+                                   "batch_size":  10,
+                                   "sequence_length":  12,
+                                   "observation_length":  6,
+                                   "prediction_length":  6,
+                                   "learning_rate":  0.001,
+                                   "rnn_hidden_size":  128,
+                                   "embedding_dimension":  64,
+                                   "pedestrian_neighborhood":  8,
+                                   "grid_size":  4,
+                                   "vehicle_neighborhood":  64,
+                                   "ttc":  9,
+                                   "vehicle_ttc":  8
+                               },
+    "training_metrics":  {
+                             "batches_per_epoch":  238,
+                             "total_batches":  1190,
+                             "epoch_losses":  [
+                                                  -0.93625,
+                                                  -1.613831,
+                                                  -1.79745,
+                                                  -1.939129,
+                                                  -2.032817
+                                              ],
+                             "training_errors":  [
+                                                     0.36535,
+                                                     0.258959,
+                                                     0.250718,
+                                                     0.242476,
+                                                     0.237397
+                                                 ]
+                         },
+    "reported_test_metrics":  {
+                                  "ADE":  0.5587965606,
+                                  "FDE":  1.1381949186,
+                                  "MHD":  3.0712323189,
+                                  "speed_error":  0.3732687804,
+                                  "heading_error":  40.8124596214,
+                                  "overall_collision":  0.0217,
+                                  "pedestrian_collision":  0.0591,
+                                  "pedestrian_vehicle_collision":  0.0021,
+                                  "selection_method":  "Best-of-five oracle selection"
+                              },
+    "reproducibility_notes":  [
+                                  "Reported metrics are preserved from the existing experiment record; independent reconstruction is pending.",
+                                  "Coordinate units and camera calibration are unverified.",
+                                  "The evaluation protocol uses future information in parts of test-time prediction.",
+                                  "The validation protocol and sliding-window overlap require further audit.",
+                                  "This archive does not imply that the original experiment is fully leakage-free."
+                              ],
+    "artifacts":  [
+                      {
+                          "path":  "checkpoints/SOCIALLSTM_lstm_model_0.tar",
+                          "size_bytes":  1347031,
+                          "sha256":  "876D017CD6D381FBBDD1A9976A5A2843FDCEAEBA0FB45560DB406DF410C825CE"
+                      },
+                      {
+                          "path":  "checkpoints/SOCIALLSTM_lstm_model_1.tar",
+                          "size_bytes":  1347031,
+                          "sha256":  "EBEE25A064E6DA5D235C5B23ECF8C1E55489EF8A5EEA654A279A6008D90D43F8"
+                      },
+                      {
+                          "path":  "checkpoints/SOCIALLSTM_lstm_model_2.tar",
+                          "size_bytes":  1347031,
+                          "sha256":  "3ACF2412362C342E3426A7BE4C8B44558241ED3302970CF60554D832E5D0EC74"
+                      },
+                      {
+                          "path":  "checkpoints/SOCIALLSTM_lstm_model_3.tar",
+                          "size_bytes":  1347031,
+                          "sha256":  "3A4EBD8BC4BFF5B960B9090ACB8EBD16640A01E5CB834B7DBFAA07D42F06B0EF"
+                      },
+                      {
+                          "path":  "checkpoints/SOCIALLSTM_lstm_model_4.tar",
+                          "size_bytes":  1347031,
+                          "sha256":  "AC9F5462EC741B91541FA6BE74F07167060D63A469F88936C9D5FBC833387D48"
+                      },
+                      {
+                          "path":  "configs/experiment_config.pkl",
+                          "size_bytes":  636,
+                          "sha256":  "9C994A14A5F6519B2C78256B3603C2E26975DDB647AC455BF13AECCD18485BA5"
+                      },
+                      {
+                          "path":  "configs/original_config.pkl",
+                          "size_bytes":  636,
+                          "sha256":  "763E68C787524E836DD20DC833F6BF949DF488591F01BC74BDAB375ECB8E43D9"
+                      },
+                      {
+                          "path":  "logs/log_curve.txt",
+                          "size_bytes":  348,
+                          "sha256":  "89BD93363B9D829B9876ACCCCC242951DB1E00ED6D91561304226466535D84C1"
+                      },
+                      {
+                          "path":  "logs/loss_plot_batch.png",
+                          "size_bytes":  33424,
+                          "sha256":  "7EC8BC95896EC75AA1746BCFD8C7BAD45DB7957E992FA32D81C57E19F9C77205"
+                      },
+                      {
+                          "path":  "results/test_results_epoch4.pkl",
+                          "size_bytes":  34533766,
+                          "sha256":  "119E9BB665E2168035062FA075343ABA46CC9B2F2F8810054C16A996579192DE"
+                      }
+                  ]
+}
