@@ -1,0 +1,41 @@
+{
+  "task": 8,
+  "title": "Phase 2 boundary test suite",
+  "status": "BASELINE_FAILED_CORRECTED_PASS",
+  "scope": {
+    "source_modified": false,
+    "dataset_modified": false,
+    "checkpoints_modified": false,
+    "authoritative_predictions_modified": false,
+    "training_rerun": false,
+    "evaluation_rerun": false
+  },
+  "command": "C:\\Users\\revan\\anaconda3\\envs\\pcg-baseline\\python.exe -m pytest tests\\phase2 -v",
+  "pytest_version": "8.4.2",
+  "python_version": "3.9.25",
+  "collected": 12,
+  "passed": 11,
+  "failed": 1,
+  "skipped": 0,
+  "missing_inputs": [],
+  "failed_tests": [
+    {
+      "test": "tests/phase2/test_ttc_masks.py::test_ttc_occupancy_mask_collapses_agent_dimension",
+      "reason": "utils.Interaction.getInteractionGridMask returns TTC_mask without initializing it when is_occupancy=True",
+      "exception": "UnboundLocalError: local variable 'TTC_mask' referenced before assignment",
+      "source": "utils/Interaction.py:173"
+    }
+  ],
+  "warnings": "Matplotlib/Pyparsing deprecation warnings were emitted; they did not cause test failures.",
+  "raw_output": "experiments/PCG_T4_5_Epoch_Run/logs/task8_pytest.log"
+  ,
+  "isolated_audit_fix": {
+    "branch": "audit-fixes",
+    "correction": "Initialize TTC_mask in the occupancy branch.",
+    "collected": 12,
+    "passed": 12,
+    "failed": 0,
+    "skipped": 0,
+    "raw_output": "experiments/PCG_T4_5_Epoch_Run/logs/task8_pytest_corrected_audit_fixes.log"
+  }
+}

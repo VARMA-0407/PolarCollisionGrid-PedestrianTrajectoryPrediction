@@ -1,0 +1,108 @@
+{
+  "manifest_version": 2,
+  "experiment": "PCG_T4_5_Epoch_Run",
+  "purpose": "Phase 2 reproducibility and deliverable integrity manifest",
+  "self_hash_excluded": true,
+  "artifacts": [
+    {
+      "path": "experiments/PCG_T4_5_Epoch_Run/manifest.json",
+      "size_bytes": 6467,
+      "sha256": "BB55AE68E8EAE54D7B126481C404970FDB8593EC1264D0371C138F24D84C98C9"
+    },
+    {
+      "path": "experiments/PCG_T4_5_Epoch_Run/results/test_results_epoch4.pkl",
+      "size_bytes": 34533766,
+      "sha256": "119E9BB665E2168035062FA075343ABA46CC9B2F2F8810054C16A996579192DE"
+    },
+    {
+      "path": "experiments/PCG_T4_5_Epoch_Run/results/ade_fde_reconstruction.json",
+      "size_bytes": 569,
+      "sha256": "5B52CE16CDCDB8B618F7B184B15D7755FA3743EF40FC00F230B3241D904DE7D4"
+    },
+    {
+      "path": "experiments/PCG_T4_5_Epoch_Run/reports/task4_oracle_future_information_audit.json",
+      "size_bytes": 2387,
+      "sha256": "1F378B9FEBF708186EE59418BA4D69B709AA0910961FFC2C3CD924C376C195A5"
+    },
+    {
+      "path": "experiments/PCG_T4_5_Epoch_Run/reports/task5_window_overlap_authoritative.json",
+      "size_bytes": 1734,
+      "sha256": "41434E40F1D0705912EB3B32A73C4E1CE12FBA74013681C716A1D284A214E39C"
+    },
+    {
+      "path": "experiments/PCG_T4_5_Epoch_Run/reports/task6_corrected_validation_protocol.json",
+      "size_bytes": 6452,
+      "sha256": "45FA91313E8A883AEA9ECD3D7D2DEEB2BCB0C0839E3889277E77E953FD354752"
+    },
+    {
+      "path": "experiments/PCG_T4_5_Epoch_Run/reports/task7_hbs_coordinate_provenance_audit.json",
+      "size_bytes": 3537,
+      "sha256": "6FC0B0241F357D52864630C3CACD232DAFE9FCBF3263C869150807CE86099CC9"
+    },
+    {
+      "path": "experiments/PCG_T4_5_Epoch_Run/reports/task8_test_report.json",
+      "size_bytes": 1495,
+      "sha256": "F603B4A958A710F4C201239518FD34C10F6EBBA76D84E367C6E03D8E0C100478"
+    },
+    {
+      "path": "experiments/PCG_T4_5_Epoch_Run/reports/phase2_reproducibility_report.json",
+      "size_bytes": 2494,
+      "sha256": "71A1D190020DA764715BA4A228AABB7107286DB7531EAAF2F9B1ECF00749A31F"
+    },
+    {
+      "path": "experiments/PCG_T4_5_Epoch_Run/logs/task8_pytest.log",
+      "size_bytes": 8593,
+      "sha256": "0ACB8372240699E1B46DAA673BE280D39213F22F6B6140D03BF7B998313ACB64"
+    },
+    {
+      "path": "tests/phase2/test_ttc.py",
+      "size_bytes": 1749,
+      "sha256": "9823DC334AEDE738C901046DE2607A3BF2ED7AC1C3135F42E85DD3BF810FCF04"
+    },
+    {
+      "path": "tests/phase2/test_ttc_masks.py",
+      "size_bytes": 1792,
+      "sha256": "12917C5DE4CD66B2683618E2213FBCAB2315EA8D87C5C206BC6FC0042F2CE925"
+    },
+    {
+      "path": "tests/phase2/test_ade_fde_boundaries.py",
+      "size_bytes": 1822,
+      "sha256": "DA8A53E026DAC8463BDDBA9990AB97124E91A653E3A2EF4EFC9D22C81FB47480"
+    },
+    {
+      "path": "scripts/verify_phase2_manifest.py",
+      "size_bytes": 2528,
+      "sha256": "BBB67F1F05AA30260F7850DECFFA6BA15640B0B08F69CCDE781DCA74F9BE944D"
+    },
+    {
+      "path": "experiments/PCG_T4_5_Epoch_Run/reports/PHASE2_REPRODUCIBILITY_REPORT.md",
+      "size_bytes": 2390,
+      "sha256": "D56720A978A8C998CF31B2A8167E8ED87249ED3F4433D6DB73F50783C1D5847F"
+    },
+    {
+      "path": "experiments/PCG_T4_5_Epoch_Run/logs/task8_pytest_corrected_audit_fixes.log",
+      "size_bytes": 3902,
+      "sha256": "3FFF480863A676F97C766FA953E545CC512BAE7A1E830D4E69BA3506E8992AA4"
+    },
+    {
+      "path": "experiments/PCG_T4_5_Epoch_Run/reports/task8_unit_test_report.json",
+      "size_bytes": 1495,
+      "sha256": "F603B4A958A710F4C201239518FD34C10F6EBBA76D84E367C6E03D8E0C100478"
+    },
+    {
+      "path": "experiments/PCG_T4_5_Epoch_Run/logs/task8_pytest_output.txt",
+      "size_bytes": 8593,
+      "sha256": "0ACB8372240699E1B46DAA673BE280D39213F22F6B6140D03BF7B998313ACB64"
+    },
+    {
+      "path": "experiments/PCG_T4_5_Epoch_Run/logs/task9_manifest_verification.txt",
+      "size_bytes": 288,
+      "sha256": "8A10886E46B2AFA73214890F8E6BF2EDC4EA60A09A972B7A27A42EAF7B9EDFF1"
+    },
+    {
+      "path": "experiments/PCG_T4_5_Epoch_Run/reports/TASK8_TASK9_FINAL_AUDIT.md",
+      "size_bytes": 2840,
+      "sha256": "DFFA3E2DD2AB094FA63D2D4FF677D51D942142F76BD04396892B05677C639794"
+    }
+  ]
+}

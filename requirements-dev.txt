@@ -1,0 +1,4 @@
+# Test/development dependencies. Install with: pip install -r requirements-dev.txt
+-r requirements-pedsafety.txt
+# Tested with 8.4.2 on Python 3.9.25.
+pytest>=8.0,<9

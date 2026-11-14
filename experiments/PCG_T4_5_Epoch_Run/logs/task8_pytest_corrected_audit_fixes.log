@@ -1,0 +1,52 @@
+BRANCH: audit-fixes
+CORRECTION: initialize TTC_mask in occupancy branch
+COMMAND: 
+C:\Users\revan\anaconda3\envs\pcg-baseline\python.exe
+ -m pytest tests\phase2 -v
+START_UTC: 
+2026-11-11T10:30:26.0319250Z
+============================= test session starts =============================
+platform win32 -- Python 3.9.25, pytest-8.4.2, pluggy-1.6.0 -- C:\Users\revan\anaconda3\envs\pcg-baseline\python.exe
+cachedir: .pytest_cache
+rootdir: D:\BTech-Research\PCG-Baseline
+collecting ... collected 12 items
+
+tests/phase2/test_ade_fde_boundaries.py::test_ade_ignores_agents_that_are_not_observed PASSED [  8%]
+tests/phase2/test_ade_fde_boundaries.py::test_ade_includes_empty_timesteps_as_zero PASSED [ 16%]
+tests/phase2/test_ade_fde_boundaries.py::test_fde_uses_only_the_final_prediction_timestep PASSED [ 25%]
+tests/phase2/test_ade_fde_boundaries.py::test_fde_returns_zero_when_no_observed_agent_is_present PASSED [ 33%]
+tests/phase2/test_ttc.py::test_time2conflict_returns_negative_one_for_stationary_agents PASSED [ 41%]
+tests/phase2/test_ttc.py::test_time2conflict_returns_negative_two_when_already_inside_threshold PASSED [ 50%]
+tests/phase2/test_ttc.py::test_time2conflict_returns_first_positive_boundary_crossing PASSED [ 58%]
+tests/phase2/test_ttc.py::test_time2conflict_returns_negative_one_for_past_conflict PASSED [ 66%]
+tests/phase2/test_ttc.py::test_approach_sectors_use_counterclockwise_boundaries PASSED [ 75%]
+tests/phase2/test_ttc_masks.py::test_ttc_mask_marks_first_matching_time_and_angle_sector PASSED [ 83%]
+tests/phase2/test_ttc_masks.py::test_ttc_mask_omits_non_conflicting_pairs_and_self_pairs PASSED [ 91%]
+tests/phase2/test_ttc_masks.py::test_ttc_occupancy_mask_collapses_agent_dimension PASSED [100%]
+
+============================== warnings summary ===============================
+C:\Users\revan\anaconda3\envs\pcg-baseline\lib\site-packages\matplotlib\_fontconfig_pattern.py:88
+C:\Users\revan\anaconda3\envs\pcg-baseline\lib\site-packages\matplotlib\_fontconfig_pattern.py:88
+C:\Users\revan\anaconda3\envs\pcg-baseline\lib\site-packages\matplotlib\_fontconfig_pattern.py:88
+C:\Users\revan\anaconda3\envs\pcg-baseline\lib\site-packages\matplotlib\_fontconfig_pattern.py:88
+C:\Users\revan\anaconda3\envs\pcg-baseline\lib\site-packages\matplotlib\_fontconfig_pattern.py:88
+C:\Users\revan\anaconda3\envs\pcg-baseline\lib\site-packages\matplotlib\_fontconfig_pattern.py:88
+  C:\Users\revan\anaconda3\envs\pcg-baseline\lib\site-packages\matplotlib\_fontconfig_pattern.py:88: PyparsingDeprecationWarning: 'parseString' deprecated - use 'parse_string'
+    parse = parser.parseString(pattern)
+
+C:\Users\revan\anaconda3\envs\pcg-baseline\lib\site-packages\matplotlib\_fontconfig_pattern.py:92
+C:\Users\revan\anaconda3\envs\pcg-baseline\lib\site-packages\matplotlib\_fontconfig_pattern.py:92
+C:\Users\revan\anaconda3\envs\pcg-baseline\lib\site-packages\matplotlib\_fontconfig_pattern.py:92
+C:\Users\revan\anaconda3\envs\pcg-baseline\lib\site-packages\matplotlib\_fontconfig_pattern.py:92
+C:\Users\revan\anaconda3\envs\pcg-baseline\lib\site-packages\matplotlib\_fontconfig_pattern.py:92
+C:\Users\revan\anaconda3\envs\pcg-baseline\lib\site-packages\matplotlib\_fontconfig_pattern.py:92
+  C:\Users\revan\anaconda3\envs\pcg-baseline\lib\site-packages\matplotlib\_fontconfig_pattern.py:92: PyparsingDeprecationWarning: 'resetCache' deprecated - use 'reset_cache'
+    parser.resetCache()
+
+C:\Users\revan\anaconda3\envs\pcg-baseline\lib\site-packages\matplotlib\_mathtext.py:45
+  C:\Users\revan\anaconda3\envs\pcg-baseline\lib\site-packages\matplotlib\_mathtext.py:45: PyparsingDeprecationWarning: 'enablePackrat' deprecated - use 'enable_packrat'
+    ParserElement.enablePackrat()
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================= 12 passed, 13 warnings in 2.46s =======================
+EXIT_CODE: 0

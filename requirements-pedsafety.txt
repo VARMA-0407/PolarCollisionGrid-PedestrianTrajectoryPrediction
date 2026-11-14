@@ -1,0 +1,7 @@
+# Runtime dependencies of the `pedsafety` package (Phase 2, Task 7). Python 3.9+.
+# numpy and matplotlib are already declared (and pinned) in requirements.txt, so that file is reused
+# instead of repeating the pins. Only the dependency that was missing is added here.
+-r requirements.txt
+# Draft 2020-12 validation (`Draft202012Validator`) needs jsonschema >= 4.0. Tested with 4.25.1 only;
+# the lower bound rests on the API's introduction version, not on testing against old releases.
+jsonschema>=4.0,<5

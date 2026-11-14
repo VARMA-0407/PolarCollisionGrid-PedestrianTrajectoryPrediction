@@ -1,0 +1,21 @@
+{
+    "artifact": "experiments\\PCG_T4_5_Epoch_Run\\results\\test_results_epoch4.pkl",
+    "number_of_batches": 1081,
+    "reported_metrics": {
+        "ADE": 0.5587965606209528,
+        "FDE": 1.1381949186325073
+    },
+    "independently_reconstructed_metrics": {
+        "ADE": 0.5587964057922363,
+        "FDE": 1.1381944417953491
+    },
+    "absolute_difference": {
+        "ADE": 1.548287165142881e-07,
+        "FDE": 4.76837158203125e-07
+    },
+    "match_within_1e-5": {
+        "ADE": true,
+        "FDE": true
+    },
+    "status": "MATCH"
+}

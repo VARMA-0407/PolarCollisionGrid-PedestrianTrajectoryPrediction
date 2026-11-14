@@ -1,0 +1,19 @@
+# Phase 3 Task 1 perception frontend (video -> YOLO -> ByteTrack). Install into the SEPARATE `pedsafety-perception` environment
+# (Python 3.11), never into `pcg-baseline`. torch/torchvision are installed first from the PyTorch index (CPU locally, CUDA on Colab):
+#   local CPU : pip install torch==2.15.0 torchvision==0.29.2 --index-url https://download.pytorch.org/whl/cpu
+#   Colab T4  : Colab ships a CUDA build; the notebook records its version (do not reinstall torch there).
+# Versions below are the ones this task was developed and tested with (local Windows, CPU). Colab versions are recorded per run.
+torch>=2.2
+torchvision>=0.17
+ultralytics==8.4.212
+opencv-python-headless==5.0.0.93
+lapx==0.13.1
+numpy>=1.26
+scipy>=1.12
+psutil>=5.9
+matplotlib>=3.8
+pyyaml>=6.0
+jsonschema>=4.0,<5.0
+pytest>=8.0
+# NOTE: `pip check` reports "ultralytics requires opencv-python" because the headless wheel is installed under another name;
+# this is expected. Do not install both wheels. Ultralytics is AGPL-3.0 (code and pretrained weights): review before redistribution.

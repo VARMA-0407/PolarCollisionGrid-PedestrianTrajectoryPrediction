@@ -1,0 +1,290 @@
+{
+  "bundle": "pedsafety_task4_bundle.zip",
+  "bundle_sha256": "240447a6f7d0bd63d074666700d46be7b80032239aabab77970e5d6965cfdf82",
+  "bundle_bytes": 221697,
+  "file_count": 70,
+  "files": {
+    "configs/phase3/perception_default.json": {
+      "sha256": "5000c77f0c4cd561144374bb1901b959f1c3c76193d26f2f75701872cd4d2fe0",
+      "bytes": 1034
+    },
+    "docs/phase2/schemas/agent_state.schema.json": {
+      "sha256": "784c8ca9c059ccbf0ddbb8bfcaf42cdfbbd60b33acfc0136c78a00fde46c3c6c",
+      "bytes": 7096
+    },
+    "docs/phase3/PHASE3_TASK1_EXECUTION_GUIDE.md": {
+      "sha256": "76f0d119edc6a657a639a064ade4e35b5e498e8c47c0be219ce4f20b51c183c2",
+      "bytes": 11212
+    },
+    "docs/phase3/PHASE3_TASK1_PERCEPTION_FRONTEND.md": {
+      "sha256": "b9d6ca9bdeda5e9783ee83e72e962420a225fdbbdc521194b30c88e8ef515914",
+      "bytes": 21334
+    },
+    "docs/phase3/PHASE3_TASK4_PIE_EVALUATION.md": {
+      "sha256": "475b4fcf218e3448c9dfea0f33cba46c5ef338d71e36786b6c8f97d2bbdada79",
+      "bytes": 15315
+    },
+    "notebooks/phase3_task1_perception_colab.ipynb": {
+      "sha256": "ad3a78176702dfc4344339c95af13890bc2daa3f63736dc295b2ab979c073f4c",
+      "bytes": 28952
+    },
+    "pedsafety/__init__.py": {
+      "sha256": "ff8f2214e758c634f5505567e822e7217610b2db1d3a800fcdf788355973003c",
+      "bytes": 625
+    },
+    "pedsafety/__main__.py": {
+      "sha256": "13a1a5b340cdcfc1902b62be90e508c7c71886000d5bf087e7854aadf09fb35e",
+      "bytes": 52
+    },
+    "pedsafety/agent_state.py": {
+      "sha256": "ff12177b11230d63a5c329380fdc77e5cd8d09a78cfaea863281667dd39bc2a4",
+      "bytes": 21678
+    },
+    "pedsafety/calibration.py": {
+      "sha256": "58a33f9c4a38146818f00aea195ac8da23a0463049dfddc2fe0d963453bf90f0",
+      "bytes": 27113
+    },
+    "pedsafety/causal_trajectory.py": {
+      "sha256": "fa72347a72fb42d7eb2efcf895c4bf06686135ebe60aaf7523ff1440ead05f09",
+      "bytes": 6643
+    },
+    "pedsafety/chronological.py": {
+      "sha256": "c5d91369acffcd4c896e16f3938ea3a84cadc953d768512883be33e757a8493c",
+      "bytes": 9466
+    },
+    "pedsafety/cli.py": {
+      "sha256": "1ebef530430c6860022f6e8c7b467fcb2ac85b8f40bd1da7f595e82036ebedfa",
+      "bytes": 6422
+    },
+    "pedsafety/dataset_builder.py": {
+      "sha256": "a5bf89402487b036396dfffe4268a3b0f9f733c358f099d06b734c2554a673a8",
+      "bytes": 7704
+    },
+    "pedsafety/errors.py": {
+      "sha256": "faa8cd79c1f932d71c12c11f916486698c753d9f81b196abd5e8d9b0671a1c8b",
+      "bytes": 1784
+    },
+    "pedsafety/evaluation.py": {
+      "sha256": "011a6da12a868636e8c7937ac4b71e2f0717098c6dd11e380189376b12d9499e",
+      "bytes": 4832
+    },
+    "pedsafety/geometry.py": {
+      "sha256": "a986312373d8b3fc34dee709b7c822d023a752b2b4c4f6c4ba653e747fbafb1f",
+      "bytes": 13782
+    },
+    "pedsafety/io/__init__.py": {
+      "sha256": "c44f6be90b849fa05554088cb46165c618b2f1c2ca53f20f9710ac5cfd87d36c",
+      "bytes": 261
+    },
+    "pedsafety/io/base.py": {
+      "sha256": "fabeb2f2ce5b46e887751a17619aa4ae92fdd45d7831ecce9d092981917dbc60",
+      "bytes": 3587
+    },
+    "pedsafety/io/csv_adapter.py": {
+      "sha256": "7d10cf5582106c881eb1cc7fc483a72a4a01e95a87385ec13cda6da82dca6758",
+      "bytes": 15347
+    },
+    "pedsafety/io/synthetic.py": {
+      "sha256": "46c3ef27f169b9cefb3a618042b9f0ee3052b758c7bbd374652a8714e99f17eb",
+      "bytes": 7471
+    },
+    "pedsafety/io/synthetic_corpus.py": {
+      "sha256": "23e65913d6be4456b04cf20848d43bb42aead6acb7a76c8bd936afe21427e937",
+      "bytes": 3248
+    },
+    "pedsafety/normalization.py": {
+      "sha256": "ea24d9b517dd698d259e96bbf40b6bafa4cb2f0cb02ce6f3973e3bcdacbf1306",
+      "bytes": 11012
+    },
+    "pedsafety/offline_trajectory.py": {
+      "sha256": "f5525ffa594686e4182c2281b69e003cb09275fefb7214eea381b5a535e1bef4",
+      "bytes": 8019
+    },
+    "pedsafety/output_dir.py": {
+      "sha256": "24086c1923ceeb6917800539ba21ab8d3c44fcb2e465175f62cfea7e4e2d4389",
+      "bytes": 2887
+    },
+    "pedsafety/perception/__init__.py": {
+      "sha256": "0e8bdefc031eef17b9ca5ac429b6b12249c05730ae02e69b410e813c6f1fc548",
+      "bytes": 1256
+    },
+    "pedsafety/perception/adapter.py": {
+      "sha256": "235a16e17f0c51d6a6b70fd188edb5f9cb49794849ca40e356fe8150bdb17df8",
+      "bytes": 5588
+    },
+    "pedsafety/perception/benchmark.py": {
+      "sha256": "26c5fc55414622315b15c60db14e1504aeeb9fc0d7e0ead1a918715efb270475",
+      "bytes": 8494
+    },
+    "pedsafety/perception/bytetrack_tracker.py": {
+      "sha256": "d55f8683f0a6a4dd9f822f1633a6b0f08011874d3f2021e5667f95e25a81351d",
+      "bytes": 6444
+    },
+    "pedsafety/perception/config.py": {
+      "sha256": "cb00d2a1408637954f9b313c6872341a37274db22c5c0e6dba615436dc7231b2",
+      "bytes": 11242
+    },
+    "pedsafety/perception/detector.py": {
+      "sha256": "55919d50360b9ad8df7d42dc8422ce39b874011280d60a14f6e01189bdb2fa3e",
+      "bytes": 949
+    },
+    "pedsafety/perception/export.py": {
+      "sha256": "82711eadc236e4d1a0140c8cb0b15f73bad140acda03c39d805dd00183dce418",
+      "bytes": 4196
+    },
+    "pedsafety/perception/metrics.py": {
+      "sha256": "7290ce3b2b4e59e6decd44cc9dc8d5f480da1f0dcd624b670509d1e63e6f07fd",
+      "bytes": 5610
+    },
+    "pedsafety/perception/mocks.py": {
+      "sha256": "1123ea19ce43f7d74aa97d1f650267dc0bd0931a989a473af0dc8ebe299d40ca",
+      "bytes": 6203
+    },
+    "pedsafety/perception/performance.py": {
+      "sha256": "1f08304902649f4d777ade92f56d403105c7db0b066cda2f1e7ffe99544154e5",
+      "bytes": 5053
+    },
+    "pedsafety/perception/pie_perception_evaluator.py": {
+      "sha256": "e62b814f1e2f49febfbb4aefea37b2fb7315edcb37b26c70535588c6d6e46cc6",
+      "bytes": 53439
+    },
+    "pedsafety/perception/pipeline.py": {
+      "sha256": "814378740dc17ae52d0a821167dc3e0b891cbd5ea46e945a1782783ae3643345",
+      "bytes": 13431
+    },
+    "pedsafety/perception/runner.py": {
+      "sha256": "f47ab72e00be9b45ad55954c50b524b7cb951309747082003d74b80154eb423e",
+      "bytes": 9881
+    },
+    "pedsafety/perception/runtime_errors.py": {
+      "sha256": "c3b2420f8401ab9fc34f2e30090392b15271bafc7ae33243b7589b0eb8a9d36a",
+      "bytes": 540
+    },
+    "pedsafety/perception/runtime_info.py": {
+      "sha256": "7872779f8629551f7a2372ae8c9ed8337b7ec05603857886d61d62d9db8bb43d",
+      "bytes": 4017
+    },
+    "pedsafety/perception/sources.py": {
+      "sha256": "f06e1bb41fa6f6255a9ef05fff53060d3150e716cfafe3ad31472a72aea3a6bc",
+      "bytes": 920
+    },
+    "pedsafety/perception/synthetic_video.py": {
+      "sha256": "598c2ee7c415bb7ebe26e8fa2364f42bf93e205d3f806cb54dff4ae2b8885f9a",
+      "bytes": 5777
+    },
+    "pedsafety/perception/tracker.py": {
+      "sha256": "10a57757aa136731735ca698ea6387030eaa62c00abed00ba08db50aad70faf4",
+      "bytes": 1069
+    },
+    "pedsafety/perception/types.py": {
+      "sha256": "086951fc58d2623b76ccf46ad1074f6998d956bfc936cfa2cca0832ad483f742",
+      "bytes": 13613
+    },
+    "pedsafety/perception/video_source.py": {
+      "sha256": "430b861fa878c8fa92c25564b18d810f7fccc30ea48c099acb7dccdfb6298cec",
+      "bytes": 7159
+    },
+    "pedsafety/perception/visualize.py": {
+      "sha256": "52e0071691131b63f9e94ac5c817ce7d716e7645b9a8279fd2cde51d694e1438",
+      "bytes": 4843
+    },
+    "pedsafety/perception/yolo_detector.py": {
+      "sha256": "766900c69592ea61fa601eabf911a5e398534dd18012a1a83964caa9d5b416af",
+      "bytes": 7198
+    },
+    "pedsafety/pipeline.py": {
+      "sha256": "f3ccc04b7a798788fa25d2b4de63a36ea2145e9b58001c414293566c10cebcc3",
+      "bytes": 30236
+    },
+    "pedsafety/pipeline_config.py": {
+      "sha256": "61e20d09d5e87910ec49192e47d605978346952118f4c8603db288796e6fee54",
+      "bytes": 10530
+    },
+    "pedsafety/projection.py": {
+      "sha256": "c12a9bb03c8d8729a87d8883863e0f93b2d41111d389d9a93f4524086ddf6ef3",
+      "bytes": 13619
+    },
+    "pedsafety/schema.py": {
+      "sha256": "324574795724f17d6d021b28e767adb3b8ddb89771d94b76c6df431589d9af7c",
+      "bytes": 5269
+    },
+    "pedsafety/splitting.py": {
+      "sha256": "4a31cf62b880990d1951c2d538280b2eade56a90df6998691499f59faaf1d1a1",
+      "bytes": 17175
+    },
+    "pedsafety/trajectory.py": {
+      "sha256": "8a8f17e73a9d1077b481cc35ded63435d73e8b8aa8be39de79666afe8406356f",
+      "bytes": 34106
+    },
+    "pedsafety/validation.py": {
+      "sha256": "292504991d1783d447dd82833fe1de7f0ad6f61b4f80ee9b88f9d934780ce65e",
+      "bytes": 7719
+    },
+    "pedsafety/viz.py": {
+      "sha256": "6040b6414a5ce559224ef46d232830684ec64044b0249b73c83e07dca64daae7",
+      "bytes": 8953
+    },
+    "pedsafety/windows.py": {
+      "sha256": "7ae5e3870485a2d40aaaecfba1008437d54906ba66e741292482723230f6fae0",
+      "bytes": 13795
+    },
+    "requirements-perception.txt": {
+      "sha256": "535183ed2e0622400a187a0db6566cd41cf0f64dcb7a9dd8cb1eb33f65bab37b",
+      "bytes": 1080
+    },
+    "scripts/benchmark_perception.py": {
+      "sha256": "44cb4d58386b51d320023280d58f59f85f8a5fb13ca86d846d50401b320083b9",
+      "bytes": 5045
+    },
+    "scripts/evaluate_pie_perception.py": {
+      "sha256": "3152cb1611bf9d2a142668b7804c524f0f110364b2cecca34760cf953d4144dc",
+      "bytes": 3936
+    },
+    "scripts/make_synthetic_video.py": {
+      "sha256": "290599e446b66294f20a8f8b2f1746491aa6c168907c0227cd7c75488d3e87c2",
+      "bytes": 1516
+    },
+    "scripts/run_perception.py": {
+      "sha256": "aacc4c9043315b514237ffe7aa57ef630febfeae6e9fa9d9ec30536b9730492f",
+      "bytes": 4834
+    },
+    "tests/phase3/conftest.py": {
+      "sha256": "b4b222a1473adb084beaea3f7320e97dd7f077b20fda984877a7449c074e328d",
+      "bytes": 249
+    },
+    "tests/phase3/task1_helpers.py": {
+      "sha256": "6620a71b969c96ef39b3a33c922400fad3153e7d0bf545b968b4236cc090b3e4",
+      "bytes": 2777
+    },
+    "tests/phase3/test_task1_config_and_contracts.py": {
+      "sha256": "73bab256f32f230f39b9f783083e9059cd7e128a03cd792aeacdfbbf0e62bdbd",
+      "bytes": 5124
+    },
+    "tests/phase3/test_task1_detector.py": {
+      "sha256": "090fbe641676ce21ab32a7a1b682a1eab003faac1749bfcb776885259752edd4",
+      "bytes": 6788
+    },
+    "tests/phase3/test_task1_export_visualize.py": {
+      "sha256": "e83a8d3b2b1151f6777e6c4451932c69c21b6e3a813b31519c5f69c623157253",
+      "bytes": 5827
+    },
+    "tests/phase3/test_task1_integration.py": {
+      "sha256": "a3d8b54d83a5a31a442add94e0eddfd33347027a2efdfaa619fb49625ce29416",
+      "bytes": 11792
+    },
+    "tests/phase3/test_task1_tracker.py": {
+      "sha256": "6b0918b7815dd99e5adfd51d3d17f77268c9acf843d164eb9884fc3ce2173dc1",
+      "bytes": 7712
+    },
+    "tests/phase3/test_task1_video_source.py": {
+      "sha256": "ca984e98b1e32ce28848ec0501d11ab8614c657e7b750fdcedef7f2e1f18ce7c",
+      "bytes": 4776
+    },
+    "tests/phase3/test_task4_pie_evaluator.py": {
+      "sha256": "b825e3f46f4dd0e24036532eeed7714204cb16768c861670842164e960a3a90a",
+      "bytes": 31363
+    }
+  },
+  "excluded": "datasets, weights, checkpoints, experiments, outputs, caches, secrets, git metadata, PCG training/test code",
+  "note": "verify with the Colab notebook before running anything; weights are downloaded in Colab only"
+}

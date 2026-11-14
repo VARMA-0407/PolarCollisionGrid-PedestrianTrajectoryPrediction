@@ -1,0 +1,50 @@
+{
+  "task": "Phase 2 Task 5 - Authoritative Sliding Window Overlap Audit",
+  "source": "Data\\train\\trajectories.cpkl",
+  "source_reconstruction": {
+    "all_frame_data_frames": 3611,
+    "frameList_entries": 3611,
+    "sequence_length": 12,
+    "total_windows": 3599,
+    "split_rule": "First int(0.31 * total_windows) windows are test; remainder are train.",
+    "test_windows_before_filtering": 1115,
+    "train_windows_before_filtering": 2484
+  },
+  "filtering": {
+    "rule": "Retain a window only if at least one pedestrian ID occurs in all 12 frames; retain only common IDs.",
+    "test_windows_removed": 34,
+    "train_windows_removed": 98,
+    "test_windows_retained": 1081,
+    "train_windows_retained": 2386
+  },
+  "post_filtering_temporal_overlap": {
+    "cross_split_overlapping_window_pairs": 66,
+    "test_windows_with_temporal_overlap": 11,
+    "shared_unique_frame_count": 11,
+    "shared_frame_indices": [
+      1115,
+      1116,
+      1117,
+      1118,
+      1119,
+      1120,
+      1121,
+      1122,
+      1123,
+      1124,
+      1125
+    ],
+    "percentage_of_retained_test_windows_affected": 1.0175763182238668
+  },
+  "post_filtering_pedestrian_frame_overlap": {
+    "unique_test_pedestrian_frame_observations": 8526,
+    "unique_train_pedestrian_frame_observations": 18988,
+    "shared_pedestrian_frame_observations": 33,
+    "percentage_of_retained_test_observations_shared": 0.38705137227304715
+  },
+  "limitations": [
+    "Reconstructed from the original all_frame_data pickle, not the CSV timeline.",
+    "The split is chronological within one HBS scene, not scene-independent.",
+    "Temporal overlap remains possible across the train/test boundary."
+  ]
+}

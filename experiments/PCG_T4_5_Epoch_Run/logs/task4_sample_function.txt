@@ -1,0 +1,231 @@
+def sample(x_seq, Pedlist, args, net, true_x_seq, true_Pedlist, saved_args, dataloader, look_up, num_pedlist, is_gru,
+            first_values_dict, orig_x_seq, grid=None, x_seq_veh=None, Vehlist=None, look_up_veh=None,
+            grid_veh_in_ped=None, grid_TTC=None, grid_TTC_veh=None):
+    '''
+    The sample function
+    params:
+    x_seq: Input positions
+    Pedlist: Peds present in each frame
+    args: arguments
+    net: The model
+    true_x_seq: True positions
+    true_Pedlist: The true peds present in each frame
+    saved_args: Training arguments
+    '''
+
+    # Number of peds in the sequence 
+    # This will also include peds that do not exist in the observation length but come into scene in the prediction time interval
+    numx_seq = len(look_up)   
+    if look_up_veh is not None:
+        numx_seq_veh = len(look_up_veh)
+        
+    with torch.no_grad():
+        # Construct variables for hidden and cell states
+        hidden_states = Variable(torch.zeros(numx_seq, net.args.rnn_size))
+        if args.use_cuda:
+            hidden_states = hidden_states.cuda()
+        if not is_gru:
+            cell_states = Variable(torch.zeros(numx_seq, net.args.rnn_size))
+            if args.use_cuda:
+                cell_states = cell_states.cuda()
+        else:
+            cell_states = None
+
+
+        ret_x_seq = Variable(torch.zeros(args.obs_length+args.pred_length, numx_seq, x_seq.shape[2]))
+        dist_param_seq = Variable(torch.zeros(args.obs_length+args.pred_length, numx_seq, 5))
+
+        # Initialize the return data structure
+        if args.use_cuda:
+            ret_x_seq = ret_x_seq.cuda()
+            # dist_param_seq = dist_param_seq.cuda()
+
+        # For the observed part of the trajectory
+        for tstep in range(args.obs_length-1):
+            if grid is None: 
+               # Do a forward prop
+                out_obs, hidden_states, cell_states = net(x_seq[tstep,:,:2].view(1, numx_seq, 2), hidden_states, cell_states, 
+                                                          [Pedlist[tstep]], [num_pedlist[tstep]], dataloader, look_up)
+            elif (args.method == 4):
+                # Do a forward prop 
+                # We give the frames one by one as input. 
+                # Unlike the training where we give the whole frames at once and it was iterated in the model
+                grid_t = grid[tstep]
+                grid_veh_in_ped_t = grid_veh_in_ped[tstep]
+                grid_TTC_t = grid_TTC[tstep]
+                grid_TTC_veh_t = grid_TTC_veh[tstep]
+                if args.use_cuda:
+                    grid_t = grid_t.cuda()
+                    grid_veh_in_ped_t = grid_veh_in_ped_t.cuda()
+                    grid_TTC_t = grid_TTC_t.cuda()
+                    grid_TTC_veh_t = grid_TTC_veh_t.cuda()
+                out_obs, hidden_states, cell_states = net(x_seq[tstep,:,:].view(1, numx_seq, x_seq.shape[2]), [grid_t],
+                                                           hidden_states, cell_states, [Pedlist[tstep]], [num_pedlist[tstep]], dataloader,
+                                                            look_up, x_seq_veh[tstep,:,:].view(1, numx_seq_veh, x_seq_veh.shape[2]),
+                                                            [grid_veh_in_ped_t], [Vehlist[tstep]], look_up_veh, [grid_TTC_t], [grid_TTC_veh_t])
+
+            elif (args.method == 1):
+                grid_t = grid[tstep]
+                out_obs, hidden_states, cell_states = net(x_seq[tstep,:,:].view(1, numx_seq, x_seq.shape[2]), [grid_t.cpu()],
+                                                           hidden_states, cell_states, [Pedlist[tstep]], [num_pedlist[tstep]], dataloader,
+                                                            look_up, x_seq_veh[tstep,:,:].view(1, numx_seq_veh, x_seq_veh.shape[2]), None,
+                                                            [Vehlist[tstep]], look_up_veh)
+
+            # Extract the mean, std and corr of the bivariate Gaussian
+            mux, muy, sx, sy, corr = getCoef(out_obs.cpu())
+
+            # Storing the paramteres of the distriution for plotting
+            dist_param_seq[tstep + 1, :, :] = out_obs.clone()
+
+            # Sample from the bivariate Gaussian
+            next_x, next_y = sample_gaussian_2d(mux.data, muy.data, sx.data, sy.data, corr.data, true_Pedlist[tstep], look_up)
+
+            ret_x_seq[tstep + 1, :, 0] = next_x
+            ret_x_seq[tstep + 1, :, 1] = next_y
+
+            # One could also assign the mean to the next state instead of sampling from the distrbution. 
+            # for that one should comment the above three lines and uncomment the following lines 
+            # next_x_mean = mux
+            # next_y_mean = muy
+            # ret_x_seq[tstep + 1, :, 0] = next_x_mean
+            # ret_x_seq[tstep + 1, :, 1] = next_y_mean
+
+    
+        # Last seen grid
+        if grid is not None: # not vanilla lstm
+            prev_grid = grid[-1].clone()
+            if (args.method == 4):
+                prev_grid_veh_in_ped = grid_veh_in_ped[-1].clone()
+                prev_TTC_grid = grid_TTC[-1].clone()
+                prev_TTC_grid_veh = grid_TTC_veh[-1].clone()
+
+        # constructing the speed change and deviation feautres for time step obs_length-1 
+        # that is going ot be used in the next for loop and also calculating that for each new time step on the following for loop
+        ret_x_seq[tstep + 1, :, 2] = x_seq[-1,:,2]
+        ret_x_seq[tstep + 1, :, 3] = x_seq[-1,:,3]
+        ret_x_seq[tstep + 1, :, 5] = x_seq[-1,:,5]
+        ret_x_seq[tstep + 1, :, 6] = x_seq[-1,:,6]
+        ret_x_seq[tstep + 1, :, 7] = x_seq[-1,:,7]
+        ret_x_seq[tstep + 1, :, 8] = x_seq[-1,:,8]
+
+        timestamp = dataloader.timestamp
+
+        # For the predicted part of the trajectory
+        for tstep in range(args.obs_length-1, args.pred_length + args.obs_length-1):
+            # Do a forward prop
+            if grid is None: # vanilla lstm
+                outputs, hidden_states, cell_states = net(ret_x_seq[tstep].view(1, numx_seq, ret_x_seq.shape[2]), hidden_states, 
+                                                          cell_states, [true_Pedlist[tstep]], [num_pedlist[tstep]], dataloader, look_up)
+            else:
+                if (args.method == 4):
+                    outputs, hidden_states, cell_states = net(ret_x_seq[tstep].view(1, numx_seq, ret_x_seq.shape[2]), [prev_grid],
+                                                               hidden_states, cell_states, [true_Pedlist[tstep]], [num_pedlist[tstep]],
+                                                                dataloader, look_up, x_seq_veh[tstep,:,:].view(1, numx_seq_veh, x_seq_veh.shape[2]), 
+                                                                [prev_grid_veh_in_ped], [Vehlist[tstep]], look_up_veh,  [prev_TTC_grid],
+                                                                [prev_TTC_grid_veh])
+                elif (args.method == 1):
+                     outputs, hidden_states, cell_states = net(ret_x_seq[tstep].view(1, numx_seq, ret_x_seq.shape[2]), [prev_grid.cpu()],
+                                                                hidden_states, cell_states, [true_Pedlist[tstep]], [num_pedlist[tstep]],
+                                                                dataloader, look_up, x_seq_veh[tstep,:,:].view(1, numx_seq_veh, x_seq_veh.shape[2]),
+                                                                None, [Vehlist[tstep]], look_up_veh)
+      
+            # Extract the mean, std and corr of the bivariate Gaussian
+            mux, muy, sx, sy, corr = getCoef(outputs.cpu())
+
+            # Storing the paramteres of the distriution
+            dist_param_seq[tstep + 1, :, :] = torch.stack((mux, muy, sx, sy, corr),2) 
+
+            # Sample from the bivariate Gaussian
+            next_x, next_y = sample_gaussian_2d(mux.data, muy.data, sx.data, sy.data, corr.data, true_Pedlist[tstep], look_up)
+
+            # Store the predicted position
+            ret_x_seq[tstep + 1, :, 0] = next_x
+            ret_x_seq[tstep + 1, :, 1] = next_y
+
+            # One could also assign the mean to the next state instead of sampling from the distrbution. 
+            # for that one should comment the above three lines and uncomment the following lines 
+
+            # next_x_mean = mux
+            # next_y_mean = muy
+            # ret_x_seq[tstep + 1, :, 0] = next_x_mean
+            # ret_x_seq[tstep + 1, :, 1] = next_y_mean
+
+
+            # Preparing a ret_x_seq that is covnerted back to the original frame by adding the first position.
+            # This will be used for grid calculation
+            ret_x_seq_convert = ret_x_seq.clone() 
+            ret_x_seq_convert = revert_postion_change_seq2(ret_x_seq_convert.cpu(), true_Pedlist, look_up, first_values_dict,
+                                                            orig_x_seq, saved_args.obs_length, infer=True)
+
+
+            ret_x_seq_convert[tstep + 1, :, 2] = (ret_x_seq_convert[tstep + 1, :, 0] - ret_x_seq_convert[tstep, :, 0]) / timestamp # vx 
+            ret_x_seq_convert[tstep + 1, :, 3] = (ret_x_seq_convert[tstep + 1, :, 1] - ret_x_seq_convert[tstep, :, 1]) / timestamp # vy
+            # updating the velocity data in ret_x_seq accordingly
+            ret_x_seq[tstep + 1, :, 2] = ret_x_seq_convert[tstep + 1, :, 2].clone()
+            ret_x_seq[tstep + 1, :, 3] = ret_x_seq_convert[tstep + 1, :, 3].clone()
+
+            
+            # claculating the rest of the features that will be used in the interaction tensor (speed change and deviation) 
+            ret_x_seq_convert[tstep + 1, :, 5] = (ret_x_seq_convert[tstep + 1, :, 2] - ret_x_seq_convert[tstep, :, 2]) / timestamp # ax
+            ret_x_seq_convert[tstep + 1, :, 6] = (ret_x_seq_convert[tstep + 1, :, 3] - ret_x_seq_convert[tstep, :, 3]) / timestamp # ay
+            speed_next_t = torch.pow((torch.pow(ret_x_seq_convert[tstep + 1, :, 2], 2) + torch.pow(ret_x_seq_convert[tstep + 1, :, 3], 2)),0.5)
+            speed_t = torch.pow((torch.pow(ret_x_seq_convert[tstep, :, 2], 2) + torch.pow(ret_x_seq_convert[tstep, :, 3], 2)),0.5)
+            ret_x_seq[tstep + 1, :, 7] = speed_next_t - speed_t # speed difference
+            dot_vel = torch.mul(ret_x_seq_convert[tstep, :, 2], ret_x_seq_convert[tstep+1, :, 2]) + \
+                        torch.mul(ret_x_seq_convert[tstep, :, 3], ret_x_seq_convert[tstep+1, :, 3])
+            det_vel = torch.mul(ret_x_seq_convert[tstep, :, 2],  ret_x_seq_convert[tstep+1, :, 3]) - \
+                        torch.mul(ret_x_seq_convert[tstep, :, 3], ret_x_seq_convert[tstep+1, :, 2])
+            ret_x_seq[tstep + 1, :, 8] = torch.atan2(det_vel,dot_vel) * 180/np.pi # deviation angel
+
+
+            # List of x_seq at the last time-step (assuming they exist until the end)
+            true_Pedlist[tstep+1] = [int(_x_seq) for _x_seq in true_Pedlist[tstep+1]]
+            next_ped_list = true_Pedlist[tstep+1].copy()
+            converted_pedlist = [look_up[_x_seq] for _x_seq in next_ped_list]
+            list_of_x_seq = Variable(torch.LongTensor(converted_pedlist))
+
+            #Get their predicted positions
+            current_x_seq = torch.index_select(ret_x_seq_convert[tstep+1], 0, list_of_x_seq)
+
+            if grid is not None: # not vanilla lstm
+
+                if args.method == 4:
+                    Vehlist[tstep+1] = [int(_x_seq_veh) for _x_seq_veh in Vehlist[tstep+1]]
+                    next_veh_list = Vehlist[tstep+1].copy()
+                    converted_vehlist = [look_up_veh[_x_seq_veh] for _x_seq_veh in next_veh_list]
+                    list_of_x_seq_veh = Variable(torch.LongTensor(converted_vehlist))
+                    if args.use_cuda:
+                        list_of_x_seq_veh = list_of_x_seq_veh.cuda()
+                    current_x_seq_veh = torch.index_select(x_seq_veh[tstep+1], 0, list_of_x_seq_veh)
+          
+            
+                if  args.method == 1: #social lstm 
+                    prev_grid = getGridMask(current_x_seq.data.cpu(), len(true_Pedlist[tstep+1]),saved_args.neighborhood_size, saved_args.grid_size) 
+                  
+                elif args.method == 4: # Collision grid
+                    prev_grid, prev_TTC_grid = getInteractionGridMask(current_x_seq.data.cpu(), current_x_seq.data.cpu(), saved_args.TTC,
+                                                                       saved_args.D_min, saved_args.num_sector)
+                    prev_grid_veh_in_ped, prev_TTC_grid_veh = getInteractionGridMask(current_x_seq.data.cpu(),  current_x_seq_veh.data.cpu(),
+                                                                                      saved_args.TTC_veh, saved_args.D_min_veh, 
+                                                                                      saved_args.num_sector, is_heterogeneous = True,
+                                                                                      is_occupancy = False)
+
+
+                prev_grid = Variable(torch.from_numpy(prev_grid).float())
+              
+                if args.method == 4:
+                    prev_grid_veh_in_ped = Variable(torch.from_numpy(prev_grid_veh_in_ped).float())
+                    prev_TTC_grid = Variable(torch.from_numpy(prev_TTC_grid).float())
+                    prev_TTC_grid_veh = Variable(torch.from_numpy(prev_TTC_grid_veh).float())
+                    if args.use_cuda:
+                        prev_grid = prev_grid.cuda()
+                        prev_grid_veh_in_ped = prev_grid_veh_in_ped.cuda()
+                        # if args.method == 4:
+                        prev_TTC_grid = prev_TTC_grid.cuda()
+                        prev_TTC_grid_veh = prev_TTC_grid_veh.cuda()
+
+
+        return ret_x_seq, dist_param_seq
+
+
+

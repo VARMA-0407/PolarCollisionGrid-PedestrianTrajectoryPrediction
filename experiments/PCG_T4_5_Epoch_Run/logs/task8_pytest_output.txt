@@ -1,0 +1,144 @@
+COMMAND: C:\Users\revan\anaconda3\envs\pcg-baseline\python.exe -m pytest tests\phase2 -v START_UTC: 2026-11-11T10:23:43.8384010Z
+============================= test session starts =============================
+platform win32 -- Python 3.9.25, pytest-8.4.2, pluggy-1.6.0 -- C:\Users\revan\anaconda3\envs\pcg-baseline\python.exe
+cachedir: .pytest_cache
+rootdir: D:\BTech-Research\PCG-Baseline
+collecting ... collected 12 items
+
+tests/phase2/test_ade_fde_boundaries.py::test_ade_ignores_agents_that_are_not_observed PASSED [  8%]
+tests/phase2/test_ade_fde_boundaries.py::test_ade_includes_empty_timesteps_as_zero PASSED [ 16%]
+tests/phase2/test_ade_fde_boundaries.py::test_fde_uses_only_the_final_prediction_timestep PASSED [ 25%]
+tests/phase2/test_ade_fde_boundaries.py::test_fde_returns_zero_when_no_observed_agent_is_present PASSED [ 33%]
+tests/phase2/test_ttc.py::test_time2conflict_returns_negative_one_for_stationary_agents PASSED [ 41%]
+tests/phase2/test_ttc.py::test_time2conflict_returns_negative_two_when_already_inside_threshold PASSED [ 50%]
+tests/phase2/test_ttc.py::test_time2conflict_returns_first_positive_boundary_crossing PASSED [ 58%]
+tests/phase2/test_ttc.py::test_time2conflict_returns_negative_one_for_past_conflict PASSED [ 66%]
+tests/phase2/test_ttc.py::test_approach_sectors_use_counterclockwise_boundaries PASSED [ 75%]
+tests/phase2/test_ttc_masks.py::test_ttc_mask_marks_first_matching_time_and_angle_sector PASSED [ 83%]
+tests/phase2/test_ttc_masks.py::test_ttc_mask_omits_non_conflicting_pairs_and_self_pairs PASSED [ 91%]
+tests/phase2/test_ttc_masks.py::test_ttc_occupancy_mask_collapses_agent_dimension FAILED [100%]
+
+================================== FAILURES ===================================
+______________ test_ttc_occupancy_mask_collapses_agent_dimension ______________
+
+    def test_ttc_occupancy_mask_collapses_agent_dimension():
+        pedestrians = torch.tensor([[0.0, 0.0, 1.0, 0.0]])
+        vehicles = torch.tensor([[10.0, 0.0, 0.0, 0.0]])
+    
+>       mask, ttc_mask = getInteractionGridMask(
+            pedestrians,
+            vehicles,
+            TTC_min=[10.0],
+            d_min=1.0,
+            num_sector=4,
+            is_heterogeneous=True,
+            is_occupancy=True,
+        )
+
+tests\phase2\test_ttc_masks.py:56: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+frame = tensor([[0., 0., 1., 0.]]), frame_other = tensor([[10.,  0.,  0.,  0.]])
+TTC_min = [10.0], d_min = 1.0, num_sector = 4, is_heterogeneous = True
+is_occupancy = True
+
+    def getInteractionGridMask(frame, frame_other, TTC_min, d_min, num_sector, is_heterogeneous = False, is_occupancy = False):
+    
+        '''
+        This function computes the binary mask that represents the
+        occupancy of each ped in the other's grid
+        params:
+        frame : This will be a num_typeI x 3 matrix with each row being [x, y, vx, vy]
+        TTC_min: Is the list of number of TTC thresholds that is considered. Form smaler to bigger time
+        num_sector: Is the number of equal sectors the circle around each aget is divided to for approach angle consideration
+        is_heterogeneous: A flag used specifying wether the inetractions between ped-ped is being considered or ped-veh
+        is_occupancy: A flag using for calculation of accupancy map
+    
+        '''
+    
+        num_agent = frame.shape[0]
+        num_agent_other = frame_other.shape[0]
+        num_TTC = len(TTC_min)
+    
+        if is_occupancy:
+            frame_mask = np.zeros((num_agent, num_TTC*num_sector))
+        else:
+            frame_mask = np.zeros((num_agent, num_agent_other, num_TTC*num_sector))
+            TTC_mask = np.zeros((num_agent, num_agent_other, num_TTC*num_sector))
+    
+        frame_np =  frame.data.numpy()
+        frame_other_np =  frame_other.data.numpy()
+    
+        #instead of 2 inner loop, we check all possible 2-permutations which is 2 times faster.
+        list_indices = list(range(0, num_agent))
+        list_indices_other = list(range(0, num_agent_other))
+    
+        for real_frame_index, other_real_frame_index in itertools.product(list_indices,list_indices_other):
+    
+            if (is_heterogeneous==False and real_frame_index==other_real_frame_index):
+                # In case of heterogeneous agents as the input for frame and frame_other is the same then we want to skip
+                # considering one agent with itself
+                continue
+    
+            current_position = frame_np[real_frame_index, 0:2]
+            current_velocity = frame_np[real_frame_index, 2:4]
+            other_position = frame_other_np[other_real_frame_index, 0:2]
+            other_velocity = frame_other_np[other_real_frame_index, 2:4]
+    
+            t_conflict = Time2Conflict(current_position, current_velocity, other_position, other_velocity, d_min)
+    
+            if (t_conflict == -1 or t_conflict == -2): # not conlficting
+                continue
+    
+            TTC_min.sort()
+            time_cell = -1
+            for i, t_threshold in enumerate(TTC_min):
+                if ((t_conflict>=0) and (t_conflict <= t_threshold)):
+                    time_cell = i
+                    break # finding the first time_threshold that passes the condition
+    
+            if time_cell == -1: # the t_conflcit is not critical at this step
+                continue
+    
+    
+            approach_cell = approach_angle_sector(current_velocity, other_velocity, num_sector)
+    
+            if is_occupancy:
+                frame_mask[real_frame_index,time_cell*num_sector+approach_cell] = 1
+            else:
+                frame_mask[real_frame_index, other_real_frame_index, time_cell*num_sector+approach_cell] = 1
+                TTC_mask[real_frame_index, other_real_frame_index, time_cell*num_sector+approach_cell] = (TTC_min[0] - t_conflict) #/ (TTC_min[0])
+                # The ones already within d_min distance from the ego (t_conflict=0) will get the highest number (attenstion) in the tensor
+    
+>       return frame_mask, TTC_mask
+E       UnboundLocalError: local variable 'TTC_mask' referenced before assignment
+
+utils\Interaction.py:173: UnboundLocalError
+============================== warnings summary ===============================
+C:\Users\revan\anaconda3\envs\pcg-baseline\lib\site-packages\matplotlib\_fontconfig_pattern.py:88
+C:\Users\revan\anaconda3\envs\pcg-baseline\lib\site-packages\matplotlib\_fontconfig_pattern.py:88
+C:\Users\revan\anaconda3\envs\pcg-baseline\lib\site-packages\matplotlib\_fontconfig_pattern.py:88
+C:\Users\revan\anaconda3\envs\pcg-baseline\lib\site-packages\matplotlib\_fontconfig_pattern.py:88
+C:\Users\revan\anaconda3\envs\pcg-baseline\lib\site-packages\matplotlib\_fontconfig_pattern.py:88
+C:\Users\revan\anaconda3\envs\pcg-baseline\lib\site-packages\matplotlib\_fontconfig_pattern.py:88
+  C:\Users\revan\anaconda3\envs\pcg-baseline\lib\site-packages\matplotlib\_fontconfig_pattern.py:88: PyparsingDeprecationWarning: 'parseString' deprecated - use 'parse_string'
+    parse = parser.parseString(pattern)
+
+C:\Users\revan\anaconda3\envs\pcg-baseline\lib\site-packages\matplotlib\_fontconfig_pattern.py:92
+C:\Users\revan\anaconda3\envs\pcg-baseline\lib\site-packages\matplotlib\_fontconfig_pattern.py:92
+C:\Users\revan\anaconda3\envs\pcg-baseline\lib\site-packages\matplotlib\_fontconfig_pattern.py:92
+C:\Users\revan\anaconda3\envs\pcg-baseline\lib\site-packages\matplotlib\_fontconfig_pattern.py:92
+C:\Users\revan\anaconda3\envs\pcg-baseline\lib\site-packages\matplotlib\_fontconfig_pattern.py:92
+C:\Users\revan\anaconda3\envs\pcg-baseline\lib\site-packages\matplotlib\_fontconfig_pattern.py:92
+  C:\Users\revan\anaconda3\envs\pcg-baseline\lib\site-packages\matplotlib\_fontconfig_pattern.py:92: PyparsingDeprecationWarning: 'resetCache' deprecated - use 'reset_cache'
+    parser.resetCache()
+
+C:\Users\revan\anaconda3\envs\pcg-baseline\lib\site-packages\matplotlib\_mathtext.py:45
+  C:\Users\revan\anaconda3\envs\pcg-baseline\lib\site-packages\matplotlib\_mathtext.py:45: PyparsingDeprecationWarning: 'enablePackrat' deprecated - use 'enable_packrat'
+    ParserElement.enablePackrat()
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/phase2/test_ttc_masks.py::test_ttc_occupancy_mask_collapses_agent_dimension
+================== 1 failed, 11 passed, 13 warnings in 2.61s ==================
+EXIT_CODE: 1

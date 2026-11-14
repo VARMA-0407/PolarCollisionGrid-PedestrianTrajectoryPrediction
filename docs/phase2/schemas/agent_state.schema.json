@@ -1,0 +1,229 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/pcg-baseline/agent-state.schema.json",
+  "title": "Common agent state observation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "track_id",
+    "agent_class",
+    "timestamp",
+    "frame_index",
+    "sequence_id",
+    "scene_id",
+    "world_position_valid",
+    "observation_valid",
+    "interpolation_flag",
+    "source_dataset"
+  ],
+  "properties": {
+    "track_id": {"type": "string", "minLength": 1},
+    "agent_id": {"type": ["string", "null"]},
+    "agent_class": {
+      "type": "string",
+      "enum": ["pedestrian", "vehicle", "bicyclist", "motorcyclist", "other", "unknown"]
+    },
+    "timestamp": {"type": "number"},
+    "frame_index": {"type": "integer", "minimum": 0},
+    "sequence_id": {"type": "string", "minLength": 1},
+    "scene_id": {"type": "string", "minLength": 1},
+    "bbox_xyxy": {
+      "type": ["array", "null"],
+      "items": {"type": "number"},
+      "minItems": 4,
+      "maxItems": 4
+    },
+    "bbox_center": {
+      "type": ["array", "null"],
+      "items": {"type": "number"},
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "footpoint": {
+      "type": ["array", "null"],
+      "items": {"type": "number"},
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "detection_confidence": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+    "image_x": {"type": ["number", "null"]},
+    "image_y": {"type": ["number", "null"]},
+    "image_coordinate_system": {"type": ["string", "null"], "minLength": 1},
+    "image_coordinate_unit": {
+      "type": ["string", "null"],
+      "enum": ["pixel", null]
+    },
+    "world_x": {"type": ["number", "null"]},
+    "world_y": {"type": ["number", "null"]},
+    "world_coordinate_system": {"type": ["string", "null"], "minLength": 1},
+    "world_coordinate_unit": {
+      "type": ["string", "null"],
+      "enum": ["m", "cm", "mm", "ft", null]
+    },
+    "world_position_valid": {"type": "boolean"},
+    "velocity_x": {"type": ["number", "null"]},
+    "velocity_y": {"type": ["number", "null"]},
+    "speed": {"type": ["number", "null"], "minimum": 0},
+    "acceleration_x": {"type": ["number", "null"]},
+    "acceleration_y": {"type": ["number", "null"]},
+    "kinematic_coordinate_space": {
+      "type": ["string", "null"],
+      "enum": ["image", "world", null]
+    },
+    "kinematic_position_unit": {
+      "type": ["string", "null"],
+      "enum": ["pixel", "m", "cm", "mm", "ft", null]
+    },
+    "kinematic_time_unit": {
+      "type": ["string", "null"],
+      "enum": ["s", null]
+    },
+    "heading": {"type": ["number", "null"]},
+    "visibility": {"type": ["number", "string", "null"]},
+    "occlusion_status": {
+      "type": ["string", "null"],
+      "enum": ["none", "partial", "full", "unknown", null]
+    },
+    "tracking_confidence": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+    "observation_valid": {"type": "boolean"},
+    "interpolation_flag": {"type": "boolean"},
+    "source_dataset": {"type": "string", "minLength": 1},
+    "source_label": {"type": ["string", "null"]}
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {"world_position_valid": {"const": true}}
+      },
+      "then": {
+        "required": [
+          "world_x",
+          "world_y",
+          "world_coordinate_system",
+          "world_coordinate_unit"
+        ],
+        "properties": {
+          "world_x": {"type": "number"},
+          "world_y": {"type": "number"},
+          "world_coordinate_system": {"type": "string", "minLength": 1},
+          "world_coordinate_unit": {"enum": ["m", "cm", "mm", "ft"]}
+        }
+      }
+    },
+    {
+      "if": {
+        "required": ["world_position_valid"],
+        "properties": {"world_position_valid": {"const": false}}
+      },
+      "then": {
+        "properties": {
+          "world_x": {"type": "null"},
+          "world_y": {"type": "null"}
+        }
+      }
+    },
+    {
+      "if": {
+        "anyOf": [
+          {
+            "required": ["velocity_x"],
+            "properties": {"velocity_x": {"type": "number"}}
+          },
+          {
+            "required": ["velocity_y"],
+            "properties": {"velocity_y": {"type": "number"}}
+          },
+          {
+            "required": ["speed"],
+            "properties": {"speed": {"type": "number"}}
+          },
+          {
+            "required": ["acceleration_x"],
+            "properties": {"acceleration_x": {"type": "number"}}
+          },
+          {
+            "required": ["acceleration_y"],
+            "properties": {"acceleration_y": {"type": "number"}}
+          }
+        ]
+      },
+      "then": {
+        "required": [
+          "kinematic_coordinate_space",
+          "kinematic_position_unit",
+          "kinematic_time_unit"
+        ],
+        "properties": {
+          "kinematic_coordinate_space": {
+            "enum": ["image", "world"]
+          },
+          "kinematic_position_unit": {
+            "enum": ["pixel", "m", "cm", "mm", "ft"]
+          },
+          "kinematic_time_unit": {"const": "s"}
+        }
+      }
+    },
+    {
+      "if": {
+        "required": ["kinematic_coordinate_space"],
+        "properties": {"kinematic_coordinate_space": {"const": "image"}}
+      },
+      "then": {
+        "required": ["kinematic_position_unit", "kinematic_time_unit"],
+        "properties": {
+          "kinematic_position_unit": {"const": "pixel"},
+          "kinematic_time_unit": {"const": "s"}
+        }
+      }
+    },
+    {
+      "if": {
+        "required": ["kinematic_coordinate_space"],
+        "properties": {"kinematic_coordinate_space": {"const": "world"}}
+      },
+      "then": {
+        "required": ["kinematic_position_unit", "kinematic_time_unit"],
+        "properties": {
+          "kinematic_position_unit": {
+            "enum": ["m", "cm", "mm", "ft"]
+          },
+          "kinematic_time_unit": {"const": "s"}
+        }
+      }
+    },
+    {
+      "if": {
+        "anyOf": [
+          {
+            "required": ["bbox_xyxy"],
+            "properties": {"bbox_xyxy": {"type": "array"}}
+          },
+          {
+            "required": ["bbox_center"],
+            "properties": {"bbox_center": {"type": "array"}}
+          },
+          {
+            "required": ["footpoint"],
+            "properties": {"footpoint": {"type": "array"}}
+          },
+          {
+            "required": ["image_x"],
+            "properties": {"image_x": {"type": "number"}}
+          },
+          {
+            "required": ["image_y"],
+            "properties": {"image_y": {"type": "number"}}
+          }
+        ]
+      },
+      "then": {
+        "required": ["image_coordinate_system", "image_coordinate_unit"],
+        "properties": {
+          "image_coordinate_system": {"type": "string", "minLength": 1},
+          "image_coordinate_unit": {"const": "pixel"}
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,132 @@
+{
+  "schema_version": "phase2-split-protocol-v1",
+  "status": "template_pending_dataset_approval",
+  "dataset": {
+    "name": "<dataset-name>",
+    "release": "<release-or-version>",
+    "license_reference": "<official-license-or-terms-url>",
+    "provenance_reference": "<official-source-url>",
+    "source_hashes": [],
+    "approved_for_acquisition": false
+  },
+  "grouping": {
+    "hierarchy": [
+      "dataset_release",
+      "recording_or_camera_session",
+      "scene_or_location",
+      "sequence_or_clip",
+      "agent_track",
+      "observation_window"
+    ],
+    "split_unit": "<scene-or-recording-or-sequence>",
+    "track_id_scope": "<sequence-or-scene>",
+    "cross_dataset_mixing": false
+  },
+  "split": {
+    "strategy": "<grouped_scene_or_recording>",
+    "random_seed": null,
+    "train_proportion": null,
+    "validation_proportion": null,
+    "test_proportion": null,
+    "explicit_group_assignments": {
+      "train": [],
+      "validation": [],
+      "test": []
+    },
+    "chronological_ordering": {
+      "enabled": false,
+      "time_field": "timestamp",
+      "order": "<ascending>"
+    }
+  },
+  "windows": {
+    "observation_history": "<approved-number-of-steps>",
+    "prediction_horizon": "<approved-number-of-steps>",
+    "sampling_interval_seconds": "<approved-positive-number>",
+    "window_stride_seconds": "<approved-positive-number>",
+    "minimum_track_duration_seconds": "<approved-value>",
+    "minimum_valid_observations": "<approved-count-or-ratio>",
+    "generate_after_partition_assignment": true
+  },
+  "purge_embargo": {
+    "enabled": true,
+    "method": "<derived-from-complete-window-and-filter-support>",
+    "purge_seconds": null,
+    "embargo_seconds": null,
+    "includes_feature_lookback": true,
+    "includes_prediction_horizon": true,
+    "rationale": "<record-derived-calculation>"
+  },
+  "quality_and_interpolation": {
+    "observation_valid_field": "observation_valid",
+    "interpolation_flag_field": "interpolation_flag",
+    "allowed_interpolation_mode": "<none-or-bounded-offline>",
+    "maximum_interpolation_gap_seconds": null,
+    "causal_estimates_use_future_observations": false,
+    "minimum_detection_confidence": null,
+    "minimum_tracking_confidence": null,
+    "invalid_observation_policy": "<mask-or-exclude-with-reason>"
+  },
+  "normalization": {
+    "fit_partition": "train_only",
+    "statistics_reference": "<training-statistics-artifact>",
+    "coordinate_space": "<image-relative-or-validated-world>",
+    "separate_by_dataset_and_coordinate_system": true,
+    "imputation_fit_partition": "train_only",
+    "augmentation_fit_partition": "train_only"
+  },
+  "coordinate_and_calibration": {
+    "coordinate_mode": "<image-relative-projective-or-metric-world>",
+    "calibration_manifest_id": "<calibration-manifest-or-not-applicable>",
+    "calibration_version": "<version-or-unverified>",
+    "world_position_valid_required_for_metric_metrics": true,
+    "projection_region_reference": "<region-or-unverified>",
+    "unit": "<pixel-relative-or-declared-physical-unit>"
+  },
+  "evaluation": {
+    "trajectory_metrics": [
+      "ADE",
+      "FDE",
+      "coverage",
+      "valid_prediction_rate",
+      "horizon_breakdown"
+    ],
+    "multimodal_metrics": [
+      "most_likely_mode",
+      "probability_weighted",
+      "oracle_best_of_k_separately_labelled"
+    ],
+    "conflict_metrics": [
+      "<TTC-or-surrogate>",
+      "<PET-or-surrogate>",
+      "<minimum-separation-or-surrogate>",
+      "<precision-recall-f1-if-labels-support>",
+      "<Brier-and-ECE-if-probabilities>"
+    ],
+    "thresholds_fit_partition": "validation_only",
+    "model_selection_partition": "validation_only",
+    "final_test_access": "single_frozen_evaluation",
+    "aggregation": [
+      "agent",
+      "trajectory",
+      "scene",
+      "dataset",
+      "agent_class",
+      "interaction_type",
+      "forecast_horizon"
+    ],
+    "report_macro_and_micro": true,
+    "report_coverage_and_counts": true
+  },
+  "reproducibility": {
+    "manifest_id": "<unique-manifest-id>",
+    "created_utc": "<timestamp>",
+    "software_version": "<repository-commit-or-version>",
+    "model_version": "<model-reference-or-not-yet-trained>",
+    "preprocessing_version": "<task5-config-version>",
+    "metric_configuration_version": "<metric-config-version>",
+    "normalization_artifact_hash": "<hash-or-pending>",
+    "input_artifact_hashes": [],
+    "notes": "<record unresolved decisions; do not fabricate assignments>"
+  }
+}

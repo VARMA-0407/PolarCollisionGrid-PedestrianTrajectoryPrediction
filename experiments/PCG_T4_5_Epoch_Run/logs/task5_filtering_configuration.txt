@@ -1,0 +1,29 @@
+TRAIN DATALOADER CONFIGURATION
+
+  train.py:169:
+  train.py:170:    # Create the data loader object. This object would preprocess the data in terms of
+  train.py:171:    # batches each of size args.batch_size, and of length args.seq_length
+> train.py:172:    dataloader = DataLoader(args.batch_size, args.seq_length, infer=False, filtering=True)
+  train.py:173:
+  train.py:174:
+  train.py:175:    # model creation
+  train.py:176:    net = get_model(args.method,args)
+  train.py:177:    if args.use_cuda:
+
+
+
+
+TEST DATALOADER CONFIGURATION
+
+  test.py:53:
+  test.py:54:    seq_length = sample_args.obs_length + sample_args.pred_length
+  test.py:55:
+> test.py:56:    dataloader = DataLoader(1, seq_length, infer=True, filtering=True)
+  test.py:57:    dataloader.reset_batch_pointer()
+  test.py:58:
+  test.py:59:    # Define the path for the config file for saved args
+  test.py:60:    prefix = 'Store_Results/'
+  test.py:61:    save_directory_pre = os.path.join(prefix, 'model/')
+
+
+

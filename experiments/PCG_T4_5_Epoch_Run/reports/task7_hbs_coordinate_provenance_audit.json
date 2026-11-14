@@ -1,0 +1,103 @@
+{
+  "task": 7,
+  "title": "HBS Coordinate and Data Provenance Audit",
+  "status": "EVIDENCE_COLLECTION_PENDING_REVIEW",
+  "created_utc": "2026-11-11T09:58:23.982220+00:00",
+  "scope": {
+    "original_dataset_modified": false,
+    "original_preprocessed_pickles_modified": false,
+    "baseline_source_modified": false
+  },
+  "source_code_observations_to_verify": {
+    "dataloader_file": "utils/DataLoader.py",
+    "csv_columns_reported": [
+      "frame_id",
+      "agent_id",
+      "pos_x",
+      "pos_y",
+      "vel_x",
+      "vel_y",
+      "label",
+      "timestamp"
+    ],
+    "pedestrian_labels_reported": [
+      "pedestrian",
+      "ped"
+    ],
+    "vehicle_labels_reported": [
+      "car",
+      "cart",
+      "veh"
+    ],
+    "fps_assumption_reported": 2,
+    "downsample_step_reported": 1,
+    "timestamp_interval_seconds_reported": 0.5,
+    "acceleration_derivation_reported": "Velocity differences divided by the DataLoader timestamp."
+  },
+  "coordinate_audit": {
+    "pos_x": {
+      "variable_name": "pos_x",
+      "semantic_meaning": "UNVERIFIED",
+      "unit": "UNKNOWN",
+      "coordinate_space": "UNKNOWN"
+    },
+    "pos_y": {
+      "variable_name": "pos_y",
+      "semantic_meaning": "UNVERIFIED",
+      "unit": "UNKNOWN",
+      "coordinate_space": "UNKNOWN"
+    },
+    "vel_x": {
+      "variable_name": "vel_x",
+      "semantic_meaning": "UNVERIFIED",
+      "unit": "UNKNOWN",
+      "coordinate_space": "UNKNOWN"
+    },
+    "vel_y": {
+      "variable_name": "vel_y",
+      "semantic_meaning": "UNVERIFIED",
+      "unit": "UNKNOWN",
+      "coordinate_space": "UNKNOWN"
+    },
+    "homography": {
+      "availability": "NOT_ESTABLISHED",
+      "calibration_file": "NOT_ESTABLISHED",
+      "world_coordinate_conversion": "NOT_ESTABLISHED"
+    }
+  },
+  "timing_audit": {
+    "source_assumed_fps": 2,
+    "source_assumed_timestamp_interval_seconds": 0.5,
+    "interpretation": "These are DataLoader assumptions. They do not independently prove the original recording frame rate.",
+    "observation_duration_seconds_under_assumption": 3.0,
+    "prediction_duration_seconds_under_assumption": 3.0,
+    "total_sequence_duration_seconds_under_assumption": 6.0
+  },
+  "provenance": {
+    "dataset_expansion": "UNVERIFIED",
+    "original_publisher": "UNVERIFIED",
+    "paper_or_benchmark_citation": "UNVERIFIED",
+    "license": "UNVERIFIED",
+    "collection_methodology": "UNVERIFIED",
+    "scene_or_camera_identity": "UNVERIFIED",
+    "number_of_scenes_or_cameras": "UNVERIFIED"
+  },
+  "known_risks": [
+    "Variable names do not prove coordinate units.",
+    "A 2 FPS DataLoader assumption does not prove source video FPS.",
+    "Pixel-space velocities must not be interpreted as metres/second.",
+    "World-coordinate claims require calibration or dataset documentation.",
+    "Homography availability must be established from an actual file or source.",
+    "Dataset citation and license must be supported by original metadata or publication."
+  ],
+  "required_follow_up_evidence": [
+    "Original dataset README or documentation",
+    "Dataset paper or official source URL",
+    "Original CSV sample and header",
+    "Video metadata or dataset FPS documentation",
+    "Calibration/homography file or explicit confirmation of absence",
+    "Coordinate and velocity unit documentation",
+    "License or terms of use"
+  ],
+  "source_evidence_file": "experiments\\PCG_T4_5_Epoch_Run\\logs\\task6_task7_source_evidence.txt"
+}

@@ -1,0 +1,64 @@
+{
+    "task": "Phase 2 Task 5 - Post-filtering Window Overlap Audit",
+    "dataset": "Data\\HBS\\hbs.csv",
+    "window_generation": {
+        "timeline": "All unique frame IDs in the original CSV",
+        "total_unique_csv_frames": 3620,
+        "unique_frames_containing_pedestrians": 3612,
+        "sequence_length": 12,
+        "stride": 1,
+        "total_windows": 3608,
+        "test_portion": 0.31,
+        "test_windows_before_filtering": 1118,
+        "train_windows_before_filtering": 2490
+    },
+    "filtering": {
+        "enabled_for_training": true,
+        "enabled_for_testing": true,
+        "rule": "Retain a sequence only if at least one pedestrian ID is present throughout all 12 frames. Retain only those common pedestrian IDs in every frame.",
+        "test_windows_removed": 36,
+        "train_windows_removed": 104,
+        "test_windows_retained": 1082,
+        "train_windows_retained": 2386
+    },
+    "post_filtering_temporal_overlap": {
+        "cross_split_overlapping_window_pairs": 66,
+        "test_windows_with_temporal_overlap": 11,
+        "shared_unique_frame_count": 11,
+        "shared_frame_ids": [
+            1118,
+            1119,
+            1120,
+            1121,
+            1122,
+            1123,
+            1124,
+            1125,
+            1126,
+            1127,
+            1128
+        ],
+        "percentage_of_retained_test_windows_affected": 1.0166358595194085
+    },
+    "post_filtering_pedestrian_frame_overlap": {
+        "unique_test_pedestrian_frame_observations": 8529,
+        "unique_train_pedestrian_frame_observations": 18975,
+        "shared_pedestrian_frame_observations": 22,
+        "percentage_of_retained_test_observations_shared": 0.25794348692695507,
+        "test_windows_with_shared_pedestrian_frame_observations": 11
+    },
+    "raw_audit_comparison": {
+        "available": true,
+        "raw_total_windows": 3600,
+        "raw_test_windows": 1116,
+        "raw_train_windows": 2484,
+        "raw_cross_split_overlapping_pairs": 66
+    },
+    "limitations": [
+        "This script reconstructs DataLoader filtering from the raw CSV.",
+        "It assumes all_frame_data contains one entry for every unique CSV frame ID.",
+        "Verify the reconstructed frame count against the original preprocessed HBS pickle.",
+        "Filtering does not remove temporal overlap automatically.",
+        "The split still uses a single chronological scene rather than scene-independent evaluation."
+    ]
+}

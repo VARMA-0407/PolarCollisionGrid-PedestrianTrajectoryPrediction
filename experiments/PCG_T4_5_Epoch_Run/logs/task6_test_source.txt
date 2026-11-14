@@ -1,0 +1,440 @@
+﻿
+  test.py:43:    # with the best performace according to previous invesigation on valiquation set)
+  test.py:44:    parser.add_argument('--epoch', type=int, default=181, # PV-CollisionGrid: 181, SocialLSTM: 185, VanillaLSTM: 192,
+  test.py:45:                            help='Epoch of model to be loaded') # oblation models:  V-CollisionGrid: 188, P-CollisionGrid: 
+172
+  test.py:46:    
+  test.py:47:    # The number of samples to be generated for each test data, when reporting its performance
+> test.py:48:    parser.add_argument('--sample_size', type=int, default=20,
+  test.py:49:                            help='The number of sample trajectory that will be generated')
+  test.py:50:        
+  test.py:51:
+  test.py:52:    sample_args = parser.parse_args()
+  test.py:53:
+  test.py:54:    seq_length = sample_args.obs_length + sample_args.pred_length
+  test.py:55:
+  test.py:56:    dataloader = DataLoader(1, seq_length, infer=True, filtering=True)
+  test.py:145:            # x, y, d , numPedsList, PedsList, x_veh, numVehsList, VehsList = dataloader.next_batch()
+  test.py:146:            x, numPedsList, PedsList = x_WholeBatch[batch], numPedsList_WholeBatch[batch], PedsList_WholeBatch[batch]
+  test.py:147:            x_veh, numVehsList, VehsList = x_veh_WholeBatch[batch], numVehsList_WholeBatch[batch], 
+VehsList_WholeBatch[batch]
+  test.py:148:
+  test.py:149:            x_seq, numPedsList_seq, PedsList_seq = x[0], numPedsList[0], PedsList[0] 
+> test.py:150:            x_seq_veh , numVehsList_seq, VehsList_seq = x_veh[0], numVehsList[0], VehsList[0]
+  test.py:151:
+  test.py:152:            
+  test.py:153:            # dense vector creation
+  test.py:154:            x_seq, lookup_seq = dataloader.convert_proper_array(x_seq, numPedsList_seq, PedsList_seq)
+> test.py:155:            x_seq_veh, lookup_seq_veh = dataloader.convert_proper_array(x_seq_veh, numVehsList_seq, VehsList_seq, 
+veh_flag=True)
+  test.py:156:
+  test.py:157:            # will be used for error calculation
+  test.py:158:            orig_x_seq = x_seq.clone() 
+> test.py:159:            orig_x_seq_veh = x_seq_veh.clone()
+  test.py:160:
+  test.py:161:            # grid mask calculation
+  test.py:162:            if  saved_args.method == 1: # social lstm   
+  test.py:163:                grid_seq = getSequenceGridMask(x_seq, PedsList_seq, saved_args.neighborhood_size, saved_args.grid_size,
+  test.py:164:                                                saved_args.use_cuda, lookup_seq) 
+  test.py:165:            
+  test.py:166:            elif saved_args.method == 4: # collision grid
+  test.py:167:                grid_seq, grid_TTC_seq = getSequenceInteractionGridMask(x_seq, PedsList_seq, x_seq, PedsList_seq,
+  test.py:168:                                                                        saved_args.TTC, saved_args.D_min, 
+saved_args.num_sector,
+  test.py:169:                                                                        False, lookup_seq, lookup_seq)
+> test.py:170:                grid_seq_veh_in_ped, grid_TTC_veh_seq = getSequenceInteractionGridMask(x_seq, PedsList_seq, x_seq_veh,
+  test.py:171:                                                                                        VehsList_seq, saved_args.TTC_veh,
+  test.py:172:                                                                                        saved_args.D_min_veh, 
+saved_args.num_sector,
+  test.py:173:                                                                                        False, lookup_seq, lookup_seq_veh,
+  test.py:174:                                                                                        is_heterogeneous=True, 
+is_occupancy=False)
+  test.py:175:            
+  test.py:176:            elif saved_args.method == 3:
+  test.py:177:                grid_seq = None
+  test.py:178:
+  test.py:181:            x_seq, first_values_dict = position_change_seq(x_seq, PedsList_seq, lookup_seq)
+  test.py:182:         
+  test.py:183:            if sample_args.use_cuda:
+  test.py:184:                x_seq = x_seq.cuda()
+  test.py:185:                if saved_args.method == 4:
+> test.py:186:                    x_seq_veh = x_seq_veh.cuda()
+  test.py:187:
+  test.py:188:
+  test.py:189:            sample_error = []
+  test.py:190:            sample_final_error = []
+  test.py:191:            sample_MHD_error = []
+  test.py:192:            sample_speed_error = []
+  test.py:193:            sample_heading_error = []
+  test.py:194:            sample_ret_x_seq = []
+  test.py:196:            sample_num_coll_hetero = []
+  test.py:197:            sample_num_coll_homo = []
+  test.py:198:            sample_all_num_cases_homo = []
+  test.py:199:            sample_all_num_cases_hetero = []
+  test.py:200:
+> test.py:201:            for sample_num in range(sample_args.sample_size):
+  test.py:202:
+  test.py:203:
+  test.py:204:                # The sample function
+  test.py:205:                if saved_args.method == 3: # vanilla lstm
+  test.py:206:                    # Extract the observed part of the trajectories
+  test.py:207:                    obs_traj, obs_PedsList_seq = x_seq[:sample_args.obs_length], PedsList_seq[:sample_args.obs_length]
+  test.py:208:                    ret_x_seq, dist_param_seq = sample(obs_traj, obs_PedsList_seq, sample_args, net, x_seq, PedsList_seq,
+  test.py:209:                                                        saved_args, dataloader, lookup_seq, numPedsList_seq, saved_args.gru,
+  test.py:220:                  
+  test.py:221:
+  test.py:222:                    ret_x_seq, dist_param_seq = sample(obs_traj, obs_PedsList_seq, sample_args, net, x_seq,
+  test.py:223:                                                        PedsList_seq, saved_args, dataloader, lookup_seq,
+  test.py:224:                                                        numPedsList_seq, saved_args.gru, first_values_dict,
+> test.py:225:                                                        orig_x_seq, obs_grid, x_seq_veh, VehsList_seq, 
+  test.py:226:                                                        lookup_seq_veh, obs_grid_veh_in_ped,
+  test.py:227:                                                        obs_grid_TTC, obs_grid_TTC_veh)
+  test.py:228:
+  test.py:229:                elif saved_args.method == 1: # soial lstm
+  test.py:230:                    # Extract the observed part of the trajectories
+  test.py:231:                    obs_traj, obs_PedsList_seq, obs_grid = x_seq[:sample_args.obs_length], \
+  test.py:232:                                                           PedsList_seq[:sample_args.obs_length], \
+  test.py:233:                                                           grid_seq[:sample_args.obs_length]
+  test.py:234:                 
+  test.py:235:                    ret_x_seq, dist_param_seq = sample(obs_traj, obs_PedsList_seq, sample_args, net, x_seq,
+  test.py:236:                                                        PedsList_seq, saved_args, dataloader, lookup_seq,
+  test.py:237:                                                        numPedsList_seq, saved_args.gru, first_values_dict,
+> test.py:238:                                                        orig_x_seq, obs_grid, x_seq_veh, VehsList_seq, 
+  test.py:239:                                                        lookup_seq_veh, None, None, None)
+  test.py:240:
+  test.py:241:
+  test.py:242:                ret_x_seq = revert_postion_change_seq2(ret_x_seq.cpu(), PedsList_seq, lookup_seq, first_values_dict,
+  test.py:243:                                                        orig_x_seq, sample_args.obs_length, infer=True)
+  test.py:244:                dist_param_seq[:,:,0:2] = revert_postion_change_seq2(dist_param_seq[:,:,0:2].cpu(), PedsList_seq, 
+  test.py:245:                                                                     lookup_seq, first_values_dict, orig_x_seq, 
+  test.py:246:                                                                     sample_args.obs_length, infer=True)
+  test.py:248:                # Getting the agent_ids of those present in the observation section. 
+  test.py:249:                # error should be calculated only for those agents that their data exists in the observation part
+  test.py:250:                PedsList_obs = sum(PedsList_seq[:sample_args.obs_length], []) # contains duplicat but does not make any 
+problem
+  test.py:251:
+  test.py:252:
+> test.py:253:                sample_error_batch = get_mean_error(ret_x_seq[sample_args.obs_length:,:,:2].data,
+  test.py:254:                                                    orig_x_seq[sample_args.obs_length:,:,:2].data,
+  test.py:255:                                                    PedsList_seq[sample_args.obs_length:], PedsList_obs, False, lookup_seq)
+> test.py:256:                sample_final_error_batch = get_final_error(ret_x_seq[sample_args.obs_length:,:,:2].data, 
+  test.py:257:                                                           orig_x_seq[sample_args.obs_length:,:,:2].data, 
+  test.py:258:                                                           PedsList_seq[sample_args.obs_length:],PedsList_obs, lookup_seq)
+  test.py:259:                sample_MHD_error_batch = get_hausdorff_distance(ret_x_seq[sample_args.obs_length:,:,:2].data, 
+  test.py:260:                                                                orig_x_seq[sample_args.obs_length:,:,:2].data, 
+  test.py:261:                                                                PedsList_seq[sample_args.obs_length:], PedsList_obs, False, 
+lookup_seq)
+  test.py:262:                sample_speed_error_batch, sample_heading_error_batch = 
+get_velocity_errors(ret_x_seq[sample_args.obs_length:,:,2:4].data,
+  test.py:263:                                                                                            
+orig_x_seq[sample_args.obs_length:,:,2:4].data,
+  test.py:264:                                                                                            
+PedsList_seq[sample_args.obs_length:], PedsList_obs,
+  test.py:269:                                                                                                        saved_args.D_min)
+  test.py:270:                sample_num_coll_hetero_batch, sample_all_num_cases_hetero_batch = get_num_collisions_hetero(   
+  test.py:271:                                                                                                
+ret_x_seq[sample_args.obs_length:,:,:2].data,
+  test.py:272:                                                                                                
+PedsList_seq[sample_args.obs_length:], 
+  test.py:273:                                                                                                PedsList_obs, False, 
+lookup_seq,
+> test.py:274:                                                                                                
+x_seq_veh[sample_args.obs_length:,:,:2].cpu().data,
+  test.py:275:                                                                                                
+VehsList_seq[sample_args.obs_length:], 
+  test.py:276:                                                                                                lookup_seq_veh, 
+saved_args.D_min_veh)
+  test.py:277:
+  test.py:278:                sample_error.append(sample_error_batch)
+  test.py:279:                sample_final_error.append(sample_final_error_batch)
+  test.py:280:                sample_MHD_error.append(sample_MHD_error_batch)
+  test.py:281:                sample_speed_error.append(sample_speed_error_batch)
+  test.py:282:                sample_heading_error.append(sample_heading_error_batch)
+  test.py:287:                sample_num_coll_hetero.append(sample_num_coll_hetero_batch)
+  test.py:288:                sample_all_num_cases_hetero.append(sample_all_num_cases_hetero_batch)
+  test.py:289:                
+  test.py:290:
+  test.py:291:            # Deciding the best sample based on the average displacement error
+> test.py:292:            min_ADE = min(sample_error)
+> test.py:293:            min_index = sample_error.index(min_ADE)
+  test.py:294:
+> test.py:295:            total_error += sample_error[min_index] # or min_ADE
+  test.py:296:            final_error += sample_final_error[min_index]
+  test.py:297:            MHD_error += sample_MHD_error[min_index]
+  test.py:298:            speed_error += sample_speed_error[min_index]
+  test.py:299:            heading_error += sample_heading_error[min_index]
+  test.py:300:            num_collision_homo += sample_num_coll_homo[min_index]
+  test.py:301:            all_num_cases_homo += sample_all_num_cases_homo[min_index]
+  test.py:302:            num_collision_hetero += sample_num_coll_hetero[min_index]
+  test.py:303:            all_num_cases_hetero += sample_all_num_cases_hetero[min_index]
+  test.py:308:            print('Current file : ', dataloader.get_file_name(0),' Processed trajectory number : ', batch+1,
+  test.py:309:                   'out of', dataloader.num_batches, 'trajectories in time', end - start)
+  test.py:310:
+  test.py:311:            if sample_args.method == 3:
+  test.py:312:                results.append((orig_x_seq.data.cpu().numpy(), sample_ret_x_seq[min_index], PedsList_seq, lookup_seq , 
+None, 
+> test.py:313:                                sample_args.obs_length, sample_dist_param_seq[min_index], orig_x_seq_veh.data.cpu().numpy(),
+  test.py:314:                                VehsList_seq, lookup_seq_veh, None, None))
+  test.py:315:            elif sample_args.method == 4:
+  test.py:316:                results.append((orig_x_seq.data.cpu().numpy(), sample_ret_x_seq[min_index], PedsList_seq, lookup_seq , 
+None, 
+> test.py:317:                                sample_args.obs_length, sample_dist_param_seq[min_index], 
+orig_x_seq_veh.data.cpu().numpy(), 
+  test.py:318:                                VehsList_seq, lookup_seq_veh, grid_seq, grid_seq_veh_in_ped))
+  test.py:319:            elif sample_args.method == 1:
+  test.py:320:                results.append((orig_x_seq.data.cpu().numpy(), sample_ret_x_seq[min_index], PedsList_seq, lookup_seq , None,
+> test.py:321:                                 sample_args.obs_length, sample_dist_param_seq[min_index], 
+orig_x_seq_veh.data.cpu().numpy(), 
+  test.py:322:                                 VehsList_seq, lookup_seq_veh, grid_seq, None))
+  test.py:323:
+  test.py:324:        iteration_result.append(results)
+  test.py:325:        iteration_total_error.append(total_error.data.cpu()/ dataloader.num_batches)
+  test.py:326:        iteration_final_error.append(final_error.data.cpu()/ dataloader.num_batches)
+  test.py:327:        iteration_MHD_error.append(MHD_error.data.cpu()/ (dataloader.num_batches-None_count))
+  test.py:328:        iteration_speed_error.append(speed_error.data.cpu()/ dataloader.num_batches)
+  test.py:329:        iteration_heading_error.append(heading_error.data.cpu()/ dataloader.num_batches)
+  test.py:367:    print('Collision percentage (ped-ped): ', round(iteration_collision_percent_pedped[smallest_err_iter_num], 4) * 100)
+  test.py:368:    print('Collision percentage (ped-veh): ', round(iteration_collision_percent_pedveh[smallest_err_iter_num], 4) * 100)
+  test.py:369:    
+  test.py:370:
+  test.py:371:
+> test.py:372:def sample(x_seq, Pedlist, args, net, true_x_seq, true_Pedlist, saved_args, dataloader, look_up, num_pedlist, is_gru,
+> test.py:373:            first_values_dict, orig_x_seq, grid=None, x_seq_veh=None, Vehlist=None, look_up_veh=None,
+  test.py:374:            grid_veh_in_ped=None, grid_TTC=None, grid_TTC_veh=None):
+  test.py:375:    '''
+  test.py:376:    The sample function
+  test.py:377:    params:
+  test.py:378:    x_seq: Input positions
+  test.py:379:    Pedlist: Peds present in each frame
+  test.py:380:    args: arguments
+  test.py:381:    net: The model
+  test.py:382:    true_x_seq: True positions
+> test.py:383:    true_Pedlist: The true peds present in each frame
+  test.py:384:    saved_args: Training arguments
+  test.py:385:    '''
+  test.py:386:
+  test.py:387:    # Number of peds in the sequence 
+  test.py:388:    # This will also include peds that do not exist in the observation length but come into scene in the prediction time 
+interval
+  test.py:389:    numx_seq = len(look_up)   
+  test.py:390:    if look_up_veh is not None:
+> test.py:391:        numx_seq_veh = len(look_up_veh)
+  test.py:392:        
+  test.py:393:    with torch.no_grad():
+  test.py:394:        # Construct variables for hidden and cell states
+  test.py:395:        hidden_states = Variable(torch.zeros(numx_seq, net.args.rnn_size))
+  test.py:396:        if args.use_cuda:
+  test.py:397:            hidden_states = hidden_states.cuda()
+  test.py:398:        if not is_gru:
+  test.py:399:            cell_states = Variable(torch.zeros(numx_seq, net.args.rnn_size))
+  test.py:410:        if args.use_cuda:
+  test.py:411:            ret_x_seq = ret_x_seq.cuda()
+  test.py:412:            # dist_param_seq = dist_param_seq.cuda()
+  test.py:413:
+  test.py:414:        # For the observed part of the trajectory
+> test.py:415:        for tstep in range(args.obs_length-1):
+  test.py:416:            if grid is None: 
+  test.py:417:               # Do a forward prop
+> test.py:418:                out_obs, hidden_states, cell_states = net(x_seq[tstep,:,:2].view(1, numx_seq, 2), hidden_states, 
+cell_states, 
+> test.py:419:                                                          [Pedlist[tstep]], [num_pedlist[tstep]], dataloader, look_up)
+  test.py:420:            elif (args.method == 4):
+  test.py:421:                # Do a forward prop 
+  test.py:422:                # We give the frames one by one as input. 
+  test.py:423:                # Unlike the training where we give the whole frames at once and it was iterated in the model
+> test.py:424:                grid_t = grid[tstep]
+> test.py:425:                grid_veh_in_ped_t = grid_veh_in_ped[tstep]
+> test.py:426:                grid_TTC_t = grid_TTC[tstep]
+> test.py:427:                grid_TTC_veh_t = grid_TTC_veh[tstep]
+  test.py:428:                if args.use_cuda:
+  test.py:429:                    grid_t = grid_t.cuda()
+  test.py:430:                    grid_veh_in_ped_t = grid_veh_in_ped_t.cuda()
+  test.py:431:                    grid_TTC_t = grid_TTC_t.cuda()
+  test.py:432:                    grid_TTC_veh_t = grid_TTC_veh_t.cuda()
+> test.py:433:                out_obs, hidden_states, cell_states = net(x_seq[tstep,:,:].view(1, numx_seq, x_seq.shape[2]), [grid_t],
+> test.py:434:                                                           hidden_states, cell_states, [Pedlist[tstep]], 
+[num_pedlist[tstep]], dataloader,
+> test.py:435:                                                            look_up, x_seq_veh[tstep,:,:].view(1, numx_seq_veh, 
+x_seq_veh.shape[2]),
+> test.py:436:                                                            [grid_veh_in_ped_t], [Vehlist[tstep]], look_up_veh, 
+[grid_TTC_t], [grid_TTC_veh_t])
+  test.py:437:
+  test.py:438:            elif (args.method == 1):
+> test.py:439:                grid_t = grid[tstep]
+> test.py:440:                out_obs, hidden_states, cell_states = net(x_seq[tstep,:,:].view(1, numx_seq, x_seq.shape[2]), 
+[grid_t.cpu()],
+> test.py:441:                                                           hidden_states, cell_states, [Pedlist[tstep]], 
+[num_pedlist[tstep]], dataloader,
+> test.py:442:                                                            look_up, x_seq_veh[tstep,:,:].view(1, numx_seq_veh, 
+x_seq_veh.shape[2]), None,
+> test.py:443:                                                            [Vehlist[tstep]], look_up_veh)
+  test.py:444:
+  test.py:445:            # Extract the mean, std and corr of the bivariate Gaussian
+  test.py:446:            mux, muy, sx, sy, corr = getCoef(out_obs.cpu())
+  test.py:447:
+  test.py:448:            # Storing the paramteres of the distriution for plotting
+> test.py:449:            dist_param_seq[tstep + 1, :, :] = out_obs.clone()
+  test.py:450:
+  test.py:451:            # Sample from the bivariate Gaussian
+> test.py:452:            next_x, next_y = sample_gaussian_2d(mux.data, muy.data, sx.data, sy.data, corr.data, true_Pedlist[tstep], 
+look_up)
+  test.py:453:
+> test.py:454:            ret_x_seq[tstep + 1, :, 0] = next_x
+> test.py:455:            ret_x_seq[tstep + 1, :, 1] = next_y
+  test.py:456:
+  test.py:457:            # One could also assign the mean to the next state instead of sampling from the distrbution. 
+  test.py:458:            # for that one should comment the above three lines and uncomment the following lines 
+  test.py:459:            # next_x_mean = mux
+  test.py:460:            # next_y_mean = muy
+> test.py:461:            # ret_x_seq[tstep + 1, :, 0] = next_x_mean
+> test.py:462:            # ret_x_seq[tstep + 1, :, 1] = next_y_mean
+  test.py:463:
+  test.py:464:    
+  test.py:465:        # Last seen grid
+  test.py:466:        if grid is not None: # not vanilla lstm
+  test.py:467:            prev_grid = grid[-1].clone()
+  test.py:468:            if (args.method == 4):
+  test.py:469:                prev_grid_veh_in_ped = grid_veh_in_ped[-1].clone()
+  test.py:470:                prev_TTC_grid = grid_TTC[-1].clone()
+  test.py:471:                prev_TTC_grid_veh = grid_TTC_veh[-1].clone()
+  test.py:472:
+  test.py:473:        # constructing the speed change and deviation feautres for time step obs_length-1 
+  test.py:474:        # that is going ot be used in the next for loop and also calculating that for each new time step on the following 
+for loop
+> test.py:475:        ret_x_seq[tstep + 1, :, 2] = x_seq[-1,:,2]
+> test.py:476:        ret_x_seq[tstep + 1, :, 3] = x_seq[-1,:,3]
+> test.py:477:        ret_x_seq[tstep + 1, :, 5] = x_seq[-1,:,5]
+> test.py:478:        ret_x_seq[tstep + 1, :, 6] = x_seq[-1,:,6]
+> test.py:479:        ret_x_seq[tstep + 1, :, 7] = x_seq[-1,:,7]
+> test.py:480:        ret_x_seq[tstep + 1, :, 8] = x_seq[-1,:,8]
+  test.py:481:
+  test.py:482:        timestamp = dataloader.timestamp
+  test.py:483:
+  test.py:484:        # For the predicted part of the trajectory
+> test.py:485:        for tstep in range(args.obs_length-1, args.pred_length + args.obs_length-1):
+  test.py:486:            # Do a forward prop
+  test.py:487:            if grid is None: # vanilla lstm
+> test.py:488:                outputs, hidden_states, cell_states = net(ret_x_seq[tstep].view(1, numx_seq, ret_x_seq.shape[2]), 
+hidden_states, 
+> test.py:489:                                                          cell_states, [true_Pedlist[tstep]], [num_pedlist[tstep]], 
+dataloader, look_up)
+  test.py:490:            else:
+  test.py:491:                if (args.method == 4):
+> test.py:492:                    outputs, hidden_states, cell_states = net(ret_x_seq[tstep].view(1, numx_seq, ret_x_seq.shape[2]), 
+[prev_grid],
+> test.py:493:                                                               hidden_states, cell_states, [true_Pedlist[tstep]], 
+[num_pedlist[tstep]],
+> test.py:494:                                                                dataloader, look_up, x_seq_veh[tstep,:,:].view(1, 
+numx_seq_veh, x_seq_veh.shape[2]), 
+> test.py:495:                                                                [prev_grid_veh_in_ped], [Vehlist[tstep]], look_up_veh,  
+[prev_TTC_grid],
+  test.py:496:                                                                [prev_TTC_grid_veh])
+  test.py:497:                elif (args.method == 1):
+> test.py:498:                     outputs, hidden_states, cell_states = net(ret_x_seq[tstep].view(1, numx_seq, ret_x_seq.shape[2]), 
+[prev_grid.cpu()],
+> test.py:499:                                                                hidden_states, cell_states, [true_Pedlist[tstep]], 
+[num_pedlist[tstep]],
+> test.py:500:                                                                dataloader, look_up, x_seq_veh[tstep,:,:].view(1, 
+numx_seq_veh, x_seq_veh.shape[2]),
+> test.py:501:                                                                None, [Vehlist[tstep]], look_up_veh)
+  test.py:502:      
+  test.py:503:            # Extract the mean, std and corr of the bivariate Gaussian
+  test.py:504:            mux, muy, sx, sy, corr = getCoef(outputs.cpu())
+  test.py:505:
+  test.py:506:            # Storing the paramteres of the distriution
+> test.py:507:            dist_param_seq[tstep + 1, :, :] = torch.stack((mux, muy, sx, sy, corr),2) 
+  test.py:508:
+  test.py:509:            # Sample from the bivariate Gaussian
+> test.py:510:            next_x, next_y = sample_gaussian_2d(mux.data, muy.data, sx.data, sy.data, corr.data, true_Pedlist[tstep], 
+look_up)
+  test.py:511:
+  test.py:512:            # Store the predicted position
+> test.py:513:            ret_x_seq[tstep + 1, :, 0] = next_x
+> test.py:514:            ret_x_seq[tstep + 1, :, 1] = next_y
+  test.py:515:
+  test.py:516:            # One could also assign the mean to the next state instead of sampling from the distrbution. 
+  test.py:517:            # for that one should comment the above three lines and uncomment the following lines 
+  test.py:518:
+  test.py:519:            # next_x_mean = mux
+  test.py:520:            # next_y_mean = muy
+> test.py:521:            # ret_x_seq[tstep + 1, :, 0] = next_x_mean
+> test.py:522:            # ret_x_seq[tstep + 1, :, 1] = next_y_mean
+  test.py:523:
+  test.py:524:
+  test.py:525:            # Preparing a ret_x_seq that is covnerted back to the original frame by adding the first position.
+  test.py:526:            # This will be used for grid calculation
+  test.py:527:            ret_x_seq_convert = ret_x_seq.clone() 
+> test.py:528:            ret_x_seq_convert = revert_postion_change_seq2(ret_x_seq_convert.cpu(), true_Pedlist, look_up, 
+first_values_dict,
+  test.py:529:                                                            orig_x_seq, saved_args.obs_length, infer=True)
+  test.py:530:
+  test.py:531:
+> test.py:532:            ret_x_seq_convert[tstep + 1, :, 2] = (ret_x_seq_convert[tstep + 1, :, 0] - ret_x_seq_convert[tstep, :, 0]) / 
+timestamp # vx 
+> test.py:533:            ret_x_seq_convert[tstep + 1, :, 3] = (ret_x_seq_convert[tstep + 1, :, 1] - ret_x_seq_convert[tstep, :, 1]) / 
+timestamp # vy
+  test.py:534:            # updating the velocity data in ret_x_seq accordingly
+> test.py:535:            ret_x_seq[tstep + 1, :, 2] = ret_x_seq_convert[tstep + 1, :, 2].clone()
+> test.py:536:            ret_x_seq[tstep + 1, :, 3] = ret_x_seq_convert[tstep + 1, :, 3].clone()
+  test.py:537:
+  test.py:538:            
+  test.py:539:            # claculating the rest of the features that will be used in the interaction tensor (speed change and deviation) 
+> test.py:540:            ret_x_seq_convert[tstep + 1, :, 5] = (ret_x_seq_convert[tstep + 1, :, 2] - ret_x_seq_convert[tstep, :, 2]) / 
+timestamp # ax
+> test.py:541:            ret_x_seq_convert[tstep + 1, :, 6] = (ret_x_seq_convert[tstep + 1, :, 3] - ret_x_seq_convert[tstep, :, 3]) / 
+timestamp # ay
+> test.py:542:            speed_next_t = torch.pow((torch.pow(ret_x_seq_convert[tstep + 1, :, 2], 2) + torch.pow(ret_x_seq_convert[tstep 
++ 1, :, 3], 2)),0.5)
+> test.py:543:            speed_t = torch.pow((torch.pow(ret_x_seq_convert[tstep, :, 2], 2) + torch.pow(ret_x_seq_convert[tstep, :, 3], 
+2)),0.5)
+> test.py:544:            ret_x_seq[tstep + 1, :, 7] = speed_next_t - speed_t # speed difference
+> test.py:545:            dot_vel = torch.mul(ret_x_seq_convert[tstep, :, 2], ret_x_seq_convert[tstep+1, :, 2]) + \
+> test.py:546:                        torch.mul(ret_x_seq_convert[tstep, :, 3], ret_x_seq_convert[tstep+1, :, 3])
+> test.py:547:            det_vel = torch.mul(ret_x_seq_convert[tstep, :, 2],  ret_x_seq_convert[tstep+1, :, 3]) - \
+> test.py:548:                        torch.mul(ret_x_seq_convert[tstep, :, 3], ret_x_seq_convert[tstep+1, :, 2])
+> test.py:549:            ret_x_seq[tstep + 1, :, 8] = torch.atan2(det_vel,dot_vel) * 180/np.pi # deviation angel
+  test.py:550:
+  test.py:551:
+  test.py:552:            # List of x_seq at the last time-step (assuming they exist until the end)
+> test.py:553:            true_Pedlist[tstep+1] = [int(_x_seq) for _x_seq in true_Pedlist[tstep+1]]
+> test.py:554:            next_ped_list = true_Pedlist[tstep+1].copy()
+  test.py:555:            converted_pedlist = [look_up[_x_seq] for _x_seq in next_ped_list]
+  test.py:556:            list_of_x_seq = Variable(torch.LongTensor(converted_pedlist))
+  test.py:557:
+  test.py:558:            #Get their predicted positions
+> test.py:559:            current_x_seq = torch.index_select(ret_x_seq_convert[tstep+1], 0, list_of_x_seq)
+  test.py:560:
+  test.py:561:            if grid is not None: # not vanilla lstm
+  test.py:562:
+  test.py:563:                if args.method == 4:
+> test.py:564:                    Vehlist[tstep+1] = [int(_x_seq_veh) for _x_seq_veh in Vehlist[tstep+1]]
+> test.py:565:                    next_veh_list = Vehlist[tstep+1].copy()
+> test.py:566:                    converted_vehlist = [look_up_veh[_x_seq_veh] for _x_seq_veh in next_veh_list]
+> test.py:567:                    list_of_x_seq_veh = Variable(torch.LongTensor(converted_vehlist))
+  test.py:568:                    if args.use_cuda:
+> test.py:569:                        list_of_x_seq_veh = list_of_x_seq_veh.cuda()
+> test.py:570:                    current_x_seq_veh = torch.index_select(x_seq_veh[tstep+1], 0, list_of_x_seq_veh)
+  test.py:571:          
+  test.py:572:            
+  test.py:573:                if  args.method == 1: #social lstm 
+> test.py:574:                    prev_grid = getGridMask(current_x_seq.data.cpu(), 
+len(true_Pedlist[tstep+1]),saved_args.neighborhood_size, saved_args.grid_size) 
+  test.py:575:                  
+  test.py:576:                elif args.method == 4: # Collision grid
+  test.py:577:                    prev_grid, prev_TTC_grid = getInteractionGridMask(current_x_seq.data.cpu(), current_x_seq.data.cpu(), 
+saved_args.TTC,
+  test.py:578:                                                                       saved_args.D_min, saved_args.num_sector)
+> test.py:579:                    prev_grid_veh_in_ped, prev_TTC_grid_veh = getInteractionGridMask(current_x_seq.data.cpu(),  
+current_x_seq_veh.data.cpu(),
+  test.py:580:                                                                                      saved_args.TTC_veh, 
+saved_args.D_min_veh, 
+  test.py:581:                                                                                      saved_args.num_sector, 
+is_heterogeneous = True,
+  test.py:582:                                                                                      is_occupancy = False)
+  test.py:583:
+  test.py:584:
+  test.py:585:                prev_grid = Variable(torch.from_numpy(prev_grid).float())
+  test.py:586:              
+  test.py:587:                if args.method == 4:
+
+

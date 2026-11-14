@@ -1,0 +1,9 @@
+﻿
+FullName                                                            Length Extension
+--------                                                            ------ ---------
+D:\BTech-Research\PCG-Baseline\Data\HBS\hbs.csv                    4180343 .csv     
+D:\BTech-Research\PCG-Baseline\Data\test\trajectories_test.cpkl    2096265 .cpkl    
+D:\BTech-Research\PCG-Baseline\Data\train\trajectories.cpkl       10989969 .cpkl    
+D:\BTech-Research\PCG-Baseline\Data\train\trajectories_train.cpkl  4809844 .cpkl    
+
+

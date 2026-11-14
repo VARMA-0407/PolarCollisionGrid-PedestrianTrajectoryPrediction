@@ -1,0 +1,55 @@
+{
+  "phase": 2,
+  "status": "BASELINE_BLOCKED_CORRECTED_ON_ISOLATED_BRANCH",
+  "experiment": "PCG_T4_5_Epoch_Run",
+  "branch": "reproduction",
+  "environment": {
+    "python": "3.9.25",
+    "pytest": "8.4.2",
+    "platform": "Windows"
+  },
+  "preservation": {
+    "original_source_modified": false,
+    "original_dataset_modified": false,
+    "checkpoints_modified": false,
+    "authoritative_prediction_results_modified": false,
+    "training_rerun": false,
+    "testing_rerun": false
+  },
+  "available_evidence": {
+    "authoritative_prediction_artifact": "experiments/PCG_T4_5_Epoch_Run/results/test_results_epoch4.pkl",
+    "independent_ade_fde_report": "experiments/PCG_T4_5_Epoch_Run/results/ade_fde_reconstruction.json",
+    "ade_difference": 1.548287165142881e-07,
+    "fde_difference": 4.76837158203125e-07,
+    "ade_fde_match_within_1e-5": true,
+    "window_overlap_report": "experiments/PCG_T4_5_Epoch_Run/reports/task5_window_overlap_authoritative.json",
+    "oracle_audit": "experiments/PCG_T4_5_Epoch_Run/reports/task4_oracle_future_information_audit.json",
+    "corrected_protocol": "experiments/PCG_T4_5_Epoch_Run/reports/task6_corrected_validation_protocol.json",
+    "coordinate_audit": "experiments/PCG_T4_5_Epoch_Run/reports/task7_hbs_coordinate_provenance_audit.json"
+  },
+  "phase2_tests": {
+    "command": "C:\\Users\\revan\\anaconda3\\envs\\pcg-baseline\\python.exe -m pytest tests\\phase2 -v",
+    "collected": 12,
+    "passed": 11,
+    "failed": 1,
+    "skipped": 0,
+    "log": "experiments/PCG_T4_5_Epoch_Run/logs/task8_pytest.log",
+    "isolated_audit_fix": {
+      "branch": "audit-fixes",
+      "collected": 12,
+      "passed": 12,
+      "failed": 0,
+      "skipped": 0,
+      "log": "experiments/PCG_T4_5_Epoch_Run/logs/task8_pytest_corrected_audit_fixes.log"
+    }
+  },
+  "missing_inputs": [
+    "No separate original Phase 2 Task 8/9 specification file was present in the repository.",
+    "The source audit reports coordinate units and calibration as unverified."
+  ],
+  "blockers": [
+    "The occupancy branch of getInteractionGridMask raises UnboundLocalError before returning.",
+    "The failing source behavior was not changed on reproduction because production source modification was prohibited."
+  ],
+  "interpretation": "Historical ADE/FDE reconstruction matches the recorded values, but the Phase 2 boundary suite is not fully passing and does not establish a corrected deployment evaluation."
+}

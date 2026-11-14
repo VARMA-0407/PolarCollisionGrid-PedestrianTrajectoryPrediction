@@ -1,0 +1,456 @@
+{
+  "audit_id": "phase4_task1_camera_calibration_coordinate_audit",
+  "audit_version": "1.0.0",
+  "audit_date": "2026-11-15",
+  "branch": "reproduction",
+  "git_head": "7a6f56ff513034924200423843d63896454e8cbc",
+  "status": "EVIDENCE_COLLECTION_PENDING",
+  "status_reason": "The coordinate representation of the Phase 3 output is established from source code; metric calibration is unsupported by the available evidence; the actual video_0004 output records (Google Drive) were not accessible from this machine and have not been inspected; the distortion model and extrinsic conventions are unverified.",
+  "evidence_status_vocabulary": {
+    "verified": "Checked directly in this audit against a primary source (code, file bytes, official repository file).",
+    "verified_from_code": "Established by reading the code path that produces the value; not yet checked against the real video_0004 records.",
+    "historical": "Reported by an earlier project document or by the user; re-verification status is stated per item.",
+    "inference": "Reasoned from verified evidence but not documented by the source; must not be used operationally until verified.",
+    "assumption": "Project convention or working assumption; not a dataset fact.",
+    "unavailable": "Not found in any inspected source."
+  },
+
+  "dataset_video_identity": {
+    "dataset": "PIE (Pedestrian Intention Estimation), Rasouli et al., ICCV 2019",
+    "set_id": "set01",
+    "video_id": "video_0004",
+    "video_file": "video_0004.mp4",
+    "annotation_file": "video_0004_annt.xml",
+    "image_width_px": 1920,
+    "image_height_px": 1080,
+    "fps": 30,
+    "frame_count": 9840,
+    "identity_evidence_status": "historical",
+    "identity_evidence_note": "Resolution, FPS and frame count were supplied by the user and by the Phase 3 Task 4 report; the video, annotation XML and run_manifest.json are in Google Drive and were not readable from this machine. PIE utilities/pie_data.py hard-codes 1920x1080 for all PIE videos (verified), which is consistent but is not a per-file measurement.",
+    "phase3_experiment": {
+      "location": "Google Drive: MyDrive/pedsafety_task1/PIE_Pilot/experiments/20261114T134036Z_pie_video_0004_yolo11n/",
+      "files_reported": ["detections.jsonl", "tracked_agents.jsonl", "agent_states.jsonl", "run_manifest.json", "annotated.mp4"],
+      "locally_accessible": false,
+      "inspected_in_this_audit": false,
+      "modified_in_this_audit": false,
+      "inference_rerun": false
+    }
+  },
+
+  "image_dimensions": {
+    "calibration_file_dim": [1920, 1080],
+    "calibration_file_dim_status": "verified",
+    "pie_toolkit_dim": [1920, 1080],
+    "pie_toolkit_dim_status": "verified",
+    "pie_toolkit_dim_source": "aras62/PIE utilities/pie_data.py lines 138-152 (hard-coded width/height getters)",
+    "phase3_raster_expected": "captured_1920x1080",
+    "phase3_raster_status": "verified_from_code",
+    "phase3_raster_note": "video_source.py names the raster captured_<W>x<H> from the decoded frame size and never resizes; the actual string in the video_0004 records is not yet inspected."
+  },
+
+  "calibration_resource_inventory": [
+    {
+      "resource": "camera_params/calibration_data.json",
+      "origin": "https://github.com/aras62/PIE/blob/master/camera_params/calibration_data.json",
+      "retrieved": "2026-11-15 via raw.githubusercontent.com, branch master",
+      "commit_sha": null,
+      "commit_sha_note": "GitHub API was rate-limited during this audit; the master branch was read, the commit was not resolved.",
+      "size_bytes": 288,
+      "sha256": "d6ee335b314d63de70413d39203826b303776485ba035c491ebe623b481d2a92",
+      "keys": ["cam_height_mm", "cam_pitch_deg", "dim", "K", "D"],
+      "status": "verified"
+    },
+    {
+      "resource": "camera_params/camera_params.png",
+      "origin": "https://github.com/aras62/PIE/blob/master/camera_params/camera_params.png",
+      "retrieved": "2026-11-15 via raw.githubusercontent.com, branch master",
+      "size_bytes": 474021,
+      "sha256": "2b1e91f49a901aab9c080aa77c2c5146687eb8067049c34ef5cabdf4b2a02783",
+      "content": "Lens/sensor specification table (image, not machine-readable)",
+      "transcribed_values": {
+        "sensor": "1/1.8 inch CMOS IMX178LQJ-C",
+        "sensor_size_mm": {"vertical": 5.35, "horizontal": 7.14, "diagonal": 8.92},
+        "effective_focal_length_mm": "3.88 +/- 5%",
+        "f_number": 2.4,
+        "total_track_length_mm": "26.4 +/- 0.2",
+        "mount": "1 inch x 1/32 inch (M-type thread as printed)",
+        "fov_deg": {"diagonal": 157, "horizontal": 110, "vertical": 80.4},
+        "aperture": "fixed",
+        "max_image_circle_mm": 9.2
+      },
+      "status": "verified",
+      "note": "Lens datasheet values for the full sensor; it does not state the video crop/scaling, the distortion model, or the mounting pose."
+    },
+    {
+      "resource": "README.md (PIE repository root)",
+      "origin": "https://raw.githubusercontent.com/aras62/PIE/master/README.md",
+      "finding": "Only states that camera_params 'contains camera parameters for the PIE dataset'. No model, convention, units or procedure.",
+      "status": "verified"
+    },
+    {
+      "resource": "utilities/pie_data.py",
+      "origin": "https://raw.githubusercontent.com/aras62/PIE/master/utilities/pie_data.py",
+      "finding": "No reference to calibration_data.json, K, D, homography or ground plane. Hard-codes 1920x1080. Reads ego-vehicle telemetry from <video>_obd.xml (OBD_speed, GPS_speed, heading_angle, latitude, longitude, yaw/roll/pitch, acceleration, gyro).",
+      "status": "verified"
+    },
+    {
+      "resource": "Other camera_params files",
+      "finding": "The GitHub directory page lists only calibration_data.json and camera_params.png. A recursive tree listing via the API could not be obtained (rate limit); the Phase 2 Task 4 audit (2026-11-11) recorded the same two files from a full API tree listing.",
+      "status": "verified_page_listing_plus_historical_tree"
+    },
+    {
+      "resource": "Local repository calibration files",
+      "finding": "None for PIE. pedsafety/calibration.py defines a manifest format and checks but contains no PIE values. No homography, correspondence or calibration JSON exists in the repository.",
+      "status": "verified"
+    }
+  ],
+
+  "intrinsic_evidence": {
+    "K": [
+      [1004.8374471951423, 0.0, 960.1025514993675],
+      [0.0, 1004.3912782107128, 573.5538287373604],
+      [0.0, 0.0, 1.0]
+    ],
+    "K_status": "verified",
+    "K_matches_previously_reported": true,
+    "fx_px": 1004.8374471951423,
+    "fy_px": 1004.3912782107128,
+    "cx_px": 960.1025514993675,
+    "cy_px": 573.5538287373604,
+    "skew": 0.0,
+    "raster_K_refers_to": "assumed 1920x1080 as captured (dim field); pixel-centre convention of K is undocumented",
+    "raster_status": "assumption",
+    "calibration_procedure_documented": false,
+    "calibration_residual_documented": false,
+    "consistency_checks": [
+      {
+        "check": "fx against lens datasheet",
+        "computation": "3.88 mm / (7.14 mm / 1920 px) = 1043.4 px; +/-5% EFL tolerance gives 991.2-1095.5 px",
+        "result": "fx = 1004.8 px lies inside the tolerance band",
+        "status": "inference",
+        "caveat": "Assumes the 1920-px video width spans the full 7.14 mm sensor width. Not documented."
+      },
+      {
+        "check": "principal point offset",
+        "computation": "cx - 960 = +0.10 px; cy - 540 = +33.55 px",
+        "result": "Vertical offset of 33.6 px is plausible for a 16:9 readout window not centred on a 4:3 sensor, or for calibration noise. Cause undocumented.",
+        "status": "inference"
+      }
+    ]
+  },
+
+  "distortion_evidence": {
+    "D": [-0.02748054291929438, -0.007055051080370751, -0.039625194298025156, 0.019310795479533783],
+    "D_raw_shape": "4x1 (list of four one-element lists)",
+    "D_status": "verified",
+    "D_matches_previously_reported": true,
+    "documented_model": null,
+    "documented_model_status": "unavailable",
+    "hypotheses": [
+      {
+        "id": "H-D1",
+        "model": "OpenCV fisheye (Kannala-Brandt equidistant), D = [k1, k2, k3, k4]",
+        "supporting_evidence": [
+          "cv2.fisheye.calibrate returns D with shape (4,1); cv2.calibrateCamera returns (1,5) or longer by default.",
+          "With H-D1 the horizontal FOV implied by K and D across 1920 px is about 116.1 deg; pure equidistant with no coefficients gives 109.5 deg; the datasheet states 110 deg horizontal.",
+          "Under H-D2 the third and fourth values would be tangential terms of 0.040 and 0.019, which are unusually large for tangential distortion."
+        ],
+        "status": "inference"
+      },
+      {
+        "id": "H-D2",
+        "model": "OpenCV pinhole radial-tangential (Brown-Conrady), D = [k1, k2, p1, p2]",
+        "contrary_evidence": [
+          "Undistorted pinhole HFOV from K alone is 87.4 deg; the small k1, k2 values raise this only to roughly 89 deg, well short of the 110 deg datasheet value."
+        ],
+        "status": "inference"
+      }
+    ],
+    "conclusion": "The distortion model is NOT documented. H-D1 is better supported numerically, but neither model is authorized for use until a straight-line (plumb-line) test on real video_0004 frames confirms it.",
+    "distortion_handling_authorized": false
+  },
+
+  "extrinsic_evidence": {
+    "cam_height_mm": 1270,
+    "cam_height_status": "verified_value_unverified_semantics",
+    "cam_height_open_questions": [
+      "Reference point on the camera (optical centre, housing, mount) is undocumented.",
+      "Reference surface (road surface at rest, tyre contact plane) is undocumented.",
+      "Static value; vehicle load, suspension and road crown change it per frame."
+    ],
+    "cam_pitch_deg": -10,
+    "cam_pitch_status": "verified_value_unverified_semantics",
+    "cam_pitch_open_questions": [
+      "Sign convention undocumented (negative is presumably downward tilt; not stated).",
+      "Reference axis undocumented (vehicle body, road plane, gravity).",
+      "Static value; braking, acceleration and road grade change the instantaneous pitch."
+    ],
+    "roll_deg": null,
+    "yaw_deg": null,
+    "lateral_offset": null,
+    "longitudinal_offset": null,
+    "rotation_matrix_R": null,
+    "translation_vector_t": null,
+    "transform_direction": null,
+    "camera_frame_axes": null,
+    "status": "unavailable_except_height_and_pitch",
+    "camera_motion": "PIE is recorded from a moving ego-vehicle (vehicle-mounted camera). Any road-plane frame derived from the mounting pose is ego-vehicle-relative and time-varying, not a fixed world frame.",
+    "camera_motion_status": "verified_dataset_design",
+    "per_video_applicability": "One global calibration file for the whole dataset. Whether it applies unchanged to set01/video_0004 (same unit, same mounting, same video crop) is not documented.",
+    "per_video_applicability_status": "unavailable"
+  },
+
+  "homography_evidence": {
+    "existing_homography": null,
+    "existing_homography_status": "unavailable",
+    "road_plane_equation": null,
+    "road_plane_equation_status": "unavailable",
+    "ground_plane_correspondences": [],
+    "ground_plane_correspondences_status": "unavailable",
+    "homography_constructed_in_this_audit": false,
+    "nominal_horizon_diagnostic": {
+      "value_v_px": 396.45,
+      "formula": "v_h = cy - fy * tan(10 deg)",
+      "assumptions": ["pitch -10 means 10 deg downward", "zero roll", "pinhole projection with distortion ignored", "flat road"],
+      "status": "inference",
+      "use": "Visual sanity check only (compare against the apparent horizon / vanishing point in video_0004 frames). Not authorized for projection."
+    }
+  },
+
+  "metric_scale_evidence": {
+    "known_physical_distances": [],
+    "surveyed_points": [],
+    "metric_map": null,
+    "lane_geometry": null,
+    "status": "unavailable",
+    "candidate_sources_not_yet_available": [
+      "Camera height (1270 mm) combined with a verified pose and verified distortion model: would give an ego-relative metric ground mapping, but height/pitch semantics are unverified and per-frame pitch is unknown.",
+      "Ego-vehicle OBD/GPS speed from video_0004_obd.xml: could give a scale check through static ground features over time; file not inspected and not part of the confirmed pilot files.",
+      "Lane-marking dimensions: only usable if the road authority standard for the recording location is documented and the specific markings are confirmed to follow it.",
+      "Authors' rig calibration (checkerboard/ground target): not published in the repository."
+    ],
+    "metric_world_claim_authorized": false
+  },
+
+  "coordinate_conventions": {
+    "contract_document": "docs/phase4/PHASE4_COORDINATE_CONTRACT.md",
+    "image": {
+      "frame_id": "captured_1920x1080 (as emitted by the Phase 3 video source)",
+      "origin": "top-left corner of the top-left pixel",
+      "u_positive": "right",
+      "v_positive": "down",
+      "units": "pixel",
+      "bbox_format": "[x_min, y_min, x_max, y_max], continuous edge coordinates",
+      "bbox_format_string": "xyxy_image_pixels_top_left_origin_y_down",
+      "footpoint": "((x_min + x_max) / 2, y_max)",
+      "center": "((x_min + x_max) / 2, (y_min + y_max) / 2)",
+      "pixel_centre_convention": "pixel_center_half (pixel (i, j) covers [i, i+1) x [j, j+1); its centre is (i + 0.5, j + 0.5))",
+      "pixel_centre_status": "inference",
+      "pixel_centre_evidence": "Ultralytics scale_boxes undoes the letterbox with a pure affine on continuous coordinates and clip_boxes clips to [0, W] x [0, H]; the Phase 3 in-frame check also uses [0, W] x [0, H]. Ultralytics does not state the convention explicitly. Any residual ambiguity (0.5 px) is far below the detector's localisation quantum (about 3 px in the original raster at imgsz 640).",
+      "distortion_domain": "as_captured (distorted); no undistortion is applied anywhere in Phase 3",
+      "status": "verified_from_code"
+    },
+    "camera": {
+      "status": "not_established",
+      "proposed_convention_for_future_use": "OpenCV camera frame: origin at the optical centre, +X right, +Y down, +Z forward along the optical axis, right-handed; units of length must be declared",
+      "proposed_convention_status": "assumption",
+      "note": "PIE does not document its camera-frame axes. The proposed frame is a project choice to be confirmed when extrinsics are obtained."
+    },
+    "road_world": {
+      "status": "not_established",
+      "metric_authorized": false,
+      "note": "No origin, axes, handedness or physical unit is evidenced. For a moving camera any road frame would be ego-relative unless ego-motion is integrated."
+    },
+    "relative_projective": {
+      "status": "not_established",
+      "unit_label": "projective_unit (never metres)",
+      "note": "Requires ground-plane correspondences that do not yet exist."
+    },
+    "heading": {
+      "image_space_definition": "atan2(dv, du): angle from +u toward +v; because +v points down this is clockwise on screen; range [-pi, pi)",
+      "source": "pedsafety/trajectory.py lines 193-195 and 395",
+      "status": "verified_from_code",
+      "world_heading_authorized": false
+    },
+    "transform_direction_rule": "Every homography is stored image_to_plane (pedsafety/calibration.py enforces direction == 'image_to_plane'); inverses must be explicit."
+  },
+
+  "image_transformations": {
+    "video_decode": {
+      "operation": "OpenCV sequential decode; no resize, crop or undistortion",
+      "source": "pedsafety/perception/video_source.py lines 7, 76, 114-116",
+      "status": "verified_from_code"
+    },
+    "detector_preprocessing": {
+      "operation": "Ultralytics LetterBox to imgsz 640 (default config). For 1920x1080 with rect inference on a .pt model this is expected to be scale 1/3 to 640x360 plus symmetric padding of 12 px top and bottom to 640x384.",
+      "letterbox_numbers_status": "inference",
+      "letterbox_numbers_note": "Derived from Ultralytics 8.4.212 code and the default config; the imgsz actually used for video_0004 must be read from run_manifest.json.",
+      "source": "ultralytics/engine/predictor.py lines 227-245 (installed in D:/envs/pedsafety-perception)",
+      "status": "verified_from_code"
+    },
+    "detector_postprocessing": {
+      "operation": "ops.scale_boxes(img.shape[2:], boxes, orig_img.shape): subtract padding, divide by gain, clip to the original image",
+      "source": "ultralytics/models/yolo/detect/predict.py line 130; ultralytics/utils/ops.py lines 220-264",
+      "result": "boxes returned by Ultralytics are in ORIGINAL video pixel coordinates, not model-input coordinates",
+      "status": "verified_from_code"
+    },
+    "phase3_pipeline": {
+      "operation": "Box validated against frame.width/height with 1 px tolerance; out_of_frame=reject (default). No coordinate scaling.",
+      "source": "pedsafety/perception/pipeline.py lines 100-113",
+      "status": "verified_from_code"
+    },
+    "export": {
+      "operation": "bbox_xyxy written unchanged; no footpoint field in tracked_agents.jsonl or detections.jsonl",
+      "source": "pedsafety/perception/export.py",
+      "status": "verified_from_code"
+    },
+    "agent_state_adapter": {
+      "operation": "image_x, image_y = footpoint; image_coordinate_system = captured raster id; image_coordinate_unit = pixel; world_* null; world_position_valid false",
+      "source": "pedsafety/perception/adapter.py track_to_observation; pedsafety/perception/types.py lines 184-186, 225-227",
+      "local_record_example": "outputs/perception/20261114T122436Z_synthetic_replay/agent_states.jsonl (synthetic, plumbing only)",
+      "status": "verified_from_code"
+    },
+    "net_transform_A_original_to_exported": "identity",
+    "net_transform_status": "verified_from_code",
+    "homography_update_rule": "If a future homography H maps raster R to a plane and points are expressed in raster R' = A R, use H' = H A^-1. For Phase 3 exports A = I, so no update is needed provided the calibration raster is the same captured_1920x1080 raster with the same pixel convention and distortion domain."
+  },
+
+  "ground_contact_recommendations": {
+    "default_proxy": "bottom-centre of bbox_xyxy",
+    "default_proxy_status": "assumption (project convention, Phase 2 Task 3)",
+    "by_class": {
+      "pedestrian": {
+        "recommendation": "Keep bottom-centre. Mark unreliable when y_max is within 2 px of the bottom image edge (truncated feet) or when occlusion is indicated.",
+        "expected_bias": "Point lies between the feet; stride and loose boxes add a few px of jitter; lower-body occlusion moves it upward (toward the camera horizon, i.e. farther away on the ground)."
+      },
+      "car": {
+        "recommendation": "Bottom-centre is acceptable only as a relative proxy. It approximates the nearest visible bottom edge (front/rear bumper or side sill line), not the vehicle centre or the tyre contact polygon. Do not use for metric gap/TTC without a vehicle footprint model.",
+        "expected_bias": "Ground position biased toward the camera; strongly view-dependent for vehicles seen obliquely."
+      },
+      "bus_truck": {
+        "recommendation": "As for car but larger bias; frequently truncated at image edges in an ego-vehicle view. Flag border-touching boxes. Note PIE has no bus/truck ground truth.",
+        "expected_bias": "Large footprint; box bottom often under the body overhang rather than at wheel contact."
+      },
+      "bicycle": {
+        "recommendation": "Bottom-centre of the bicycle box approximates the midpoint between wheel contacts and is reasonable. When YOLO emits both person and bicycle for one cyclist, use the bicycle box for ground contact (person box bottom is the pedal/shoe, elevated).",
+        "expected_bias": "Duplicate person/bicycle detections are not de-duplicated in Phase 3 (documented limitation)."
+      }
+    },
+    "failure_modes": {
+      "occlusion": "Lower-body occlusion raises y_max; the footpoint moves up the image and maps farther away on a ground plane.",
+      "truncation": "Ultralytics clips boxes to [0, W] x [0, H] BEFORE the Phase 3 pipeline, so detections.jsonl 'clipped' is false for real YOLO output and does not indicate truncation; a box with y_max ~= 1080 or x_min ~= 0 or x_max ~= 1920 may be truncated.",
+      "loose_boxes": "Detector boxes at imgsz 640 have about 3 px quantisation in the 1920x1080 raster plus model looseness; this becomes large ground-plane error near the horizon.",
+      "partially_visible": "Same as truncation/occlusion; no visibility score exists in the Phase 3 records.",
+      "elevated_objects": "Riders, people on curbs/platforms, objects on raised medians: bottom-centre is not on the road plane.",
+      "sloped_non_planar": "Road crown, grade changes, curbs and sidewalks violate a single-plane model; sidewalk pedestrians stand about one curb height above the road."
+    },
+    "exporter_defect_found": false,
+    "exporter_note": "Exporter behaviour matches its documented contract. The 'clipped' semantics limitation is a documentation/interpretation issue, not a defect; proposed isolated follow-up: a downstream derived flag touches_image_border (Phase 4 preprocessing), with no exporter change."
+  },
+
+  "feasibility_decisions": {
+    "image_space": {
+      "required_evidence": ["original raster identity and size", "box convention", "net preprocessing transform", "timestamps"],
+      "available_evidence": ["captured raster from code", "bbox convention string", "Ultralytics rescale to original raster", "frame_index_over_fps timestamps"],
+      "missing_evidence": ["inspection of the actual video_0004 records to confirm raster id 'captured_1920x1080' and in-range boxes"],
+      "risks": ["lens distortion left in pixels (wide FOV)", "moving camera: image motion mixes ego-motion and agent motion", "pixel kinematics are not physical speeds"],
+      "validation_requirements": ["read-only record check (checklist section A)"],
+      "authorization": "AUTHORIZED",
+      "authorization_note": "Safe operational representation for Phase 4, labelled pixel, kinematic_coordinate_space 'image'."
+    },
+    "relative_projective": {
+      "required_evidence": [">= 4 non-collinear ground-plane correspondences in the captured raster (plus held-out points)", "declared distortion domain", "valid projection region below the horizon", "a stated policy for the moving camera (per-frame or ego-fixed plane)"],
+      "available_evidence": ["Stage 3 software (manifest, residual checks, valid region, sidecar output)"],
+      "missing_evidence": ["any ground correspondence", "distortion model", "camera-motion policy"],
+      "risks": ["arbitrary scale mistaken for metres", "single plane invalid across frames because pitch varies", "extrapolation near horizon"],
+      "validation_requirements": ["RANSAC inliers, fit and held-out residuals in pixels", "conditioning of H", "region test"],
+      "authorization": "NOT_AUTHORIZED_EVIDENCE_PENDING",
+      "authorization_note": "Can be reconsidered for exploratory, explicitly projective use once correspondences exist; never labelled metres; world_position_valid stays false."
+    },
+    "metric_road_plane": {
+      "required_evidence": ["verified distortion model", "full camera pose (R, t) or verified height/pitch/roll conventions", "physical scale from independent measurements", "declared frame origin, axes, handedness, unit", "held-out metric residuals below an approved threshold", "valid region", "per-frame pose or proof that static pose suffices"],
+      "available_evidence": ["K (verified values)", "D (values only)", "height 1270 mm and pitch -10 deg (values only)", "lens datasheet"],
+      "missing_evidence": ["distortion model", "roll/yaw/R/t", "height/pitch conventions", "per-video applicability", "ground-truth distances or surveyed points", "held-out validation", "ego-motion compensation"],
+      "risks": ["moving camera with dynamic pitch: a 1 deg pitch error shifts distant ground points by metres", "fisheye mis-modelling", "unsafe TTC/gap claims"],
+      "validation_requirements": ["evaluate_metric_eligibility must pass with independent control points and an independent-verification claim", "held-out error threshold declared in metres before measurement"],
+      "authorization": "NOT_AUTHORIZED",
+      "authorization_note": "No metric-world claim is supported for video_0004."
+    }
+  },
+
+  "missing_evidence": [
+    "Inspection of actual video_0004 detections.jsonl / tracked_agents.jsonl / agent_states.jsonl / run_manifest.json (Drive only).",
+    "Documented distortion model for D.",
+    "Camera-frame axis convention, pitch sign/reference, height reference.",
+    "Roll, yaw, lateral/longitudinal mounting offsets, R and t.",
+    "Evidence that the global calibration applies to set01/video_0004 and to the 1920x1080 video readout.",
+    "Calibration procedure and residuals for K and D.",
+    "Any road-plane equation, homography or ground correspondence.",
+    "Any known physical distance or surveyed point in video_0004.",
+    "Per-frame ego pitch/roll (only the obd.xml yaw/roll/pitch fields may exist; not inspected, units and frame undocumented).",
+    "Exact PIE repository commit SHA (API rate-limited)."
+  ],
+
+  "risks": [
+    {"id": "R1", "risk": "Moving vehicle-mounted camera makes any single homography time-varying; static calibration cannot give a fixed world frame.", "severity": "high"},
+    {"id": "R2", "risk": "Wide-angle lens (110 deg HFOV) with an undocumented distortion model; wrong model gives large edge errors.", "severity": "high"},
+    {"id": "R3", "risk": "Pixel or projective coordinates mislabelled as metres in downstream TTC/gap metrics.", "severity": "high"},
+    {"id": "R4", "risk": "'clipped=false' misread as 'not truncated' for real YOLO output.", "severity": "medium"},
+    {"id": "R5", "risk": "Bottom-centre footpoint is not the ground-contact point for vehicles, occluded or elevated agents.", "severity": "medium"},
+    {"id": "R6", "risk": "Calibration may not apply to this specific video (mounting/readout changes).", "severity": "medium"},
+    {"id": "R7", "risk": "Findings about Phase 3 output rely on code; actual records not inspected.", "severity": "medium"}
+  ],
+
+  "recommended_next_actions": [
+    "A. Run the read-only record inspection in Colab (checklist section A); no inference, no writes to the experiment folder.",
+    "B. Plumb-line test of the distortion model on a few frames read from the existing video_0004.mp4 (checklist section B); decide H-D1 vs H-D2.",
+    "C. Confirm the nominal horizon diagnostic visually on several frames (checklist section C) to test pitch sign and per-frame variation.",
+    "D. Ask the PIE authors (or consult the ICCV 2019 paper / supplementary) for the calibration procedure, distortion model, and pitch/height conventions.",
+    "E. Check whether video_0004_obd.xml is in the pilot download and document its pitch/roll fields and units (read-only).",
+    "F. Decide the Phase 4 target: image-space only (safe now) vs ego-relative ground plane (needs B-E plus correspondences) vs world-fixed (needs ego-motion integration).",
+    "G. Keep world_position_valid = false and kinematic_coordinate_space = 'image' until a manifest passes evaluate_metric_eligibility."
+  ],
+
+  "source_paths_and_provenance": {
+    "local_files_inspected": [
+      "PROJECT_MASTER.md",
+      "Pedestrian_Safety_Prediction_Master_Project_File_UPDATED_11_Nov_2026_Phase2_Handoff(2).md",
+      "docs/phase2/task4_coordinate_systems_camera_geometry.md",
+      "docs/phase2/task3_agent_state_schema.md",
+      "docs/phase3/PHASE3_TASK1_PERCEPTION_FRONTEND.md",
+      "docs/phase3/PHASE3_TASK4_PIE_EVALUATION.md",
+      "pedsafety/calibration.py",
+      "pedsafety/projection.py",
+      "pedsafety/geometry.py",
+      "pedsafety/trajectory.py",
+      "pedsafety/perception/adapter.py",
+      "pedsafety/perception/export.py",
+      "pedsafety/perception/types.py",
+      "pedsafety/perception/pipeline.py",
+      "pedsafety/perception/video_source.py",
+      "pedsafety/perception/yolo_detector.py",
+      "outputs/perception/20261114T122436Z_synthetic_replay/agent_states.jsonl",
+      "outputs/perception/20261114T122436Z_synthetic_replay/tracked_agents.jsonl",
+      "outputs/perception/20261114T122436Z_synthetic_replay/run_manifest.json"
+    ],
+    "installed_third_party_inspected": [
+      "D:/envs/pedsafety-perception/Lib/site-packages/ultralytics/models/yolo/detect/predict.py",
+      "D:/envs/pedsafety-perception/Lib/site-packages/ultralytics/engine/predictor.py",
+      "D:/envs/pedsafety-perception/Lib/site-packages/ultralytics/utils/ops.py"
+    ],
+    "external_sources": [
+      "https://github.com/aras62/PIE",
+      "https://raw.githubusercontent.com/aras62/PIE/master/camera_params/calibration_data.json",
+      "https://raw.githubusercontent.com/aras62/PIE/master/camera_params/camera_params.png",
+      "https://raw.githubusercontent.com/aras62/PIE/master/README.md",
+      "https://raw.githubusercontent.com/aras62/PIE/master/utilities/pie_data.py",
+      "https://github.com/aras62/PIE/tree/master/camera_params"
+    ],
+    "external_copies_location": "Session scratchpad only (not in the repository); hashes recorded above.",
+    "missing_requested_files": [],
+    "discrepancies": [
+      "PROJECT_MASTER.md still says 'No Phase 3 implementation has started' (stale; not modified per instructions).",
+      "The handoff file's Phase 4 plan item 1 ('Calibrate camera and estimate road-plane homography') assumes a static scene; PIE's camera is vehicle-mounted."
+    ]
+  }
+}

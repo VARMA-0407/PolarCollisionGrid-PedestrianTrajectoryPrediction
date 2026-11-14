@@ -1,0 +1,14 @@
+{
+  "config_version": 1,
+  "input": {
+    "csv": "../../Data/HBS/hbs.csv",
+    "source_dataset": "HBS",
+    "columns": {"track_id": "agent_id", "frame_index": "frame_id", "timestamp": "timestamp", "label": "label",
+                "x": "pos_x", "y": "pos_y", "vel_x": "vel_x", "vel_y": "vel_y", "scene_id": "scene_id"},
+    "sequence_id": "hbs_seq",
+    "position_semantics": "unverified_planar",
+    "position_unit": null,
+    "position_coordinate_system": "hbs_unverified_local"
+  },
+  "trajectory": {"coordinate_mode": "unverified_planar"}
+}

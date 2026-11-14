@@ -1,0 +1,51 @@
+{
+    "dataset":  "Data\\HBS\\hbs.csv",
+    "split_method":  "Generate sliding windows first; assign first 31 percent to test and remaining windows to train.",
+    "sequence_length":  12,
+    "stride":  1,
+    "test_portion":  0.31,
+    "total_unique_pedestrian_frames":  3612,
+    "total_windows":  3600,
+    "test_windows":  1116,
+    "train_windows":  2484,
+    "test_start_index_range":  [
+                                   0,
+                                   1115
+                               ],
+    "train_start_index_range":  [
+                                    1116,
+                                    3599
+                                ],
+    "temporal_overlap":  {
+                             "cross_split_overlapping_window_pairs":  66,
+                             "test_windows_with_temporal_overlap":  11,
+                             "shared_unique_frame_count":  11,
+                             "shared_frame_ids":  [
+                                                      1118,
+                                                      1119,
+                                                      1120,
+                                                      1121,
+                                                      1122,
+                                                      1123,
+                                                      1124,
+                                                      1125,
+                                                      1126,
+                                                      1127,
+                                                      1128
+                                                  ],
+                             "percentage_of_test_windows_affected":  0.985663082437276
+                         },
+    "pedestrian_frame_overlap":  {
+                                     "unique_test_pedestrian_frame_observations":  8637,
+                                     "unique_train_pedestrian_frame_observations":  19557,
+                                     "shared_pedestrian_frame_observations":  72,
+                                     "percentage_of_test_observations_shared":  0.8336227856894756,
+                                     "test_windows_with_shared_pedestrian_frames":  11
+                                 },
+    "exact_duplicate_windows":  0,
+    "audit_scope":  "Raw sliding-window split before optional sequence filtering",
+    "filtering_reproduced":  false,
+    "filtering_status":  "Awaiting verification of train.py and test.py DataLoader configuration",
+    "interpretation":  "Temporal overlap is concentrated at the split boundary. There are 66 overlapping cross-split window pairs and 11 affected test windows. These are pre-filtering counts.",
+    "percentage_units":  "The reported 0.985663 and 0.833623 values are percentages, not fractions."
+}

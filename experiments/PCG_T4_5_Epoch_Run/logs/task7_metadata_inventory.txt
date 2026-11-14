@@ -1,0 +1,7 @@
+﻿
+FullName                                                                                        Length
+--------                                                                                        ------
+D:\BTech-Research\PCG-Baseline\README.md                                                          5478
+D:\BTech-Research\PCG-Baseline\experiments\PCG_T4_5_Epoch_Run\logs\task7_metadata_inventory.txt      0
+
+

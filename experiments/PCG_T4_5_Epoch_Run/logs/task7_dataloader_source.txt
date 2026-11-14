@@ -1,0 +1,444 @@
+﻿
+  utils\DataLoader.py:11:from utils.grid import getSequenceGridMask, getSequenceGridMask_heterogeneous 
+  utils\DataLoader.py:12:from utils.Interaction import getInteractionGridMask, getSequenceInteractionGridMask
+  utils\DataLoader.py:13:
+  utils\DataLoader.py:14:class DataLoader():
+  utils\DataLoader.py:15:
+> utils\DataLoader.py:16:    def __init__(self, batch_size=5, seq_length=20, infer=False, filtering=False):
+  utils\DataLoader.py:17:
+  utils\DataLoader.py:18:
+> utils\DataLoader.py:19:        self.downsample_step = 1 # consider the data every x steps
+> utils\DataLoader.py:20:        fps = 2 / self.downsample_step # (CITR: 29.97, DUT:23.98, ETH/UCY: 2.5, HBS: 2)
+> utils\DataLoader.py:21:        self.timestamp = 1 / fps
+  utils\DataLoader.py:22:
+  utils\DataLoader.py:23:        base_dataset = ['Data/HBS/hbs.csv']
+  utils\DataLoader.py:24:
+  utils\DataLoader.py:25:        self.base_data_dirs = base_dataset
+  utils\DataLoader.py:26:
+  utils\DataLoader.py:27:        # Number of datasets
+  utils\DataLoader.py:28:        self.numDatasets = len(self.base_data_dirs)
+  utils\DataLoader.py:29:
+  utils\DataLoader.py:30:        # Store the arguments
+  utils\DataLoader.py:31:        self.infer = infer
+  utils\DataLoader.py:32:        self.batch_size = batch_size
+> utils\DataLoader.py:33:        self.seq_length = seq_length
+> utils\DataLoader.py:34:        self.orig_seq_lenght = seq_length
+  utils\DataLoader.py:35:
+  utils\DataLoader.py:36:        # array for keepinng target ped ids for each sequence
+  utils\DataLoader.py:37:        self.target_ids = []
+  utils\DataLoader.py:38:        self.veh_ids = []
+  utils\DataLoader.py:39:        
+  utils\DataLoader.py:40:        # Define the path in which the process data would be stored
+  utils\DataLoader.py:41:        self.data_file = os.path.join('Data/train/', "trajectories.cpkl")
+  utils\DataLoader.py:42:        self.data_file_tr = os.path.join('Data/train/', "trajectories_train.cpkl")        
+  utils\DataLoader.py:45:
+  utils\DataLoader.py:46:        if not(os.path.exists(self.data_file_te)):
+  utils\DataLoader.py:47:            #all the files will be created at the first run. So if one doesn't exist it means that none exists
+  utils\DataLoader.py:48:
+  utils\DataLoader.py:49:            print("Creating pre-processed data from raw data")
+> utils\DataLoader.py:50:            self.frame_preprocess(self.base_data_dirs, self.data_file)
+  utils\DataLoader.py:51:
+  utils\DataLoader.py:52:            # Reset all the data pointers of the dataloader object
+  utils\DataLoader.py:53:            self.reset_batch_pointer(valid=False) 
+  utils\DataLoader.py:54:            self.reset_batch_pointer(valid=True) 
+  utils\DataLoader.py:55:            self.load_preprocessed(self.data_file, self.data_file_tr, self.data_file_te, infer)
+  utils\DataLoader.py:56:            self.load_preprocessed2(self.data_file_tr, filtering)
+  utils\DataLoader.py:57:
+  utils\DataLoader.py:58:        elif (infer == False):
+  utils\DataLoader.py:64:            self.reset_batch_pointer(valid=True) 
+  utils\DataLoader.py:65:            self.load_preprocessed2(self.data_file_te, filtering)
+  utils\DataLoader.py:66:
+  utils\DataLoader.py:67:
+  utils\DataLoader.py:68:
+> utils\DataLoader.py:69:    def frame_preprocess(self, data_dirs, data_file):
+  utils\DataLoader.py:70:        '''
+  utils\DataLoader.py:71:        Function that will pre-process the csv files of each dataset
+  utils\DataLoader.py:72:        into data with occupancy grid that can be used
+  utils\DataLoader.py:73:        params:
+  utils\DataLoader.py:74:        data_dirs : List of directories where raw data resides
+  utils\DataLoader.py:75:        data_file_tr : The file into which all the pre-processed training data needs to be stored
+  utils\DataLoader.py:76:        data_file_te : The file into which all the pre-processed testing data needs to be stored
+  utils\DataLoader.py:77:
+  utils\DataLoader.py:78:        '''
+> utils\DataLoader.py:79:        # all_frame_data would be a list of list of numpy arrays corresponding to each dataset
+  utils\DataLoader.py:80:        # Each numpy array will correspond to a frame and would be of size (numPeds, 3) each row
+  utils\DataLoader.py:81:        # containing pedID, x, y
+> utils\DataLoader.py:82:        all_frame_data = []
+  utils\DataLoader.py:83:        # Validation frame data
+  utils\DataLoader.py:84:        valid_frame_data = []
+> utils\DataLoader.py:85:        # frameList_data would be a list of lists corresponding to each dataset
+  utils\DataLoader.py:86:        # Each list would contain the frameIds of all the frames in the dataset
+> utils\DataLoader.py:87:        frameList_data = []
+  utils\DataLoader.py:88:        valid_numPeds_data= []
+  utils\DataLoader.py:89:        # numPeds_data would be a list of lists corresponding to each dataset
+> utils\DataLoader.py:90:        # Each list would contain the number of pedestrians in each frame in the dataset
+  utils\DataLoader.py:91:        numPeds_data = []
+  utils\DataLoader.py:92:        
+  utils\DataLoader.py:93:
+  utils\DataLoader.py:94:        #each list includes ped ids of this frame
+  utils\DataLoader.py:95:        pedsList_data = []
+  utils\DataLoader.py:96:        valid_pedsList_data = []
+  utils\DataLoader.py:97:        # target ped ids for each sequence
+  utils\DataLoader.py:98:        target_ids = []
+  utils\DataLoader.py:99:        orig_data = []
+  utils\DataLoader.py:100:
+> utils\DataLoader.py:101:        # creating the same lists for the vehicle data
+> utils\DataLoader.py:102:        all_frame_data_veh = []
+  utils\DataLoader.py:103:        numVehs_data = []
+  utils\DataLoader.py:104:        vehsList_data = []
+  utils\DataLoader.py:105:        target_ids_veh = []
+  utils\DataLoader.py:106:        orig_data_veh = []
+  utils\DataLoader.py:107:
+  utils\DataLoader.py:108:
+  utils\DataLoader.py:109:        # Index of the current dataset
+  utils\DataLoader.py:110:        dataset_index = 0
+  utils\DataLoader.py:114:        for directory in data_dirs:
+  utils\DataLoader.py:115:
+  utils\DataLoader.py:116:            # Load the data from the txt file
+  utils\DataLoader.py:117:            print("Now processing: ", directory)
+  utils\DataLoader.py:118:            
+> utils\DataLoader.py:119:            column_names = ['frame_id','agent_id','pos_x','pos_y', 'vel_x', 'vel_y', 'label', 'timestamp']
+  utils\DataLoader.py:120:
+> utils\DataLoader.py:121:            df_orig = pd.read_csv(directory, dtype={'frame_id':'int','agent_id':'int', 'label':'str'}, 
+usecols=column_names)
+  utils\DataLoader.py:122:            df_orig = df_orig[column_names] # changing the order of the columns as specifed inn the 
+"columns_names"
+  utils\DataLoader.py:123:
+  utils\DataLoader.py:124:            # downsampling the data
+  utils\DataLoader.py:125:            min_frame = df_orig["frame_id"].min()
+  utils\DataLoader.py:126:            max_frame = df_orig["frame_id"].max()
+> utils\DataLoader.py:127:            considered_frames = np.arange(min_frame, max_frame, self.downsample_step).tolist()
+  utils\DataLoader.py:128:            df = df_orig.loc[df_orig['frame_id'].isin(considered_frames)]
+  utils\DataLoader.py:129:
+  utils\DataLoader.py:130:
+> utils\DataLoader.py:131:            df_ped_orig = df.loc[(df['label'].isin(['pedestrian', 'ped']))] # !!!! Check these lables for each 
+new dataset you want to add
+> utils\DataLoader.py:132:            df_veh_orig = df.loc[(df['label'].isin(['car', 'cart', 'veh']))]  # !!!! Check these lables for 
+each new dataset you want to add
+  utils\DataLoader.py:133:            self.target_ids = np.array(df_ped_orig.drop_duplicates(subset={'agent_id'}, keep='first', 
+inplace=False)['agent_id'])
+  utils\DataLoader.py:134:            self.target_veh_ids = np.array(df_veh_orig.drop_duplicates(subset={'agent_id'}, keep='first', 
+inplace=False)['agent_id'])
+  utils\DataLoader.py:135:
+  utils\DataLoader.py:136:
+> utils\DataLoader.py:137:            # adding acceleration and other feature as new columns to the dataframe calculated
+  utils\DataLoader.py:138:            # through the changes of velocity and other related formulas
+> utils\DataLoader.py:139:            df_ped = self.add_features(df_ped_orig, self.timestamp)
+> utils\DataLoader.py:140:            df_veh = self.add_features(df_veh_orig, self.timestamp)
+  utils\DataLoader.py:141:            # print(df_ped.head())
+  utils\DataLoader.py:142:
+  utils\DataLoader.py:143:            # convert pandas -> numpy array
+> utils\DataLoader.py:144:            data = np.array(df_ped.drop(['label'], axis=1))
+> utils\DataLoader.py:145:            data_veh = np.array(df_veh.drop(['label'], axis=1))
+  utils\DataLoader.py:146:
+  utils\DataLoader.py:147:            # keep original copy of file
+  utils\DataLoader.py:148:            orig_data.append(data)
+  utils\DataLoader.py:149:            orig_data_veh.append(data_veh)
+  utils\DataLoader.py:150:
+  utils\DataLoader.py:151:            data = np.swapaxes(data,0,1) # chaning the column and row positions of a array.
+  utils\DataLoader.py:152:            # So now the frame id will propogate thorugh the columns and the frames are all in the first row
+  utils\DataLoader.py:153:            data_veh = np.swapaxes(data_veh,0,1)
+  utils\DataLoader.py:154:            
+  utils\DataLoader.py:155:            # get frame numbers
+> utils\DataLoader.py:156:            frameList_rep = data[0, :].tolist() 
+> utils\DataLoader.py:157:            frameList = list(dict.fromkeys(frameList_rep)) # removing the repeated frames and sorting them at 
+the same time
+> utils\DataLoader.py:158:            frameList.sort() # sorting the list
+  utils\DataLoader.py:159:
+> utils\DataLoader.py:160:            # Add the list of frameIDs to the frameList_data
+> utils\DataLoader.py:161:            frameList_data.append(frameList) 
+  utils\DataLoader.py:162:
+  utils\DataLoader.py:163:            # Initialize the list of numPeds for the current dataset
+  utils\DataLoader.py:164:            numPeds_data.append([])
+  utils\DataLoader.py:165:            valid_numPeds_data.append([]) 
+  utils\DataLoader.py:166:            # Initialize the list of numpy arrays for the current dataset
+> utils\DataLoader.py:167:            all_frame_data.append([])
+  utils\DataLoader.py:168:            # Initialize the list of numpy arrays for the current dataset
+  utils\DataLoader.py:169:            valid_frame_data.append([])
+  utils\DataLoader.py:170:
+  utils\DataLoader.py:171:            # list of peds for each frame
+  utils\DataLoader.py:172:            pedsList_data.append([])
+  utils\DataLoader.py:173:            valid_pedsList_data.append([])
+  utils\DataLoader.py:174:
+  utils\DataLoader.py:175:            target_ids.append(self.target_ids)
+  utils\DataLoader.py:176:
+  utils\DataLoader.py:177:            # Doing the same for veh data
+  utils\DataLoader.py:178:            numVehs_data.append([])
+> utils\DataLoader.py:179:            all_frame_data_veh.append([])
+  utils\DataLoader.py:180:            vehsList_data.append([])
+  utils\DataLoader.py:181:            target_ids_veh.append(self.target_veh_ids)
+  utils\DataLoader.py:182:
+> utils\DataLoader.py:183:            for ind, frame in enumerate(frameList):
+  utils\DataLoader.py:184:
+> utils\DataLoader.py:185:                # Extract all pedestrians in current frame
+  utils\DataLoader.py:186:                pedsInFrame = data[: , data[0, :] == frame]
+  utils\DataLoader.py:187:                vehsInFrame = data_veh[: , data_veh[0, :] == frame]
+  utils\DataLoader.py:188:            
+  utils\DataLoader.py:189:                # Extract peds list
+> utils\DataLoader.py:190:                pedsList = pedsInFrame[1, :].tolist() # Grabbing the agent_id of all the pedestrians in this 
+specific frame
+  utils\DataLoader.py:191:                vehsList = vehsInFrame[1, :].tolist()
+  utils\DataLoader.py:192:
+  utils\DataLoader.py:193:                # Initialize the row of the numpy array
+  utils\DataLoader.py:194:                pedsWithPos = []
+  utils\DataLoader.py:195:                vehsWithPos = []
+  utils\DataLoader.py:196:
+  utils\DataLoader.py:197:                # For each ped in the current frame
+  utils\DataLoader.py:198:                for ped in pedsList:
+  utils\DataLoader.py:199:                    # Extract their x and y positions
+  utils\DataLoader.py:200:                    current_x = pedsInFrame[2, pedsInFrame[1, :] == ped][0]
+  utils\DataLoader.py:201:                    current_y = pedsInFrame[3, pedsInFrame[1, :] == ped][0]
+  utils\DataLoader.py:202:                    current_vx = pedsInFrame[4, pedsInFrame[1, :] == ped][0]
+  utils\DataLoader.py:203:                    current_vy = pedsInFrame[5, pedsInFrame[1, :] == ped][0]
+> utils\DataLoader.py:204:                    timestamp = pedsInFrame[6, pedsInFrame[1, :] == ped][0]
+  utils\DataLoader.py:205:                    current_ax = pedsInFrame[7, pedsInFrame[1, :] == ped][0]
+  utils\DataLoader.py:206:                    current_ay = pedsInFrame[8, pedsInFrame[1, :] == ped][0]
+  utils\DataLoader.py:207:                    last_speed_change = pedsInFrame[9, pedsInFrame[1, :] == ped][0]
+  utils\DataLoader.py:208:                    last_deviation_angle = pedsInFrame[10, pedsInFrame[1, :] == ped][0]
+  utils\DataLoader.py:209:
+  utils\DataLoader.py:210:                    # Add their pedID, x, y to the row of the numpy array
+> utils\DataLoader.py:211:                    pedsWithPos.append([ped, current_x, current_y, current_vx, current_vy, timestamp, 
+current_ax, current_ay,
+  utils\DataLoader.py:212:                                         last_speed_change, last_deviation_angle])
+  utils\DataLoader.py:213:
+  utils\DataLoader.py:214:                # For each veh in the current frame
+  utils\DataLoader.py:215:                for veh in vehsList:
+  utils\DataLoader.py:216:                    # Extract their x and y positions
+  utils\DataLoader.py:217:                    current_x_veh = vehsInFrame[2, vehsInFrame[1, :] == veh][0]
+  utils\DataLoader.py:218:                    current_y_veh = vehsInFrame[3, vehsInFrame[1, :] == veh][0]
+  utils\DataLoader.py:219:                    current_vx_veh = vehsInFrame[4, vehsInFrame[1, :] == veh][0]
+  utils\DataLoader.py:220:                    current_vy_veh = vehsInFrame[5, vehsInFrame[1, :] == veh][0]
+> utils\DataLoader.py:221:                    timestamp_veh = vehsInFrame[6, vehsInFrame[1, :] == veh][0]
+  utils\DataLoader.py:222:                    current_ax_veh = vehsInFrame[7, vehsInFrame[1, :] == veh][0]
+  utils\DataLoader.py:223:                    current_ay_veh = vehsInFrame[8, vehsInFrame[1, :] == veh][0]
+  utils\DataLoader.py:224:                    last_speed_change_veh = vehsInFrame[9, vehsInFrame[1, :] == veh][0]
+  utils\DataLoader.py:225:                    last_deviation_angle_veh = vehsInFrame[10, vehsInFrame[1, :] == veh][0]
+  utils\DataLoader.py:226:
+  utils\DataLoader.py:227:
+  utils\DataLoader.py:228:                    # Add their pedID, x, y to the row of the numpy array
+> utils\DataLoader.py:229:                    vehsWithPos.append([veh, current_x_veh, current_y_veh, current_vx_veh, current_vy_veh, 
+timestamp_veh,
+  utils\DataLoader.py:230:                                         current_ax_veh, current_ay_veh, last_speed_change_veh, 
+last_deviation_angle_veh])
+  utils\DataLoader.py:231:
+  utils\DataLoader.py:232:
+> utils\DataLoader.py:233:                # Add the details of all the peds in the current frame to all_frame_data 
+> utils\DataLoader.py:234:                all_frame_data[dataset_index].append(np.array(pedsWithPos))
+  utils\DataLoader.py:235:                pedsList_data[dataset_index].append(pedsList)
+  utils\DataLoader.py:236:                numPeds_data[dataset_index].append(len(pedsList))
+  utils\DataLoader.py:237:
+> utils\DataLoader.py:238:                all_frame_data_veh[dataset_index].append(np.array(vehsWithPos))
+  utils\DataLoader.py:239:                vehsList_data[dataset_index].append(vehsList)
+  utils\DataLoader.py:240:                numVehs_data[dataset_index].append(len(vehsList))
+  utils\DataLoader.py:241:
+  utils\DataLoader.py:242:            dataset_index += 1
+  utils\DataLoader.py:243:  
+  utils\DataLoader.py:244:        # Save the arrays in the pickle file
+  utils\DataLoader.py:245:        f = open(data_file, "wb")
+> utils\DataLoader.py:246:        pickle.dump((all_frame_data, frameList_data, numPeds_data, valid_numPeds_data, valid_frame_data,
+> utils\DataLoader.py:247:                      pedsList_data, valid_pedsList_data, target_ids, orig_data, all_frame_data_veh, 
+  utils\DataLoader.py:248:                      numVehs_data, vehsList_data, target_ids_veh, orig_data_veh), f, protocol=2)
+  utils\DataLoader.py:249:        f.close()
+  utils\DataLoader.py:250:
+  utils\DataLoader.py:251:
+  utils\DataLoader.py:252:    def load_preprocessed(self, data_file, data_file_tr, data_file_te, infer = False): 
+  utils\DataLoader.py:253:        '''
+  utils\DataLoader.py:254:        Function to load the pre-processed data into the DataLoader object
+  utils\DataLoader.py:255:        params:
+  utils\DataLoader.py:263:        f = open(data_file, 'rb')
+  utils\DataLoader.py:264:        self.raw_data = pickle.load(f)
+  utils\DataLoader.py:265:        f.close()
+  utils\DataLoader.py:266:
+  utils\DataLoader.py:267:        # Get all the data from the pickle file
+> utils\DataLoader.py:268:        self.data = self.raw_data[0] # all_frame_data  from the frame_preprocess function
+> utils\DataLoader.py:269:        self.frameList = self.raw_data[1] # frameList_data  from the frame_preprocess function
+> utils\DataLoader.py:270:        self.numPedsList = self.raw_data[2] # numPeds_data  from the frame_preprocess function
+> utils\DataLoader.py:271:        self.valid_numPedsList = self.raw_data[3] # valid_numPeds_data  from the frame_preprocess function
+> utils\DataLoader.py:272:        self.valid_data = self.raw_data[4] # valid_frame_data  from the frame_preprocess function
+> utils\DataLoader.py:273:        self.pedsList = self.raw_data[5] # pedsList_data  from the frame_preprocess function
+> utils\DataLoader.py:274:        self.valid_pedsList = self.raw_data[6] # valid_pedsList_data  from the frame_preprocess function
+> utils\DataLoader.py:275:        self.target_ids = self.raw_data[7] # target_ids  from the frame_preprocess function
+> utils\DataLoader.py:276:        self.orig_data = self.raw_data[8] # orig_data  from the frame_preprocess function
+  utils\DataLoader.py:277:        
+  utils\DataLoader.py:278:        self.data_veh = self.raw_data[9]
+  utils\DataLoader.py:279:        self.numVehsList = self.raw_data[10]
+  utils\DataLoader.py:280:        self.vehsList = self.raw_data[11]
+  utils\DataLoader.py:281:        self.target_ids_veh = self.raw_data[12]
+  utils\DataLoader.py:282:        self.orig_data_veh = self.raw_data[13]
+  utils\DataLoader.py:283:
+  utils\DataLoader.py:284:        counter = 0
+  utils\DataLoader.py:285:        valid_counter = 0
+> utils\DataLoader.py:286:        print('Sequence size(frame) ------>',self.seq_length)
+> utils\DataLoader.py:287:        print('One batch size (frame)--->-', self.batch_size*self.seq_length)
+  utils\DataLoader.py:288:
+  utils\DataLoader.py:289:        # For each dataset
+  utils\DataLoader.py:290:        for dataset in range(len(self.data)):
+  utils\DataLoader.py:291:            # get the frame data for the current dataset
+> utils\DataLoader.py:292:            all_frame_data = self.data[dataset]
+  utils\DataLoader.py:293:            valid_frame_data = self.valid_data[dataset]
+  utils\DataLoader.py:294:            dataset_name = self.base_data_dirs[dataset].split('/')[-1]
+> utils\DataLoader.py:295:            all_frame_data_veh = self.data_veh[dataset]
+  utils\DataLoader.py:296:            # calculate number of sequence 
+> utils\DataLoader.py:297:            num_seq_in_dataset = int(len(all_frame_data)) - (self.seq_length) # We allow overlap between the 
+sequences that we extract,
+  utils\DataLoader.py:298:          
+> utils\DataLoader.py:299:            print('Data from the whole dataset(name, # frame, #sequence)--> ', dataset_name, ':', 
+len(all_frame_data),':', (num_seq_in_dataset))
+  utils\DataLoader.py:300:
+  utils\DataLoader.py:301:            # Increment the counter with the number of sequences in the current dataset
+  utils\DataLoader.py:302:            counter += num_seq_in_dataset
+  utils\DataLoader.py:303:
+  utils\DataLoader.py:304:        # Calculate the number of batches
+  utils\DataLoader.py:305:        num_batches = int(counter/self.batch_size)
+  utils\DataLoader.py:306:        num_seqences = counter
+  utils\DataLoader.py:307:
+  utils\DataLoader.py:530:        PedsList_batch = []
+  utils\DataLoader.py:531:
+  utils\DataLoader.py:532:        #return target_id
+  utils\DataLoader.py:533:        target_ids = []
+  utils\DataLoader.py:534:
+> utils\DataLoader.py:535:        # repeating the same for the vehicles
+  utils\DataLoader.py:536:        x_batch_veh = []
+  utils\DataLoader.py:537:        numVehsList_batch = []
+  utils\DataLoader.py:538:        VehsList_batch = []
+  utils\DataLoader.py:539:        target_ids_veh = []
+  utils\DataLoader.py:540:
+  utils\DataLoader.py:541:        # Iteration index
+  utils\DataLoader.py:542:        i = 0
+  utils\DataLoader.py:543:        while i < 1: # self.batch_size:
+  utils\DataLoader.py:550:            numVehsList = self.numVehsList[self.dataset_pointer]
+  utils\DataLoader.py:551:            vehsList = self.vehsList[self.dataset_pointer]
+  utils\DataLoader.py:552:            
+  utils\DataLoader.py:553:            # Get the frame pointer for the current dataset
+  utils\DataLoader.py:554:            idx = self.frame_pointer
+> utils\DataLoader.py:555:            # While there is still seq_length number of frames left in the current dataset
+> utils\DataLoader.py:556:            # if idx + self.seq_length-1 < len(frame_data):
+> utils\DataLoader.py:557:            if idx + self.seq_length-1 < len(frame_data): 
+  utils\DataLoader.py:558:                # All the data in this sequence
+> utils\DataLoader.py:559:                seq_source_frame_data = frame_data[idx:idx+self.seq_length]
+> utils\DataLoader.py:560:                seq_numPedsList = numPedsList[idx:idx+self.seq_length]
+> utils\DataLoader.py:561:                seq_PedsList = pedsList[idx:idx+self.seq_length]
+  utils\DataLoader.py:562:
+> utils\DataLoader.py:563:                seq_target_frame_data = frame_data[idx+1:idx+self.seq_length] 
+  utils\DataLoader.py:564:
+  utils\DataLoader.py:565:                # Number of unique peds in this sequence of frames
+  utils\DataLoader.py:566:                x_batch.append(seq_source_frame_data)
+  utils\DataLoader.py:567:                y_batch.append(seq_target_frame_data) 
+  utils\DataLoader.py:568:                numPedsList_batch.append(seq_numPedsList)
+  utils\DataLoader.py:569:                PedsList_batch.append(seq_PedsList)
+  utils\DataLoader.py:570:             
+> utils\DataLoader.py:571:                seq_source_frame_data_veh = frame_data_veh[idx:idx+self.seq_length]
+> utils\DataLoader.py:572:                seq_numVehsList = numVehsList[idx:idx+self.seq_length]
+> utils\DataLoader.py:573:                seq_VehsList = vehsList[idx:idx+self.seq_length]
+  utils\DataLoader.py:574:
+  utils\DataLoader.py:575:                x_batch_veh.append(seq_source_frame_data_veh)
+  utils\DataLoader.py:576:                numVehsList_batch.append(seq_numVehsList)
+  utils\DataLoader.py:577:                VehsList_batch.append(seq_VehsList)
+  utils\DataLoader.py:578:                
+> utils\DataLoader.py:579:                # self.frame_pointer += self.seq_length
+  utils\DataLoader.py:580:                self.frame_pointer += 1
+  utils\DataLoader.py:581:
+  utils\DataLoader.py:582:                d.append(self.dataset_pointer) 
+  utils\DataLoader.py:583:                i += 1
+  utils\DataLoader.py:584:
+  utils\DataLoader.py:585:            else:
+  utils\DataLoader.py:586:                # Not enough frames left
+  utils\DataLoader.py:587:                # Increment the dataset pointer and set the frame_pointer to zero
+  utils\DataLoader.py:653:        unique_ids = pd.unique(concatenated_series).astype(int)
+  utils\DataLoader.py:654:
+  utils\DataLoader.py:655:        # create a lookup table which maps ped ids -> array indices
+  utils\DataLoader.py:656:        lookup_table = dict(zip(unique_ids, range(0, len(unique_ids))))
+  utils\DataLoader.py:657:
+> utils\DataLoader.py:658:        seq_data = np.zeros(shape=(self.seq_length, len(lookup_table), self.num_features)) 
+  utils\DataLoader.py:659:
+  utils\DataLoader.py:660:
+  utils\DataLoader.py:661:        # create new structure of array
+  utils\DataLoader.py:662:        for ind, frame in enumerate(x_seq):
+  utils\DataLoader.py:663:            if num_pedlist[ind] != 0:
+  utils\DataLoader.py:664:                corr_index = [lookup_table[x] for x in frame[:, 0]]
+  utils\DataLoader.py:665:                seq_data[ind, corr_index,:] = frame[:,1:] # adding vx and vy, timestep, ax and ay
+  utils\DataLoader.py:666:
+  utils\DataLoader.py:688:        print("Writing to plot file  path: %s, file_name: %s"%(path, file_name))
+  utils\DataLoader.py:689:        with open(os.path.join(path, file_name), 'wb') as f:
+  utils\DataLoader.py:690:                pickle.dump(data, f)
+  utils\DataLoader.py:691:
+  utils\DataLoader.py:692:
+> utils\DataLoader.py:693:    def add_features(self, df, timestamp):
+  utils\DataLoader.py:694:        '''
+  utils\DataLoader.py:695:        df: is a data frame to which we want to add a new column
+> utils\DataLoader.py:696:        timestamp: the time difference between two consecutive frames/rows in the dataset that will be used for 
+calculation of derivatives
+  utils\DataLoader.py:697:        '''
+  utils\DataLoader.py:698:        df = df.sort_values(by=['agent_id', 'frame_id'])
+> utils\DataLoader.py:699:        df['a_x'] = df.groupby(['agent_id'])['vel_x'].diff().fillna(0) /timestamp
+> utils\DataLoader.py:700:        df['a_y'] = df.groupby(['agent_id'])['vel_y'].diff().fillna(0) /timestamp
+  utils\DataLoader.py:701:
+  utils\DataLoader.py:702:        # Generating some action features to be used
+> utils\DataLoader.py:703:        df['speed'] = (df['vel_x']**2 + df['vel_y']**2)**0.5
+  utils\DataLoader.py:704:        df['speed_diff'] = df.groupby(['agent_id'])['speed'].diff().fillna(0)
+  utils\DataLoader.py:705:
+  utils\DataLoader.py:706:
+> utils\DataLoader.py:707:        df['prev_vel_x'] = df.groupby(['agent_id'])['vel_x'].shift()
+> utils\DataLoader.py:708:        df.prev_vel_x.fillna(df.vel_x, inplace=True)
+> utils\DataLoader.py:709:        df['prev_vel_y'] = df.groupby(['agent_id'])['vel_y'].shift()
+> utils\DataLoader.py:710:        df.prev_vel_y.fillna(df.vel_y, inplace=True)
+  utils\DataLoader.py:711:    
+> utils\DataLoader.py:712:        df['dot_vel'] = df['vel_x']*df['prev_vel_x'] + df['vel_y']*df['prev_vel_y']
+> utils\DataLoader.py:713:        df['det_vel'] = df['prev_vel_x']*df['vel_y'] - df['prev_vel_y']*df['vel_x']
+  utils\DataLoader.py:714:        df['deviation_angle'] = np.arctan2(df['det_vel'], df['dot_vel']) * 180/np.pi
+  utils\DataLoader.py:715:
+  utils\DataLoader.py:716:        del df['speed']
+> utils\DataLoader.py:717:        del df['prev_vel_x']
+> utils\DataLoader.py:718:        del df['prev_vel_y']
+  utils\DataLoader.py:719:        del df['dot_vel']
+  utils\DataLoader.py:720:        del df['det_vel']
+  utils\DataLoader.py:721:       
+  utils\DataLoader.py:722:        return df
+  utils\DataLoader.py:723:
+  utils\DataLoader.py:724:
+  utils\DataLoader.py:725:    def grid_creation(self, args):
+  utils\DataLoader.py:726:
+  utils\DataLoader.py:734:            x_seq , numPedsList_seq, PedsList_seq = self.sequence_x[seq], self.sequence_numPedsList[seq], 
+self.sequence_PedsList[seq]
+  utils\DataLoader.py:735:            x_seq_veh , numVehsList_seq, VehsList_seq = self.sequence_x_veh[seq], 
+self.sequence_numVehsList[seq], self.sequence_VehsList[seq]
+  utils\DataLoader.py:736:
+  utils\DataLoader.py:737:            #dense vector creation
+  utils\DataLoader.py:738:            x_seq, lookup_seq = self.convert_proper_array(x_seq, numPedsList_seq, PedsList_seq) 
+> utils\DataLoader.py:739:            # order of featurs in x_seq: x, y, vx, vy, timestamp, ax, ay 
+  utils\DataLoader.py:740:            x_seq_veh, lookup_seq_veh = self.convert_proper_array(x_seq_veh, numVehsList_seq, VehsList_seq, 
+veh_flag=True)
+  utils\DataLoader.py:741:
+  utils\DataLoader.py:742:            if args.method == 1: # Social LSTM
+  utils\DataLoader.py:743:                grid_seq = getSequenceGridMask(x_seq, PedsList_seq, args.neighborhood_size, args.grid_size, 
+False, lookup_seq) 
+  utils\DataLoader.py:744:                grid_seq_veh_in_ped = getSequenceGridMask_heterogeneous(x_seq, PedsList_seq, x_seq_veh, 
+VehsList_seq,
+  utils\DataLoader.py:745:                                                                         args.neighborhood_size_veh_in_ped,
+  utils\DataLoader.py:746:                                                                         args.grid_size_veh_in_ped, False, 
+lookup_seq,
+  utils\DataLoader.py:747:                                                                        lookup_seq_veh, False)
+  utils\DataLoader.py:771:
+  utils\DataLoader.py:772:
+  utils\DataLoader.py:773:    def filtering(self):
+  utils\DataLoader.py:774:        '''
+  utils\DataLoader.py:775:        This function filters the sequence data to include only 
+> utils\DataLoader.py:776:        pedestrian and vehicles that are present throughout the 
+  utils\DataLoader.py:777:        whole sequence. This means focusing only on the common 
+  utils\DataLoader.py:778:        ped ids in the pedList throughout the whole seqences 
+  utils\DataLoader.py:779:        '''
+  utils\DataLoader.py:780:
+  utils\DataLoader.py:781:        filt_sequence_x = []
+  utils\DataLoader.py:782:        filt_sequence_numPedsList = []
+  utils\DataLoader.py:783:        filt_sequence_PedsList = [] 
+  utils\DataLoader.py:784:        filt_sequence_x_veh = [] 
+  utils\DataLoader.py:818:        self.sequence_numPedsList = filt_sequence_numPedsList[:]
+  utils\DataLoader.py:819:        self.sequence_PedsList = filt_sequence_PedsList[:]
+  utils\DataLoader.py:820:        self.sequence_x_veh = filt_sequence_x_veh[:]
+  utils\DataLoader.py:821:        self.sequence_numVehsList = filt_sequence_numVehsList[:]
+  utils\DataLoader.py:822:        self.sequence_VehsList = filt_sequence_VehsList[:]
+> utils\DataLoader.py:823:        print(count, " number of seqeunces were deleted because of not having a single pedestrian present 
+throughout the whole sequence")
+  utils\DataLoader.py:824:        print("________ Filtering process finished ______")
+
+

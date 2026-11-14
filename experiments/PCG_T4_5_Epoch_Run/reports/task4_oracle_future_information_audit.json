@@ -1,0 +1,32 @@
+{
+    "task":  "Phase 2 Task 4 - Oracle and Future Information Audit",
+    "status":  "SOURCE_AUDIT_COMPLETE_REPORT_PENDING_REVIEW",
+    "oracle_evaluation":  {
+                              "sample_size":  5,
+                              "selection_method":  "Select prediction sample with minimum future-ground-truth ADE",
+                              "fde_selection":  "FDE from the same sample selected by minimum ADE",
+                              "future_ground_truth_used_for_selection":  true,
+                              "all_generated_samples_preserved":  false,
+                              "interpretation":  "Best-of-five oracle metrics, not single-sample deployment metrics"
+                          },
+    "future_pedestrian_information":  {
+                                          "future_pedestrian_presence_passed_to_model":  true,
+                                          "future_pedestrian_presence_used_for_rollout_selection":  true,
+                                          "evidence":  "true_Pedlist[tstep], num_pedlist[tstep], and true_Pedlist[tstep+1]",
+                                          "interpretation":  "Future pedestrian presence is available during prediction rollout"
+                                      },
+    "future_vehicle_information":  {
+                                       "future_vehicle_states_passed_during_rollout":  true,
+                                       "future_vehicle_presence_passed_during_rollout":  true,
+                                       "future_vehicle_states_used_for_interaction_grid":  true,
+                                       "evidence":  "x_seq_veh[tstep], Vehlist[tstep], x_seq_veh[tstep+1], Vehlist[tstep+1]",
+                                       "interpretation":  "Method 4 uses future vehicle information during prediction rollout"
+                                   },
+    "metric_mask_distinction":  "Future pedestrian presence used only for evaluation masking would not alone establish model-input leakage. This implementation also uses future pedestrian information inside the rollout.",
+    "source_file":  "test.py",
+    "source_function":  "sample()",
+    "source_function_lines":  "372-603",
+    "source_evidence":  "logs/task4_sample_function.txt",
+    "original_source_modified":  false,
+    "original_prediction_artifact_modified":  false
+}

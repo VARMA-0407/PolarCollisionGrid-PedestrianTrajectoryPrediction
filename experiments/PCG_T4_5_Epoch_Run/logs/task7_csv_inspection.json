@@ -1,0 +1,76 @@
+[
+  {
+    "file": "Data\\HBS\\hbs.csv",
+    "size_bytes": 4180343,
+    "header": [
+      "frame_id",
+      "agent_id",
+      "pos_x",
+      "pos_y",
+      "label",
+      "scene_id",
+      "timestamp",
+      "vel_x",
+      "vel_y"
+    ],
+    "sample_rows": [
+      {
+        "frame_id": "0",
+        "agent_id": "1",
+        "pos_x": "49.9172189066497",
+        "pos_y": "41.0657952930745",
+        "label": "ped",
+        "scene_id": "0",
+        "timestamp": "0.0",
+        "vel_x": "0.42764792104640037",
+        "vel_y": "-0.7458632634484132"
+      },
+      {
+        "frame_id": "1",
+        "agent_id": "1",
+        "pos_x": "50.1310428671729",
+        "pos_y": "40.692863661350295",
+        "label": "ped",
+        "scene_id": "0",
+        "timestamp": "0.5",
+        "vel_x": "0.42764792104640037",
+        "vel_y": "-0.7458632634484132"
+      },
+      {
+        "frame_id": "2",
+        "agent_id": "1",
+        "pos_x": "50.3382660266688",
+        "pos_y": "40.337967103615",
+        "label": "ped",
+        "scene_id": "0",
+        "timestamp": "1.0",
+        "vel_x": "0.41444631899179285",
+        "vel_y": "-0.709793115470589"
+      },
+      {
+        "frame_id": "3",
+        "agent_id": "1",
+        "pos_x": "50.52753015828961",
+        "pos_y": "40.01743654072279",
+        "label": "ped",
+        "scene_id": "0",
+        "timestamp": "1.5",
+        "vel_x": "0.3785282632416198",
+        "vel_y": "-0.6410611257844181"
+      },
+      {
+        "frame_id": "4",
+        "agent_id": "1",
+        "pos_x": "50.6804421256777",
+        "pos_y": "39.7492217712735",
+        "label": "ped",
+        "scene_id": "0",
+        "timestamp": "2.0",
+        "vel_x": "0.3058239347761855",
+        "vel_y": "-0.536429538898588"
+      }
+    ],
+    "row_count": 43459,
+    "error": null
+  }
+]

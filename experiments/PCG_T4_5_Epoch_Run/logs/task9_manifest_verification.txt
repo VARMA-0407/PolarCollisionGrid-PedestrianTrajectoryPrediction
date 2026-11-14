@@ -1,0 +1,9 @@
+COMMAND: C:\Users\revan\anaconda3\envs\pcg-baseline\python.exe scripts\verify_phase2_manifest.py RESULT:
+{
+  "manifest": "experiments\\PCG_T4_5_Epoch_Run\\manifest_v2.json",
+  "declared_artifacts": 20,
+  "checked_artifacts": 20,
+  "status": "PASS",
+  "errors": []
+}
+EXIT_CODE: 0

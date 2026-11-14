@@ -1,0 +1,27 @@
+{
+  "config_version": "perception-config-0.1.0-task1",
+  "description": "Phase 3 Task 1 perception frontend defaults (YOLO11 + ByteTrack). Weights are NOT in the repository; model_path is resolved relative to the working directory and must exist (nothing is auto-downloaded).",
+  "video": {"fps_override": null, "max_frames": null, "sequence_id": null},
+  "detector": {
+    "model_path": "weights/yolo11n.pt",
+    "device": "auto",
+    "conf": 0.10,
+    "iou": 0.7,
+    "imgsz": 640,
+    "max_det": 300,
+    "half": false,
+    "coco_class_ids": [0, 1, 2, 5, 7],
+    "label_map": {"person": "pedestrian", "bicycle": "bike", "car": "car", "bus": "bus", "truck": "truck"}
+  },
+  "tracker": {
+    "track_high_thresh": 0.25,
+    "track_low_thresh": 0.10,
+    "new_track_thresh": 0.25,
+    "track_buffer": 30,
+    "match_thresh": 0.8,
+    "fuse_score": true,
+    "box_source": "detection",
+    "class_policy": "detection"
+  },
+  "pipeline": {"strict": false, "out_of_frame": "reject", "bbox_tolerance_px": 1.0}
+}
