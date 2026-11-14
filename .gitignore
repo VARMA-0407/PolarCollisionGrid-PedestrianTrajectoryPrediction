@@ -174,3 +174,11 @@ cython_debug/
 # Evidence logs referenced by experiments/PCG_T4_5_Epoch_Run/manifest_v2.json (exceptions to the global *.log rule)
 !/experiments/PCG_T4_5_Epoch_Run/logs/task8_pytest.log
 !/experiments/PCG_T4_5_Epoch_Run/logs/task8_pytest_corrected_audit_fixes.log
+# --- Phase 4 Task 2 additions ---
+# Phase 3 PIE pilot inputs copied locally from Google Drive (102 MB, dataset-derived): never commit
+/PIE_pilot_inputs/
+# Real PIE kinematic sidecars (about 106 MB each); the reports, manifests and analysis JSON in the same run directory stay visible
+/experiments/phase4_task2_pie_video_0004/**/*.jsonl
+# Superseded synthetic runs: kept locally as historical evidence, not versioned unless their inclusion is approved
+/experiments/phase4_task2_synthetic_validation/20261114T195051Z_smoothing/
+/experiments/phase4_task2_synthetic_validation/20261114T195107Z_phase3_synthetic_replay_format_check/

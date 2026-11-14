@@ -1,0 +1,7 @@
+phase4-task2 image kinematics image-kinematics-0.1.0-phase4-task2
+started_utc 2026-11-14T20:10:27Z
+input outputs\perception\20261114T122436Z_synthetic_replay\agent_states.jsonl sha256 065c70a6b6d44d162a62784512929d314f7ae5d06cb401b51b029af424178647
+lines 608 parsed 608 malformed 0
+causal rows 608 offline rows 608 quarantined 0 tracks 7
+input sha256 unchanged after processing
+finished_utc 2026-11-14T20:10:27Z

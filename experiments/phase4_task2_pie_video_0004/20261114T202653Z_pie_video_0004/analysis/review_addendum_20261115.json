@@ -1,0 +1,408 @@
+{
+  "addendum_version": "phase4-task2-review-addendum-1.0.0",
+  "run_dir": "experiments\\phase4_task2_pie_video_0004\\20261114T202653Z_pie_video_0004",
+  "data": "REAL PIE set01/video_0004",
+  "original_analysis_script_sha256_v1_0_0": "ea989bbabbb9766e48a26cc17a12bd3952a789e12f43158cb5140919a72755dd",
+  "gaps": {
+    "convention": "missing_frames = (first_observed_frame_after_gap - last_observed_frame_before_gap) // frame_step - 1; elapsed_s from record timestamps; track first/last frames are not gap boundaries",
+    "n_gaps": 1676,
+    "missing_frames_total": 7706,
+    "tracks_where_input_and_report_disagree": 0,
+    "longest_gaps": [
+      {
+        "track_id": "pie:video_0004:8431",
+        "agent_class": "bicyclist",
+        "last_observed_frame_before_gap": 4009,
+        "first_observed_frame_after_gap": 4111,
+        "frame_difference": 102,
+        "missing_frames": 101,
+        "elapsed_s": 3.4000000000000057,
+        "track_first_frame": 3994,
+        "track_last_frame": 4159
+      },
+      {
+        "track_id": "pie:video_0004:13632",
+        "agent_class": "vehicle",
+        "last_observed_frame_before_gap": 7405,
+        "first_observed_frame_after_gap": 7464,
+        "frame_difference": 59,
+        "missing_frames": 58,
+        "elapsed_s": 1.9666666666666686,
+        "track_first_frame": 7405,
+        "track_last_frame": 7469
+      },
+      {
+        "track_id": "pie:video_0004:3280",
+        "agent_class": "vehicle",
+        "last_observed_frame_before_gap": 1944,
+        "first_observed_frame_after_gap": 2003,
+        "frame_difference": 59,
+        "missing_frames": 58,
+        "elapsed_s": 1.9666666666666686,
+        "track_first_frame": 1937,
+        "track_last_frame": 2030
+      },
+      {
+        "track_id": "pie:video_0004:15242",
+        "agent_class": "vehicle",
+        "last_observed_frame_before_gap": 8789,
+        "first_observed_frame_after_gap": 8847,
+        "frame_difference": 58,
+        "missing_frames": 57,
+        "elapsed_s": 1.9333333333333371,
+        "track_first_frame": 8727,
+        "track_last_frame": 8908
+      },
+      {
+        "track_id": "pie:video_0004:1114",
+        "agent_class": "vehicle",
+        "last_observed_frame_before_gap": 938,
+        "first_observed_frame_after_gap": 982,
+        "frame_difference": 44,
+        "missing_frames": 43,
+        "elapsed_s": 1.4666666666666686,
+        "track_first_frame": 500,
+        "track_last_frame": 1015
+      },
+      {
+        "track_id": "pie:video_0004:4297",
+        "agent_class": "vehicle",
+        "last_observed_frame_before_gap": 2394,
+        "first_observed_frame_after_gap": 2437,
+        "frame_difference": 43,
+        "missing_frames": 42,
+        "elapsed_s": 1.4333333333333371,
+        "track_first_frame": 2338,
+        "track_last_frame": 2437
+      },
+      {
+        "track_id": "pie:video_0004:3380",
+        "agent_class": "vehicle",
+        "last_observed_frame_before_gap": 2210,
+        "first_observed_frame_after_gap": 2252,
+        "frame_difference": 42,
+        "missing_frames": 41,
+        "elapsed_s": 1.3999999999999915,
+        "track_first_frame": 1971,
+        "track_last_frame": 2325
+      },
+      {
+        "track_id": "pie:video_0004:8612",
+        "agent_class": "pedestrian",
+        "last_observed_frame_before_gap": 4069,
+        "first_observed_frame_after_gap": 4108,
+        "frame_difference": 39,
+        "missing_frames": 38,
+        "elapsed_s": 1.3000000000000114,
+        "track_first_frame": 4057,
+        "track_last_frame": 4132
+      },
+      {
+        "track_id": "pie:video_0004:10986",
+        "agent_class": "vehicle",
+        "last_observed_frame_before_gap": 5255,
+        "first_observed_frame_after_gap": 5291,
+        "frame_difference": 36,
+        "missing_frames": 35,
+        "elapsed_s": 1.200000000000017,
+        "track_first_frame": 5159,
+        "track_last_frame": 5293
+      },
+      {
+        "track_id": "pie:video_0004:7086",
+        "agent_class": "pedestrian",
+        "last_observed_frame_before_gap": 3571,
+        "first_observed_frame_after_gap": 3605,
+        "frame_difference": 34,
+        "missing_frames": 33,
+        "elapsed_s": 1.13333333333334,
+        "track_first_frame": 3498,
+        "track_last_frame": 3605
+      },
+      {
+        "track_id": "pie:video_0004:9997",
+        "agent_class": "pedestrian",
+        "last_observed_frame_before_gap": 4686,
+        "first_observed_frame_after_gap": 4720,
+        "frame_difference": 34,
+        "missing_frames": 33,
+        "elapsed_s": 1.1333333333333542,
+        "track_first_frame": 4657,
+        "track_last_frame": 4726
+      },
+      {
+        "track_id": "pie:video_0004:1727",
+        "agent_class": "vehicle",
+        "last_observed_frame_before_gap": 831,
+        "first_observed_frame_after_gap": 864,
+        "frame_difference": 33,
+        "missing_frames": 32,
+        "elapsed_s": 1.1000000000000014,
+        "track_first_frame": 810,
+        "track_last_frame": 901
+      },
+      {
+        "track_id": "pie:video_0004:11398",
+        "agent_class": "vehicle",
+        "last_observed_frame_before_gap": 5580,
+        "first_observed_frame_after_gap": 5612,
+        "frame_difference": 32,
+        "missing_frames": 31,
+        "elapsed_s": 1.0666666666666629,
+        "track_first_frame": 5468,
+        "track_last_frame": 5669
+      },
+      {
+        "track_id": "pie:video_0004:7794",
+        "agent_class": "vehicle",
+        "last_observed_frame_before_gap": 3832,
+        "first_observed_frame_after_gap": 3864,
+        "frame_difference": 32,
+        "missing_frames": 31,
+        "elapsed_s": 1.066666666666677,
+        "track_first_frame": 3796,
+        "track_last_frame": 3866
+      },
+      {
+        "track_id": "pie:video_0004:12257",
+        "agent_class": "vehicle",
+        "last_observed_frame_before_gap": 6206,
+        "first_observed_frame_after_gap": 6237,
+        "frame_difference": 31,
+        "missing_frames": 30,
+        "elapsed_s": 1.0333333333333314,
+        "track_first_frame": 6206,
+        "track_last_frame": 6470
+      }
+    ]
+  },
+  "stride_noise_test": {
+    "formula": "sigma_k = 1.4826 * MAD(p(f+k) - 2p(f) + p(f-k)) / sqrt(6), per axis, rows of one track at f-k, f, f+k",
+    "by_stride": {
+      "1": {
+        "all": {
+          "n": 59642,
+          "sigma_x_px": 1.1324733242341063,
+          "sigma_y_px": 1.1446136133782125
+        },
+        "bicyclist": {
+          "n": 6307,
+          "sigma_x_px": 1.2169658576953888,
+          "sigma_y_px": 0.8224180051003201
+        },
+        "pedestrian": {
+          "n": 21579,
+          "sigma_x_px": 1.0088307826466418,
+          "sigma_y_px": 1.7035379332131462
+        },
+        "vehicle": {
+          "n": 31756,
+          "sigma_x_px": 1.2199766863458101,
+          "sigma_y_px": 0.946157521230206
+        }
+      },
+      "2": {
+        "all": {
+          "n": 56459,
+          "sigma_x_px": 1.4715748277408207,
+          "sigma_y_px": 1.4360359668610028
+        },
+        "bicyclist": {
+          "n": 5879,
+          "sigma_x_px": 1.5676996884573347,
+          "sigma_y_px": 1.017549255793874
+        },
+        "pedestrian": {
+          "n": 20292,
+          "sigma_x_px": 1.3046239172914316,
+          "sigma_y_px": 2.1329596783971425
+        },
+        "vehicle": {
+          "n": 30288,
+          "sigma_x_px": 1.5764458686166871,
+          "sigma_y_px": 1.197497063845426
+        }
+      },
+      "3": {
+        "all": {
+          "n": 53976,
+          "sigma_x_px": 1.74382854667162,
+          "sigma_y_px": 1.6502481132348328
+        },
+        "bicyclist": {
+          "n": 5555,
+          "sigma_x_px": 1.90203096804398,
+          "sigma_y_px": 1.1491760347073785
+        },
+        "pedestrian": {
+          "n": 19267,
+          "sigma_x_px": 1.5583497263255244,
+          "sigma_y_px": 2.4040820276663566
+        },
+        "vehicle": {
+          "n": 29154,
+          "sigma_x_px": 1.8521398748857738,
+          "sigma_y_px": 1.3955098437995055
+        }
+      },
+      "4": {
+        "all": {
+          "n": 51922,
+          "sigma_x_px": 1.9986268479665412,
+          "sigma_y_px": 1.8552615315846768
+        },
+        "bicyclist": {
+          "n": 5290,
+          "sigma_x_px": 2.1189768729470266,
+          "sigma_y_px": 1.2837397569056497
+        },
+        "pedestrian": {
+          "n": 18389,
+          "sigma_x_px": 1.8088984646364734,
+          "sigma_y_px": 2.6872107488544286
+        },
+        "vehicle": {
+          "n": 28243,
+          "sigma_x_px": 2.125294071710487,
+          "sigma_y_px": 1.586540456699234
+        }
+      },
+      "6": {
+        "all": {
+          "n": 48524,
+          "sigma_x_px": 2.561697983948834,
+          "sigma_y_px": 2.1672979020850742
+        },
+        "bicyclist": {
+          "n": 4891,
+          "sigma_x_px": 2.5875763332693253,
+          "sigma_y_px": 1.457499665583637
+        },
+        "pedestrian": {
+          "n": 16924,
+          "sigma_x_px": 2.4008079824007913,
+          "sigma_y_px": 3.2383401626128117
+        },
+        "vehicle": {
+          "n": 26709,
+          "sigma_x_px": 2.6698292165842057,
+          "sigma_y_px": 1.8567761815805943
+        }
+      },
+      "8": {
+        "all": {
+          "n": 45725,
+          "sigma_x_px": 3.1862694511677976,
+          "sigma_y_px": 2.461786498242527
+        },
+        "bicyclist": {
+          "n": 4561,
+          "sigma_x_px": 3.045628657644443,
+          "sigma_y_px": 1.536409236102651
+        },
+        "pedestrian": {
+          "n": 15736,
+          "sigma_x_px": 2.996513360825609,
+          "sigma_y_px": 3.5864880055768498
+        },
+        "vehicle": {
+          "n": 25428,
+          "sigma_x_px": 3.318755147457036,
+          "sigma_y_px": 2.1435437570271505
+        }
+      }
+    },
+    "smooth_motion_upper_bound_at_k1_px": {
+      "sigma_x_px": 0.04978546017449684,
+      "sigma_y_px": 0.03846541403503948
+    },
+    "interpretation": "sigma_k grows with k (about 1.1 px at k=1 to about 2.5-3.2 px at k=8), so the second differences are not pure white noise. If all of the k=8 spread were locally constant acceleration over 16 frames, its share at k=1 would be at most sigma_8/64 (about 0.04-0.05 px), far below the observed k=1 spread (about 1.1 px). Under that assumption most of the frame-to-frame second difference is not smooth motion: detector box jitter and/or high-frequency image motion such as camera vibration (which is real image motion, not detector error). The assumption fails for abrupt motion, so this is evidence, not an isolation of noise from movement."
+  },
+  "consistency": {
+    "output_files": {
+      "causal_kinematics.jsonl": {
+        "primary": "9e5c5f3d6185028194b25f520a74aa0e9d751e66a16754881f366c87c7ac82e3",
+        "rerun": "9e5c5f3d6185028194b25f520a74aa0e9d751e66a16754881f366c87c7ac82e3",
+        "identical": true,
+        "matches_manifest": true
+      },
+      "config_resolved.json": {
+        "primary": "804f699369c84eeec75cfc06bf3ffd08191b2f3cc508ac42a74647ca4429c515",
+        "rerun": "804f699369c84eeec75cfc06bf3ffd08191b2f3cc508ac42a74647ca4429c515",
+        "identical": true,
+        "matches_manifest": true
+      },
+      "kinematic_quality_report.json": {
+        "primary": "a7b71acc37517169d25b238bfb65ac25a16c6b2be6c58e7ce1e4a7ce48167313",
+        "rerun": "a7b71acc37517169d25b238bfb65ac25a16c6b2be6c58e7ce1e4a7ce48167313",
+        "identical": true,
+        "matches_manifest": true
+      },
+      "offline_kinematics.jsonl": {
+        "primary": "9e19ff3f930a0206bb40a1e461fcb0a4bc22dda2add173f9f2c1be0e9e7509e8",
+        "rerun": "9e19ff3f930a0206bb40a1e461fcb0a4bc22dda2add173f9f2c1be0e9e7509e8",
+        "identical": true,
+        "matches_manifest": true
+      },
+      "processing_log.txt": {
+        "primary": "40e44abbc131a13a631b544610a6a27feab0386f2bf9a964d946099df8e3e065",
+        "rerun": "d64fa621f0034959728b710d54a355c7d2af40dc5b7d4f8fd7829cd40443d269",
+        "identical": false,
+        "matches_manifest": true
+      },
+      "quarantine.jsonl": {
+        "primary": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "rerun": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "identical": true,
+        "matches_manifest": true
+      },
+      "track_continuity_report.json": {
+        "primary": "64f8b734afc63f606d3e744bf0f46f27244f084e2db9e2f438eb6e4b843b4d7c",
+        "rerun": "64f8b734afc63f606d3e744bf0f46f27244f084e2db9e2f438eb6e4b843b4d7c",
+        "identical": true,
+        "matches_manifest": true
+      }
+    },
+    "all_outputs_identical_except": [
+      "processing_log.txt"
+    ],
+    "manifest_keys_that_differ": [
+      "command",
+      "finished_utc",
+      "outputs",
+      "started_utc"
+    ],
+    "manifest_output_entries_that_differ": [
+      "processing_log.txt"
+    ],
+    "input_hashes_now": {
+      "agent_states.jsonl": "ff8b9b217144a9a6792069aa2db11cd9e9ca43fbf00077ad4da6e2b3fe485dc7",
+      "tracked_agents.jsonl": "182babb386a821da720b9520afa024cf4e9195baea3031c4970b64000c593ff5",
+      "run_manifest.json": "e8c2a895543c6e222b58d9974a409faddab3b98e742fa048a4286bcd9b1dc7c2"
+    },
+    "input_hashes_at_integrity_check": {
+      "agent_states.jsonl": "ff8b9b217144a9a6792069aa2db11cd9e9ca43fbf00077ad4da6e2b3fe485dc7",
+      "tracked_agents.jsonl": "182babb386a821da720b9520afa024cf4e9195baea3031c4970b64000c593ff5",
+      "run_manifest.json": "e8c2a895543c6e222b58d9974a409faddab3b98e742fa048a4286bcd9b1dc7c2"
+    },
+    "inputs_unchanged": true,
+    "config": {
+      "max_derivative_gap_frames": 0,
+      "smoothing": {
+        "kind": "none",
+        "alpha": null,
+        "tau_s": null
+      },
+      "min_heading_speed_px_per_s": 0.0,
+      "expected_image_coordinate_system": "captured_1920x1080"
+    },
+    "row_checks": {
+      "causal_rows": 65388,
+      "offline_rows": 65388,
+      "schema_violations": 0,
+      "world_populated": 0,
+      "causal_not_backward": 0,
+      "offline_not_central": 0
+    }
+  }
+}

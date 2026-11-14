@@ -1,0 +1,256 @@
+{
+  "check_version": "phase4-task2-pie-input-integrity-1.0.0",
+  "input_dir": "PIE_pilot_inputs",
+  "files": {
+    "agent_states.jsonl": {
+      "sha256": "ff8b9b217144a9a6792069aa2db11cd9e9ca43fbf00077ad4da6e2b3fe485dc7",
+      "bytes": 67565978
+    },
+    "tracked_agents.jsonl": {
+      "sha256": "182babb386a821da720b9520afa024cf4e9195baea3031c4970b64000c593ff5",
+      "bytes": 38774621
+    },
+    "run_manifest.json": {
+      "sha256": "e8c2a895543c6e222b58d9974a409faddab3b98e742fa048a4286bcd9b1dc7c2",
+      "bytes": 5456
+    }
+  },
+  "manifest_has_per_file_hashes": false,
+  "manifest_has_per_file_hashes_note": "the Phase 3 run_manifest.json records no file hashes; the SHA-256 values above become the reference for this and later runs",
+  "agent_states": {
+    "rows": 65388,
+    "unique_tracks": 1500,
+    "classes": {
+      "bicyclist": 7049,
+      "pedestrian": 23661,
+      "vehicle": 34678
+    },
+    "sequence_ids": {
+      "pie:video_0004": 65388
+    },
+    "scene_ids": {
+      "pie:pie_video_0004": 65388
+    },
+    "key_sets": 1,
+    "track_id_example": "pie:video_0004:1"
+  },
+  "tracked_agents": {
+    "rows": 65388,
+    "unique_tracks": 1500,
+    "classes": {
+      "bike": 7049,
+      "bus": 1034,
+      "car": 32981,
+      "pedestrian": 23661,
+      "truck": 663
+    },
+    "first_frame_with_track": 0,
+    "last_frame_with_track": 9818,
+    "frames_with_at_least_one_track": 9326
+  },
+  "manifest_excerpt": {
+    "video": "video_0004.mp4",
+    "created_utc": "2026-11-14T13:50:45.687982+00:00",
+    "is_mock": false,
+    "detector_weights_sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+    "tracker_class_flips": 4994,
+    "issues_by_code": {
+      "track_class_changed": 4994
+    },
+    "frame_source": {
+      "file": "video_0004.mp4",
+      "width": "1920",
+      "height": "1080",
+      "fps": "30.0",
+      "fps_origin": "container",
+      "timestamp_source": "frame_index_over_fps",
+      "advisory_frame_count": "9840",
+      "max_frames": "None"
+    }
+  },
+  "checks": [
+    {
+      "check": "manifest.video",
+      "expected": "video_0004.mp4",
+      "actual": "video_0004.mp4",
+      "ok": true
+    },
+    {
+      "check": "manifest.is_mock",
+      "expected": false,
+      "actual": false,
+      "ok": true
+    },
+    {
+      "check": "manifest.backend",
+      "expected": "yolo",
+      "actual": "yolo",
+      "ok": true
+    },
+    {
+      "check": "manifest.frame_source.width/height/fps",
+      "expected": [
+        "1920",
+        "1080",
+        "30.0"
+      ],
+      "actual": [
+        "1920",
+        "1080",
+        "30.0"
+      ],
+      "ok": true
+    },
+    {
+      "check": "manifest.frames_processed",
+      "expected": 9840,
+      "actual": 9840,
+      "ok": true
+    },
+    {
+      "check": "manifest.world_coordinates",
+      "expected": "none: outputs are image-space pixels only",
+      "actual": "none: outputs are image-space pixels only",
+      "ok": true
+    },
+    {
+      "check": "agent_states rows == manifest.agent_states.records",
+      "expected": 65388,
+      "actual": 65388,
+      "ok": true
+    },
+    {
+      "check": "tracked_agents rows == manifest.results.track_rows",
+      "expected": 65388,
+      "actual": 65388,
+      "ok": true
+    },
+    {
+      "check": "tracked_agents unique track ids == manifest.results.unique_track_ids",
+      "expected": 1500,
+      "actual": 1500,
+      "ok": true
+    },
+    {
+      "check": "agent_states unique track ids == tracked_agents unique track ids",
+      "expected": 1500,
+      "actual": 1500,
+      "ok": true
+    },
+    {
+      "check": "tracked_agents rows by class == manifest",
+      "expected": {
+        "bike": 7049,
+        "bus": 1034,
+        "car": 32981,
+        "pedestrian": 23661,
+        "truck": 663
+      },
+      "actual": {
+        "bike": 7049,
+        "bus": 1034,
+        "car": 32981,
+        "pedestrian": 23661,
+        "truck": 663
+      },
+      "ok": true
+    },
+    {
+      "check": "track-row frames lie inside the processed frame range",
+      "expected": true,
+      "actual": true,
+      "ok": true
+    },
+    {
+      "check": "agent_states frames == tracked_agents frames (min, max)",
+      "expected": [
+        0,
+        9818
+      ],
+      "actual": [
+        0,
+        9818
+      ],
+      "ok": true
+    },
+    {
+      "check": "agent_states source_dataset == manifest",
+      "expected": {
+        "PIE": 65388
+      },
+      "actual": {
+        "PIE": 65388
+      },
+      "ok": true
+    },
+    {
+      "check": "row-by-row correspondence (frame, track number, bbox, timestamp)",
+      "expected": 0,
+      "actual": 0,
+      "ok": true
+    },
+    {
+      "check": "agent_states raster",
+      "expected": {
+        "captured_1920x1080": 65388
+      },
+      "actual": {
+        "captured_1920x1080": 65388
+      },
+      "ok": true
+    },
+    {
+      "check": "tracked_agents raster",
+      "expected": {
+        "captured_1920x1080": 65388
+      },
+      "actual": {
+        "captured_1920x1080": 65388
+      },
+      "ok": true
+    },
+    {
+      "check": "agent_states world fields null / world_position_valid false (violations)",
+      "expected": 0,
+      "actual": 0,
+      "ok": true
+    },
+    {
+      "check": "agent_states kinematic fields null (violations)",
+      "expected": 0,
+      "actual": 0,
+      "ok": true
+    },
+    {
+      "check": "footpoint == bbox bottom-centre == image_x/y (violations)",
+      "expected": 0,
+      "actual": 0,
+      "ok": true
+    },
+    {
+      "check": "image_coordinate_unit == pixel (violations)",
+      "expected": 0,
+      "actual": 0,
+      "ok": true
+    },
+    {
+      "check": "observation_valid true (violations)",
+      "expected": 0,
+      "actual": 0,
+      "ok": true
+    },
+    {
+      "check": "interpolation_flag false (violations)",
+      "expected": 0,
+      "actual": 0,
+      "ok": true
+    },
+    {
+      "check": "non-finite timestamps",
+      "expected": 0,
+      "actual": 0,
+      "ok": true
+    }
+  ],
+  "all_ok": true
+}

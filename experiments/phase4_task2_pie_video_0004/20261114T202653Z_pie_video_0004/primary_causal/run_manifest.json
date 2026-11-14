@@ -1,0 +1,157 @@
+{
+  "manifest_version": "phase4-task2-run-manifest-1.0.0",
+  "task": "phase4_task2_image_space_kinematics",
+  "status": "completed",
+  "processing_version": "image-kinematics-0.1.0-phase4-task2",
+  "engine": {
+    "name": "pedsafety.trajectory.FeatureEngine",
+    "version": "trajectory-0.4.0-stage4"
+  },
+  "sidecar_schema": {
+    "version": "image-kinematics-sidecar-1.0.0",
+    "path": "docs\\phase4\\schemas\\image_kinematics_sidecar.schema.json",
+    "sha256": "1e64be9ac541f068a7a95e4743ba94dfb7e15c924e238df25a2fe3558f51ed57"
+  },
+  "started_utc": "2026-11-14T20:27:44Z",
+  "finished_utc": "2026-11-14T20:30:30Z",
+  "command": "run_image_kinematics.py --input PIE_pilot_inputs/agent_states.jsonl --config configs/phase4/image_kinematics_default.json --out experiments/phase4_task2_pie_video_0004/20261114T202653Z_pie_video_0004/primary_causal --run-manifest PIE_pilot_inputs/run_manifest.json --tracked-agents PIE_pilot_inputs/tracked_agents.jsonl",
+  "environment": {
+    "python": "3.9.25",
+    "platform": "Windows-10-10.0.26300-SP0",
+    "numpy": "1.26.4",
+    "jsonschema": "4.25.1",
+    "git_commit": "b66cbc5f45a4f68c04ca1051eee1d4a2e4870da7"
+  },
+  "input": {
+    "path": "PIE_pilot_inputs\\agent_states.jsonl",
+    "sha256_before": "ff8b9b217144a9a6792069aa2db11cd9e9ca43fbf00077ad4da6e2b3fe485dc7",
+    "sha256_after": "ff8b9b217144a9a6792069aa2db11cd9e9ca43fbf00077ad4da6e2b3fe485dc7",
+    "bytes": 67565978,
+    "non_blank_lines": 65388,
+    "read_only": true
+  },
+  "references": {
+    "phase3_run_manifest": {
+      "path": "PIE_pilot_inputs\\run_manifest.json",
+      "sha256": "e8c2a895543c6e222b58d9974a409faddab3b98e742fa048a4286bcd9b1dc7c2",
+      "bytes": 5456,
+      "excerpt": {
+        "manifest_version": "perception-run-manifest-0.1.0-task1",
+        "created_utc": "2026-11-14T13:50:45.687982+00:00",
+        "video": "video_0004.mp4",
+        "backend": "yolo",
+        "is_mock": false,
+        "video_stats": {
+          "frames_delivered": 9840,
+          "advisory_frame_count": 9840,
+          "frames_missing_vs_advisory_count": 0,
+          "released": true
+        },
+        "world_coordinates": "none: outputs are image-space pixels only"
+      }
+    },
+    "phase3_tracked_agents": {
+      "path": "PIE_pilot_inputs\\tracked_agents.jsonl",
+      "sha256": "182babb386a821da720b9520afa024cf4e9195baea3031c4970b64000c593ff5",
+      "bytes": 38774621
+    }
+  },
+  "config": {
+    "path": "configs/phase4/image_kinematics_default.json",
+    "sha256_resolved": "1f5e931c05f5226958389c36528acd0334678a728ef4236f43a7107a5d925c28",
+    "config_version": "phase4-task2-image-kinematics-config-1.0.0"
+  },
+  "modes": {
+    "causal": true,
+    "offline_central_difference": true,
+    "offline_rows_in_causal_output": false
+  },
+  "conventions": {
+    "coordinate_system": "captured_1920x1080",
+    "coordinate_space": "image",
+    "origin": "top-left",
+    "u_positive": "right",
+    "v_positive": "down",
+    "position_unit": "pixel",
+    "velocity_unit": "pixel/s",
+    "acceleration_unit": "pixel/s^2",
+    "time_unit": "s",
+    "heading_unit": "rad",
+    "heading_convention": "atan2(vy, vx) in image axes: angle from +x toward +y; image +y points down so positive is clockwise on screen; not a world heading; range [-pi, pi)",
+    "position_source": "footpoint = (bbox centre x, bbox bottom y), taken from image_x/image_y after a consistency check"
+  },
+  "policies": {
+    "timestamp": "actual record timestamps; dt must be finite and > 0; nominal FPS is never substituted",
+    "ordering": "input order per track; duplicate frames quarantine all copies; out-of-order frames and non-monotonic timestamps quarantined (Stage 2/4 rules)",
+    "gaps": "max_derivative_gap_frames = 0: any missing frame breaks velocity and acceleration",
+    "max_dt_seconds": null,
+    "min_heading_speed_px_per_s": 0.0,
+    "smoothing": "none",
+    "interpolation": "none",
+    "provenance": "the Phase 3 records carry no Stage 2 provenance sidecar; none is reconstructed. Fields absent from a record stay null."
+  },
+  "counts": {
+    "input_non_blank_lines": 65388,
+    "parsed_records": 65388,
+    "quarantined": 0,
+    "causal_rows": 65388,
+    "offline_rows": 65388,
+    "tracks": 1500,
+    "valid_positions": 65388,
+    "valid_velocity": 62212,
+    "valid_acceleration": 59642,
+    "valid_heading": 62212
+  },
+  "outputs": {
+    "causal_kinematics.jsonl": {
+      "sha256": "9e5c5f3d6185028194b25f520a74aa0e9d751e66a16754881f366c87c7ac82e3",
+      "bytes": 105925073,
+      "rows": 65388
+    },
+    "config_resolved.json": {
+      "sha256": "804f699369c84eeec75cfc06bf3ffd08191b2f3cc508ac42a74647ca4429c515",
+      "bytes": 1050
+    },
+    "kinematic_quality_report.json": {
+      "sha256": "a7b71acc37517169d25b238bfb65ac25a16c6b2be6c58e7ce1e4a7ce48167313",
+      "bytes": 10594
+    },
+    "offline_kinematics.jsonl": {
+      "sha256": "9e19ff3f930a0206bb40a1e461fcb0a4bc22dda2add173f9f2c1be0e9e7509e8",
+      "bytes": 106254970,
+      "rows": 65388
+    },
+    "processing_log.txt": {
+      "sha256": "40e44abbc131a13a631b544610a6a27feab0386f2bf9a964d946099df8e3e065",
+      "bytes": 387
+    },
+    "quarantine.jsonl": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "rows": 0
+    },
+    "track_continuity_report.json": {
+      "sha256": "64f8b734afc63f606d3e744bf0f46f27244f084e2db9e2f438eb6e4b843b4d7c",
+      "bytes": 1541526
+    }
+  },
+  "claims": {
+    "coordinate_space": "image (captured raster pixels)",
+    "metric_world_coordinates": false,
+    "physical_speed": false,
+    "physical_acceleration": false,
+    "world_heading": false,
+    "metric_ttc_or_distance": false,
+    "ego_motion_compensated": false,
+    "note": "Image-space derivatives of a moving vehicle-mounted camera mix agent motion and camera ego-motion; they are not physical quantities."
+  },
+  "limitations": [
+    "Image space only (pixels, pixel/s, pixel/s^2, image-plane radians); no metric or world interpretation is supported (Phase 4 Task 1).",
+    "Camera ego-motion is not removed: image velocity is not agent velocity.",
+    "max_derivative_gap_frames = 0: no derivative across any missing frame; gap bridging awaits review of the gap distribution.",
+    "Positions are bottom-centre footpoints, a ground-contact proxy affected by occlusion, truncation and box looseness.",
+    "Causal acceleration divides by the current step dt (the specified Stage 4 formula); on unequal spacing it is not centred.",
+    "Anomaly indicators (suspicious jumps, possible fragment pairs) are not confirmed ID switches.",
+    "No interpolation is performed in either view."
+  ]
+}

@@ -1,0 +1,1775 @@
+{
+  "report_id": "phase4_task2_image_space_kinematics",
+  "report_version": "1.2.0",
+  "date": "2026-11-15",
+  "branch": "feature/phase4-task2-image-kinematics",
+  "base_commit": "b66cbc5f45a4f68c04ca1051eee1d4a2e4870da7",
+  "committed": false,
+  "status": "COMPLETED_WITH_LIMITATIONS",
+  "task_complete": "completed_with_limitations",
+  "status_reason": "Implementation, synthetic validation and real PIE pilot validation done with evidence; gap bridging, smoothing and heading threshold deliberately deferred.",
+  "components": [
+    {
+      "item": "causal velocity/acceleration/heading with validity states",
+      "implemented": true,
+      "tested_synthetically": true,
+      "tested_on_real_pie": true
+    },
+    {
+      "item": "offline central differences (separate module and file)",
+      "implemented": true,
+      "tested_synthetically": true,
+      "tested_on_real_pie": true
+    },
+    {
+      "item": "track continuity diagnostics and anomaly indicators",
+      "implemented": true,
+      "tested_synthetically": true,
+      "tested_on_real_pie": true
+    },
+    {
+      "item": "time-aware causal EMA; evaluation of existing fixed-alpha EMA",
+      "implemented": true,
+      "tested_synthetically": true,
+      "tested_on_real_pie": false,
+      "note": "disabled for the real run; no tau selected"
+    },
+    {
+      "item": "runner, CLI, manifest, hashes, output policy",
+      "implemented": true,
+      "tested_synthetically": true,
+      "tested_on_real_pie": true,
+      "phase3_format_integration_check": true
+    },
+    {
+      "item": "gap bridging (max_derivative_gap_frames > 0)",
+      "implemented": false,
+      "reason": "refused by configuration until the real gap distribution is reviewed"
+    },
+    {
+      "item": "offline interpolation",
+      "implemented": false,
+      "reason": "disabled by policy; not needed for Task 2 outputs"
+    },
+    {
+      "item": "Kalman filter",
+      "implemented": false,
+      "reason": "no evidence yet that it is needed"
+    }
+  ],
+  "reused_stage4_components": [
+    "pedsafety.trajectory.FeatureEngine",
+    "pedsafety.trajectory.group_tracks",
+    "pedsafety.trajectory.SmoothingPolicy(causal_ema)",
+    "pedsafety.trajectory.PositionInfo",
+    "pedsafety.trajectory.wrap_angle",
+    "pedsafety.output_dir.check_output_dir"
+  ],
+  "stage4_files_modified": [],
+  "conventions": {
+    "coordinate_system": "captured_1920x1080",
+    "coordinate_space": "image",
+    "origin": "top-left",
+    "u_positive": "right",
+    "v_positive": "down",
+    "position_unit": "pixel",
+    "velocity_unit": "pixel/s",
+    "acceleration_unit": "pixel/s^2",
+    "time_unit": "s",
+    "heading_unit": "rad",
+    "heading": "atan2(v_y, v_x) from +u toward +v (clockwise on screen), range [-pi, pi), image-plane only",
+    "world_x": null,
+    "world_y": null,
+    "world_position_valid": false
+  },
+  "policies": {
+    "max_derivative_gap_frames": 0,
+    "interpolation": "none",
+    "smoothing_default": "none",
+    "min_heading_speed_px_per_s_default": 0.0,
+    "timestamps": "actual dt, finite and > 0; nominal FPS never substituted",
+    "duplicates": "all copies quarantined",
+    "ordering": "input order per track; out-of-order frames and non-monotonic timestamps quarantined",
+    "provenance": "not reconstructed; Phase 3 records have no Stage 2 sidecar",
+    "canonical_schema": "unchanged; derived values in sidecar schema image-kinematics-sidecar-1.0.0"
+  },
+  "tests": {
+    "new_suite": {
+      "command": "C:\\Users\\revan\\anaconda3\\envs\\pcg-baseline\\python.exe -m pytest tests/phase4 -q -p no:cacheprovider",
+      "passed": 76,
+      "failed": 0,
+      "skipped": 0
+    },
+    "new_suite_py311": {
+      "command": "D:\\envs\\pedsafety-perception\\python.exe -m pytest tests/phase4 -q -p no:cacheprovider",
+      "passed": 76,
+      "failed": 0,
+      "skipped": 0
+    },
+    "full_regression": {
+      "command": "C:\\Users\\revan\\anaconda3\\envs\\pcg-baseline\\python.exe -m pytest tests/phase4 tests/phase3 tests/task7 tests/phase2 -q -rs -p no:cacheprovider",
+      "passed": 928,
+      "failed": 1,
+      "skipped": 6,
+      "known_baseline_failure": "tests/phase2/test_ttc_masks.py::test_ttc_occupancy_mask_collapses_agent_dimension (original TTC_mask defect)",
+      "skips": "5 Task 1 files need OpenCV/Ultralytics (absent in pcg-baseline by design); 1 needs PCG_ORIGINAL_NOTEBOOK"
+    },
+    "mutation_checks": {
+      "total": 13,
+      "caught": 13,
+      "note": "fragment-pair class check was initially missed; a test was added and it is now caught",
+      "gap_convention": {
+        "total": 2,
+        "caught": 2
+      }
+    },
+    "new_suite_after_real_run": {
+      "command": "C:\\Users\\revan\\anaconda3\\envs\\pcg-baseline\\python.exe -m pytest tests/phase4 -q -p no:cacheprovider",
+      "passed": 76,
+      "failed": 0,
+      "skipped": 0
+    },
+    "full_regression_after_real_run": {
+      "command": "C:\\Users\\revan\\anaconda3\\envs\\pcg-baseline\\python.exe -m pytest tests/phase4 tests/phase3 tests/task7 tests/phase2 -q -rs -p no:cacheprovider",
+      "passed": 928,
+      "failed": 1,
+      "skipped": 6,
+      "known_baseline_failure": "tests/phase2/test_ttc_masks.py::test_ttc_occupancy_mask_collapses_agent_dimension (original TTC_mask defect)"
+    },
+    "new_suite_final_review": {
+      "command": "C:\\Users\\revan\\anaconda3\\envs\\pcg-baseline\\python.exe -m pytest tests/phase4 -q -p no:cacheprovider",
+      "passed": 77,
+      "failed": 0,
+      "skipped": 0,
+      "note": "77 = 76 + gap-convention regression test"
+    },
+    "full_regression_final_review": {
+      "command": "C:\\Users\\revan\\anaconda3\\envs\\pcg-baseline\\python.exe -m pytest tests/phase4 tests/phase3 tests/task7 tests/phase2 -q -rs -p no:cacheprovider",
+      "passed": 929,
+      "failed": 1,
+      "skipped": 6,
+      "known_baseline_failure": "tests/phase2/test_ttc_masks.py::test_ttc_occupancy_mask_collapses_agent_dimension",
+      "note": "929 = 928 + new regression test"
+    }
+  },
+  "synthetic_validation": {
+    "smoothing_run": "experiments/phase4_task2_synthetic_validation/20261114T201025Z_smoothing",
+    "smoothing_evaluation_sha256": "12003ab9c8bc0f160b9757b1409aaeb0fc3e3127efb9c42a2e5d54c0312b8de5",
+    "key_results_sigma_1px": {
+      "raw_velocity_rmse_px_per_s_uniform": 64.32,
+      "raw_velocity_rmse_theory_uniform": 60.0,
+      "raw_velocity_rmse_px_per_s_irregular": 69.26,
+      "causal_ema_0.3_velocity_rmse_uniform_irregular": [
+        14.7,
+        29.84
+      ],
+      "time_aware_ema_0.2s_velocity_rmse_uniform_irregular": [
+        7.19,
+        7.07
+      ],
+      "raw_acceleration_rmse_px_per_s2_uniform": 3349,
+      "noise_free_manoeuvre_heading_settle_s": {
+        "raw": 0.033,
+        "time_aware_0.1": 0.2,
+        "time_aware_0.2": 0.367,
+        "time_aware_0.4": 0.733
+      },
+      "theory_settle_s": {
+        "time_aware_0.1": 0.178,
+        "time_aware_0.2": 0.356,
+        "time_aware_0.4": 0.712
+      }
+    },
+    "conclusions": [
+      "fixed-alpha EMA is sampling-dependent and degrades under irregular timestamps; time-aware EMA does not",
+      "raw acceleration is noise-dominated at 30 fps",
+      "no tau is recommended before real noise is measured"
+    ],
+    "phase3_format_check_run": "experiments/phase4_task2_synthetic_validation/20261114T201025Z_phase3_synthetic_replay_format_check",
+    "phase3_format_check": {
+      "input": "outputs/perception/20261114T122436Z_synthetic_replay/agent_states.jsonl",
+      "input_sha256": "065c70a6b6d44d162a62784512929d314f7ae5d06cb401b51b029af424178647",
+      "input_unchanged": true,
+      "rows": 608,
+      "tracks": 7,
+      "quarantined": 0,
+      "valid_velocity": 600,
+      "valid_acceleration": 593,
+      "valid_heading": 600,
+      "recovered_known_facts": [
+        "one 6-frame gap (scripted detector dropout)",
+        "one track with < 2 positions (one-frame second car id at the frame edge)"
+      ],
+      "nature": "format/plumbing check on mock data, not a result"
+    },
+    "scale_measurement": {
+      "rows": 60429,
+      "elapsed_s": 117.2,
+      "hardware": "Intel i5-1235U, local CPU",
+      "data": "synthetic",
+      "dominant_cost": "full JSON-schema validation of every output row (~95%)",
+      "jsonl_size_mb_each": 93
+    }
+  },
+  "pie_pilot": {
+    "status": "COMPLETED",
+    "data": "REAL PIE set01/video_0004, Phase 3 run 20261114T134036Z_pie_video_0004_yolo11n",
+    "input_dir": "PIE_pilot_inputs (inside the repository; request said D:\\BTech-Research\\PIE_pilot_inputs\\)",
+    "run_dir": "experiments/phase4_task2_pie_video_0004/20261114T202653Z_pie_video_0004",
+    "input_hashes": {
+      "agent_states.jsonl": {
+        "sha256": "ff8b9b217144a9a6792069aa2db11cd9e9ca43fbf00077ad4da6e2b3fe485dc7",
+        "bytes": 67565978
+      },
+      "tracked_agents.jsonl": {
+        "sha256": "182babb386a821da720b9520afa024cf4e9195baea3031c4970b64000c593ff5",
+        "bytes": 38774621
+      },
+      "run_manifest.json": {
+        "sha256": "e8c2a895543c6e222b58d9974a409faddab3b98e742fa048a4286bcd9b1dc7c2",
+        "bytes": 5456
+      }
+    },
+    "phase3_manifest_has_file_hashes": false,
+    "integrity_checks": {
+      "n": 24,
+      "all_ok": true,
+      "note": "an initial frame-range equality check was mis-specified (manifest range = frames processed) and was corrected to containment"
+    },
+    "input_unchanged_after_runs": true,
+    "config": {
+      "path": "configs/phase4/image_kinematics_default.json",
+      "sha256_resolved": "1f5e931c05f5226958389c36528acd0334678a728ef4236f43a7107a5d925c28",
+      "config_version": "phase4-task2-image-kinematics-config-1.0.0"
+    },
+    "max_derivative_gap_frames": 0,
+    "smoothing": "none",
+    "rows": {
+      "input": 65388,
+      "quarantined": 0,
+      "valid_positions": 65388,
+      "invalid_positions": 0,
+      "rejected": 0,
+      "border_touching": 3336
+    },
+    "tracks": {
+      "n": 1500,
+      "length_valid_positions": {
+        "n": 1500,
+        "min": 1.0,
+        "p05": 1.0,
+        "p25": 4.0,
+        "p50": 13.0,
+        "p75": 44.0,
+        "p95": 173.0,
+        "p99": 387.01,
+        "max": 1187.0,
+        "mean": 43.592
+      },
+      "duration_s": {
+        "n": 1500,
+        "min": 0.0,
+        "p05": 0.0,
+        "p25": 0.13333333333333286,
+        "p50": 0.5333333333333314,
+        "p75": 1.7750000000000057,
+        "p95": 6.16833333333333,
+        "p99": 13.172666666666663,
+        "max": 39.69999999999999,
+        "mean": 1.5909777777777776
+      },
+      "short_tracks": [
+        {
+          "valid_positions_lt": 1,
+          "n_tracks": 0
+        },
+        {
+          "valid_positions_lt": 2,
+          "n_tracks": 118
+        },
+        {
+          "valid_positions_lt": 3,
+          "n_tracks": 225
+        },
+        {
+          "valid_positions_lt": 5,
+          "n_tracks": 385
+        },
+        {
+          "valid_positions_lt": 10,
+          "n_tracks": 615
+        },
+        {
+          "valid_positions_lt": 30,
+          "n_tracks": 982
+        }
+      ],
+      "per_class": {
+        "bicyclist": {
+          "n_tracks": 185,
+          "n_valid_positions": 7049,
+          "n_gaps": 217,
+          "missing_frames_total": 1085,
+          "track_length_valid_positions": {
+            "n": 185,
+            "min": 1.0,
+            "p05": 1.200000000000001,
+            "p25": 4.0,
+            "p50": 13.0,
+            "p75": 38.0,
+            "p95": 157.19999999999993,
+            "p99": 299.39999999999986,
+            "max": 559.0,
+            "mean": 38.1027027027027
+          }
+        },
+        "pedestrian": {
+          "n_tracks": 586,
+          "n_valid_positions": 23661,
+          "n_gaps": 536,
+          "missing_frames_total": 2458,
+          "track_length_valid_positions": {
+            "n": 586,
+            "min": 1.0,
+            "p05": 1.0,
+            "p25": 6.0,
+            "p50": 17.0,
+            "p75": 45.0,
+            "p95": 157.25,
+            "p99": 317.44999999999993,
+            "max": 878.0,
+            "mean": 40.377133105802045
+          }
+        },
+        "vehicle": {
+          "n_tracks": 729,
+          "n_valid_positions": 34678,
+          "n_gaps": 923,
+          "missing_frames_total": 4163,
+          "track_length_valid_positions": {
+            "n": 729,
+            "min": 1.0,
+            "p05": 1.0,
+            "p25": 3.0,
+            "p50": 12.0,
+            "p75": 46.0,
+            "p95": 182.60000000000002,
+            "p99": 542.0400000000016,
+            "max": 1187.0,
+            "mean": 47.56927297668038
+          }
+        }
+      }
+    },
+    "gaps": {
+      "n_gaps": 1676,
+      "missing_frames_total": 7706,
+      "gaps_longer_than_bytetrack_buffer_30_frames": 14,
+      "buckets": [
+        {
+          "missing_frames": "1",
+          "n_gaps": 688,
+          "pct_of_gaps": 41.050119331742245
+        },
+        {
+          "missing_frames": "2",
+          "n_gaps": 266,
+          "pct_of_gaps": 15.871121718377088
+        },
+        {
+          "missing_frames": "3-5",
+          "n_gaps": 337,
+          "pct_of_gaps": 20.107398568019093
+        },
+        {
+          "missing_frames": "6-10",
+          "n_gaps": 188,
+          "pct_of_gaps": 11.217183770883056
+        },
+        {
+          "missing_frames": "11-30",
+          "n_gaps": 183,
+          "pct_of_gaps": 10.918854415274463
+        },
+        {
+          "missing_frames": "31-inf",
+          "n_gaps": 14,
+          "pct_of_gaps": 0.8353221957040573
+        }
+      ],
+      "per_value": [
+        {
+          "missing_frames": 1,
+          "n_gaps": 688,
+          "pct_of_gaps": 41.050119331742245,
+          "cumulative_pct": 41.050119331742245
+        },
+        {
+          "missing_frames": 2,
+          "n_gaps": 266,
+          "pct_of_gaps": 15.871121718377088,
+          "cumulative_pct": 56.921241050119335
+        },
+        {
+          "missing_frames": 3,
+          "n_gaps": 154,
+          "pct_of_gaps": 9.18854415274463,
+          "cumulative_pct": 66.10978520286396
+        },
+        {
+          "missing_frames": 4,
+          "n_gaps": 99,
+          "pct_of_gaps": 5.906921241050119,
+          "cumulative_pct": 72.01670644391407
+        },
+        {
+          "missing_frames": 5,
+          "n_gaps": 84,
+          "pct_of_gaps": 5.011933174224343,
+          "cumulative_pct": 77.02863961813843
+        },
+        {
+          "missing_frames": 6,
+          "n_gaps": 62,
+          "pct_of_gaps": 3.6992840095465396,
+          "cumulative_pct": 80.72792362768496
+        },
+        {
+          "missing_frames": 7,
+          "n_gaps": 44,
+          "pct_of_gaps": 2.6252983293556085,
+          "cumulative_pct": 83.35322195704057
+        },
+        {
+          "missing_frames": 8,
+          "n_gaps": 36,
+          "pct_of_gaps": 2.1479713603818618,
+          "cumulative_pct": 85.50119331742243
+        },
+        {
+          "missing_frames": 9,
+          "n_gaps": 19,
+          "pct_of_gaps": 1.1336515513126493,
+          "cumulative_pct": 86.63484486873509
+        },
+        {
+          "missing_frames": 10,
+          "n_gaps": 27,
+          "pct_of_gaps": 1.6109785202863962,
+          "cumulative_pct": 88.24582338902148
+        },
+        {
+          "missing_frames": 11,
+          "n_gaps": 27,
+          "pct_of_gaps": 1.6109785202863962,
+          "cumulative_pct": 89.85680190930788
+        },
+        {
+          "missing_frames": 12,
+          "n_gaps": 18,
+          "pct_of_gaps": 1.0739856801909309,
+          "cumulative_pct": 90.9307875894988
+        },
+        {
+          "missing_frames": 13,
+          "n_gaps": 16,
+          "pct_of_gaps": 0.954653937947494,
+          "cumulative_pct": 91.8854415274463
+        },
+        {
+          "missing_frames": 14,
+          "n_gaps": 16,
+          "pct_of_gaps": 0.954653937947494,
+          "cumulative_pct": 92.8400954653938
+        },
+        {
+          "missing_frames": 15,
+          "n_gaps": 15,
+          "pct_of_gaps": 0.8949880668257757,
+          "cumulative_pct": 93.73508353221958
+        },
+        {
+          "missing_frames": 16,
+          "n_gaps": 13,
+          "pct_of_gaps": 0.7756563245823389,
+          "cumulative_pct": 94.5107398568019
+        },
+        {
+          "missing_frames": 17,
+          "n_gaps": 10,
+          "pct_of_gaps": 0.5966587112171837,
+          "cumulative_pct": 95.1073985680191
+        },
+        {
+          "missing_frames": 18,
+          "n_gaps": 7,
+          "pct_of_gaps": 0.41766109785202865,
+          "cumulative_pct": 95.52505966587113
+        },
+        {
+          "missing_frames": 19,
+          "n_gaps": 6,
+          "pct_of_gaps": 0.35799522673031026,
+          "cumulative_pct": 95.88305489260144
+        },
+        {
+          "missing_frames": 20,
+          "n_gaps": 3,
+          "pct_of_gaps": 0.17899761336515513,
+          "cumulative_pct": 96.06205250596659
+        },
+        {
+          "missing_frames": 21,
+          "n_gaps": 6,
+          "pct_of_gaps": 0.35799522673031026,
+          "cumulative_pct": 96.4200477326969
+        },
+        {
+          "missing_frames": 22,
+          "n_gaps": 4,
+          "pct_of_gaps": 0.2386634844868735,
+          "cumulative_pct": 96.65871121718376
+        },
+        {
+          "missing_frames": 23,
+          "n_gaps": 8,
+          "pct_of_gaps": 0.477326968973747,
+          "cumulative_pct": 97.13603818615752
+        },
+        {
+          "missing_frames": 24,
+          "n_gaps": 4,
+          "pct_of_gaps": 0.2386634844868735,
+          "cumulative_pct": 97.37470167064438
+        },
+        {
+          "missing_frames": 25,
+          "n_gaps": 5,
+          "pct_of_gaps": 0.29832935560859186,
+          "cumulative_pct": 97.67303102625299
+        },
+        {
+          "missing_frames": 26,
+          "n_gaps": 7,
+          "pct_of_gaps": 0.41766109785202865,
+          "cumulative_pct": 98.09069212410502
+        },
+        {
+          "missing_frames": 27,
+          "n_gaps": 3,
+          "pct_of_gaps": 0.17899761336515513,
+          "cumulative_pct": 98.26968973747017
+        },
+        {
+          "missing_frames": 28,
+          "n_gaps": 6,
+          "pct_of_gaps": 0.35799522673031026,
+          "cumulative_pct": 98.62768496420048
+        },
+        {
+          "missing_frames": 29,
+          "n_gaps": 2,
+          "pct_of_gaps": 0.11933174224343675,
+          "cumulative_pct": 98.74701670644392
+        },
+        {
+          "missing_frames": 30,
+          "n_gaps": 7,
+          "pct_of_gaps": 0.41766109785202865,
+          "cumulative_pct": 99.16467780429595
+        },
+        {
+          "missing_frames": 31,
+          "n_gaps": 2,
+          "pct_of_gaps": 0.11933174224343675,
+          "cumulative_pct": 99.28400954653938
+        },
+        {
+          "missing_frames": 32,
+          "n_gaps": 1,
+          "pct_of_gaps": 0.059665871121718374,
+          "cumulative_pct": 99.3436754176611
+        },
+        {
+          "missing_frames": 33,
+          "n_gaps": 2,
+          "pct_of_gaps": 0.11933174224343675,
+          "cumulative_pct": 99.46300715990454
+        },
+        {
+          "missing_frames": 35,
+          "n_gaps": 1,
+          "pct_of_gaps": 0.059665871121718374,
+          "cumulative_pct": 99.52267303102626
+        },
+        {
+          "missing_frames": 38,
+          "n_gaps": 1,
+          "pct_of_gaps": 0.059665871121718374,
+          "cumulative_pct": 99.58233890214797
+        },
+        {
+          "missing_frames": 41,
+          "n_gaps": 1,
+          "pct_of_gaps": 0.059665871121718374,
+          "cumulative_pct": 99.64200477326969
+        },
+        {
+          "missing_frames": 42,
+          "n_gaps": 1,
+          "pct_of_gaps": 0.059665871121718374,
+          "cumulative_pct": 99.70167064439141
+        },
+        {
+          "missing_frames": 43,
+          "n_gaps": 1,
+          "pct_of_gaps": 0.059665871121718374,
+          "cumulative_pct": 99.76133651551312
+        },
+        {
+          "missing_frames": 57,
+          "n_gaps": 1,
+          "pct_of_gaps": 0.059665871121718374,
+          "cumulative_pct": 99.82100238663485
+        },
+        {
+          "missing_frames": 58,
+          "n_gaps": 2,
+          "pct_of_gaps": 0.11933174224343675,
+          "cumulative_pct": 99.94033412887828
+        },
+        {
+          "missing_frames": 101,
+          "n_gaps": 1,
+          "pct_of_gaps": 0.059665871121718374,
+          "cumulative_pct": 100.0
+        }
+      ],
+      "n_tracks_with_gaps": 665,
+      "elapsed_s": {
+        "n": 1676,
+        "min": 0.06666666666666288,
+        "p05": 0.06666666666666288,
+        "p25": 0.06666666666666288,
+        "p50": 0.10000000000000142,
+        "p75": 0.20000000000000284,
+        "p95": 0.6000000000000121,
+        "p99": 1.0333333333333314,
+        "max": 3.4000000000000057,
+        "mean": 0.18659506762132108
+      },
+      "over_buffer_attribution": "inference: Phase 3 dropped 4,994 track_class_changed rows; not verifiable from these files",
+      "longest_gaps_with_boundaries": [
+        {
+          "track_id": "pie:video_0004:8431",
+          "agent_class": "bicyclist",
+          "last_observed_frame_before_gap": 4009,
+          "first_observed_frame_after_gap": 4111,
+          "frame_difference": 102,
+          "missing_frames": 101,
+          "elapsed_s": 3.4000000000000057,
+          "track_first_frame": 3994,
+          "track_last_frame": 4159
+        },
+        {
+          "track_id": "pie:video_0004:13632",
+          "agent_class": "vehicle",
+          "last_observed_frame_before_gap": 7405,
+          "first_observed_frame_after_gap": 7464,
+          "frame_difference": 59,
+          "missing_frames": 58,
+          "elapsed_s": 1.9666666666666686,
+          "track_first_frame": 7405,
+          "track_last_frame": 7469
+        },
+        {
+          "track_id": "pie:video_0004:3280",
+          "agent_class": "vehicle",
+          "last_observed_frame_before_gap": 1944,
+          "first_observed_frame_after_gap": 2003,
+          "frame_difference": 59,
+          "missing_frames": 58,
+          "elapsed_s": 1.9666666666666686,
+          "track_first_frame": 1937,
+          "track_last_frame": 2030
+        },
+        {
+          "track_id": "pie:video_0004:15242",
+          "agent_class": "vehicle",
+          "last_observed_frame_before_gap": 8789,
+          "first_observed_frame_after_gap": 8847,
+          "frame_difference": 58,
+          "missing_frames": 57,
+          "elapsed_s": 1.9333333333333371,
+          "track_first_frame": 8727,
+          "track_last_frame": 8908
+        },
+        {
+          "track_id": "pie:video_0004:1114",
+          "agent_class": "vehicle",
+          "last_observed_frame_before_gap": 938,
+          "first_observed_frame_after_gap": 982,
+          "frame_difference": 44,
+          "missing_frames": 43,
+          "elapsed_s": 1.4666666666666686,
+          "track_first_frame": 500,
+          "track_last_frame": 1015
+        }
+      ],
+      "convention": "missing_frames = (first_observed_frame_after_gap - last_observed_frame_before_gap) // frame_step - 1; elapsed_s from record timestamps; track first/last frames are not gap boundaries"
+    },
+    "velocity": {
+      "states": {
+        "gap_before": 1676,
+        "insufficient_samples": 1500,
+        "valid": 62212
+      },
+      "valid": 62212,
+      "speed_px_per_s": {
+        "n": 62212,
+        "min": 0.32732887416325207,
+        "p05": 11.78854900518811,
+        "p25": 45.50313135808102,
+        "p50": 105.51672490599205,
+        "p75": 230.87510779395882,
+        "p95": 563.9130260045156,
+        "p99": 968.7672499607901,
+        "max": 3292.3359278220832,
+        "mean": 175.64269547062645
+      },
+      "dt_s": {
+        "n": 62212,
+        "min": 0.03333333333330302,
+        "p05": 0.03333333333330302,
+        "p25": 0.03333333333333144,
+        "p50": 0.03333333333333144,
+        "p75": 0.033333333333333215,
+        "p95": 0.03333333333335986,
+        "p99": 0.03333333333335986,
+        "max": 0.03333333333335986,
+        "mean": 0.033333333333333305
+      }
+    },
+    "acceleration": {
+      "states": {
+        "gap_before": 1676,
+        "insufficient_samples": 1500,
+        "previous_velocity_unavailable": 2570,
+        "valid": 59642
+      },
+      "valid": 59642,
+      "magnitude_px_per_s2": {
+        "n": 59642,
+        "min": 2.296149148886271,
+        "p05": 496.5746372744667,
+        "p25": 1640.3931823000637,
+        "p50": 3372.149613187452,
+        "p75": 6531.627393699686,
+        "p95": 17292.594095732766,
+        "p99": 34222.18973631358,
+        "max": 162612.3660642186,
+        "mean": 5462.286262085145
+      }
+    },
+    "heading": {
+      "states": {
+        "gap_before": 1676,
+        "insufficient_samples": 1500,
+        "valid": 62212
+      },
+      "valid": 62212,
+      "sensitivity": [
+        {
+          "min_speed_px_per_s": 0.0,
+          "rows_with_heading": 62212
+        },
+        {
+          "min_speed_px_per_s": 10.0,
+          "rows_with_heading": 59776
+        },
+        {
+          "min_speed_px_per_s": 30.0,
+          "rows_with_heading": 52079
+        },
+        {
+          "min_speed_px_per_s": 60.0,
+          "rows_with_heading": 42205
+        },
+        {
+          "min_speed_px_per_s": 120.0,
+          "rows_with_heading": 28407
+        }
+      ]
+    },
+    "per_class": {
+      "bicyclist": {
+        "rows": 7049,
+        "valid_velocity": 6647,
+        "valid_acceleration": 6307,
+        "valid_heading": 6647,
+        "speed_px_per_s": {
+          "n": 6647,
+          "min": 0.47591925813380304,
+          "p05": 10.247349644363869,
+          "p25": 36.331954299450814,
+          "p50": 84.50330446177874,
+          "p75": 196.37549310055624,
+          "p95": 522.2180601825229,
+          "p99": 841.7897675161014,
+          "max": 3104.689337915604,
+          "mean": 153.60849568621748
+        },
+        "acceleration_magnitude_px_per_s2": {
+          "n": 6307,
+          "min": 20.973530555560256,
+          "p05": 462.7431307004964,
+          "p25": 1416.4776737118264,
+          "p50": 2935.3287695794115,
+          "p75": 5879.823712402536,
+          "p95": 15587.492483557891,
+          "p99": 28654.876539098823,
+          "max": 117337.53493944513,
+          "mean": 4835.702751540172
+        }
+      },
+      "pedestrian": {
+        "rows": 23661,
+        "valid_velocity": 22539,
+        "valid_acceleration": 21579,
+        "valid_heading": 22539,
+        "speed_px_per_s": {
+          "n": 22539,
+          "min": 0.6948363999393807,
+          "p05": 14.141386682644775,
+          "p25": 53.47763982503555,
+          "p50": 118.34160276158694,
+          "p75": 251.7278089577468,
+          "p95": 646.5446792616661,
+          "p99": 1137.998511795702,
+          "max": 3244.3778341411885,
+          "mean": 196.52016578568515
+        },
+        "acceleration_magnitude_px_per_s2": {
+          "n": 21579,
+          "min": 2.882733785904145,
+          "p05": 591.4397276101269,
+          "p25": 1924.35601168416,
+          "p50": 3867.3797150981636,
+          "p75": 7340.253540770729,
+          "p95": 19974.880507673126,
+          "p99": 39964.94042851965,
+          "max": 159714.28690300797,
+          "mean": 6236.735883114312
+        }
+      },
+      "vehicle": {
+        "rows": 34678,
+        "valid_velocity": 33026,
+        "valid_acceleration": 31756,
+        "valid_heading": 33026,
+        "speed_px_per_s": {
+          "n": 33026,
+          "min": 0.32732887416325207,
+          "p05": 10.951952466593536,
+          "p25": 42.941869903690204,
+          "p50": 101.01862120657057,
+          "p75": 222.49383381785424,
+          "p95": 530.7456638296361,
+          "p99": 839.4765503244873,
+          "max": 3292.3359278220832,
+          "mean": 165.8293369814318
+        },
+        "acceleration_magnitude_px_per_s2": {
+          "n": 31756,
+          "min": 2.296149148886271,
+          "p05": 452.42418789453,
+          "p25": 1529.6290760058596,
+          "p50": 3144.903147524534,
+          "p75": 6093.052341201371,
+          "p95": 15762.807905318623,
+          "p99": 31293.33136796321,
+          "max": 162612.3660642186,
+          "mean": 5060.472867098961
+        }
+      }
+    },
+    "offline_central_difference": {
+      "states": {
+        "gap_adjacent": 2864,
+        "insufficient_neighbours": 2882,
+        "valid": 59642
+      }
+    },
+    "derivative_losses": {
+      "velocity_rows_lost_to_gaps": 1676,
+      "velocity_rows_lost_to_gaps_pct_of_rows": 2.5631614363491773,
+      "velocity_rows_lost_to_track_start": 1500,
+      "acceleration_rows_lost_to_gaps": 2977,
+      "acceleration_rows_lost_to_gaps_pct_of_rows": 4.552823147978223,
+      "acceleration_rows_lost_to_track_start": 2769,
+      "heading_rows_lost_to_gaps": 1676,
+      "what_if_bridging_counts_only": [
+        {
+          "max_bridge_frames": 1,
+          "gaps_within": 688,
+          "pct_of_gaps": 41.050119331742245
+        },
+        {
+          "max_bridge_frames": 2,
+          "gaps_within": 954,
+          "pct_of_gaps": 56.921241050119335
+        },
+        {
+          "max_bridge_frames": 3,
+          "gaps_within": 1108,
+          "pct_of_gaps": 66.10978520286396
+        },
+        {
+          "max_bridge_frames": 5,
+          "gaps_within": 1291,
+          "pct_of_gaps": 77.02863961813843
+        },
+        {
+          "max_bridge_frames": 10,
+          "gaps_within": 1479,
+          "pct_of_gaps": 88.24582338902148
+        },
+        {
+          "max_bridge_frames": 30,
+          "gaps_within": 1662,
+          "pct_of_gaps": 99.16467780429595
+        }
+      ],
+      "note": "what-if rows are counts of gaps only; bridging is NOT enabled and no bridged value was computed"
+    },
+    "noise_evidence": {
+      "by_class": {
+        "all": {
+          "triples": 59642,
+          "sigma_x_px": 1.1324733242341063,
+          "sigma_y_px": 1.1446136133782125,
+          "sigma_x_over_box_height": 0.0102036412197274,
+          "sigma_y_over_box_height": 0.01073995027355646,
+          "implied_raw_velocity_noise_per_axis_px_per_s": 48.304994965627714,
+          "implied_raw_acceleration_noise_median_magnitude_px_per_s2": 2955.275373077734
+        },
+        "bicyclist": {
+          "triples": 6307,
+          "sigma_x_px": 1.2169658576953888,
+          "sigma_y_px": 0.8224180051003201,
+          "sigma_x_over_box_height": 0.010708340615205163,
+          "sigma_y_over_box_height": 0.0073000513675817716,
+          "implied_raw_velocity_noise_per_axis_px_per_s": 44.06403915346978,
+          "implied_raw_acceleration_noise_median_magnitude_px_per_s2": 2695.8158227993536
+        },
+        "pedestrian": {
+          "triples": 21579,
+          "sigma_x_px": 1.0088307826466418,
+          "sigma_y_px": 1.7035379332131462,
+          "sigma_x_over_box_height": 0.0077921729599690105,
+          "sigma_y_over_box_height": 0.013215974253353547,
+          "implied_raw_velocity_noise_per_axis_px_per_s": 59.39531070817291,
+          "implied_raw_acceleration_noise_median_magnitude_px_per_s2": 3633.775329799016
+        },
+        "vehicle": {
+          "triples": 31756,
+          "sigma_x_px": 1.2199766863458101,
+          "sigma_y_px": 0.946157521230206,
+          "sigma_x_over_box_height": 0.013064432611130052,
+          "sigma_y_over_box_height": 0.010009742994778806,
+          "implied_raw_velocity_noise_per_axis_px_per_s": 46.316319512532644,
+          "implied_raw_acceleration_noise_median_magnitude_px_per_s2": 2833.6092059296375
+        }
+      },
+      "measured_raw_acceleration_median_px_per_s2": 3372.149613187452,
+      "note": "Robust estimate assuming independent per-frame footpoint noise and negligible true change of velocity over two frames. Real detector jitter is correlated and class-dependent; motion of the ego-camera also enters. Evidence only; no tau selected.",
+      "correction_note": "R2: implied-vs-measured acceleration is not independent; see final_review.corrections[1].stride_test"
+    },
+    "suspicious_jumps": {
+      "displacement_table": [
+        {
+          "displacement_over_box_height_gt": 0.25,
+          "n_pairs": 866,
+          "n_tracks": 318
+        },
+        {
+          "displacement_over_box_height_gt": 0.5,
+          "n_pairs": 40,
+          "n_tracks": 22
+        },
+        {
+          "displacement_over_box_height_gt": 1.0,
+          "n_pairs": 1,
+          "n_tracks": 1
+        },
+        {
+          "displacement_over_box_height_gt": 2.0,
+          "n_pairs": 0,
+          "n_tracks": 0
+        }
+      ],
+      "box_height_change_table": [
+        {
+          "box_height_ratio_gt": 1.5,
+          "n_pairs": 49,
+          "n_tracks": 41
+        },
+        {
+          "box_height_ratio_gt": 2.0,
+          "n_pairs": 0,
+          "n_tracks": 0
+        },
+        {
+          "box_height_ratio_gt": 3.0,
+          "n_pairs": 0,
+          "n_tracks": 0
+        }
+      ],
+      "n_pairs_evaluated": 62212,
+      "possible_id_switch_indicator_pairs": 0
+    },
+    "possible_fragment_pairs": {
+      "table": [
+        {
+          "max_gap_frames": 1,
+          "n_pairs": 53
+        },
+        {
+          "max_gap_frames": 5,
+          "n_pairs": 274
+        },
+        {
+          "max_gap_frames": 15,
+          "n_pairs": 642
+        },
+        {
+          "max_gap_frames": 30,
+          "n_pairs": 1116
+        }
+      ],
+      "max_distance_box_heights": 1.0
+    },
+    "confirmed_id_switches": null,
+    "examples": {
+      "most_gaps": [
+        {
+          "track_id": "pie:video_0004:3380",
+          "agent_class": "vehicle",
+          "first_frame": 1971,
+          "last_frame": 2325,
+          "n_valid_positions": 219,
+          "n_gaps": 19,
+          "max_gap_frames": 41,
+          "missing_frames_total": 136,
+          "n_border_touching_rows": 0,
+          "n_suspicious_jumps_at_lowest_threshold": 0
+        },
+        {
+          "track_id": "pie:video_0004:13210",
+          "agent_class": "vehicle",
+          "first_frame": 7109,
+          "last_frame": 7273,
+          "n_valid_positions": 113,
+          "n_gaps": 18,
+          "max_gap_frames": 11,
+          "missing_frames_total": 52,
+          "n_border_touching_rows": 0,
+          "n_suspicious_jumps_at_lowest_threshold": 12
+        },
+        {
+          "track_id": "pie:video_0004:13396",
+          "agent_class": "vehicle",
+          "first_frame": 7226,
+          "last_frame": 7400,
+          "n_valid_positions": 127,
+          "n_gaps": 17,
+          "max_gap_frames": 21,
+          "missing_frames_total": 48,
+          "n_border_touching_rows": 0,
+          "n_suspicious_jumps_at_lowest_threshold": 3
+        },
+        {
+          "track_id": "pie:video_0004:15242",
+          "agent_class": "vehicle",
+          "first_frame": 8727,
+          "last_frame": 8908,
+          "n_valid_positions": 35,
+          "n_gaps": 16,
+          "max_gap_frames": 57,
+          "missing_frames_total": 147,
+          "n_border_touching_rows": 19,
+          "n_suspicious_jumps_at_lowest_threshold": 0
+        },
+        {
+          "track_id": "pie:video_0004:1114",
+          "agent_class": "vehicle",
+          "first_frame": 500,
+          "last_frame": 1015,
+          "n_valid_positions": 403,
+          "n_gaps": 15,
+          "max_gap_frames": 43,
+          "missing_frames_total": 113,
+          "n_border_touching_rows": 6,
+          "n_suspicious_jumps_at_lowest_threshold": 0
+        }
+      ],
+      "longest_single_gap": [
+        {
+          "track_id": "pie:video_0004:8431",
+          "agent_class": "bicyclist",
+          "first_frame": 3994,
+          "last_frame": 4159,
+          "n_valid_positions": 49,
+          "n_gaps": 9,
+          "max_gap_frames": 101,
+          "missing_frames_total": 117,
+          "n_border_touching_rows": 0,
+          "n_suspicious_jumps_at_lowest_threshold": 0
+        },
+        {
+          "track_id": "pie:video_0004:13632",
+          "agent_class": "vehicle",
+          "first_frame": 7405,
+          "last_frame": 7469,
+          "n_valid_positions": 3,
+          "n_gaps": 2,
+          "max_gap_frames": 58,
+          "missing_frames_total": 62,
+          "n_border_touching_rows": 0,
+          "n_suspicious_jumps_at_lowest_threshold": 0
+        },
+        {
+          "track_id": "pie:video_0004:3280",
+          "agent_class": "vehicle",
+          "first_frame": 1937,
+          "last_frame": 2030,
+          "n_valid_positions": 18,
+          "n_gaps": 4,
+          "max_gap_frames": 58,
+          "missing_frames_total": 76,
+          "n_border_touching_rows": 4,
+          "n_suspicious_jumps_at_lowest_threshold": 1
+        },
+        {
+          "track_id": "pie:video_0004:15242",
+          "agent_class": "vehicle",
+          "first_frame": 8727,
+          "last_frame": 8908,
+          "n_valid_positions": 35,
+          "n_gaps": 16,
+          "max_gap_frames": 57,
+          "missing_frames_total": 147,
+          "n_border_touching_rows": 19,
+          "n_suspicious_jumps_at_lowest_threshold": 0
+        },
+        {
+          "track_id": "pie:video_0004:1114",
+          "agent_class": "vehicle",
+          "first_frame": 500,
+          "last_frame": 1015,
+          "n_valid_positions": 403,
+          "n_gaps": 15,
+          "max_gap_frames": 43,
+          "missing_frames_total": 113,
+          "n_border_touching_rows": 6,
+          "n_suspicious_jumps_at_lowest_threshold": 0
+        }
+      ],
+      "most_suspicious_jumps_at_0.25_box_heights": [
+        {
+          "track_id": "pie:video_0004:12382",
+          "agent_class": "vehicle",
+          "first_frame": 6435,
+          "last_frame": 6476,
+          "n_valid_positions": 42,
+          "n_gaps": 0,
+          "max_gap_frames": 0,
+          "missing_frames_total": 0,
+          "n_border_touching_rows": 1,
+          "n_suspicious_jumps_at_lowest_threshold": 39
+        },
+        {
+          "track_id": "pie:video_0004:13191",
+          "agent_class": "vehicle",
+          "first_frame": 7061,
+          "last_frame": 7242,
+          "n_valid_positions": 182,
+          "n_gaps": 0,
+          "max_gap_frames": 0,
+          "missing_frames_total": 0,
+          "n_border_touching_rows": 0,
+          "n_suspicious_jumps_at_lowest_threshold": 36
+        },
+        {
+          "track_id": "pie:video_0004:9798",
+          "agent_class": "vehicle",
+          "first_frame": 4587,
+          "last_frame": 4904,
+          "n_valid_positions": 318,
+          "n_gaps": 0,
+          "max_gap_frames": 0,
+          "missing_frames_total": 0,
+          "n_border_touching_rows": 52,
+          "n_suspicious_jumps_at_lowest_threshold": 18
+        },
+        {
+          "track_id": "pie:video_0004:4216",
+          "agent_class": "vehicle",
+          "first_frame": 2323,
+          "last_frame": 2542,
+          "n_valid_positions": 164,
+          "n_gaps": 10,
+          "max_gap_frames": 15,
+          "missing_frames_total": 56,
+          "n_border_touching_rows": 0,
+          "n_suspicious_jumps_at_lowest_threshold": 17
+        },
+        {
+          "track_id": "pie:video_0004:7578",
+          "agent_class": "vehicle",
+          "first_frame": 3705,
+          "last_frame": 4896,
+          "n_valid_positions": 1187,
+          "n_gaps": 2,
+          "max_gap_frames": 4,
+          "missing_frames_total": 5,
+          "n_border_touching_rows": 0,
+          "n_suspicious_jumps_at_lowest_threshold": 17
+        }
+      ],
+      "most_border_touching_rows": [
+        {
+          "track_id": "pie:video_0004:8390",
+          "agent_class": "vehicle",
+          "first_frame": 3976,
+          "last_frame": 4533,
+          "n_valid_positions": 558,
+          "n_gaps": 0,
+          "max_gap_frames": 0,
+          "missing_frames_total": 0,
+          "n_border_touching_rows": 363,
+          "n_suspicious_jumps_at_lowest_threshold": 0
+        },
+        {
+          "track_id": "pie:video_0004:2648",
+          "agent_class": "vehicle",
+          "first_frame": 1457,
+          "last_frame": 1643,
+          "n_valid_positions": 165,
+          "n_gaps": 2,
+          "max_gap_frames": 12,
+          "missing_frames_total": 22,
+          "n_border_touching_rows": 161,
+          "n_suspicious_jumps_at_lowest_threshold": 0
+        },
+        {
+          "track_id": "pie:video_0004:13666",
+          "agent_class": "vehicle",
+          "first_frame": 7428,
+          "last_frame": 8301,
+          "n_valid_positions": 762,
+          "n_gaps": 5,
+          "max_gap_frames": 27,
+          "missing_frames_total": 112,
+          "n_border_touching_rows": 98,
+          "n_suspicious_jumps_at_lowest_threshold": 2
+        },
+        {
+          "track_id": "pie:video_0004:14038",
+          "agent_class": "vehicle",
+          "first_frame": 7741,
+          "last_frame": 7971,
+          "n_valid_positions": 197,
+          "n_gaps": 8,
+          "max_gap_frames": 16,
+          "missing_frames_total": 34,
+          "n_border_touching_rows": 90,
+          "n_suspicious_jumps_at_lowest_threshold": 0
+        },
+        {
+          "track_id": "pie:video_0004:1321",
+          "agent_class": "vehicle",
+          "first_frame": 553,
+          "last_frame": 761,
+          "n_valid_positions": 203,
+          "n_gaps": 2,
+          "max_gap_frames": 5,
+          "missing_frames_total": 6,
+          "n_border_touching_rows": 86,
+          "n_suspicious_jumps_at_lowest_threshold": 3
+        }
+      ],
+      "largest_consecutive_jumps": [
+        {
+          "track_id": "pie:video_0004:11604",
+          "from_frame": 5670,
+          "to_frame": 5671,
+          "missing_frames": 0,
+          "displacement_px": 109.74453092739654,
+          "displacement_over_box_height": 1.0275318749343325,
+          "box_height_ratio": 1.116995832249557
+        },
+        {
+          "track_id": "pie:video_0004:13199",
+          "from_frame": 7113,
+          "to_frame": 7114,
+          "missing_frames": 0,
+          "displacement_px": 21.423763349210667,
+          "displacement_over_box_height": 0.8041976424724065,
+          "box_height_ratio": 1.028364295423652
+        },
+        {
+          "track_id": "pie:video_0004:13199",
+          "from_frame": 7116,
+          "to_frame": 7117,
+          "missing_frames": 0,
+          "displacement_px": 23.108456305948188,
+          "displacement_over_box_height": 0.7939674747705394,
+          "box_height_ratio": 1.180117039272162
+        },
+        {
+          "track_id": "pie:video_0004:6476",
+          "from_frame": 3420,
+          "to_frame": 3421,
+          "missing_frames": 0,
+          "displacement_px": 41.68019378001799,
+          "displacement_over_box_height": 0.7409490635083272,
+          "box_height_ratio": 1.019572524838174
+        },
+        {
+          "track_id": "pie:video_0004:11604",
+          "from_frame": 5667,
+          "to_frame": 5668,
+          "missing_frames": 0,
+          "displacement_px": 81.62888351040698,
+          "displacement_over_box_height": 0.7385275297540895,
+          "box_height_ratio": 1.106883950479395
+        }
+      ],
+      "closest_possible_fragment_pairs": [
+        {
+          "earlier_track_id": "pie:video_0004:5717",
+          "later_track_id": "pie:video_0004:5726",
+          "agent_class": "pedestrian",
+          "end_frame": 3048,
+          "start_frame": 3049,
+          "frame_gap": 1,
+          "distance_over_box_height": 0.031072993114974266,
+          "label": "possible_fragment_pair (not confirmed; not merged)"
+        },
+        {
+          "earlier_track_id": "pie:video_0004:6414",
+          "later_track_id": "pie:video_0004:7225",
+          "agent_class": "vehicle",
+          "end_frame": 3536,
+          "start_frame": 3537,
+          "frame_gap": 1,
+          "distance_over_box_height": 0.0496624380568153,
+          "label": "possible_fragment_pair (not confirmed; not merged)"
+        },
+        {
+          "earlier_track_id": "pie:video_0004:13106",
+          "later_track_id": "pie:video_0004:13108",
+          "agent_class": "vehicle",
+          "end_frame": 6940,
+          "start_frame": 6941,
+          "frame_gap": 1,
+          "distance_over_box_height": 0.05463227327104908,
+          "label": "possible_fragment_pair (not confirmed; not merged)"
+        },
+        {
+          "earlier_track_id": "pie:video_0004:7395",
+          "later_track_id": "pie:video_0004:7980",
+          "agent_class": "pedestrian",
+          "end_frame": 3843,
+          "start_frame": 3844,
+          "frame_gap": 1,
+          "distance_over_box_height": 0.09395766556215383,
+          "label": "possible_fragment_pair (not confirmed; not merged)"
+        },
+        {
+          "earlier_track_id": "pie:video_0004:11801",
+          "later_track_id": "pie:video_0004:11927",
+          "agent_class": "vehicle",
+          "end_frame": 5918,
+          "start_frame": 5919,
+          "frame_gap": 1,
+          "distance_over_box_height": 0.11840560457687914,
+          "label": "possible_fragment_pair (not confirmed; not merged)"
+        }
+      ],
+      "longest_single_gap_note": "first_frame/last_frame in these entries are TRACK spans, not gap boundaries; see gaps.longest_gaps_with_boundaries"
+    },
+    "independent_checks": {
+      "sidecar_schema_violations": {
+        "causal": 0,
+        "offline": 0
+      },
+      "world_fields_populated_rows": 0,
+      "view_and_method": {
+        "causal": {
+          "CAUSAL|backward_difference_actual_dt": 65388
+        },
+        "offline": {
+          "OFFLINE_NON_CAUSAL|central_difference_actual_dt": 65388
+        }
+      },
+      "causal_backward_difference_recomputation": {
+        "rows_compared": 62212,
+        "max_abs_difference_px_per_s": 0.0,
+        "all_valid_rows_follow_previous_row_consecutively": true
+      },
+      "determinism": {
+        "rerun": "experiments/phase4_task2_pie_video_0004/20261114T202653Z_pie_video_0004/determinism_rerun",
+        "outputs_identical_excluding_log_and_manifest": {
+          "causal_kinematics.jsonl": true,
+          "config_resolved.json": true,
+          "kinematic_quality_report.json": true,
+          "offline_kinematics.jsonl": true,
+          "quarantine.jsonl": true,
+          "track_continuity_report.json": true
+        },
+        "all_identical": true,
+        "manifest_differs_only_in": [
+          "command",
+          "finished_utc",
+          "outputs",
+          "started_utc"
+        ],
+        "note": "processing_log.txt and run_manifest.json contain wall-clock timestamps and the output directory name, so they differ by design"
+      }
+    },
+    "runtime": {
+      "primary_wall_s": 167.4,
+      "determinism_rerun_wall_s": 224.0,
+      "hardware": "Intel i5-1235U local CPU, Python 3.9.25",
+      "note": "re-run overlapped with other work"
+    },
+    "outputs_primary": {
+      "causal_kinematics.jsonl": {
+        "sha256": "9e5c5f3d6185028194b25f520a74aa0e9d751e66a16754881f366c87c7ac82e3",
+        "bytes": 105925073,
+        "rows": 65388
+      },
+      "config_resolved.json": {
+        "sha256": "804f699369c84eeec75cfc06bf3ffd08191b2f3cc508ac42a74647ca4429c515",
+        "bytes": 1050
+      },
+      "kinematic_quality_report.json": {
+        "sha256": "a7b71acc37517169d25b238bfb65ac25a16c6b2be6c58e7ce1e4a7ce48167313",
+        "bytes": 10594
+      },
+      "offline_kinematics.jsonl": {
+        "sha256": "9e19ff3f930a0206bb40a1e461fcb0a4bc22dda2add173f9f2c1be0e9e7509e8",
+        "bytes": 106254970,
+        "rows": 65388
+      },
+      "processing_log.txt": {
+        "sha256": "40e44abbc131a13a631b544610a6a27feab0386f2bf9a964d946099df8e3e065",
+        "bytes": 387
+      },
+      "quarantine.jsonl": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "rows": 0
+      },
+      "track_continuity_report.json": {
+        "sha256": "64f8b734afc63f606d3e744bf0f46f27244f084e2db9e2f438eb6e4b843b4d7c",
+        "bytes": 1541526
+      }
+    },
+    "run_dir_size_mb": 408,
+    "analysis_summary_sha256": "cdec85717fc32ac60146484145ac936a200c583121de9a4168389e0d05b3052b",
+    "input_integrity_sha256": "dff63dc38d303d60f679eea550c6534fdff1812f65ee2997824cf8d4df82e531",
+    "primary_manifest_sha256": "ad2089591d704ca403d530b7237bac3ebdee524852f09310f21087c5beac144b",
+    "rerun_manifest_sha256": "8739bae57c072dd89662814618bf7efae546b0532b6d7ad64a6778e48eb8abdc"
+  },
+  "files_created": {
+    "pedsafety/image_kinematics.py": "6be70e6c3a074257485555f40e279e2a79c10a2c3472d0d2faa67dcc4a1fa9e2",
+    "pedsafety/image_kinematics_offline.py": "5efeb5212c06b6dfb6da05e52424d8be03a2cf9ab7982c7fee97f582ff6e1213",
+    "pedsafety/image_kinematics_run.py": "7d58815b668486c5524153bff505fbf185e5fad6faba531f5ea121736b2266f4",
+    "pedsafety/track_continuity.py": "cfade5823b17b138317e8e7a3c50087fd890abf1be12c0ea7a086d309c63f5c7",
+    "scripts/run_image_kinematics.py": "1fdf0dca2c637f2ed63b9cfb09d6ece12dbdd25be0d5997e99e83179b0951b72",
+    "scripts/phase4_task2_synthetic_validation.py": "72e8327361add4fae35654f21c66b0ccf81d91be4932c8200e93505767d50b97",
+    "configs/phase4/image_kinematics_default.json": "757f5588cfca49fa0f21a554de576ff06f073d5311ee1b02e2910c53ea6090fe",
+    "configs/phase4/image_kinematics_phase3_synthetic_640x360.json": "0b8098e5d9c836413f20c8986405a9bd34237d7cab8d1aeaa0a76416e408f601",
+    "docs/phase4/schemas/image_kinematics_sidecar.schema.json": "1e64be9ac541f068a7a95e4743ba94dfb7e15c924e238df25a2fe3558f51ed57",
+    "tests/phase4/conftest.py": "3078c24645c7af32657aecfb652a2eb68815791e8f2c7140d67dc83cd0d22517",
+    "tests/phase4/task2_helpers.py": "7be088a87371b04cd40ae0cbbfbba4a496dac199235d7ef91eb799fae294ca08",
+    "tests/phase4/test_task2_derivatives.py": "82e2dca67dfaa22f10ab71c30e81a5a299851bfbb47ab27ba120fb58a03a4d17",
+    "tests/phase4/test_task2_continuity_contract.py": "71781c689eb6dccb4f407e956f3ea06110845a3c794409ec60b844ed597270d3",
+    "tests/phase4/test_task2_causality_smoothing.py": "51f9f74ad36d191fbef3f37d174c7f3239d0ac612ead5af55f453113e617d556",
+    "tests/phase4/test_task2_runner.py": "234007bc81edee9940b2cfd382386fad16a9f79d4a72a6064c51e9488b8d645f",
+    "docs/phase4/PHASE4_TASK2_IMAGE_SPACE_KINEMATICS.md": "see run directory listing",
+    "docs/phase4/phase4_task2_kinematic_report.json": "this file",
+    "scripts/phase4_task2_pie_input_integrity.py": "446a51e97a3bc188a8813495621a59903d5f26bcd38cb972fc98c16200ea9d6d",
+    "scripts/phase4_task2_pie_analysis.py": "ea989bbabbb9766e48a26cc17a12bd3952a789e12f43158cb5140919a72755dd",
+    "scripts/phase4_task2_pie_review_addendum.py": "f4c3063413172ef3997afcec1fda88582f06401b35123c70878c60255357998d"
+  },
+  "files_modified": [],
+  "preservation": {
+    "tracked_files_diff_vs_base": "empty",
+    "canonical_schema_sha256": "784c8ca9c059ccbf0ddbb8bfcaf42cdfbbd60b33acfc0136c78a00fde46c3c6c",
+    "phase3_outputs_modified": false,
+    "task1_deliverables_modified": false,
+    "pcg_artifacts_modified": false
+  },
+  "claims": {
+    "metric_world_coordinates": false,
+    "physical_speed": false,
+    "physical_acceleration": false,
+    "world_heading": false,
+    "metric_ttc_or_distance": false,
+    "ego_motion_compensated": false
+  },
+  "limitations": [
+    "image space only; ego-motion not removed",
+    "Phase 3 manifest has no file hashes (structural integrity checks only)",
+    "no derivative across any missing frame: 1,676 velocities and 2,977 accelerations lost on PIE",
+    "frame-to-frame raw causal acceleration very likely dominated by non-smooth components (jitter/vibration); noise not isolated from motion",
+    "gaps > 30 frames attributed to class-flip drops by inference only",
+    "anomaly indicators are not confirmed ID switches",
+    "large outputs and PIE inputs protected by .gitignore; superseded synthetic runs ignored pending a decision",
+    "original analysis summary lists track spans (not gap boundaries) for longest_single_gap; addendum corrects"
+  ],
+  "next_step": "Review the Task 3 design (docs/phase4/PHASE4_TASK3_INTERACTION_REPRESENTATION_DESIGN.md) and approve or amend before any Task 3 implementation.",
+  "final_review": {
+    "date": "2026-11-15",
+    "addendum": "experiments/phase4_task2_pie_video_0004/20261114T202653Z_pie_video_0004/analysis/review_addendum_20261115.json",
+    "addendum_sha256": "ef19f12cf83eb010b17419c5c6b42e6bdfe8cabd7c795ffa7225e936e3825b41",
+    "addendum_script_sha256": "f4c3063413172ef3997afcec1fda88582f06401b35123c70878c60255357998d",
+    "corrections": [
+      {
+        "id": "R1",
+        "issue": "longest gap reported with track span 3994-4159 as if it were the gap boundaries",
+        "corrected": {
+          "track_id": "pie:video_0004:8431",
+          "last_observed_frame_before_gap": 4009,
+          "first_observed_frame_after_gap": 4111,
+          "frame_difference": 102,
+          "missing_frames": 101,
+          "elapsed_s": 3.4,
+          "track_span": [
+            3994,
+            4159
+          ]
+        },
+        "gap_convention": "missing_frames = (first_after - last_before) // frame_step - 1; elapsed from timestamps",
+        "input_vs_report_gap_mismatch_tracks": 0,
+        "regression_test": "tests/phase4/test_task2_continuity_contract.py::test_gap_convention_separates_gap_boundaries_from_track_span"
+      },
+      {
+        "id": "R2",
+        "issue": "predicted-vs-measured acceleration comparison presented as independent evidence of noise dominance; it is not (same second differences)",
+        "corrected": "comparison reclassified as a distribution-shape statistic; stride test added",
+        "stride_test": {
+          "formula": "sigma_k = 1.4826 * MAD(p(f+k) - 2p(f) + p(f-k)) / sqrt(6), per axis, rows of one track at f-k, f, f+k",
+          "by_stride": {
+            "1": {
+              "all": {
+                "n": 59642,
+                "sigma_x_px": 1.1324733242341063,
+                "sigma_y_px": 1.1446136133782125
+              },
+              "bicyclist": {
+                "n": 6307,
+                "sigma_x_px": 1.2169658576953888,
+                "sigma_y_px": 0.8224180051003201
+              },
+              "pedestrian": {
+                "n": 21579,
+                "sigma_x_px": 1.0088307826466418,
+                "sigma_y_px": 1.7035379332131462
+              },
+              "vehicle": {
+                "n": 31756,
+                "sigma_x_px": 1.2199766863458101,
+                "sigma_y_px": 0.946157521230206
+              }
+            },
+            "2": {
+              "all": {
+                "n": 56459,
+                "sigma_x_px": 1.4715748277408207,
+                "sigma_y_px": 1.4360359668610028
+              },
+              "bicyclist": {
+                "n": 5879,
+                "sigma_x_px": 1.5676996884573347,
+                "sigma_y_px": 1.017549255793874
+              },
+              "pedestrian": {
+                "n": 20292,
+                "sigma_x_px": 1.3046239172914316,
+                "sigma_y_px": 2.1329596783971425
+              },
+              "vehicle": {
+                "n": 30288,
+                "sigma_x_px": 1.5764458686166871,
+                "sigma_y_px": 1.197497063845426
+              }
+            },
+            "3": {
+              "all": {
+                "n": 53976,
+                "sigma_x_px": 1.74382854667162,
+                "sigma_y_px": 1.6502481132348328
+              },
+              "bicyclist": {
+                "n": 5555,
+                "sigma_x_px": 1.90203096804398,
+                "sigma_y_px": 1.1491760347073785
+              },
+              "pedestrian": {
+                "n": 19267,
+                "sigma_x_px": 1.5583497263255244,
+                "sigma_y_px": 2.4040820276663566
+              },
+              "vehicle": {
+                "n": 29154,
+                "sigma_x_px": 1.8521398748857738,
+                "sigma_y_px": 1.3955098437995055
+              }
+            },
+            "4": {
+              "all": {
+                "n": 51922,
+                "sigma_x_px": 1.9986268479665412,
+                "sigma_y_px": 1.8552615315846768
+              },
+              "bicyclist": {
+                "n": 5290,
+                "sigma_x_px": 2.1189768729470266,
+                "sigma_y_px": 1.2837397569056497
+              },
+              "pedestrian": {
+                "n": 18389,
+                "sigma_x_px": 1.8088984646364734,
+                "sigma_y_px": 2.6872107488544286
+              },
+              "vehicle": {
+                "n": 28243,
+                "sigma_x_px": 2.125294071710487,
+                "sigma_y_px": 1.586540456699234
+              }
+            },
+            "6": {
+              "all": {
+                "n": 48524,
+                "sigma_x_px": 2.561697983948834,
+                "sigma_y_px": 2.1672979020850742
+              },
+              "bicyclist": {
+                "n": 4891,
+                "sigma_x_px": 2.5875763332693253,
+                "sigma_y_px": 1.457499665583637
+              },
+              "pedestrian": {
+                "n": 16924,
+                "sigma_x_px": 2.4008079824007913,
+                "sigma_y_px": 3.2383401626128117
+              },
+              "vehicle": {
+                "n": 26709,
+                "sigma_x_px": 2.6698292165842057,
+                "sigma_y_px": 1.8567761815805943
+              }
+            },
+            "8": {
+              "all": {
+                "n": 45725,
+                "sigma_x_px": 3.1862694511677976,
+                "sigma_y_px": 2.461786498242527
+              },
+              "bicyclist": {
+                "n": 4561,
+                "sigma_x_px": 3.045628657644443,
+                "sigma_y_px": 1.536409236102651
+              },
+              "pedestrian": {
+                "n": 15736,
+                "sigma_x_px": 2.996513360825609,
+                "sigma_y_px": 3.5864880055768498
+              },
+              "vehicle": {
+                "n": 25428,
+                "sigma_x_px": 3.318755147457036,
+                "sigma_y_px": 2.1435437570271505
+              }
+            }
+          },
+          "smooth_motion_upper_bound_at_k1_px": {
+            "sigma_x_px": 0.04978546017449684,
+            "sigma_y_px": 0.03846541403503948
+          },
+          "interpretation": "sigma_k grows with k (about 1.1 px at k=1 to about 2.5-3.2 px at k=8), so the second differences are not pure white noise. If all of the k=8 spread were locally constant acceleration over 16 frames, its share at k=1 would be at most sigma_8/64 (about 0.04-0.05 px), far below the observed k=1 spread (about 1.1 px). Under that assumption most of the frame-to-frame second difference is not smooth motion: detector box jitter and/or high-frequency image motion such as camera vibration (which is real image motion, not detector error). The assumption fails for abrupt motion, so this is evidence, not an isolation of noise from movement."
+        }
+      },
+      {
+        "id": "R3",
+        "issue": "ByteTrack buffer argument lacked code evidence",
+        "corrected": "verified in ultralytics 8.4.212 byte_tracker.py: max_frames_lost = track_buffer (30); stale lost tracks removed after matching when frame_id - end_frame > 30; class-flip attribution remains an inference"
+      },
+      {
+        "id": "R4",
+        "issue": "final consistency re-verification",
+        "result": {
+          "causal_rows": 65388,
+          "offline_rows": 65388,
+          "schema_violations": 0,
+          "world_populated": 0,
+          "causal_not_backward": 0,
+          "offline_not_central": 0,
+          "outputs_identical_except": [
+            "processing_log.txt"
+          ],
+          "manifest_keys_that_differ": [
+            "command",
+            "finished_utc",
+            "outputs",
+            "started_utc"
+          ],
+          "inputs_unchanged": true,
+          "config": {
+            "max_derivative_gap_frames": 0,
+            "smoothing": {
+              "kind": "none",
+              "alpha": null,
+              "tau_s": null
+            },
+            "min_heading_speed_px_per_s": 0.0,
+            "expected_image_coordinate_system": "captured_1920x1080"
+          }
+        }
+      }
+    ]
+  },
+  "files_modified_in_final_review": {
+    ".gitignore": "Phase 4 Task 2 ignore rules appended",
+    "tests/phase4/test_task2_continuity_contract.py": "regression test added",
+    "docs/phase4/PHASE4_TASK2_IMAGE_SPACE_KINEMATICS.md": "sections 0, 10, 11.3, 11.4-11.6, 11.9, 12, 14, 15 corrected/added",
+    "docs/phase4/phase4_task2_kinematic_report.json": "this update"
+  },
+  "repository": {
+    "gitignore_rules_added": [
+      "/PIE_pilot_inputs/",
+      "/experiments/phase4_task2_pie_video_0004/**/*.jsonl",
+      "/experiments/phase4_task2_synthetic_validation/20261114T195051Z_smoothing/",
+      "/experiments/phase4_task2_synthetic_validation/20261114T195107Z_phase3_synthetic_replay_format_check/"
+    ],
+    "never_commit": [
+      "PIE_pilot_inputs/",
+      "experiments/phase4_task2_pie_video_0004/**/*.jsonl"
+    ],
+    "not_committed_pending_approval": [
+      "the two superseded synthetic run directories"
+    ]
+  },
+  "deferred_decisions": [
+    "permit labelled cross-gap derivatives for short gaps (41.1% of gaps are 1 frame; 77.0% are <= 5)",
+    "enable a causal smoother (time-aware EMA) and choose tau from PIE noise evidence (sigma ~1.1 px/axis) and the lag trade-off",
+    "minimum heading speed (default 0)",
+    "Phase 3 logging of class-flip-dropped rows",
+    "deletion of two superseded synthetic runs"
+  ]
+}

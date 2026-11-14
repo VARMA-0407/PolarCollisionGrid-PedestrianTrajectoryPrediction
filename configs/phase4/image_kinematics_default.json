@@ -1,0 +1,30 @@
+{
+  "config_version": "phase4-task2-image-kinematics-config-1.0.0",
+  "expected_image_coordinate_system": "captured_1920x1080",
+  "expected_image_width": 1920,
+  "expected_image_height": 1080,
+  "footpoint_tolerance_px": 1e-06,
+  "bbox_bounds_tolerance_px": 1.0,
+  "frame_step": 1,
+  "max_derivative_gap_frames": 0,
+  "max_dt_seconds": null,
+  "min_heading_speed_px_per_s": 0.0,
+  "smoothing": {"kind": "none", "alpha": null, "tau_s": null},
+  "offline_central_difference": true,
+  "heading_speed_sensitivity_px_per_s": [0.0, 10.0, 30.0, 60.0, 120.0],
+  "continuity": {
+    "short_track_thresholds": [1, 2, 3, 5, 10, 30],
+    "jump_ratio_thresholds": [0.25, 0.5, 1.0, 2.0],
+    "box_height_ratio_thresholds": [1.5, 2.0, 3.0],
+    "fragment_max_gap_frames": [1, 5, 15, 30],
+    "fragment_max_distance_box_heights": 1.0,
+    "border_tolerance_px": 1.0,
+    "max_listed_items": 50
+  },
+  "_notes": {
+    "max_derivative_gap_frames": "Fixed at 0: no derivative across any missing frame. Non-zero bridging is refused by the code until the real PIE gap distribution has been reviewed.",
+    "min_heading_speed_px_per_s": "0.0 means only an exactly zero velocity has no heading. No threshold is chosen without evidence; the quality report gives heading counts at the sensitivity values instead.",
+    "smoothing": "Disabled by default. Options: causal_ema (existing Stage 4 fixed-alpha EMA, alpha in (0,1]) or time_aware_ema (alpha_t = 1 - exp(-dt/tau_s)). Raw estimates are always kept.",
+    "continuity": "Every anomaly threshold is reported as a sensitivity table; none is used to change or merge tracks."
+  }
+}

@@ -1,0 +1,653 @@
+{
+  "description": "Phase 4 Task 2 synthetic validation: smoothing evaluation (raw vs fixed-alpha EMA vs time-aware EMA).",
+  "warmup_s": 2.0,
+  "duration_s": 12.0,
+  "nominal_fps": 30.0,
+  "scenarios": [
+    {
+      "scenario": "constant_velocity",
+      "sampling": "uniform",
+      "sigma_px": 0.5,
+      "seed": 500,
+      "true_velocity_px_per_s": [
+        90.0,
+        -30.0
+      ],
+      "theory_raw_velocity_rmse_px_per_s_uniform": 30.000000000000004,
+      "filters": [
+        {
+          "filter": {
+            "kind": "none",
+            "alpha": null,
+            "tau_s": null
+          },
+          "n_rows": 360,
+          "velocity_rmse_px_per_s": 29.835111828478297,
+          "heading_rmse_rad": 0.224662111131333,
+          "acceleration_rmse_px_per_s2": 1550.194376294846
+        },
+        {
+          "filter": {
+            "kind": "causal_ema",
+            "alpha": 0.3,
+            "tau_s": null
+          },
+          "n_rows": 360,
+          "velocity_rmse_px_per_s": 6.854580713530093,
+          "heading_rmse_rad": 0.04894505155679773,
+          "acceleration_rmse_px_per_s2": 312.40895844635645
+        },
+        {
+          "filter": {
+            "kind": "causal_ema",
+            "alpha": 0.5,
+            "tau_s": null
+          },
+          "n_rows": 360,
+          "velocity_rmse_px_per_s": 12.171607552117178,
+          "heading_rmse_rad": 0.08774976407798979,
+          "acceleration_rmse_px_per_s2": 578.0472371166305
+        },
+        {
+          "filter": {
+            "kind": "time_aware_ema",
+            "alpha": null,
+            "tau_s": 0.1
+          },
+          "n_rows": 360,
+          "velocity_rmse_px_per_s": 6.443919574309372,
+          "heading_rmse_rad": 0.045988223490636485,
+          "acceleration_rmse_px_per_s2": 292.70823379473484
+        },
+        {
+          "filter": {
+            "kind": "time_aware_ema",
+            "alpha": null,
+            "tau_s": 0.2
+          },
+          "n_rows": 360,
+          "velocity_rmse_px_per_s": 3.3493951407688582,
+          "heading_rmse_rad": 0.023834469947657127,
+          "acceleration_rmse_px_per_s2": 148.41650307760963
+        },
+        {
+          "filter": {
+            "kind": "time_aware_ema",
+            "alpha": null,
+            "tau_s": 0.4
+          },
+          "n_rows": 360,
+          "velocity_rmse_px_per_s": 1.7041157854668385,
+          "heading_rmse_rad": 0.012091294346469274,
+          "acceleration_rmse_px_per_s2": 74.49182687906047
+        }
+      ]
+    },
+    {
+      "scenario": "constant_velocity",
+      "sampling": "uniform",
+      "sigma_px": 1.0,
+      "seed": 1000,
+      "true_velocity_px_per_s": [
+        90.0,
+        -30.0
+      ],
+      "theory_raw_velocity_rmse_px_per_s_uniform": 60.00000000000001,
+      "filters": [
+        {
+          "filter": {
+            "kind": "none",
+            "alpha": null,
+            "tau_s": null
+          },
+          "n_rows": 360,
+          "velocity_rmse_px_per_s": 64.32132524035536,
+          "heading_rmse_rad": 0.5429445720940236,
+          "acceleration_rmse_px_per_s2": 3349.3693924526874
+        },
+        {
+          "filter": {
+            "kind": "causal_ema",
+            "alpha": 0.3,
+            "tau_s": null
+          },
+          "n_rows": 360,
+          "velocity_rmse_px_per_s": 14.700730952505179,
+          "heading_rmse_rad": 0.1111079268817017,
+          "acceleration_rmse_px_per_s2": 673.5348985195477
+        },
+        {
+          "filter": {
+            "kind": "causal_ema",
+            "alpha": 0.5,
+            "tau_s": null
+          },
+          "n_rows": 360,
+          "velocity_rmse_px_per_s": 26.16300324111774,
+          "heading_rmse_rad": 0.20178677214018514,
+          "acceleration_rmse_px_per_s2": 1246.5110428508274
+        },
+        {
+          "filter": {
+            "kind": "time_aware_ema",
+            "alpha": null,
+            "tau_s": 0.1
+          },
+          "n_rows": 360,
+          "velocity_rmse_px_per_s": 13.818526182623987,
+          "heading_rmse_rad": 0.10433399763938317,
+          "acceleration_rmse_px_per_s2": 631.0492086015732
+        },
+        {
+          "filter": {
+            "kind": "time_aware_ema",
+            "alpha": null,
+            "tau_s": 0.2
+          },
+          "n_rows": 360,
+          "velocity_rmse_px_per_s": 7.187392747369129,
+          "heading_rmse_rad": 0.053993429479438075,
+          "acceleration_rmse_px_per_s2": 319.94009210988696
+        },
+        {
+          "filter": {
+            "kind": "time_aware_ema",
+            "alpha": null,
+            "tau_s": 0.4
+          },
+          "n_rows": 360,
+          "velocity_rmse_px_per_s": 3.660579503070267,
+          "heading_rmse_rad": 0.02746944781666672,
+          "acceleration_rmse_px_per_s2": 160.58192415968563
+        }
+      ]
+    },
+    {
+      "scenario": "constant_velocity",
+      "sampling": "uniform",
+      "sigma_px": 2.0,
+      "seed": 2000,
+      "true_velocity_px_per_s": [
+        90.0,
+        -30.0
+      ],
+      "theory_raw_velocity_rmse_px_per_s_uniform": 120.00000000000001,
+      "filters": [
+        {
+          "filter": {
+            "kind": "none",
+            "alpha": null,
+            "tau_s": null
+          },
+          "n_rows": 360,
+          "velocity_rmse_px_per_s": 114.06032403958606,
+          "heading_rmse_rad": 1.0296292257200557,
+          "acceleration_rmse_px_per_s2": 5907.254691332932
+        },
+        {
+          "filter": {
+            "kind": "causal_ema",
+            "alpha": 0.3,
+            "tau_s": null
+          },
+          "n_rows": 360,
+          "velocity_rmse_px_per_s": 26.691713723861337,
+          "heading_rmse_rad": 0.20931344631042792,
+          "acceleration_rmse_px_per_s2": 1193.2316811683945
+        },
+        {
+          "filter": {
+            "kind": "causal_ema",
+            "alpha": 0.5,
+            "tau_s": null
+          },
+          "n_rows": 360,
+          "velocity_rmse_px_per_s": 47.06446740071648,
+          "heading_rmse_rad": 0.3912555576003088,
+          "acceleration_rmse_px_per_s2": 2204.8896762323775
+        },
+        {
+          "filter": {
+            "kind": "time_aware_ema",
+            "alpha": null,
+            "tau_s": 0.1
+          },
+          "n_rows": 360,
+          "velocity_rmse_px_per_s": 25.11343199980567,
+          "heading_rmse_rad": 0.19615860619909797,
+          "acceleration_rmse_px_per_s2": 1118.0808361610182
+        },
+        {
+          "filter": {
+            "kind": "time_aware_ema",
+            "alpha": null,
+            "tau_s": 0.2
+          },
+          "n_rows": 360,
+          "velocity_rmse_px_per_s": 13.183901773843754,
+          "heading_rmse_rad": 0.10092354088130907,
+          "acceleration_rmse_px_per_s2": 567.2288511006567
+        },
+        {
+          "filter": {
+            "kind": "time_aware_ema",
+            "alpha": null,
+            "tau_s": 0.4
+          },
+          "n_rows": 360,
+          "velocity_rmse_px_per_s": 6.764743894527427,
+          "heading_rmse_rad": 0.05160006993437623,
+          "acceleration_rmse_px_per_s2": 284.75724142309014
+        }
+      ]
+    },
+    {
+      "scenario": "constant_velocity",
+      "sampling": "irregular",
+      "sigma_px": 0.5,
+      "seed": 507,
+      "true_velocity_px_per_s": [
+        90.0,
+        -30.0
+      ],
+      "theory_raw_velocity_rmse_px_per_s_uniform": null,
+      "filters": [
+        {
+          "filter": {
+            "kind": "none",
+            "alpha": null,
+            "tau_s": null
+          },
+          "n_rows": 364,
+          "velocity_rmse_px_per_s": 33.838626228240294,
+          "heading_rmse_rad": 0.26107116400909663,
+          "acceleration_rmse_px_per_s2": 2119.2850051288056
+        },
+        {
+          "filter": {
+            "kind": "causal_ema",
+            "alpha": 0.3,
+            "tau_s": null
+          },
+          "n_rows": 364,
+          "velocity_rmse_px_per_s": 26.552680212228957,
+          "heading_rmse_rad": 0.05198075094749877,
+          "acceleration_rmse_px_per_s2": 1553.6996485515863
+        },
+        {
+          "filter": {
+            "kind": "causal_ema",
+            "alpha": 0.5,
+            "tau_s": null
+          },
+          "n_rows": 364,
+          "velocity_rmse_px_per_s": 24.22968382663916,
+          "heading_rmse_rad": 0.09435979046744074,
+          "acceleration_rmse_px_per_s2": 1429.5635852054806
+        },
+        {
+          "filter": {
+            "kind": "time_aware_ema",
+            "alpha": null,
+            "tau_s": 0.1
+          },
+          "n_rows": 364,
+          "velocity_rmse_px_per_s": 7.264369937838683,
+          "heading_rmse_rad": 0.048516019164545746,
+          "acceleration_rmse_px_per_s2": 387.61014436794807
+        },
+        {
+          "filter": {
+            "kind": "time_aware_ema",
+            "alpha": null,
+            "tau_s": 0.2
+          },
+          "n_rows": 364,
+          "velocity_rmse_px_per_s": 3.840090814012253,
+          "heading_rmse_rad": 0.02521044350589388,
+          "acceleration_rmse_px_per_s2": 198.46845007039
+        },
+        {
+          "filter": {
+            "kind": "time_aware_ema",
+            "alpha": null,
+            "tau_s": 0.4
+          },
+          "n_rows": 364,
+          "velocity_rmse_px_per_s": 1.988489868988399,
+          "heading_rmse_rad": 0.012912548137863484,
+          "acceleration_rmse_px_per_s2": 100.09701573244824
+        }
+      ]
+    },
+    {
+      "scenario": "constant_velocity",
+      "sampling": "irregular",
+      "sigma_px": 1.0,
+      "seed": 1007,
+      "true_velocity_px_per_s": [
+        90.0,
+        -30.0
+      ],
+      "theory_raw_velocity_rmse_px_per_s_uniform": null,
+      "filters": [
+        {
+          "filter": {
+            "kind": "none",
+            "alpha": null,
+            "tau_s": null
+          },
+          "n_rows": 366,
+          "velocity_rmse_px_per_s": 69.26488630796469,
+          "heading_rmse_rad": 0.6437318989958094,
+          "acceleration_rmse_px_per_s2": 4438.31685022879
+        },
+        {
+          "filter": {
+            "kind": "causal_ema",
+            "alpha": 0.3,
+            "tau_s": null
+          },
+          "n_rows": 366,
+          "velocity_rmse_px_per_s": 29.839446353587864,
+          "heading_rmse_rad": 0.10667125452508587,
+          "acceleration_rmse_px_per_s2": 1651.9584694604275
+        },
+        {
+          "filter": {
+            "kind": "causal_ema",
+            "alpha": 0.5,
+            "tau_s": null
+          },
+          "n_rows": 366,
+          "velocity_rmse_px_per_s": 34.515163290982755,
+          "heading_rmse_rad": 0.19326208123454422,
+          "acceleration_rmse_px_per_s2": 1999.5952389461775
+        },
+        {
+          "filter": {
+            "kind": "time_aware_ema",
+            "alpha": null,
+            "tau_s": 0.1
+          },
+          "n_rows": 366,
+          "velocity_rmse_px_per_s": 13.45906655115646,
+          "heading_rmse_rad": 0.09858292904348166,
+          "acceleration_rmse_px_per_s2": 709.7575083254033
+        },
+        {
+          "filter": {
+            "kind": "time_aware_ema",
+            "alpha": null,
+            "tau_s": 0.2
+          },
+          "n_rows": 366,
+          "velocity_rmse_px_per_s": 7.066331926194381,
+          "heading_rmse_rad": 0.05138127137775048,
+          "acceleration_rmse_px_per_s2": 360.152087805495
+        },
+        {
+          "filter": {
+            "kind": "time_aware_ema",
+            "alpha": null,
+            "tau_s": 0.4
+          },
+          "n_rows": 366,
+          "velocity_rmse_px_per_s": 3.6232207123349256,
+          "heading_rmse_rad": 0.02633753008154396,
+          "acceleration_rmse_px_per_s2": 180.96501260064875
+        }
+      ]
+    },
+    {
+      "scenario": "constant_velocity",
+      "sampling": "irregular",
+      "sigma_px": 2.0,
+      "seed": 2007,
+      "true_velocity_px_per_s": [
+        90.0,
+        -30.0
+      ],
+      "theory_raw_velocity_rmse_px_per_s_uniform": null,
+      "filters": [
+        {
+          "filter": {
+            "kind": "none",
+            "alpha": null,
+            "tau_s": null
+          },
+          "n_rows": 363,
+          "velocity_rmse_px_per_s": 129.85314344192471,
+          "heading_rmse_rad": 1.0585261424556325,
+          "acceleration_rmse_px_per_s2": 8063.146222812154
+        },
+        {
+          "filter": {
+            "kind": "causal_ema",
+            "alpha": 0.3,
+            "tau_s": null
+          },
+          "n_rows": 363,
+          "velocity_rmse_px_per_s": 39.30403847342521,
+          "heading_rmse_rad": 0.20868794384519782,
+          "acceleration_rmse_px_per_s2": 2242.9380209165693
+        },
+        {
+          "filter": {
+            "kind": "causal_ema",
+            "alpha": 0.5,
+            "tau_s": null
+          },
+          "n_rows": 363,
+          "velocity_rmse_px_per_s": 56.535637745128646,
+          "heading_rmse_rad": 0.41161822882664295,
+          "acceleration_rmse_px_per_s2": 3245.9656448318638
+        },
+        {
+          "filter": {
+            "kind": "time_aware_ema",
+            "alpha": null,
+            "tau_s": 0.1
+          },
+          "n_rows": 363,
+          "velocity_rmse_px_per_s": 25.294292798480548,
+          "heading_rmse_rad": 0.19096665170350752,
+          "acceleration_rmse_px_per_s2": 1317.7057918679113
+        },
+        {
+          "filter": {
+            "kind": "time_aware_ema",
+            "alpha": null,
+            "tau_s": 0.2
+          },
+          "n_rows": 363,
+          "velocity_rmse_px_per_s": 13.159797428297422,
+          "heading_rmse_rad": 0.09719935638506796,
+          "acceleration_rmse_px_per_s2": 664.5462285738145
+        },
+        {
+          "filter": {
+            "kind": "time_aware_ema",
+            "alpha": null,
+            "tau_s": 0.4
+          },
+          "n_rows": 363,
+          "velocity_rmse_px_per_s": 6.7013948170792155,
+          "heading_rmse_rad": 0.04940886113117838,
+          "acceleration_rmse_px_per_s2": 332.7048439064811
+        }
+      ]
+    },
+    {
+      "scenario": "abrupt_manoeuvre",
+      "sampling": "uniform",
+      "sigma_px_for_rmse": 1.0,
+      "sigma_px_for_lag": 0.0,
+      "seed": 4242,
+      "switch_time_s": 6.0,
+      "lag_definition": "time after the switch until the heading stays within 0.2 rad of the new direction",
+      "filters": [
+        {
+          "filter": {
+            "kind": "none",
+            "alpha": null,
+            "tau_s": null
+          },
+          "heading_settle_delay_noise_free_s": 0.033333333333333215,
+          "theory_continuous_time_delay_s": null,
+          "n_rows": 360,
+          "velocity_rmse_px_per_s": 59.282923371486945,
+          "heading_rmse_rad": 0.5723280945853388
+        },
+        {
+          "filter": {
+            "kind": "causal_ema",
+            "alpha": 0.3,
+            "tau_s": null
+          },
+          "heading_settle_delay_noise_free_s": 0.16666666666666696,
+          "theory_continuous_time_delay_s": null,
+          "n_rows": 360,
+          "velocity_rmse_px_per_s": 17.119878503506072,
+          "heading_rmse_rad": 0.1664032927787841
+        },
+        {
+          "filter": {
+            "kind": "causal_ema",
+            "alpha": 0.5,
+            "tau_s": null
+          },
+          "heading_settle_delay_noise_free_s": 0.09999999999999964,
+          "theory_continuous_time_delay_s": null,
+          "n_rows": 360,
+          "velocity_rmse_px_per_s": 25.224114145548313,
+          "heading_rmse_rad": 0.21711479695647026
+        },
+        {
+          "filter": {
+            "kind": "time_aware_ema",
+            "alpha": null,
+            "tau_s": 0.1
+          },
+          "heading_settle_delay_noise_free_s": 0.20000000000000018,
+          "theory_continuous_time_delay_s": 0.1780556091029327,
+          "n_rows": 360,
+          "velocity_rmse_px_per_s": 16.671326436518328,
+          "heading_rmse_rad": 0.16503113734707103
+        },
+        {
+          "filter": {
+            "kind": "time_aware_ema",
+            "alpha": null,
+            "tau_s": 0.2
+          },
+          "heading_settle_delay_noise_free_s": 0.36666666666666625,
+          "theory_continuous_time_delay_s": 0.3561112182058654,
+          "n_rows": 360,
+          "velocity_rmse_px_per_s": 15.602342686557881,
+          "heading_rmse_rad": 0.180658121562158
+        },
+        {
+          "filter": {
+            "kind": "time_aware_ema",
+            "alpha": null,
+            "tau_s": 0.4
+          },
+          "heading_settle_delay_noise_free_s": 0.7333333333333334,
+          "theory_continuous_time_delay_s": 0.7122224364117308,
+          "n_rows": 360,
+          "velocity_rmse_px_per_s": 19.223835613693975,
+          "heading_rmse_rad": 0.23502691553289626
+        }
+      ]
+    },
+    {
+      "scenario": "abrupt_manoeuvre",
+      "sampling": "irregular",
+      "sigma_px_for_rmse": 1.0,
+      "sigma_px_for_lag": 0.0,
+      "seed": 4242,
+      "switch_time_s": 6.0,
+      "lag_definition": "time after the switch until the heading stays within 0.2 rad of the new direction",
+      "filters": [
+        {
+          "filter": {
+            "kind": "none",
+            "alpha": null,
+            "tau_s": null
+          },
+          "heading_settle_delay_noise_free_s": 0.03042119141638011,
+          "theory_continuous_time_delay_s": null,
+          "n_rows": 364,
+          "velocity_rmse_px_per_s": 66.88432071113289,
+          "heading_rmse_rad": 0.6493122164824293
+        },
+        {
+          "filter": {
+            "kind": "causal_ema",
+            "alpha": 0.3,
+            "tau_s": null
+          },
+          "heading_settle_delay_noise_free_s": 0.1916637312375693,
+          "theory_continuous_time_delay_s": null,
+          "n_rows": 364,
+          "velocity_rmse_px_per_s": 29.00719298889324,
+          "heading_rmse_rad": 0.14794072129409563
+        },
+        {
+          "filter": {
+            "kind": "causal_ema",
+            "alpha": 0.5,
+            "tau_s": null
+          },
+          "heading_settle_delay_noise_free_s": 0.09881572329573451,
+          "theory_continuous_time_delay_s": null,
+          "n_rows": 364,
+          "velocity_rmse_px_per_s": 32.17880638904563,
+          "heading_rmse_rad": 0.20887914732576723
+        },
+        {
+          "filter": {
+            "kind": "time_aware_ema",
+            "alpha": null,
+            "tau_s": 0.1
+          },
+          "heading_settle_delay_noise_free_s": 0.1916637312375693,
+          "theory_continuous_time_delay_s": 0.1780556091029327,
+          "n_rows": 364,
+          "velocity_rmse_px_per_s": 15.475608034701303,
+          "heading_rmse_rad": 0.14166965390692765
+        },
+        {
+          "filter": {
+            "kind": "time_aware_ema",
+            "alpha": null,
+            "tau_s": 0.2
+          },
+          "heading_settle_delay_noise_free_s": 0.39457789612973393,
+          "theory_continuous_time_delay_s": 0.3561112182058654,
+          "n_rows": 364,
+          "velocity_rmse_px_per_s": 13.806265988076456,
+          "heading_rmse_rad": 0.15460711326378807
+        },
+        {
+          "filter": {
+            "kind": "time_aware_ema",
+            "alpha": null,
+            "tau_s": 0.4
+          },
+          "heading_settle_delay_noise_free_s": 0.7428666317124142,
+          "theory_continuous_time_delay_s": 0.7122224364117308,
+          "n_rows": 364,
+          "velocity_rmse_px_per_s": 17.623351515925886,
+          "heading_rmse_rad": 0.21406024734476864
+        }
+      ]
+    }
+  ],
+  "notes": [
+    "theory_raw_velocity_rmse uses sqrt(2)*sigma/dt per axis and sqrt(2) for the two axes (uniform sampling only)",
+    "fixed-alpha causal_ema smooths per SAMPLE, so its effective time constant changes with the sampling interval; time_aware_ema uses alpha_t = 1 - exp(-dt/tau)",
+    "synthetic Gaussian noise only; real footpoint noise is not Gaussian or independent (box jitter, occlusion, truncation)"
+  ]
+}

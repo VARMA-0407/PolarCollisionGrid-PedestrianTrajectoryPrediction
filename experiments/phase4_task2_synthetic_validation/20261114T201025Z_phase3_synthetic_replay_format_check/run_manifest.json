@@ -1,0 +1,157 @@
+{
+  "manifest_version": "phase4-task2-run-manifest-1.0.0",
+  "task": "phase4_task2_image_space_kinematics",
+  "status": "completed",
+  "processing_version": "image-kinematics-0.1.0-phase4-task2",
+  "engine": {
+    "name": "pedsafety.trajectory.FeatureEngine",
+    "version": "trajectory-0.4.0-stage4"
+  },
+  "sidecar_schema": {
+    "version": "image-kinematics-sidecar-1.0.0",
+    "path": "docs\\phase4\\schemas\\image_kinematics_sidecar.schema.json",
+    "sha256": "1e64be9ac541f068a7a95e4743ba94dfb7e15c924e238df25a2fe3558f51ed57"
+  },
+  "started_utc": "2026-11-14T20:10:27Z",
+  "finished_utc": "2026-11-14T20:10:27Z",
+  "command": "run_image_kinematics.py --input outputs/perception/20261114T122436Z_synthetic_replay/agent_states.jsonl --config configs/phase4/image_kinematics_phase3_synthetic_640x360.json --out experiments/phase4_task2_synthetic_validation/20261114T201025Z_phase3_synthetic_replay_format_check --run-manifest outputs/perception/20261114T122436Z_synthetic_replay/run_manifest.json --tracked-agents outputs/perception/20261114T122436Z_synthetic_replay/tracked_agents.jsonl",
+  "environment": {
+    "python": "3.9.25",
+    "platform": "Windows-10-10.0.26300-SP0",
+    "numpy": "1.26.4",
+    "jsonschema": "4.25.1",
+    "git_commit": "b66cbc5f45a4f68c04ca1051eee1d4a2e4870da7"
+  },
+  "input": {
+    "path": "outputs\\perception\\20261114T122436Z_synthetic_replay\\agent_states.jsonl",
+    "sha256_before": "065c70a6b6d44d162a62784512929d314f7ae5d06cb401b51b029af424178647",
+    "sha256_after": "065c70a6b6d44d162a62784512929d314f7ae5d06cb401b51b029af424178647",
+    "bytes": 588515,
+    "non_blank_lines": 608,
+    "read_only": true
+  },
+  "references": {
+    "phase3_run_manifest": {
+      "path": "outputs\\perception\\20261114T122436Z_synthetic_replay\\run_manifest.json",
+      "sha256": "65f838e840158acc24b24964b56796f9f09fdfff728010778cda57de63e3ab68",
+      "bytes": 5104,
+      "excerpt": {
+        "manifest_version": "perception-run-manifest-0.1.0-task1",
+        "created_utc": "2026-11-14T12:24:47.384602+00:00",
+        "video": "synthetic_scene.mp4",
+        "backend": "replay",
+        "is_mock": true,
+        "video_stats": {
+          "frames_delivered": 120,
+          "advisory_frame_count": 120,
+          "frames_missing_vs_advisory_count": 0,
+          "released": true
+        },
+        "world_coordinates": "none: outputs are image-space pixels only"
+      }
+    },
+    "phase3_tracked_agents": {
+      "path": "outputs\\perception\\20261114T122436Z_synthetic_replay\\tracked_agents.jsonl",
+      "sha256": "b2f23e6c2ef5c9975b75f31551b2549ee11f429d14ef401500f7ef3bdc8fef10",
+      "bytes": 315649
+    }
+  },
+  "config": {
+    "path": "configs/phase4/image_kinematics_phase3_synthetic_640x360.json",
+    "sha256_resolved": "b4cfe531e1b27c1c2b92c3480ca8b7aaececf3646b442f5ced1069070bdf3d3c",
+    "config_version": "phase4-task2-image-kinematics-config-1.0.0-phase3-synthetic-640x360"
+  },
+  "modes": {
+    "causal": true,
+    "offline_central_difference": true,
+    "offline_rows_in_causal_output": false
+  },
+  "conventions": {
+    "coordinate_system": "captured_640x360",
+    "coordinate_space": "image",
+    "origin": "top-left",
+    "u_positive": "right",
+    "v_positive": "down",
+    "position_unit": "pixel",
+    "velocity_unit": "pixel/s",
+    "acceleration_unit": "pixel/s^2",
+    "time_unit": "s",
+    "heading_unit": "rad",
+    "heading_convention": "atan2(vy, vx) in image axes: angle from +x toward +y; image +y points down so positive is clockwise on screen; not a world heading; range [-pi, pi)",
+    "position_source": "footpoint = (bbox centre x, bbox bottom y), taken from image_x/image_y after a consistency check"
+  },
+  "policies": {
+    "timestamp": "actual record timestamps; dt must be finite and > 0; nominal FPS is never substituted",
+    "ordering": "input order per track; duplicate frames quarantine all copies; out-of-order frames and non-monotonic timestamps quarantined (Stage 2/4 rules)",
+    "gaps": "max_derivative_gap_frames = 0: any missing frame breaks velocity and acceleration",
+    "max_dt_seconds": null,
+    "min_heading_speed_px_per_s": 0.0,
+    "smoothing": "none",
+    "interpolation": "none",
+    "provenance": "the Phase 3 records carry no Stage 2 provenance sidecar; none is reconstructed. Fields absent from a record stay null."
+  },
+  "counts": {
+    "input_non_blank_lines": 608,
+    "parsed_records": 608,
+    "quarantined": 0,
+    "causal_rows": 608,
+    "offline_rows": 608,
+    "tracks": 7,
+    "valid_positions": 608,
+    "valid_velocity": 600,
+    "valid_acceleration": 593,
+    "valid_heading": 600
+  },
+  "outputs": {
+    "causal_kinematics.jsonl": {
+      "sha256": "5fbb6437d00b0fe5198940ff96f769bcb6b14fe073c64aca8e216b975cd60612",
+      "bytes": 990891,
+      "rows": 608
+    },
+    "config_resolved.json": {
+      "sha256": "62cefe9694f46231473635314e768bff95ae0dcae1c1b6f80795f36ecf9d5035",
+      "bytes": 1071
+    },
+    "kinematic_quality_report.json": {
+      "sha256": "a9ab65bb06d65cb5e5e0c878ac523afbd1569ba4edbd5e723b3871ecd00791b5",
+      "bytes": 10156
+    },
+    "offline_kinematics.jsonl": {
+      "sha256": "ae13e228153d8b503d2d5631954710bf20f49035e8b8305f7d60d663eef1e4de",
+      "bytes": 994896,
+      "rows": 608
+    },
+    "processing_log.txt": {
+      "sha256": "79b88b0cdb530a5511bd8f35b65bdd78cc0f150498d10505f54e193bb6403bdb",
+      "bytes": 412
+    },
+    "quarantine.jsonl": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "rows": 0
+    },
+    "track_continuity_report.json": {
+      "sha256": "cebddc9e931e53a562960dc5b79174c8e1886b920683bda1310cc9502e8ca55c",
+      "bytes": 26053
+    }
+  },
+  "claims": {
+    "coordinate_space": "image (captured raster pixels)",
+    "metric_world_coordinates": false,
+    "physical_speed": false,
+    "physical_acceleration": false,
+    "world_heading": false,
+    "metric_ttc_or_distance": false,
+    "ego_motion_compensated": false,
+    "note": "Image-space derivatives of a moving vehicle-mounted camera mix agent motion and camera ego-motion; they are not physical quantities."
+  },
+  "limitations": [
+    "Image space only (pixels, pixel/s, pixel/s^2, image-plane radians); no metric or world interpretation is supported (Phase 4 Task 1).",
+    "Camera ego-motion is not removed: image velocity is not agent velocity.",
+    "max_derivative_gap_frames = 0: no derivative across any missing frame; gap bridging awaits review of the gap distribution.",
+    "Positions are bottom-centre footpoints, a ground-contact proxy affected by occlusion, truncation and box looseness.",
+    "Causal acceleration divides by the current step dt (the specified Stage 4 formula); on unequal spacing it is not centred.",
+    "Anomaly indicators (suspicious jumps, possible fragment pairs) are not confirmed ID switches.",
+    "No interpolation is performed in either view."
+  ]
+}

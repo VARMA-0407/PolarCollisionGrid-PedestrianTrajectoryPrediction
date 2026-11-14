@@ -1,0 +1,46 @@
+{
+  "manifest_version": "phase4-task2-synthetic-validation-1.0.0",
+  "created_utc": "2026-11-14T20:10:26Z",
+  "script": "scripts/phase4_task2_synthetic_validation.py",
+  "script_sha256": "72e8327361add4fae35654f21c66b0ccf81d91be4932c8200e93505767d50b97",
+  "config_base": "configs/phase4/image_kinematics_default.json",
+  "config_base_sha256": "757f5588cfca49fa0f21a554de576ff06f073d5311ee1b02e2910c53ea6090fe",
+  "filters": [
+    {
+      "kind": "none",
+      "alpha": null,
+      "tau_s": null
+    },
+    {
+      "kind": "causal_ema",
+      "alpha": 0.3,
+      "tau_s": null
+    },
+    {
+      "kind": "causal_ema",
+      "alpha": 0.5,
+      "tau_s": null
+    },
+    {
+      "kind": "time_aware_ema",
+      "alpha": null,
+      "tau_s": 0.1
+    },
+    {
+      "kind": "time_aware_ema",
+      "alpha": null,
+      "tau_s": 0.2
+    },
+    {
+      "kind": "time_aware_ema",
+      "alpha": null,
+      "tau_s": 0.4
+    }
+  ],
+  "outputs": {
+    "smoothing_evaluation.json": {
+      "sha256": "12003ab9c8bc0f160b9757b1409aaeb0fc3e3127efb9c42a2e5d54c0312b8de5"
+    }
+  },
+  "data": "synthetic only"
+}

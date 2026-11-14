@@ -1,0 +1,895 @@
+{
+  "continuity_version": "track-continuity-0.1.0-phase4-task2",
+  "frame_step": 1,
+  "max_derivative_gap_frames": 0,
+  "summary": {
+    "n_tracks": 7,
+    "n_sequences": 1,
+    "track_length_valid_positions": {
+      "n": 7,
+      "min": 1.0,
+      "p05": 19.900000000000002,
+      "p25": 71.5,
+      "p50": 109.0,
+      "p75": 117.5,
+      "p95": 120.0,
+      "p99": 120.0,
+      "max": 120.0,
+      "mean": 86.85714285714286
+    },
+    "track_duration_s": {
+      "n": 7,
+      "min": 0.0,
+      "p05": 2.0700000000000003,
+      "p25": 7.3500000000000005,
+      "p50": 10.8,
+      "p75": 11.65,
+      "p95": 11.9,
+      "p99": 11.9,
+      "max": 11.9,
+      "mean": 8.671428571428573
+    },
+    "short_tracks": [
+      {
+        "valid_positions_lt": 1,
+        "n_tracks": 0
+      },
+      {
+        "valid_positions_lt": 2,
+        "n_tracks": 1
+      },
+      {
+        "valid_positions_lt": 3,
+        "n_tracks": 1
+      },
+      {
+        "valid_positions_lt": 5,
+        "n_tracks": 1
+      },
+      {
+        "valid_positions_lt": 10,
+        "n_tracks": 1
+      },
+      {
+        "valid_positions_lt": 30,
+        "n_tracks": 1
+      }
+    ],
+    "n_gaps": 1,
+    "n_tracks_with_gaps": 1,
+    "gap_missing_frames_histogram": {
+      "6": 1
+    },
+    "gap_elapsed_s": {
+      "n": 1,
+      "min": 0.6999999999999993,
+      "p05": 0.6999999999999993,
+      "p25": 0.6999999999999993,
+      "p50": 0.6999999999999993,
+      "p75": 0.6999999999999993,
+      "p95": 0.6999999999999993,
+      "p99": 0.6999999999999993,
+      "max": 0.6999999999999993,
+      "mean": 0.6999999999999993
+    },
+    "grouping_and_stream_issues": {},
+    "n_border_touching_rows": 34,
+    "per_class": {
+      "bicyclist": {
+        "n_tracks": 1,
+        "n_valid_positions": 79,
+        "n_gaps": 0,
+        "missing_frames_total": 0,
+        "track_length_valid_positions": {
+          "n": 1,
+          "min": 79.0,
+          "p05": 79.0,
+          "p25": 79.0,
+          "p50": 79.0,
+          "p75": 79.0,
+          "p95": 79.0,
+          "p99": 79.0,
+          "max": 79.0,
+          "mean": 79.0
+        }
+      },
+      "pedestrian": {
+        "n_tracks": 3,
+        "n_valid_positions": 304,
+        "n_gaps": 1,
+        "missing_frames_total": 6,
+        "track_length_valid_positions": {
+          "n": 3,
+          "min": 64.0,
+          "p05": 69.6,
+          "p25": 92.0,
+          "p50": 120.0,
+          "p75": 120.0,
+          "p95": 120.0,
+          "p99": 120.0,
+          "max": 120.0,
+          "mean": 101.33333333333333
+        }
+      },
+      "vehicle": {
+        "n_tracks": 3,
+        "n_valid_positions": 225,
+        "n_gaps": 0,
+        "missing_frames_total": 0,
+        "track_length_valid_positions": {
+          "n": 3,
+          "min": 1.0,
+          "p05": 11.8,
+          "p25": 55.0,
+          "p50": 109.0,
+          "p75": 112.0,
+          "p95": 114.4,
+          "p99": 114.88,
+          "max": 115.0,
+          "mean": 75.0
+        }
+      }
+    }
+  },
+  "anomaly_indicators": {
+    "note": "Indicators only. A suspicious jump or a fragment pair is a POSSIBLE ID switch / fragmentation, never a confirmed one; no track was merged, split or renamed.",
+    "suspicious_jumps_consecutive_frames": {
+      "displacement_table": [
+        {
+          "displacement_over_box_height_gt": 0.25,
+          "n_pairs": 0,
+          "n_tracks": 0
+        },
+        {
+          "displacement_over_box_height_gt": 0.5,
+          "n_pairs": 0,
+          "n_tracks": 0
+        },
+        {
+          "displacement_over_box_height_gt": 1.0,
+          "n_pairs": 0,
+          "n_tracks": 0
+        },
+        {
+          "displacement_over_box_height_gt": 2.0,
+          "n_pairs": 0,
+          "n_tracks": 0
+        }
+      ],
+      "box_height_change_table": [
+        {
+          "box_height_ratio_gt": 1.5,
+          "n_pairs": 0,
+          "n_tracks": 0
+        },
+        {
+          "box_height_ratio_gt": 2.0,
+          "n_pairs": 0,
+          "n_tracks": 0
+        },
+        {
+          "box_height_ratio_gt": 3.0,
+          "n_pairs": 0,
+          "n_tracks": 0
+        }
+      ],
+      "n_pairs_evaluated": 600,
+      "possible_id_switch_indicators": {
+        "rule": "displacement/box_height > 2.0 AND box_height_ratio > 1.5",
+        "n_pairs": 0,
+        "items": []
+      },
+      "largest_items": [
+        {
+          "track_id": "video_perception_mock:synthetic_scene:3",
+          "from_frame": 10,
+          "to_frame": 11,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.15,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "video_perception_mock:synthetic_scene:3",
+          "from_frame": 11,
+          "to_frame": 12,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.15,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "video_perception_mock:synthetic_scene:3",
+          "from_frame": 12,
+          "to_frame": 13,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.15,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "video_perception_mock:synthetic_scene:3",
+          "from_frame": 13,
+          "to_frame": 14,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.15,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "video_perception_mock:synthetic_scene:3",
+          "from_frame": 14,
+          "to_frame": 15,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.15,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "video_perception_mock:synthetic_scene:3",
+          "from_frame": 15,
+          "to_frame": 16,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.15,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "video_perception_mock:synthetic_scene:3",
+          "from_frame": 16,
+          "to_frame": 17,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.15,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "video_perception_mock:synthetic_scene:3",
+          "from_frame": 17,
+          "to_frame": 18,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.15,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "video_perception_mock:synthetic_scene:3",
+          "from_frame": 18,
+          "to_frame": 19,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.15,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "video_perception_mock:synthetic_scene:3",
+          "from_frame": 19,
+          "to_frame": 20,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.15,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "video_perception_mock:synthetic_scene:3",
+          "from_frame": 20,
+          "to_frame": 21,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.15,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "video_perception_mock:synthetic_scene:3",
+          "from_frame": 21,
+          "to_frame": 22,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.15,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "video_perception_mock:synthetic_scene:3",
+          "from_frame": 22,
+          "to_frame": 23,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.15,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "video_perception_mock:synthetic_scene:3",
+          "from_frame": 23,
+          "to_frame": 24,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.15,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "video_perception_mock:synthetic_scene:3",
+          "from_frame": 24,
+          "to_frame": 25,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.15,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "video_perception_mock:synthetic_scene:3",
+          "from_frame": 25,
+          "to_frame": 26,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.15,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "video_perception_mock:synthetic_scene:3",
+          "from_frame": 26,
+          "to_frame": 27,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.15,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "video_perception_mock:synthetic_scene:3",
+          "from_frame": 27,
+          "to_frame": 28,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.15,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "video_perception_mock:synthetic_scene:3",
+          "from_frame": 28,
+          "to_frame": 29,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.15,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "video_perception_mock:synthetic_scene:3",
+          "from_frame": 29,
+          "to_frame": 30,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.15,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "video_perception_mock:synthetic_scene:3",
+          "from_frame": 30,
+          "to_frame": 31,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.15,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "video_perception_mock:synthetic_scene:3",
+          "from_frame": 31,
+          "to_frame": 32,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.15,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "video_perception_mock:synthetic_scene:3",
+          "from_frame": 32,
+          "to_frame": 33,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.15,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "video_perception_mock:synthetic_scene:3",
+          "from_frame": 33,
+          "to_frame": 34,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.15,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "video_perception_mock:synthetic_scene:3",
+          "from_frame": 34,
+          "to_frame": 35,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.15,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "video_perception_mock:synthetic_scene:3",
+          "from_frame": 35,
+          "to_frame": 36,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.15,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "video_perception_mock:synthetic_scene:3",
+          "from_frame": 36,
+          "to_frame": 37,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.15,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "video_perception_mock:synthetic_scene:3",
+          "from_frame": 37,
+          "to_frame": 38,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.15,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "video_perception_mock:synthetic_scene:3",
+          "from_frame": 38,
+          "to_frame": 39,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.15,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "video_perception_mock:synthetic_scene:3",
+          "from_frame": 39,
+          "to_frame": 40,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.15,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "video_perception_mock:synthetic_scene:3",
+          "from_frame": 40,
+          "to_frame": 41,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.15,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "video_perception_mock:synthetic_scene:3",
+          "from_frame": 41,
+          "to_frame": 42,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.15,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "video_perception_mock:synthetic_scene:3",
+          "from_frame": 42,
+          "to_frame": 43,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.15,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "video_perception_mock:synthetic_scene:3",
+          "from_frame": 43,
+          "to_frame": 44,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.15,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "video_perception_mock:synthetic_scene:3",
+          "from_frame": 44,
+          "to_frame": 45,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.15,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "video_perception_mock:synthetic_scene:3",
+          "from_frame": 45,
+          "to_frame": 46,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.15,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "video_perception_mock:synthetic_scene:3",
+          "from_frame": 46,
+          "to_frame": 47,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.15,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "video_perception_mock:synthetic_scene:3",
+          "from_frame": 47,
+          "to_frame": 48,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.15,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "video_perception_mock:synthetic_scene:3",
+          "from_frame": 48,
+          "to_frame": 49,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.15,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "video_perception_mock:synthetic_scene:3",
+          "from_frame": 49,
+          "to_frame": 50,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.15,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "video_perception_mock:synthetic_scene:3",
+          "from_frame": 50,
+          "to_frame": 51,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.15,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "video_perception_mock:synthetic_scene:3",
+          "from_frame": 51,
+          "to_frame": 52,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.15,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "video_perception_mock:synthetic_scene:3",
+          "from_frame": 52,
+          "to_frame": 53,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.15,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "video_perception_mock:synthetic_scene:3",
+          "from_frame": 53,
+          "to_frame": 54,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.15,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "video_perception_mock:synthetic_scene:3",
+          "from_frame": 54,
+          "to_frame": 55,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.15,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "video_perception_mock:synthetic_scene:3",
+          "from_frame": 55,
+          "to_frame": 56,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.15,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "video_perception_mock:synthetic_scene:3",
+          "from_frame": 56,
+          "to_frame": 57,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.15,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "video_perception_mock:synthetic_scene:3",
+          "from_frame": 57,
+          "to_frame": 58,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.15,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "video_perception_mock:synthetic_scene:3",
+          "from_frame": 58,
+          "to_frame": 59,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.15,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "video_perception_mock:synthetic_scene:3",
+          "from_frame": 59,
+          "to_frame": 60,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.15,
+          "box_height_ratio": 1.0
+        }
+      ]
+    },
+    "displacement_across_gaps": {
+      "n": 1,
+      "min": 0.25238858928247926,
+      "p05": 0.25238858928247926,
+      "p25": 0.25238858928247926,
+      "p50": 0.25238858928247926,
+      "p75": 0.25238858928247926,
+      "p95": 0.25238858928247926,
+      "p99": 0.25238858928247926,
+      "max": 0.25238858928247926,
+      "mean": 0.25238858928247926
+    },
+    "possible_fragment_pairs": {
+      "max_distance_box_heights": 1.0,
+      "table": [
+        {
+          "max_gap_frames": 1,
+          "n_pairs": 0
+        },
+        {
+          "max_gap_frames": 5,
+          "n_pairs": 1
+        },
+        {
+          "max_gap_frames": 15,
+          "n_pairs": 1
+        },
+        {
+          "max_gap_frames": 30,
+          "n_pairs": 1
+        }
+      ],
+      "items": [
+        {
+          "earlier_track_id": "video_perception_mock:synthetic_scene:3",
+          "later_track_id": "video_perception_mock:synthetic_scene:7",
+          "agent_class": "vehicle",
+          "end_frame": 114,
+          "start_frame": 116,
+          "frame_gap": 2,
+          "distance_over_box_height": 0.15,
+          "label": "possible_fragment_pair (not confirmed; not merged)"
+        }
+      ]
+    },
+    "confirmed_id_switches": null,
+    "confirmed_id_switches_note": "not determinable: no independent identity evidence was supplied"
+  },
+  "per_track": [
+    {
+      "track_id": "video_perception_mock:synthetic_scene:1",
+      "sequence_id": "video_perception_mock:synthetic_scene",
+      "agent_class": "pedestrian",
+      "classes_seen": {
+        "pedestrian": 120
+      },
+      "n_input_rows": 120,
+      "n_accepted": 120,
+      "n_valid_positions": 120,
+      "first_frame": 0,
+      "last_frame": 119,
+      "first_time_s": 0.0,
+      "last_time_s": 11.9,
+      "duration_s": 11.9,
+      "span_frames": 120,
+      "missing_frames_total": 0,
+      "n_gaps": 0,
+      "max_gap_frames": 0,
+      "gaps": [],
+      "n_duplicate_rows": 0,
+      "n_out_of_order_rows": 0,
+      "n_timestamp_not_monotonic": 0,
+      "n_invalid_time": 0,
+      "n_off_grid": 0,
+      "n_track_sequence_conflict": 0,
+      "n_border_touching_rows": 0,
+      "n_suspicious_jumps_at_lowest_threshold": 0
+    },
+    {
+      "track_id": "video_perception_mock:synthetic_scene:2",
+      "sequence_id": "video_perception_mock:synthetic_scene",
+      "agent_class": "pedestrian",
+      "classes_seen": {
+        "pedestrian": 120
+      },
+      "n_input_rows": 120,
+      "n_accepted": 120,
+      "n_valid_positions": 120,
+      "first_frame": 0,
+      "last_frame": 119,
+      "first_time_s": 0.0,
+      "last_time_s": 11.9,
+      "duration_s": 11.9,
+      "span_frames": 120,
+      "missing_frames_total": 0,
+      "n_gaps": 0,
+      "max_gap_frames": 0,
+      "gaps": [],
+      "n_duplicate_rows": 0,
+      "n_out_of_order_rows": 0,
+      "n_timestamp_not_monotonic": 0,
+      "n_invalid_time": 0,
+      "n_off_grid": 0,
+      "n_track_sequence_conflict": 0,
+      "n_border_touching_rows": 0,
+      "n_suspicious_jumps_at_lowest_threshold": 0
+    },
+    {
+      "track_id": "video_perception_mock:synthetic_scene:3",
+      "sequence_id": "video_perception_mock:synthetic_scene",
+      "agent_class": "vehicle",
+      "classes_seen": {
+        "vehicle": 115
+      },
+      "n_input_rows": 115,
+      "n_accepted": 115,
+      "n_valid_positions": 115,
+      "first_frame": 0,
+      "last_frame": 114,
+      "first_time_s": 0.0,
+      "last_time_s": 11.4,
+      "duration_s": 11.4,
+      "span_frames": 115,
+      "missing_frames_total": 0,
+      "n_gaps": 0,
+      "max_gap_frames": 0,
+      "gaps": [],
+      "n_duplicate_rows": 0,
+      "n_out_of_order_rows": 0,
+      "n_timestamp_not_monotonic": 0,
+      "n_invalid_time": 0,
+      "n_off_grid": 0,
+      "n_track_sequence_conflict": 0,
+      "n_border_touching_rows": 22,
+      "n_suspicious_jumps_at_lowest_threshold": 0
+    },
+    {
+      "track_id": "video_perception_mock:synthetic_scene:4",
+      "sequence_id": "video_perception_mock:synthetic_scene",
+      "agent_class": "vehicle",
+      "classes_seen": {
+        "vehicle": 109
+      },
+      "n_input_rows": 109,
+      "n_accepted": 109,
+      "n_valid_positions": 109,
+      "first_frame": 11,
+      "last_frame": 119,
+      "first_time_s": 1.1,
+      "last_time_s": 11.9,
+      "duration_s": 10.8,
+      "span_frames": 109,
+      "missing_frames_total": 0,
+      "n_gaps": 0,
+      "max_gap_frames": 0,
+      "gaps": [],
+      "n_duplicate_rows": 0,
+      "n_out_of_order_rows": 0,
+      "n_timestamp_not_monotonic": 0,
+      "n_invalid_time": 0,
+      "n_off_grid": 0,
+      "n_track_sequence_conflict": 0,
+      "n_border_touching_rows": 0,
+      "n_suspicious_jumps_at_lowest_threshold": 0
+    },
+    {
+      "track_id": "video_perception_mock:synthetic_scene:5",
+      "sequence_id": "video_perception_mock:synthetic_scene",
+      "agent_class": "pedestrian",
+      "classes_seen": {
+        "pedestrian": 64
+      },
+      "n_input_rows": 64,
+      "n_accepted": 64,
+      "n_valid_positions": 64,
+      "first_frame": 31,
+      "last_frame": 100,
+      "first_time_s": 3.1,
+      "last_time_s": 10.0,
+      "duration_s": 6.9,
+      "span_frames": 70,
+      "missing_frames_total": 6,
+      "n_gaps": 1,
+      "max_gap_frames": 6,
+      "gaps": [
+        {
+          "after_frame": 49,
+          "before_frame": 56,
+          "missing_frames": 6,
+          "elapsed_s": 0.6999999999999993
+        }
+      ],
+      "n_duplicate_rows": 0,
+      "n_out_of_order_rows": 0,
+      "n_timestamp_not_monotonic": 0,
+      "n_invalid_time": 0,
+      "n_off_grid": 0,
+      "n_track_sequence_conflict": 0,
+      "n_border_touching_rows": 0,
+      "n_suspicious_jumps_at_lowest_threshold": 0
+    },
+    {
+      "track_id": "video_perception_mock:synthetic_scene:6",
+      "sequence_id": "video_perception_mock:synthetic_scene",
+      "agent_class": "bicyclist",
+      "classes_seen": {
+        "bicyclist": 79
+      },
+      "n_input_rows": 79,
+      "n_accepted": 79,
+      "n_valid_positions": 79,
+      "first_frame": 41,
+      "last_frame": 119,
+      "first_time_s": 4.1,
+      "last_time_s": 11.9,
+      "duration_s": 7.800000000000001,
+      "span_frames": 79,
+      "missing_frames_total": 0,
+      "n_gaps": 0,
+      "max_gap_frames": 0,
+      "gaps": [],
+      "n_duplicate_rows": 0,
+      "n_out_of_order_rows": 0,
+      "n_timestamp_not_monotonic": 0,
+      "n_invalid_time": 0,
+      "n_off_grid": 0,
+      "n_track_sequence_conflict": 0,
+      "n_border_touching_rows": 11,
+      "n_suspicious_jumps_at_lowest_threshold": 0
+    },
+    {
+      "track_id": "video_perception_mock:synthetic_scene:7",
+      "sequence_id": "video_perception_mock:synthetic_scene",
+      "agent_class": "vehicle",
+      "classes_seen": {
+        "vehicle": 1
+      },
+      "n_input_rows": 1,
+      "n_accepted": 1,
+      "n_valid_positions": 1,
+      "first_frame": 116,
+      "last_frame": 116,
+      "first_time_s": 11.6,
+      "last_time_s": 11.6,
+      "duration_s": 0.0,
+      "span_frames": 1,
+      "missing_frames_total": 0,
+      "n_gaps": 0,
+      "max_gap_frames": 0,
+      "gaps": [],
+      "n_duplicate_rows": 0,
+      "n_out_of_order_rows": 0,
+      "n_timestamp_not_monotonic": 0,
+      "n_invalid_time": 0,
+      "n_off_grid": 0,
+      "n_track_sequence_conflict": 0,
+      "n_border_touching_rows": 1,
+      "n_suspicious_jumps_at_lowest_threshold": 0
+    }
+  ]
+}
