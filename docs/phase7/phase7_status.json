@@ -1,0 +1,12 @@
+{
+  "phase": 7,
+  "label": "PILOT_DEVELOPMENT_ONLY_NON_INDEPENDENT",
+  "base_commit": "d6ac175",
+  "implemented": ["risk scoring", "provisional risk categories", "INSUFFICIENT_EVIDENCE handling", "risk output schema phase7-risk-output-1.0.0", "calibration interface and artifact schema phase7-calibration-artifact-1.0.0", "calibration metrics (Brier, NLL, ECE, reliability, group bootstrap)"],
+  "empirically_validated": [],
+  "provisional": ["risk category thresholds", "urgency weighting"],
+  "blocked": {"calibration_fit_on_real_data": "no verified conflict labels; one scene group", "validated_categories": "no labels or independent partitions"},
+  "claims": {"calibrated_probability": false, "validated_risk_categories": false, "physical_ttc_pet": false, "severity": false, "deployment_ready": false},
+  "tests": {"phase7": "14 passed", "phase4_to_7": "428 passed, 2 skipped"},
+  "report": "experiments/phase7_risk_pie_video_0004/risk_report.json"
+}

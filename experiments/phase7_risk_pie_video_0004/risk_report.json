@@ -1,0 +1,82 @@
+{
+  "status": "completed",
+  "label": "PILOT_DEVELOPMENT_ONLY_NON_INDEPENDENT",
+  "summary": {
+    "n_pairs": 8233,
+    "category_counts": {
+      "CRITICAL": 112,
+      "HIGH": 297,
+      "INSUFFICIENT_EVIDENCE": 1231,
+      "LOW": 6080,
+      "MODERATE": 513
+    },
+    "reason_counts": {
+      "INVALID_OR_MISSING_CONFLICT_PREDICTION": 143,
+      "MODE_WEIGHTED_AND_MOST_PROBABLE_MODE_SCORES_DISAGREE": 1,
+      "OUT_OF_DISTRIBUTION_DEPTH_MISMATCH_OR_SCALE_INVALID": 1088
+    },
+    "calibration_status": "NOT_CALIBRATED",
+    "risk_basis": "raw_conflict_score_uncalibrated",
+    "risk_score": {
+      "mean": 0.05647775741133929,
+      "median": 0.0,
+      "p90": 0.20861872088780728,
+      "max": 0.926286383602405
+    },
+    "evaluation": "DESCRIPTIVE_ONLY_NO_VERIFIED_LABELS"
+  },
+  "calibration": {
+    "status": "BLOCKED_NO_VERIFIED_CONFLICT_LABELS",
+    "fitted": false,
+    "calibrated_probabilities_emitted": false,
+    "required": [
+      "verified conflict labels (collision / near-conflict / annotated interaction) from a documented independent source with SHA-256 and protocol",
+      "at least 3 independent scene/video groups, partitioned into disjoint train, calibration and test groups",
+      ">= 20 positives and >= 20 negatives in the calibration groups (isotonic: >= 1000 rows, >= 100 positives)",
+      "context-agent realised futures or event annotations aligned to pair anchors, with label times strictly after the anchor"
+    ],
+    "available_now": "one PIE video (set01/video_0004), no annotations, in-sample Phase 5 model"
+  },
+  "provenance": {
+    "dataset": "PIE set01/video_0004",
+    "label": "PILOT_DEVELOPMENT_ONLY_NON_INDEPENDENT",
+    "sample_status": "IN_SAMPLE_PHASE5_MODEL",
+    "phase5_run_manifest_sha256": "de2c805602d5c41368c09debea017ac007ce6546a8f76ac8ba13d01dfaa8de42",
+    "risk_config_sha256": "2f56a18291892c20ee5e4a80758712b896da2ba0b390c28e747ef18b38396d95",
+    "risk_config_version": "phase7-risk-config-1.0.0",
+    "category_status": "PROVISIONAL_ENGINEERING",
+    "threshold_evidence": "NONE_UNVALIDATED_ENGINEERING_DEFAULT",
+    "phase6_provenance": {
+      "predictions_sha256": "c070134fb67ef42753ecca347260c9f25e8b7ad37ae3333b690f3f008ee99748",
+      "windows_npz_sha256": "49b4ca392bb8e07b473702f8c6982c983d6f757775c5e5053c031ad964b3d637",
+      "graph_bank_sha256": "fc0821a36b90f4b3696d64b9ce29dd1285171565f3e636bb2e200f821a8d0779",
+      "baseline_config_sha256_canonical": "84741cc2ef0b287fcf1c3a0e621ecb986fa7031a81349b684c23fc4a2e5ffbb9",
+      "coordinate_system": "captured_1920x1080",
+      "coordinate_unit": "pixel",
+      "context_motion_model": "B1_last_valid_causal_velocity",
+      "context_motion_is_learned": false,
+      "context_motion_inputs": "observed history only (graph-bank nodes of the window's history frames)",
+      "pedestrian_predictions": "Phase 5 neural multimodal predictions (uncalibrated mode weights)",
+      "box_assumption": "CONSTANT_ANCHOR_BOX_SIZE_AT_PREDICTED_FOOTPOINT",
+      "ego_motion_compensated": false,
+      "physical_quantities": false,
+      "labels_used": false,
+      "future_observations_used": false
+    },
+    "phase6_config_sha256": "22f84e29d84d06c6472f6b8d0cdab774729fc0a77f44df8e2eafe5eccd8ac7e9",
+    "calibration_artifact_sha256": null,
+    "source_checkpoint_file_sha256": "40aff17f1a40eb2da24d0e0b63245eecefa5bba4e3f6e44c272dc07f3ab71b44",
+    "coordinate_system": "captured_1920x1080",
+    "coordinate_unit": "pixel",
+    "physical_quantities": false,
+    "future_observations_used": false,
+    "labels_used": false
+  },
+  "claims": {
+    "calibrated_probability": false,
+    "validated_risk_categories": false,
+    "physical_ttc_pet": false,
+    "severity": false,
+    "deployment_ready": false
+  }
+}

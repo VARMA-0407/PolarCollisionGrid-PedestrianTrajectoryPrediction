@@ -1,0 +1,13 @@
+{
+  "config_version": "phase7-risk-config-1.0.0",
+  "category_status": "PROVISIONAL_ENGINEERING",
+  "threshold_evidence": "NONE_UNVALIDATED_ENGINEERING_DEFAULT",
+  "moderate_min": 0.15,
+  "high_min": 0.4,
+  "critical_min": 0.7,
+  "urgency_weight_floor": 0.5,
+  "max_abs_log_scale_ratio": 1.2,
+  "max_indicator_disagreement": 0.4,
+  "min_valid_mode_mass": 0.5,
+  "_notes": "All values are provisional engineering defaults with no empirical derivation; categories are not validated safety levels."
+}
