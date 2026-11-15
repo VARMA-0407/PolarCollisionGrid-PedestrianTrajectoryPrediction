@@ -1,0 +1,96 @@
+{
+  "run": "experiments\\phase5_task7_neural_evaluation\\20261115T191319Z_pie_video_0004",
+  "checks": {
+    "data_artifact_hashes_match_manifest": {
+      "pass": true,
+      "detail": [
+        "evaluation_neural.npz",
+        "evaluation_report.md",
+        "evaluation_results.json",
+        "predictions_neural.npz"
+      ]
+    },
+    "labels_in_sample_and_claims_false": {
+      "pass": true,
+      "detail": null
+    },
+    "recorded_thread_count_used_for_recomputation": {
+      "pass": true,
+      "detail": null
+    },
+    "neural_config_hash_matches": {
+      "pass": true,
+      "detail": null
+    },
+    "training_manifest_hash_matches": {
+      "pass": true,
+      "detail": null
+    },
+    "checkpoint_and_scaler_reverified": {
+      "pass": true,
+      "detail": null
+    },
+    "predictions_recomputed_from_checkpoint_bitwise": {
+      "pass": true,
+      "detail": null
+    },
+    "shapes_units_and_probabilities": {
+      "pass": true,
+      "detail": null
+    },
+    "anchor_is_raw_last_history_position": {
+      "pass": true,
+      "detail": null
+    },
+    "primary_most_probable_mode_ade_fde_recomputed": {
+      "pass": true,
+      "detail": null
+    },
+    "oracle_min_ade_fde_recomputed_separately": {
+      "pass": true,
+      "detail": null
+    },
+    "oracle_never_larger_than_primary": {
+      "pass": true,
+      "detail": null
+    },
+    "summary_means_recomputed": {
+      "pass": true,
+      "detail": null
+    },
+    "oracle_labelled_in_report": {
+      "pass": true,
+      "detail": null
+    },
+    "baseline_comparison_present_and_in_sample": {
+      "pass": true,
+      "detail": null
+    },
+    "recomputed_baselines_equal_committed_p54_results": {
+      "pass": true,
+      "detail": {
+        "B0_zero_velocity": {
+          "p54_ade_mean_px": 54.25553448252282,
+          "recomputed_ade_mean_px": 54.25553448252282,
+          "equal": true
+        },
+        "B1_last_valid_causal_velocity": {
+          "p54_ade_mean_px": 92.95358471146973,
+          "recomputed_ade_mean_px": 92.95358471146973,
+          "equal": true
+        },
+        "B2_history_linear_regression": {
+          "p54_ade_mean_px": 35.66281981069737,
+          "recomputed_ade_mean_px": 35.66281981069737,
+          "equal": true
+        }
+      }
+    },
+    "deterministic_vs_second_run_all_data_artifacts_identical": {
+      "pass": true,
+      "detail": null
+    }
+  },
+  "ok": true,
+  "n_checks": 17
+}

@@ -1,0 +1,78 @@
+{
+  "task": "P5.7.6 independent evaluation availability check",
+  "status": "BLOCKED_PENDING_SCENE_DIVERSE_DATA",
+  "independent_evaluation_performed": false,
+  "fabricated_results": false,
+  "found": {
+    "phase4_task3_runs": [
+      {
+        "run": "experiments/phase4_task3_pie_video_0004/20261114T214634Z_pie_video_0004/primary",
+        "sequence_ids": [
+          "pie:video_0004"
+        ]
+      },
+      {
+        "run": "experiments/phase4_task3_pie_video_0004/20261115T034308Z_pie_video_0004_regen_5d58ab7/primary",
+        "sequence_ids": [
+          "pie:video_0004"
+        ]
+      }
+    ],
+    "distinct_sequences": [
+      "pie:video_0004"
+    ],
+    "phase5_window_runs": [
+      {
+        "run": "experiments/phase5_task3_windows_pie_video_0004/20261115T035825Z_pie_video_0004/primary",
+        "label": "PILOT_DEVELOPMENT_ONLY_NON_INDEPENDENT",
+        "videos": 1,
+        "scene_groups": 1,
+        "windows": 2327
+      }
+    ],
+    "annotation_xml_files": [],
+    "local_video_files": []
+  },
+  "checks": {
+    "independent_scene_groups_processed": {
+      "found": 1,
+      "required": 3,
+      "met": false,
+      "sequence_ids": [
+        "pie:video_0004"
+      ]
+    },
+    "annotation_xml_available_locally": {
+      "found": 0,
+      "required": 3,
+      "met": false,
+      "files": []
+    },
+    "verified_identity_mapping_and_alignment": {
+      "met": false,
+      "reason": "no annotation file is available locally, so no identity mapping or frame alignment can be verified"
+    },
+    "group_level_split_manifest": {
+      "met": false,
+      "reason": "only one group exists; the pilot window manifests carry the PILOT_DEVELOPMENT_ONLY_NON_INDEPENDENT label and no split"
+    }
+  },
+  "requirements": [
+    "at least 3 independent scene groups (proposal: PIE recording sets; set independence semantics verified and documented), each processed through Phase 3 perception -> Phase 4 Task 2 -> Phase 4 Task 3 and the P5.3 window generator",
+    "per-video annotation XML (e.g. PIE video_XXXX_annt.xml) available locally, with a verified pedestrian identity mapping between annotations and perceived tracks and verified frame/timestamp alignment (needed for the ANNOTATED_TARGET mode; never invented)",
+    "annotation validity checks (occlusion, out-of-frame, missing boxes) and independent future targets kept separate from perceived inputs",
+    "archived dataset licence / terms for videos, annotations and derived data, and a dataset manifest with archive hashes",
+    "a group-level split manifest (whole groups per partition, purge >= the dependency interval) frozen before training; train-only scaler statistics fitted on the training groups only",
+    "validation-group-only model / checkpoint / hyperparameter selection and a single locked test evaluation, with cluster-bootstrap intervals over tracks and groups",
+    "Phase 3 detection/tracking quality measured against the annotations (Phase 3 Task 4 evaluator run on real data) so that target reliability is known"
+  ],
+  "consequence": "No independent train/validation/test evaluation, generalisation estimate or cross-scene claim can be produced. All current P5.7 results are PILOT_DEVELOPMENT_ONLY_NON_INDEPENDENT and in-sample. Other implementation tasks are not blocked.",
+  "next_actions": [
+    "archive the PIE licence terms",
+    "choose the PIE subset (>= 3 independent sets) and acquire the videos and annotation XML",
+    "run Phase 3 perception (Colab T4) per video, then Phase 4 Task 2 / Task 3 and the P5.3 window generator per video",
+    "implement the ANNOTATED_TARGET adapter with a verified identity mapping",
+    "create and freeze the group-level split manifest",
+    "re-run P5.7.3-P5.7.5 on the training groups and evaluate once on the held-out groups"
+  ]
+}

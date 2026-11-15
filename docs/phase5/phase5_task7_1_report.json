@@ -1,0 +1,93 @@
+{
+  "task": "P5.7.1",
+  "title": "Training dataset and batch adapter",
+  "status": "implemented",
+  "implementation": {
+    "dataset_class": "pedsafety.phase5.training_data.TrainingWindowDataset",
+    "graph_construction": "delegated_to_p5.3_collate_windows",
+    "validation": "delegated_to_p5.3_validate_window_dataset",
+    "manifest_verification": "every output declared in run_manifest.json is required and SHA-256 verified by default",
+    "hash_bypass": "verify_hashes=false is explicit and provenance records artifact_hashes_verified=false",
+    "training_implemented": false,
+    "scaling_fitting_implemented": false,
+    "evaluation_implemented": false
+  },
+  "batch_contract": {
+    "history_node_features": "[B,6,A,10] float32",
+    "history_node_masks": "[B,6,A,4] bool",
+    "present": "[B,6,A] bool",
+    "node_type": "[B,A] integer",
+    "track_index": "[B,A] integer",
+    "slot_valid": "[B,A] bool",
+    "edge_indices": "[E,4] int64 per relation",
+    "edge_attributes": "[E,14] float32 per relation",
+    "edge_masks": "[E,14] bool per relation",
+    "edge_flags": "[E,6] bool per relation",
+    "future_targets": "[B,15,2] float32 supervision only",
+    "future_valid": "[B,15] bool supervision only",
+    "anchor_uv_px": "[B,2] float32 raw image pixels",
+    "target_valid": "[B] bool history-derived"
+  },
+  "pilot": {
+    "artifact_label": "PILOT_DEVELOPMENT_ONLY_NON_INDEPENDENT",
+    "accepted_windows": 2327,
+    "unique_target_tracks": 84,
+    "videos": ["pie:video_0004"],
+    "groups": ["pie:video_0004"],
+    "history_steps": 6,
+    "future_steps": 15,
+    "sampling_hz": 10.0,
+    "future_validity": "2327/2327 windows have 15/15 valid samples"
+  },
+  "leakage_controls": [
+    "Future targets and masks are excluded by TrainingWindowDataset.encoder_input.",
+    "EncoderInput.from_collated_batch receives only P5.5 history keys.",
+    "Decoder compatibility uses target_summary, raw anchor_uv_px, and history-derived target_valid only.",
+    "Metadata is kept separate from model tensors."
+  ],
+  "provenance": {
+    "preserved_manifest_fields": [
+      "sources",
+      "outputs",
+      "git",
+      "label"
+    ],
+    "batch_location": "batch.metadata.provenance",
+    "manifest_outputs_verified": [
+      "windows.npz",
+      "graph_bank.npz",
+      "rejected_candidates.npz",
+      "smoke_manifest.json"
+    ]
+  },
+  "validation": {
+    "focused_tests": {
+      "command": "python -m pytest tests/phase5/test_training_data.py -v",
+      "result": "14 passed"
+    },
+    "phase5_tests": {
+      "command": "python -m pytest tests/phase5 -v",
+      "result": "167 passed, 1 skipped"
+    },
+    "full_regression": {
+      "command": "python -m pytest -q",
+      "result": "1171 passed, 7 skipped, 2 failed",
+      "known_unrelated_failures": [
+        "tests/phase2/test_ttc_masks.py::test_ttc_occupancy_mask_collapses_agent_dimension",
+        "tests/phase3/test_measurement_helpers.py::test_monitored_runner_records_batches_epochs_resources_and_isolates"
+      ]
+    },
+    "pilot_loader_smoke": "14 focused adapter tests passed against the committed pilot artifact",
+    "diff_check": "passed"
+  },
+  "known_unrelated_regressions": [
+    "Phase 2 TTC occupancy-mask test",
+    "Phase 3 monitored-runner __pycache__ isolation test"
+  ],
+  "files_changed": [
+    "pedsafety/phase5/training_data.py",
+    "tests/phase5/test_training_data.py",
+    "docs/phase5/PHASE5_TASK7_1_TRAINING_DATA_ADAPTER.md",
+    "docs/phase5/phase5_task7_1_report.json"
+  ]
+}

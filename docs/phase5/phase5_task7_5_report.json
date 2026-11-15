@@ -1,0 +1,682 @@
+{
+  "task": "P5.7.5",
+  "title": "Neural evaluator",
+  "status": "COMPLETED_WITH_LIMITATIONS",
+  "label": "PILOT_DEVELOPMENT_ONLY_NON_INDEPENDENT",
+  "sample_status": "IN_SAMPLE_MODEL_TRAINED_ON_THESE_WINDOWS",
+  "date": "2026-11-16",
+  "experiment": {
+    "directory": "experiments/phase5_task7_neural_evaluation/20261115T191319Z_pie_video_0004",
+    "rerun_directory": "experiments/phase5_task7_neural_evaluation/20261115T191319Z_pie_video_0004_determinism_rerun",
+    "checkpoint": "checkpoints/checkpoint_epoch_0020.pt",
+    "checkpoint_epoch": 20,
+    "checkpoint_file_sha256": "40aff17f1a40eb2da24d0e0b63245eecefa5bba4e3f6e44c272dc07f3ab71b44",
+    "checkpoint_model_state_sha256": "9c953c1adfc81c53d686f42431d42c8e5197db18f7c5530342bc49b17d15d4c7",
+    "scaler_statistics_sha256": "ed5fd6824995c056b161564fb40ce93b0c96320de03a8672eba12af36e7fe169",
+    "windows": 2327,
+    "tracks": 84,
+    "num_modes": 5,
+    "tensor_contract": {
+      "predictions": "[N,K,F,2] raw pixels",
+      "prediction_masks": "[N,K,F]",
+      "probabilities": "[N,K]",
+      "ground_truth": "[N,F,2]",
+      "ground_truth_masks": "[N,F]"
+    }
+  },
+  "primary_metrics_most_probable_mode_px": {
+    "window_weighted": {
+      "ade": {
+        "n": 2327,
+        "mean": 31.45653683752202,
+        "median": 15.308006881008613,
+        "std": 41.22405029944748,
+        "min": 0.5851541528204809,
+        "max": 405.69650676475925,
+        "p90": 76.01719454655246
+      },
+      "fde": {
+        "n": 2327,
+        "mean": 68.61318721271903,
+        "median": 27.259165400703765,
+        "std": 102.74399719129929,
+        "min": 0.054628510676599656,
+        "max": 981.5001861980379,
+        "p90": 198.03587891454427
+      }
+    },
+    "track_weighted": {
+      "n_tracks": 84,
+      "ade_px_mean_of_track_means": 45.363048938261144,
+      "ade_px_median_of_track_means": 35.18396512682493,
+      "fde_px_mean_of_track_means": 113.92078101050141,
+      "fde_px_median_of_track_means": 67.75582712591815,
+      "note": "each track has weight 1 (mean over its windows first)"
+    },
+    "per_horizon": {
+      "offsets_s": [
+        0.1,
+        0.2,
+        0.3,
+        0.4,
+        0.5,
+        0.6,
+        0.7,
+        0.8,
+        0.9,
+        1.0,
+        1.1,
+        1.2,
+        1.3,
+        1.4,
+        1.5
+      ],
+      "window_weighted_mean": [
+        6.14960216193742,
+        9.187539748746476,
+        12.107321263747792,
+        14.978057742973174,
+        17.934950362702523,
+        20.952013163677762,
+        24.241776105652114,
+        27.883351266936984,
+        31.663293233219285,
+        36.185631604911734,
+        41.11861522881677,
+        46.838813514437184,
+        53.23412558116312,
+        60.75977437118895,
+        68.61318721271903
+      ],
+      "at_report_horizons": {
+        "0.5s": 17.934950362702523,
+        "1.0s": 36.185631604911734,
+        "1.5s": 68.61318721271903
+      }
+    },
+    "miss_rate": {
+      "status": "NOT_CONFIGURED",
+      "threshold_px": null,
+      "note": "no defensible pixel threshold has been approved; not computed"
+    }
+  },
+  "oracle_metrics_separate": {
+    "label": "BEST-OF-K ORACLE (ground truth selects the hypothesis); not a single-trajectory metric",
+    "k": 5,
+    "min_ade_px": {
+      "n": 2327,
+      "mean": 20.280010316164034,
+      "median": 8.818201892631784,
+      "std": 35.793778279803455,
+      "min": 0.5851541528204809,
+      "max": 405.69650676475925,
+      "p90": 46.291574511294264
+    },
+    "min_fde_px": {
+      "n": 2327,
+      "mean": 46.21176072956172,
+      "median": 11.802295268941805,
+      "std": 95.21757008104873,
+      "min": 0.054628510676599656,
+      "max": 981.5001861980379,
+      "p90": 136.9275758392678
+    }
+  },
+  "mode_diagnostics_in_sample": {
+    "windows": 2327,
+    "selected_equals_oracle_best_fraction": 0.5208422862054147,
+    "selected_mode_histogram": [
+      712,
+      619,
+      0,
+      347,
+      649
+    ],
+    "oracle_best_mode_histogram": [
+      644,
+      457,
+      191,
+      504,
+      531
+    ],
+    "mean_pairwise_mode_distance_px": 42.32521730938691,
+    "mean_max_probability": 0.4908427496836531,
+    "mean_probability_entropy": 1.209858103067543,
+    "note": "diagnostics on the training windows (in-sample); probabilities are not calibrated"
+  },
+  "baseline_comparison_common_windows": {
+    "definition": "windows evaluated by the neural model and every baseline (same set for all)",
+    "n_windows": 2327,
+    "n_tracks": 84,
+    "status": "IN_SAMPLE_MODEL_TRAINED_ON_THESE_WINDOWS; the baselines have no trainable parameters",
+    "per_model": {
+      "NEURAL_GATV2_TCN_K5": {
+        "model_id": "NEURAL_GATV2_TCN_K5",
+        "unit": "pixel",
+        "coordinate_system": "captured_1920x1080",
+        "windows_considered": 2327,
+        "windows_evaluated": 2327,
+        "windows_not_evaluated": 0,
+        "not_evaluated_reasons": {
+          "target_incomplete": 0,
+          "prediction_invalid": 0
+        },
+        "unique_target_tracks_evaluated": 84,
+        "window_weighted": {
+          "ade_px": {
+            "n": 2327,
+            "mean": 31.45653683752202,
+            "median": 15.308006881008613,
+            "std": 41.22405029944748,
+            "min": 0.5851541528204809,
+            "max": 405.69650676475925,
+            "p90": 76.01719454655246
+          },
+          "fde_px": {
+            "n": 2327,
+            "mean": 68.61318721271903,
+            "median": 27.259165400703765,
+            "std": 102.74399719129929,
+            "min": 0.054628510676599656,
+            "max": 981.5001861980379,
+            "p90": 198.03587891454427
+          },
+          "note": "each evaluated window has weight 1; overlapping windows are NOT independent samples"
+        },
+        "track_weighted": {
+          "n_tracks": 84,
+          "ade_px_mean_of_track_means": 45.363048938261144,
+          "ade_px_median_of_track_means": 35.18396512682493,
+          "fde_px_mean_of_track_means": 113.92078101050141,
+          "fde_px_median_of_track_means": 67.75582712591815,
+          "note": "each track has weight 1 (mean over its windows first)"
+        },
+        "per_horizon_mean_displacement_error_px": {
+          "offsets_s": [
+            0.1,
+            0.2,
+            0.3,
+            0.4,
+            0.5,
+            0.6,
+            0.7,
+            0.8,
+            0.9,
+            1.0,
+            1.1,
+            1.2,
+            1.3,
+            1.4,
+            1.5
+          ],
+          "window_weighted_mean": [
+            6.14960216193742,
+            9.187539748746476,
+            12.107321263747792,
+            14.978057742973174,
+            17.934950362702523,
+            20.952013163677762,
+            24.241776105652114,
+            27.883351266936984,
+            31.663293233219285,
+            36.185631604911734,
+            41.11861522881677,
+            46.838813514437184,
+            53.23412558116312,
+            60.75977437118895,
+            68.61318721271903
+          ],
+          "at_report_horizons": {
+            "0.5s": 17.934950362702523,
+            "1.0s": 36.185631604911734,
+            "1.5s": 68.61318721271903
+          }
+        },
+        "oracle_best_of_k": {
+          "k": 5,
+          "label": "BEST-OF-K ORACLE (ground truth selects the hypothesis); not a single-trajectory metric",
+          "min_ade_px": {
+            "n": 2327,
+            "mean": 20.280010316164034,
+            "median": 8.818201892631784,
+            "std": 35.793778279803455,
+            "min": 0.5851541528204809,
+            "max": 405.69650676475925,
+            "p90": 46.291574511294264
+          },
+          "min_fde_px": {
+            "n": 2327,
+            "mean": 46.21176072956172,
+            "median": 11.802295268941805,
+            "std": 95.21757008104873,
+            "min": 0.054628510676599656,
+            "max": 981.5001861980379,
+            "p90": 136.9275758392678
+          },
+          "identical_to_ade_fde": false
+        },
+        "miss_rate": {
+          "status": "NOT_CONFIGURED",
+          "threshold_px": null,
+          "note": "no defensible pixel threshold has been approved; not computed"
+        },
+        "std_ddof": 0
+      },
+      "B0_zero_velocity": {
+        "model_id": "B0_zero_velocity",
+        "unit": "pixel",
+        "coordinate_system": "captured_1920x1080",
+        "windows_considered": 2327,
+        "windows_evaluated": 2327,
+        "windows_not_evaluated": 0,
+        "not_evaluated_reasons": {
+          "target_incomplete": 0,
+          "prediction_invalid": 0
+        },
+        "unique_target_tracks_evaluated": 84,
+        "window_weighted": {
+          "ade_px": {
+            "n": 2327,
+            "mean": 54.25553448252282,
+            "median": 31.156136788074107,
+            "std": 66.64052372155727,
+            "min": 0.6772056604074358,
+            "max": 521.6680367275123,
+            "p90": 145.30686015616956
+          },
+          "fde_px": {
+            "n": 2327,
+            "mean": 109.93131016025586,
+            "median": 54.73716075144835,
+            "std": 147.28107248288066,
+            "min": 0.05357597039474679,
+            "max": 1161.9934680120366,
+            "p90": 316.022352593553
+          },
+          "note": "each evaluated window has weight 1; overlapping windows are NOT independent samples"
+        },
+        "track_weighted": {
+          "n_tracks": 84,
+          "ade_px_mean_of_track_means": 84.70304344791647,
+          "ade_px_median_of_track_means": 63.87307181768031,
+          "fde_px_mean_of_track_means": 188.75524294345473,
+          "fde_px_median_of_track_means": 122.10501048240141,
+          "note": "each track has weight 1 (mean over its windows first)"
+        },
+        "per_horizon_mean_displacement_error_px": {
+          "offsets_s": [
+            0.1,
+            0.2,
+            0.3,
+            0.4,
+            0.5,
+            0.6,
+            0.7,
+            0.8,
+            0.9,
+            1.0,
+            1.1,
+            1.2,
+            1.3,
+            1.4,
+            1.5
+          ],
+          "window_weighted_mean": [
+            8.277746706536227,
+            14.067514153054237,
+            19.910250300399234,
+            25.756560447543734,
+            31.790589658550886,
+            38.0060885343167,
+            44.47701657143507,
+            51.25318344196197,
+            58.28730202312044,
+            65.75347187060102,
+            73.6444697809506,
+            81.88938565835933,
+            90.69025145307832,
+            100.09787647767855,
+            109.93131016025586
+          ],
+          "at_report_horizons": {
+            "0.5s": 31.790589658550886,
+            "1.0s": 65.75347187060102,
+            "1.5s": 109.93131016025586
+          }
+        },
+        "oracle_best_of_k": {
+          "k": 1,
+          "label": "BEST-OF-K ORACLE (ground truth selects the hypothesis); not a single-trajectory metric",
+          "min_ade_px": {
+            "n": 2327,
+            "mean": 54.25553448252282,
+            "median": 31.156136788074107,
+            "std": 66.64052372155727,
+            "min": 0.6772056604074358,
+            "max": 521.6680367275123,
+            "p90": 145.30686015616956
+          },
+          "min_fde_px": {
+            "n": 2327,
+            "mean": 109.93131016025586,
+            "median": 54.73716075144835,
+            "std": 147.28107248288066,
+            "min": 0.05357597039474679,
+            "max": 1161.9934680120366,
+            "p90": 316.022352593553
+          },
+          "identical_to_ade_fde": true
+        },
+        "miss_rate": {
+          "status": "NOT_CONFIGURED",
+          "threshold_px": null,
+          "note": "no defensible pixel threshold has been approved; not computed"
+        },
+        "std_ddof": 0
+      },
+      "B1_last_valid_causal_velocity": {
+        "model_id": "B1_last_valid_causal_velocity",
+        "unit": "pixel",
+        "coordinate_system": "captured_1920x1080",
+        "windows_considered": 2327,
+        "windows_evaluated": 2327,
+        "windows_not_evaluated": 0,
+        "not_evaluated_reasons": {
+          "target_incomplete": 0,
+          "prediction_invalid": 0
+        },
+        "unique_target_tracks_evaluated": 84,
+        "window_weighted": {
+          "ade_px": {
+            "n": 2327,
+            "mean": 92.95358471146973,
+            "median": 61.71468757516268,
+            "std": 103.6709479775282,
+            "min": 1.0209040616651095,
+            "max": 1140.8796318969642,
+            "p90": 205.28447522851616
+          },
+          "fde_px": {
+            "n": 2327,
+            "mean": 181.5904999504697,
+            "median": 119.89377977223532,
+            "std": 197.69611104192353,
+            "min": 1.1433536505938695,
+            "max": 2135.192891759469,
+            "p90": 401.7152619006909
+          },
+          "note": "each evaluated window has weight 1; overlapping windows are NOT independent samples"
+        },
+        "track_weighted": {
+          "n_tracks": 84,
+          "ade_px_mean_of_track_means": 99.62832444351794,
+          "ade_px_median_of_track_means": 85.91748685838809,
+          "fde_px_mean_of_track_means": 209.49940892365709,
+          "fde_px_median_of_track_means": 187.7402658191674,
+          "note": "each track has weight 1 (mean over its windows first)"
+        },
+        "per_horizon_mean_displacement_error_px": {
+          "offsets_s": [
+            0.1,
+            0.2,
+            0.3,
+            0.4,
+            0.5,
+            0.6,
+            0.7,
+            0.8,
+            0.9,
+            1.0,
+            1.1,
+            1.2,
+            1.3,
+            1.4,
+            1.5
+          ],
+          "window_weighted_mean": [
+            12.691361121096746,
+            23.492941294566258,
+            34.433229198068425,
+            45.336465029393175,
+            56.5331982942431,
+            67.60895525909321,
+            78.92016070063043,
+            90.5095173749717,
+            102.02602526246842,
+            114.1413199189891,
+            126.77777132316483,
+            139.79929004220833,
+            153.18863138722784,
+            167.25440451545478,
+            181.5904999504697
+          ],
+          "at_report_horizons": {
+            "0.5s": 56.5331982942431,
+            "1.0s": 114.1413199189891,
+            "1.5s": 181.5904999504697
+          }
+        },
+        "oracle_best_of_k": {
+          "k": 1,
+          "label": "BEST-OF-K ORACLE (ground truth selects the hypothesis); not a single-trajectory metric",
+          "min_ade_px": {
+            "n": 2327,
+            "mean": 92.95358471146973,
+            "median": 61.71468757516268,
+            "std": 103.6709479775282,
+            "min": 1.0209040616651095,
+            "max": 1140.8796318969642,
+            "p90": 205.28447522851616
+          },
+          "min_fde_px": {
+            "n": 2327,
+            "mean": 181.5904999504697,
+            "median": 119.89377977223532,
+            "std": 197.69611104192353,
+            "min": 1.1433536505938695,
+            "max": 2135.192891759469,
+            "p90": 401.7152619006909
+          },
+          "identical_to_ade_fde": true
+        },
+        "miss_rate": {
+          "status": "NOT_CONFIGURED",
+          "threshold_px": null,
+          "note": "no defensible pixel threshold has been approved; not computed"
+        },
+        "std_ddof": 0
+      },
+      "B2_history_linear_regression": {
+        "model_id": "B2_history_linear_regression",
+        "unit": "pixel",
+        "coordinate_system": "captured_1920x1080",
+        "windows_considered": 2327,
+        "windows_evaluated": 2327,
+        "windows_not_evaluated": 0,
+        "not_evaluated_reasons": {
+          "target_incomplete": 0,
+          "prediction_invalid": 0
+        },
+        "unique_target_tracks_evaluated": 84,
+        "window_weighted": {
+          "ade_px": {
+            "n": 2327,
+            "mean": 35.66281981069737,
+            "median": 23.30525893006705,
+            "std": 37.65974022565346,
+            "min": 0.6930702177335158,
+            "max": 296.07884497529056,
+            "p90": 84.40873527053121
+          },
+          "fde_px": {
+            "n": 2327,
+            "mean": 79.30458320544709,
+            "median": 46.28877510843197,
+            "std": 94.89179906112572,
+            "min": 0.43405875493918183,
+            "max": 699.8653343229695,
+            "p90": 202.4116784868748
+          },
+          "note": "each evaluated window has weight 1; overlapping windows are NOT independent samples"
+        },
+        "track_weighted": {
+          "n_tracks": 84,
+          "ade_px_mean_of_track_means": 53.781733788014854,
+          "ade_px_median_of_track_means": 40.89871675785549,
+          "fde_px_mean_of_track_means": 135.99937626128798,
+          "fde_px_median_of_track_means": 84.80990546033098,
+          "note": "each track has weight 1 (mean over its windows first)"
+        },
+        "per_horizon_mean_displacement_error_px": {
+          "offsets_s": [
+            0.1,
+            0.2,
+            0.3,
+            0.4,
+            0.5,
+            0.6,
+            0.7,
+            0.8,
+            0.9,
+            1.0,
+            1.1,
+            1.2,
+            1.3,
+            1.4,
+            1.5
+          ],
+          "window_weighted_mean": [
+            5.958477675866316,
+            8.896445728518525,
+            11.82902165595691,
+            15.055179615827802,
+            18.636960845700642,
+            22.443237957279784,
+            26.636333405810657,
+            31.254832349470565,
+            36.27164611358695,
+            41.990684660369126,
+            48.26006888591853,
+            55.11075184149412,
+            62.55250054075091,
+            70.74157267846269,
+            79.30458320544709
+          ],
+          "at_report_horizons": {
+            "0.5s": 18.636960845700642,
+            "1.0s": 41.990684660369126,
+            "1.5s": 79.30458320544709
+          }
+        },
+        "oracle_best_of_k": {
+          "k": 1,
+          "label": "BEST-OF-K ORACLE (ground truth selects the hypothesis); not a single-trajectory metric",
+          "min_ade_px": {
+            "n": 2327,
+            "mean": 35.66281981069737,
+            "median": 23.30525893006705,
+            "std": 37.65974022565346,
+            "min": 0.6930702177335158,
+            "max": 296.07884497529056,
+            "p90": 84.40873527053121
+          },
+          "min_fde_px": {
+            "n": 2327,
+            "mean": 79.30458320544709,
+            "median": 46.28877510843197,
+            "std": 94.89179906112572,
+            "min": 0.43405875493918183,
+            "max": 699.8653343229695,
+            "p90": 202.4116784868748
+          },
+          "identical_to_ade_fde": true
+        },
+        "miss_rate": {
+          "status": "NOT_CONFIGURED",
+          "threshold_px": null,
+          "note": "no defensible pixel threshold has been approved; not computed"
+        },
+        "std_ddof": 0
+      }
+    }
+  },
+  "p54_reference_check": {
+    "B0_zero_velocity": {
+      "p54_ade_mean_px": 54.25553448252282,
+      "recomputed_ade_mean_px": 54.25553448252282,
+      "equal": true
+    },
+    "B1_last_valid_causal_velocity": {
+      "p54_ade_mean_px": 92.95358471146973,
+      "recomputed_ade_mean_px": 92.95358471146973,
+      "equal": true
+    },
+    "B2_history_linear_regression": {
+      "p54_ade_mean_px": 35.66281981069737,
+      "recomputed_ade_mean_px": 35.66281981069737,
+      "equal": true
+    }
+  },
+  "data_artifacts": {
+    "evaluation_neural.npz": {
+      "sha256": "80988e8e7fcf496b016e349fc16186152d8336f3dd3e9f9d683cf8f17fcba72a",
+      "bytes": 342519
+    },
+    "evaluation_report.md": {
+      "sha256": "524a8df3e41e9aeb2bce9786e64815efbe17dc04347dc95852b30c5738b9fbd4",
+      "bytes": 2273
+    },
+    "evaluation_results.json": {
+      "sha256": "e7b8c8ff95ec20d8072ca4b8d32e9d11e6d1cf3fa1814e5f22b28462b02c6718",
+      "bytes": 45038
+    },
+    "predictions_neural.npz": {
+      "sha256": "c070134fb67ef42753ecca347260c9f25e8b7ad37ae3333b690f3f008ee99748",
+      "bytes": 1208952
+    }
+  },
+  "reproducibility": {
+    "rerun_data_artifacts_identical": true,
+    "validator": {
+      "ok": true,
+      "n_checks": 17
+    },
+    "validation_history": "attempt 1 failed one check because the validator used default threads; preserved as validation_report_attempt1_validator_used_default_threads.json; validator fixed to apply the recorded torch_threads"
+  },
+  "runtime_memory": {
+    "runtime_s": {
+      "verify_and_load": 0.27965379999999995,
+      "inference_and_evaluation": 15.212895900000001,
+      "total": 15.855531299999999,
+      "note": "offline CPU measurement; not a real-time claim"
+    },
+    "peak_memory_bytes": 378351616,
+    "torch_threads": 1
+  },
+  "tests": {
+    "file": "tests/phase5/test_neural_evaluation.py",
+    "passed": 11
+  },
+  "claims": {
+    "coordinate_space": "image (captured raster pixels)",
+    "metric_world_coordinates": false,
+    "physical_features": false,
+    "ttc_pet_or_collision_risk": false,
+    "independent_validation": false,
+    "independent_generalization": false,
+    "forecasting_accuracy_established": false,
+    "best_checkpoint_selected": false,
+    "calibrated_probabilities": false,
+    "real_time_claim": false,
+    "note": "In-sample development evaluation of a model trained on the same pilot windows; not independent evidence.",
+    "baseline_superiority_established": false
+  },
+  "limitations": [
+    "PILOT_DEVELOPMENT_ONLY_NON_INDEPENDENT and IN-SAMPLE: the neural model was trained on every window evaluated here (one video, one scene group, overlapping windows, perceived-track pseudo-targets). The classical baselines have no trainable parameters. The comparison therefore cannot show that the neural model generalises or is better than any baseline.",
+    "Primary metrics use the most-probable mode; minADE@5 / minFDE@5 are best-of-K oracle metrics (ground truth selects the mode) and are never used as the single-trajectory result.",
+    "Mode probabilities are not calibrated and no calibration was assessed; no collision / conflict probability exists.",
+    "Errors are image-plane pixel distances: depth-dependent, include camera ego-motion, not metric; no TTC / PET / physical interpretation.",
+    "Miss rate is NOT_CONFIGURED (no approved pixel threshold). No confidence intervals: windows are correlated and only one video exists.",
+    "CPU single-thread offline measurements only; no real-time claim."
+  ]
+}

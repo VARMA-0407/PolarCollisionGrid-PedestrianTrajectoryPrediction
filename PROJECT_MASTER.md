@@ -174,3 +174,23 @@ implementation report.
 |---|---|
 | 2026-11-11 | Established the first consolidated master from repository and Phase 2 audit evidence; no original master file was found. |
 
+
+## Status addendum - 16 November 2026 (Phases 3-5; earlier sections above are historical)
+
+This addendum was appended by the consolidated Phase 5 pass. The statements above that no Phase 3 implementation exists, and the pending-work
+list, are superseded by the repository evidence below; the canonical handoff master file was not modified.
+
+| Phase | Status (evidence) |
+|---|---|
+| 3 perception frontend | run on PIE `set01/video_0004` (YOLO11n + ByteTrack); perception quality not yet measured against annotations |
+| 4 geometry / interaction | image-space pipeline completed with limitations; Tasks 4-5 (metric geometry) blocked pending calibration evidence |
+| 5 forecasting (P5.3-P5.7.5) | window generation, classical baselines and evaluator, GATv2 + causal TCN encoder, multimodal decoder + masked loss, training data adapter, train-only scaler, training step, pilot training harness and neural evaluator implemented and run on the single pilot video; all results `PILOT_DEVELOPMENT_ONLY_NON_INDEPENDENT` and in-sample |
+| 5 independent evaluation (P5.7.6) | `BLOCKED_PENDING_SCENE_DIVERSE_DATA`: one scene group, no annotation files, no frozen group-level split |
+
+Authorised scope remains image-space pixels (`captured_1920x1080`); no metric-world, TTC/PET, calibrated-probability, generalisation or
+real-time claim is supported. Details: `docs/phase5/PHASE5_CONSOLIDATED_ACCEPTANCE.md`, `docs/phase5/PHASE5_ARCHITECTURE.md`,
+`docs/phase5/phase5_consolidated_status.json`.
+
+| Date | Revision |
+|---|---|
+| 2026-11-16 | Appended the Phase 3-5 status addendum; no earlier text was changed. |

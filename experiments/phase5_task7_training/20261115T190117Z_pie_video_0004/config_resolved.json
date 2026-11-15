@@ -1,0 +1,120 @@
+{
+  "training_config": {
+    "config_version": "phase5-training-config-1.0.0",
+    "label": "PILOT_DEVELOPMENT_ONLY_NON_INDEPENDENT",
+    "encoder_config_path": "configs/phase5/encoder_default.json",
+    "decoder_config_path": "configs/phase5/decoder_default.json",
+    "seed": 20261116,
+    "decoder_seed": 1,
+    "epochs": 20,
+    "batch_size": 64,
+    "learning_rate": 0.003,
+    "weight_decay": 0.01,
+    "adam_beta1": 0.9,
+    "adam_beta2": 0.999,
+    "adam_eps": 1e-08,
+    "grad_clip_norm": 10.0,
+    "smooth_l1_beta": 1.0,
+    "scheduler": "cosine",
+    "min_lr_ratio": 0.01,
+    "device": "cpu",
+    "torch_threads": 1,
+    "log_every_steps": 5,
+    "checkpoint_every_epochs": 10,
+    "shuffle": true,
+    "scaler_batch_size": 64,
+    "scaler_split_identity": "PILOT_ALL_WINDOWS_AS_TRAIN_DEVELOPMENT_ONLY",
+    "split_policy": "PILOT_ALL_WINDOWS_AS_TRAIN_DEVELOPMENT_ONLY",
+    "checkpoint_selection": "FINAL_EPOCH_ONLY",
+    "include_optional_context": false
+  },
+  "encoder_config": {
+    "config_version": "phase5-encoder-config-1.0.0",
+    "hidden_dim": 64,
+    "num_heads": 4,
+    "num_spatial_layers": 2,
+    "leaky_relu_slope": 0.2,
+    "node_types": [
+      "pedestrian",
+      "vehicle"
+    ],
+    "relations": [
+      "pedestrian__pedestrian",
+      "vehicle__pedestrian",
+      "pedestrian__vehicle"
+    ],
+    "allow_vehicle_vehicle": false,
+    "bicyclist_context_enabled": false,
+    "use_edge_flags": false,
+    "position_mode": "target_centred",
+    "tcn_kernel_size": 3,
+    "tcn_dilations": [
+      1,
+      2
+    ],
+    "require_full_history_coverage": true,
+    "dropout": 0.0,
+    "attention_dropout": 0.0,
+    "feature_scaling": {
+      "source": "NOMINAL_DEVELOPMENT_DEFAULT_NOT_FITTED",
+      "node": {
+        "rel_u": 1000.0,
+        "rel_v": 1000.0,
+        "vel_u": 500.0,
+        "vel_v": 500.0,
+        "speed": 500.0,
+        "heading_sin": 1.0,
+        "heading_cos": 1.0,
+        "box_h": 1080.0,
+        "frames_since_prev_obs": 30.0
+      },
+      "edge": {
+        "du_px": 1000.0,
+        "dv_px": 1000.0,
+        "sep_px": 1000.0,
+        "bearing_sin": 1.0,
+        "bearing_cos": 1.0,
+        "rel_bearing_sin": 1.0,
+        "rel_bearing_cos": 1.0,
+        "sep_over_h": 10.0,
+        "log_h_ratio": 1.0,
+        "dv_row_px": 1000.0,
+        "dvel_u_px_s": 500.0,
+        "dvel_v_px_s": 500.0,
+        "closing_rate_px_s": 500.0,
+        "overlap_ios": 1.0
+      }
+    },
+    "init_seed": 0
+  },
+  "decoder_config": {
+    "config_version": "phase5-decoder-config-1.0.0",
+    "num_modes": 5,
+    "history_steps": 6,
+    "future_steps": 15,
+    "sampling_hz": 10.0,
+    "coordinate_space": "image",
+    "coordinate_unit": "pixels",
+    "output_representation": "raw_pixel_offsets",
+    "input_embedding_dim": 64,
+    "decoder_hidden_dim": 128,
+    "dropout": 0.0,
+    "regression_loss": "smooth_l1",
+    "classification_loss": "cross_entropy",
+    "classification_weight": 0.1,
+    "winner_selection": "minimum_masked_ADE",
+    "autoregressive": false
+  },
+  "window_config_sha256": "65eebeededba135d3f707f31fa3ae0901ad92f89833594d4fec9005a6ea31034",
+  "steps_per_epoch": 37,
+  "total_steps": 740,
+  "optimizer": {
+    "name": "AdamW",
+    "param_groups": [
+      "weights (ndim>=2): decayed",
+      "biases/norms: not decayed"
+    ]
+  },
+  "scheduler": "cosine",
+  "decoder_classification_weight": 0.1
+}

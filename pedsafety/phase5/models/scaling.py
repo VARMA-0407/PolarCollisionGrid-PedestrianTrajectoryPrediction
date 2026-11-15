@@ -61,6 +61,13 @@ class FeatureScaler(nn.Module):
         self.provenance = dict(provenance)
 
     @classmethod
+    def from_arrays(cls, node_offset, node_scale, edge_offset, edge_scale, source: str, provenance: Dict[str, Any]) -> "FeatureScaler":
+        """Build a scaler from plain sequences (float32 buffers). Used by the P5.7.2 train-only statistics so that the code outside
+        ``pedsafety/phase5/models`` never imports torch (dependency policy: requirements-phase5.txt applies to ``models`` only)."""
+        return cls(torch.tensor(list(node_offset), dtype=torch.float32), torch.tensor(list(node_scale), dtype=torch.float32),
+                   torch.tensor(list(edge_offset), dtype=torch.float32), torch.tensor(list(edge_scale), dtype=torch.float32), source, provenance)
+
+    @classmethod
     def from_config(cls, fs: Mapping[str, Any]) -> "FeatureScaler":
         src = fs["source"]
         if src == "NOMINAL_DEVELOPMENT_DEFAULT_NOT_FITTED":

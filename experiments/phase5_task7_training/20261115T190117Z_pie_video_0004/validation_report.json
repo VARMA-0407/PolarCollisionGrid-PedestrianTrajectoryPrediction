@@ -1,0 +1,87 @@
+{
+  "run": "experiments\\phase5_task7_training\\20261115T190117Z_pie_video_0004",
+  "checks": {
+    "data_artifact_hashes_match_manifest": {
+      "pass": true,
+      "detail": [
+        "checkpoints/checkpoint_epoch_0010.pt",
+        "checkpoints/checkpoint_epoch_0020.pt",
+        "config_resolved.json",
+        "scaler_statistics.json",
+        "train_log.jsonl"
+      ]
+    },
+    "environment_record_hash_matches": {
+      "pass": true,
+      "detail": null
+    },
+    "label_pilot_only_and_claims_false": {
+      "pass": true,
+      "detail": null
+    },
+    "policy_final_epoch_only_no_selection": {
+      "pass": true,
+      "detail": null
+    },
+    "config_hashes_match": {
+      "pass": true,
+      "detail": null
+    },
+    "resolved_config_equals_loaded_configs": {
+      "pass": true,
+      "detail": null
+    },
+    "window_run_reverified_and_matches": {
+      "pass": true,
+      "detail": null
+    },
+    "scaler_statistics_provenance_and_hash": {
+      "pass": true,
+      "detail": null
+    },
+    "scaler_statistics_independently_recomputed": {
+      "pass": true,
+      "detail": null
+    },
+    "log_parses_and_losses_finite": {
+      "pass": true,
+      "detail": 168
+    },
+    "log_epoch_records_match_manifest": {
+      "pass": true,
+      "detail": null
+    },
+    "log_has_no_wall_clock_fields": {
+      "pass": true,
+      "detail": null
+    },
+    "checkpoint_checkpoint_epoch_0010.pt": {
+      "pass": true,
+      "detail": null
+    },
+    "checkpoint_checkpoint_epoch_0020.pt": {
+      "pass": true,
+      "detail": null
+    },
+    "final_checkpoint_scaler_buffers_equal_statistics": {
+      "pass": true,
+      "detail": null
+    },
+    "model_input_has_no_future_fields": {
+      "pass": true,
+      "detail": null
+    },
+    "deterministic_vs_second_run_all_data_artifacts_identical": {
+      "pass": true,
+      "detail": {
+        "config_resolved.json": true,
+        "scaler_statistics.json": true,
+        "train_log.jsonl": true,
+        "checkpoints/checkpoint_epoch_0010.pt": true,
+        "checkpoints/checkpoint_epoch_0020.pt": true
+      }
+    }
+  },
+  "ok": true,
+  "n_checks": 17
+}

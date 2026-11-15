@@ -1,0 +1,226 @@
+{
+  "manifest_version": "phase5-training-run-manifest-1.0.0",
+  "task": "phase5_p5.7.4_pilot_training",
+  "status": "completed",
+  "label": "PILOT_DEVELOPMENT_ONLY_NON_INDEPENDENT",
+  "data_artifacts": {
+    "config_resolved.json": {
+      "sha256": "36d930d7d8f3f80fc4cf70fe2725500754af76491ff5c7c9b300674f02f0130d",
+      "bytes": 3352
+    },
+    "scaler_statistics.json": {
+      "sha256": "cc270aa6562931f5c66b909dcc5941ba20869101862ec91c35e924c81b0ce723",
+      "bytes": 10699
+    },
+    "train_log.jsonl": {
+      "sha256": "882bf9e35e3aa3fb2a2d39b84d38a67c680220fc85cac38d5f7620da760fe37c",
+      "bytes": 112188
+    },
+    "checkpoints/checkpoint_epoch_0010.pt": {
+      "sha256": "d0f0f417bf1cf478d2744689c09b6c589d6f967d910217ba9bf02575d11d37d2",
+      "model_state_sha256": "78a8d920dbb4d70c431410a5902ca191fc4e9aea15b17876f15c723957da6b54",
+      "bytes": 2173788,
+      "epoch": 10,
+      "global_step": 370
+    },
+    "checkpoints/checkpoint_epoch_0020.pt": {
+      "sha256": "40aff17f1a40eb2da24d0e0b63245eecefa5bba4e3f6e44c272dc07f3ab71b44",
+      "model_state_sha256": "9c953c1adfc81c53d686f42431d42c8e5197db18f7c5530342bc49b17d15d4c7",
+      "bytes": 2173788,
+      "epoch": 20,
+      "global_step": 740
+    }
+  },
+  "data_artifacts_note": "deterministic content (same inputs, configuration, seeds, platform and thread count -> same hashes); environment.json and run_metadata are run-specific",
+  "environment_json": {
+    "sha256": "6f8ac5a52c1b5f81b9c6d7be79f23b598c5ad07e38ec10b71281e65399562ace",
+    "bytes": 410
+  },
+  "inputs": {
+    "windows_run": "experiments/phase5_task3_windows_pie_video_0004/20261115T035825Z_pie_video_0004/primary",
+    "windows_run_manifest_sha256": "3369ea80c65652b8f1797c7a62a14c29428eb1dd7e9dc60b0d8a8e5be30dc1e8",
+    "window_config_sha256": "65eebeededba135d3f707f31fa3ae0901ad92f89833594d4fec9005a6ea31034",
+    "windows": 2327,
+    "windows_run_label": "PILOT_DEVELOPMENT_ONLY_NON_INDEPENDENT",
+    "dataset_artifact_hashes_verified": true,
+    "encoder_config": {
+      "path": "configs/phase5/encoder_default.json",
+      "sha256_canonical": "15dbb9856c12a81767b7b8bdca697c985120d06e488d72c79be1d40baadd78c1",
+      "sha256_file": "a2419c6931a159eb8c39f60d2426e03db378566293a4a192a69110102f2117ce"
+    },
+    "decoder_config": {
+      "path": "configs/phase5/decoder_default.json",
+      "sha256_canonical": "ff2a38d9f8d613da8af3dbaf773073842ec2f9059519f69de3ed11d1a05569ea",
+      "sha256_file": "4ada1f99788eef6684417f715a90cef9ebc86140e5d9ce4e846a1216810071a5"
+    },
+    "training_config": {
+      "path": "configs/phase5/training_default.json",
+      "sha256_canonical": "6a98708b5512a6e94b1a2dd0a185efea66c60be68b8f0572e6f8a3d0873bf40e",
+      "sha256_file": "37adb74e3c322b390e9110ebb9a472e3c5f93e72d6cfb7b9cb115456977e5154"
+    },
+    "scaler": {
+      "statistics_sha256": "ed5fd6824995c056b161564fb40ce93b0c96320de03a8672eba12af36e7fe169",
+      "split_identity": "PILOT_ALL_WINDOWS_AS_TRAIN_DEVELOPMENT_ONLY",
+      "fit_partition": "train",
+      "fit_windows": 2327,
+      "split_policy": "PILOT_ALL_WINDOWS_AS_TRAIN_DEVELOPMENT_ONLY",
+      "valid_counts_min": 126517
+    },
+    "future_targets_in_model_input": false,
+    "offline_kinematics_used": false
+  },
+  "training": {
+    "epochs": 20,
+    "epochs_run_in_this_directory": 20,
+    "resumed_from": null,
+    "batch_size": 64,
+    "steps_per_epoch": 37,
+    "total_steps": 740,
+    "final_global_step": 740,
+    "optimizer": "AdamW",
+    "learning_rate": 0.003,
+    "weight_decay": 0.01,
+    "grad_clip_norm": 10.0,
+    "scheduler": "cosine",
+    "seed": 20261116,
+    "decoder_seed": 1,
+    "device": "cpu",
+    "parameter_counts": {
+      "encoder": 144128,
+      "decoder": 28571,
+      "total": 172699
+    },
+    "final_checkpoint": "checkpoints/checkpoint_epoch_0020.pt",
+    "checkpoint_selection": "FINAL_EPOCH_ONLY",
+    "checkpoint_selection_limitation": "final-epoch checkpoint only; no best-checkpoint selection (no independent validation partition exists)",
+    "first_epoch_summary": {
+      "type": "epoch",
+      "epoch": 1,
+      "step": 37,
+      "windows": 2327,
+      "steps": 37,
+      "clipped_steps": 0,
+      "lr_end": 0.002981717185783779,
+      "winner_counts": [
+        1003,
+        286,
+        189,
+        241,
+        608
+      ],
+      "mean_loss": 29.160392401399765,
+      "mean_regression_loss": 29.038903073686665,
+      "mean_classification_loss": 1.2148936679294604,
+      "mean_selected_mode_ade_px": 52.75382927901559,
+      "mean_oracle_mode_ade_px": 51.34707116527418,
+      "mean_pairwise_mode_distance_px": 5.563198741639075,
+      "mean_mode_entropy": 1.3085248324304473,
+      "mean_max_mode_probability_mean": 0.4902403005264735,
+      "mean_grad_norm_total": 0.6986997267387433
+    },
+    "final_epoch_summary": {
+      "type": "epoch",
+      "epoch": 20,
+      "step": 740,
+      "windows": 2327,
+      "steps": 37,
+      "clipped_steps": 0,
+      "lr_end": 3e-05,
+      "winner_counts": [
+        643,
+        458,
+        191,
+        503,
+        532
+      ],
+      "mean_loss": 11.626424538202945,
+      "mean_regression_loss": 11.50789493319811,
+      "mean_classification_loss": 1.1852958012303416,
+      "mean_selected_mode_ade_px": 31.40770404309124,
+      "mean_oracle_mode_ade_px": 20.304893189968343,
+      "mean_pairwise_mode_distance_px": 42.30011693038907,
+      "mean_mode_entropy": 1.2098610034868038,
+      "mean_max_mode_probability_mean": 0.4906835832025137,
+      "mean_grad_norm_total": 2.463208119655096
+    },
+    "epoch_summaries_in_sample": true
+  },
+  "run_metadata": {
+    "git": {
+      "commit": "afdf822e4d12b01872d8f759ea5cdf7df8c0bccf",
+      "branch": "feature/phase5-task6-multimodal-decoder",
+      "working_tree_dirty": true,
+      "tracked_changes": [
+        "pedsafety/phase5/models/scaling.py"
+      ],
+      "untracked_files": [
+        "configs/phase5/training_default.json",
+        "docs/phase5/PHASE5_TASK7_1_TRAINING_DATA_ADAPTER.md",
+        "docs/phase5/PHASE5_TASK7_2_TRAIN_ONLY_SCALER.md",
+        "docs/phase5/phase5_task7_1_report.json",
+        "docs/phase5/phase5_task7_2_report.json",
+        "pedsafety/phase5/models/checkpoint.py",
+        "pedsafety/phase5/models/forecaster.py",
+        "pedsafety/phase5/models/training_harness.py",
+        "pedsafety/phase5/models/training_step.py",
+        "pedsafety/phase5/training_data.py",
+        "pedsafety/phase5/training_scaler.py",
+        "scripts/phase5_train_pilot.py",
+        "tests/phase5/test_training_data.py",
+        "tests/phase5/test_training_scaler.py"
+      ],
+      "note": "Phase 5 P5.3 code is uncommitted while under review; the dirty flag and file lists record exactly what differed from HEAD."
+    },
+    "started_utc": "2026-11-15T19:01:31Z",
+    "finished_utc": "2026-11-15T19:12:42Z",
+    "command": "phase5_train_pilot.py --windows experiments/phase5_task3_windows_pie_video_0004/20261115T035825Z_pie_video_0004/primary --config configs/phase5/training_default.json --out experiments/phase5_task7_training/20261115T190117Z_pie_video_0004_determinism_rerun",
+    "environment": {
+      "python": "3.9.25",
+      "implementation": "CPython",
+      "platform": "Windows-10-10.0.26300-SP0",
+      "machine": "AMD64",
+      "processor": "Intel64 Family 6 Model 154 Stepping 4, GenuineIntel",
+      "packages": {
+        "numpy": "1.26.4",
+        "torch": "2.2.1+cpu",
+        "jsonschema": "4.25.1",
+        "pytest": "8.4.2"
+      },
+      "torch_threads": 1,
+      "torch_interop_threads": 12,
+      "cuda_available": false,
+      "device": "cpu"
+    },
+    "runtime_s": {
+      "total": 671.4809656,
+      "scaler_fit": 4.5747353,
+      "collate_and_batch_prep": 153.42113390000105,
+      "forward_backward_step": 510.9868280999986,
+      "note": "offline measurement on one machine; not a real-time claim"
+    },
+    "peak_memory_bytes": 580743168,
+    "peak_gpu_memory_bytes": null
+  },
+  "claims": {
+    "coordinate_space": "image (captured raster pixels)",
+    "metric_world_coordinates": false,
+    "physical_features": false,
+    "ttc_pet_or_collision_risk": false,
+    "independent_validation": false,
+    "independent_generalization": false,
+    "forecasting_accuracy_established": false,
+    "best_checkpoint_selected": false,
+    "calibrated_probabilities": false,
+    "real_time_claim": false,
+    "note": "Pilot training on one video / one scene; all losses are in-sample development diagnostics."
+  },
+  "limitations": [
+    "PILOT_DEVELOPMENT_ONLY_NON_INDEPENDENT: one PIE video, one scene group, 2,327 heavily overlapping windows from 84 pedestrian tracks; targets are perceived-track pseudo-targets.",
+    "No independent train/validation/test split exists; the model is trained on every pilot window, so every loss / metric computed on these windows is in-sample and says nothing about generalisation.",
+    "Checkpoint selection is FINAL_EPOCH_ONLY: best-checkpoint selection on correlated windows of the same video would be indefensible, so none is performed.",
+    "Train-only scaler statistics are fitted on all pilot windows because they are the only training partition; they are 'train-only' in procedure, not evidence of out-of-sample behaviour.",
+    "Hyperparameters are a-priori engineering defaults for a smoke-scale run; they were not tuned for accuracy and no hyperparameter search was performed.",
+    "WTA training on one scene may collapse onto few modes; mode diagnostics are logged but mode quality is not validated.",
+    "Image-space pixels only; no metric, physical, TTC/PET, collision-probability or deployment interpretation."
+  ]
+}

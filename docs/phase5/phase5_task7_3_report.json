@@ -1,0 +1,50 @@
+{
+  "task": "P5.7.3",
+  "title": "Integrated training step",
+  "status": "COMPLETED_WITH_LIMITATIONS",
+  "label": "PILOT_DEVELOPMENT_ONLY_NON_INDEPENDENT",
+  "date": "2026-11-16",
+  "implementation": {
+    "modules": [
+      "pedsafety/phase5/models/forecaster.py",
+      "pedsafety/phase5/models/training_step.py"
+    ],
+    "flow": "history batch -> train-only scaler (encoder input features only) -> P5.5 encoder -> P5.6 decoder -> masked WTA multimodal loss -> gradients",
+    "model_forward_signature": [
+      "encoder_input",
+      "anchor_uv_px",
+      "target_valid"
+    ],
+    "future_argument_in_model": false,
+    "raw_pixel_anchor_and_targets_unchanged": true,
+    "finite_loss_and_gradient_checks": [
+      "NONFINITE_LOSS",
+      "NONFINITE_GRADIENT"
+    ],
+    "devices": {
+      "cpu_verified": true,
+      "cuda_code_path": true,
+      "cuda_exercised": false,
+      "reason": "no CUDA device available; CUDA test skipped"
+    }
+  },
+  "tests": {
+    "file": "tests/phase5/test_training_step.py",
+    "passed": 17,
+    "skipped": 1,
+    "skipped_reason": "CUDA test (no GPU)"
+  },
+  "guarantees_tested": [
+    "shapes and anchor + raw offsets",
+    "gradients reach encoder (spatial, temporal) and decoder; no parameter without gradient",
+    "history-only isolation incl. spy and leak-sensitivity meta-test",
+    "masked supervision (NaN / 1e9 under False masks, excluded windows counted)",
+    "non-finite loss / gradient fatal and parameters unchanged",
+    "clipping, scheduler, determinism, tiny-batch overfit"
+  ],
+  "limitations": [
+    "pilot-only, CPU-verified",
+    "decoder predicts raw-pixel offsets (P5.6 contract): slow convergence at small learning rates",
+    "multi-thread CPU backward passes are not bitwise reproducible"
+  ]
+}

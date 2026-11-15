@@ -1,0 +1,21 @@
+{
+  "config_version": "phase5-neural-evaluation-config-1.0.0",
+  "label": "PILOT_DEVELOPMENT_ONLY_NON_INDEPENDENT",
+  "baseline_evaluation_config_path": "configs/phase5/baseline_evaluation_default.json",
+  "p54_reference_results_path": "experiments/phase5_task4_baselines_pie_video_0004/20261115T042053Z_pie_video_0004/primary/evaluation_results.json",
+  "model_id": "NEURAL_GATV2_TCN_K5",
+  "checkpoint": "final",
+  "batch_size": 64,
+  "device": "cpu",
+  "torch_threads": 1,
+  "oracle_k": 5,
+  "include_baseline_comparison": true,
+  "sample_status": "IN_SAMPLE_MODEL_TRAINED_ON_THESE_WINDOWS",
+  "_notes": {
+    "metrics": "Metric policies (strict full-horizon targets, exclude-and-count invalid predictions, window- and track-weighted aggregation, miss rate NOT_CONFIGURED) come from the unchanged P5.4 baseline_evaluation_default.json and the unchanged P5.4 evaluator.",
+    "primary_vs_oracle": "Primary metrics use the most-probable mode (argmax of the model's probabilities). minADE@5 / minFDE@5 are best-of-K ORACLE metrics, reported separately.",
+    "sample_status": "The pilot has no independent partition: the model is trained on, and evaluated on, the same windows. The comparison with the training-free classical baselines is therefore in-sample and is not evidence of superiority or generalisation.",
+    "checkpoint": "'final' = the final-epoch checkpoint recorded in the training manifest (the only selection policy; no best-checkpoint selection).",
+    "p54_reference_results_path": "optional: the committed P5.4 results are used only to cross-check that the recomputed baseline ADE means are identical."
+  }
+}

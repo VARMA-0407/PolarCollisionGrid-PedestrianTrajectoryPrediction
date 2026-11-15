@@ -1,0 +1,43 @@
+# Phase 5 Consolidated Acceptance Report (P5.7.2 – P5.7.6)
+
+**Date:** 16 November 2026. **Branch:** `feature/phase5-task6-multimodal-decoder`, starting HEAD `afdf822e4d12b01872d8f759ea5cdf7df8c0bccf` (P5.6). **Label of every result:** `PILOT_DEVELOPMENT_ONLY_NON_INDEPENDENT`. **Verdict:** `ACCEPTED_WITH_LIMITATIONS` — the implementation, tests and reproducibility conditions are met; no independent scientific result exists. Machine-readable status: `phase5_consolidated_status.json`. Architecture and tensor contracts: `PHASE5_ARCHITECTURE.md`. The commit hash is recorded in the commit message and in `phase5_consolidated_status.json` (`git.commit`, added by a follow-up docs-only commit because a commit cannot contain its own hash).
+
+> **Implementation smoke results are not independent research results.** Everything below was produced on one PIE video (`set01/video_0004`, one scene group, 2,327 strongly overlapping windows from 84 tracks, perceived-track pseudo-targets). The neural model is trained and evaluated on the same windows (in-sample). No independent train / validation / test split, generalisation estimate, calibration, metric-world, TTC / PET or real-time claim is made or supported.
+
+## 1. Tasks
+
+| Task | Result | Evidence |
+|---|---|---|
+| P5.7.1 data adapter | preserved as found (committed together with this work) | `PHASE5_TASK7_1_TRAINING_DATA_ADAPTER.md`; 14 tests |
+| P5.7.2 train-only scaler | reviewed and integrated; **no defect in the scaler logic**; one integration fix (torch import moved behind `FeatureScaler.from_arrays` so the dependency guard passes) | `PHASE5_TASK7_2_TRAIN_ONLY_SCALER.md` (integration review); 6 + 9 tests; independent numpy recomputation on the pilot |
+| P5.7.3 integrated training step | implemented | `PHASE5_TASK7_3_INTEGRATED_TRAINING_STEP.md`; 17 tests (+1 CUDA skipped) |
+| P5.7.4 pilot training harness | implemented and run (20 epochs, 740 steps, deterministic, checkpoints, resume) | `PHASE5_TASK7_4_PILOT_TRAINING_HARNESS.md`; 33 tests; validator 17/17 |
+| P5.7.5 neural evaluator | implemented and run on the unchanged P5.4 evaluator | `PHASE5_TASK7_5_NEURAL_EVALUATION.md`; 11 tests; validator 17/17 |
+| P5.7.6 independent evaluation | **`BLOCKED_PENDING_SCENE_DIVERSE_DATA`**; nothing fabricated | `PHASE5_TASK7_6_INDEPENDENT_EVALUATION_STATUS.md`, `phase5_task7_6_status.json`; 4 tests |
+
+## 2. Experiment evidence (in-sample, development only)
+
+* **Training** `experiments/phase5_task7_training/20261115T190117Z_pie_video_0004/` (+ identical-configuration rerun): AdamW (lr 0.003 cosine to 1 %, weight decay 0.01, clip 10), batch 64, 20 epochs, 1 CPU thread, seed 20261116, 172,699 parameters; in-sample loss 29.16 → 11.63; no step clipped; both runs byte-identical (configuration, scaler statistics, log, epoch-10 and epoch-20 checkpoints). Final checkpoint SHA-256 `40aff17f1a40eb2da24d0e0b63245eecefa5bba4e3f6e44c272dc07f3ab71b44` (model state `9c953c1adfc81c53d686f42431d42c8e5197db18f7c5530342bc49b17d15d4c7`); scaler statistics SHA-256 `ed5fd6824995c056b161564fb40ce93b0c96320de03a8672eba12af36e7fe169`; window-run manifest `3369ea80c65652b8f1797c7a62a14c29428eb1dd7e9dc60b0d8a8e5be30dc1e8`. Runtime 668 s, peak memory 583 MB. Final-epoch checkpoint only; no best-checkpoint selection (limitation documented: no independent validation partition exists).
+* **Neural evaluation** `experiments/phase5_task7_neural_evaluation/20261115T191319Z_pie_video_0004/` (+ rerun): most-probable-mode **ADE 31.46 px / FDE 68.61 px** (window-weighted; medians 15.31 / 27.26; track-weighted 45.36 / 113.92); **oracle** minADE@5 20.28 px / minFDE@5 46.21 px (separate, ground-truth-selected); error 17.9 / 36.2 / 68.6 px at 0.5 / 1.0 / 1.5 s. Classical baselines on the same windows with the same evaluator: B0 54.26 / 109.93, B1 92.95 / 181.59, B2 35.66 / 79.30 px (ADE / FDE means, identical to the committed P5.4 results). **These are training-set numbers**; they do not show generalisation or superiority over any baseline. The most-probable mode is the oracle-best mode in 52 % of windows; one mode is never selected; probabilities are uncalibrated (mean maximum 0.49).
+
+## 3. Acceptance conditions
+
+| Condition | Result | Evidence |
+|---|---|---|
+| **A. Architecture** — all implementable P5.7.2–P5.7.5 tasks completed; P5.3–P5.6 interfaces preserved; pipeline integrated | PASS | section 1; P5.3–P5.6 source files unchanged except the additive `FeatureScaler.from_arrays`; encoder → decoder → loss → training → neural evaluator → P5.4 evaluator runs end to end |
+| **B. Scientific correctness** — no future leakage; train-only scaling; raw anchors / targets preserved; correct masked loss; selected-mode vs oracle distinction; no unsupported claims | PASS | `forward` has no future argument and mutating future arrays leaves predictions bit-identical (training step and inference); leakage meta-test; scaler review tests; `trajectories = anchor + raw offsets`; masked-loss tests; hand-computed primary-vs-oracle test and an independent plain-Python recomputation of both; all manifest claims false |
+| **C. Tests** — focused P5.7 and full Phase 5 pass; smoke experiments complete; no new unexplained failures; known failures documented | PASS | focused P5.7 94 passed + 1 skipped (CUDA); `tests/phase5` 247 passed + 2 skipped (CUDA); `tests/task7` 586 passed; full regression 1256 passed, 8 skipped, 1 failed (known TTC defect) |
+| **D. Reproducibility** — configuration persisted; dataset / scaler provenance; checkpoints load; artifacts reproducible; JSON parses | PASS | `config_resolved.json`, hashed inputs, checkpoint round-trip and resume tests, byte-identical reruns for training and evaluation, validators 17/17 and 17/17, every JSON report parsed |
+| **E. Repository integrity** — no protected Phase 2–4 changes; no historical artifacts overwritten; no unrelated staged changes; `git diff --check` passes; only intended Phase 5 files staged | PASS | verified at staging time (see the commit); Phase 2–4 source, P5.3 / P5.4 / P5.5 artifacts untouched (the only change to an existing Phase 5 source is `models/scaling.py`, additive); narrow `.gitignore` rules for checkpoints and neural evaluation arrays only |
+
+## 4. Known failures and findings (reported, not concealed)
+
+* **Known, unrelated:** `tests/phase2/test_ttc_masks.py::test_ttc_occupancy_mask_collapses_agent_dimension` still fails (PCG `TTC_mask` defect) — unchanged.
+* **Previously mentioned Phase 3 monitored-runner `__pycache__` isolation failure:** did **not** occur in this environment (`tests/phase3/test_measurement_helpers.py`: 35 passed, 1 skipped; full regression showed no Phase 3 failure). It is documented as environment dependent; nothing was changed.
+* **Found and fixed during this pass (all within scope):** (1) the untracked P5.7.2 `training_scaler.py` imported torch outside `pedsafety/phase5/models`, failing the Phase 2 dependency guard — fixed by `FeatureScaler.from_arrays`; (2) multi-thread CPU backward passes are not bitwise reproducible — the training / evaluation configurations use one thread and the validators apply the recorded thread count (an earlier validation attempt that did not is preserved as `validation_report_attempt1_validator_used_default_threads.json`); (3) `from conftest import …` collided with `tests/phase4/conftest.py` when both directories were collected — helper moved to `tests/phase5/p57_helpers.py`; (4) a resume with a different epoch count would silently reuse a stale cosine horizon — now refused (`RESUME_SCHEDULE_MISMATCH`).
+
+## 5. Limitations (all remain)
+One video / one scene group; overlapping windows; pseudo-targets from perceived tracks (Phase 3 detection / tracking quality unmeasured); all neural results in-sample; no held-out data, so no checkpoint / hyperparameter selection and no confidence intervals; hyperparameters are a-priori defaults after a single two-value learning-rate probe; modes may be redundant and probabilities are uncalibrated; pixels are depth-dependent and include camera ego-motion; CUDA code path exists but was **not exercised** (no GPU; two CUDA tests skipped); bitwise reproducibility is established for CPU, one thread, this platform; timings are offline measurements, not real-time claims.
+
+## 6. Next steps (outside this pass)
+P5.2 (scene-diverse data and annotations: see `PHASE5_TASK7_6_INDEPENDENT_EVALUATION_STATUS.md`), then a group-level split, re-training with train-only statistics on the training groups, validation-only selection, one locked test evaluation with cluster-bootstrap intervals (P5.8 / P5.9). Conflict forecasting, risk calibration and deployment remain out of scope and unsupported.

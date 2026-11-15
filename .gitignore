@@ -188,3 +188,7 @@ cython_debug/
 /experiments/phase5_task3_windows_pie_video_0004/**/*.npz
 # Phase 5 P5.4 baseline prediction/evaluation arrays (regenerable from committed code + the hashed local P5.3 window run); manifests, reports and JSON stay visible
 /experiments/phase5_task4_baselines_pie_video_0004/**/*.npz
+# Phase 5 P5.7.4 pilot training checkpoints (binary; regenerable from committed code + the hashed local P5.3 window run; hashes are recorded in the manifests); logs, scaler statistics and manifests stay visible
+/experiments/phase5_task7_training/**/*.pt
+# Phase 5 P5.7.5 neural evaluation arrays (regenerable from the verified checkpoint); manifests, results and reports stay visible
+/experiments/phase5_task7_neural_evaluation/**/*.npz

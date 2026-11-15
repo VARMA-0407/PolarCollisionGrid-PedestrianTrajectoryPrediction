@@ -1,0 +1,121 @@
+{
+  "task": "P5.7.2",
+  "title": "Train-only scaler integration",
+  "status": "implemented",
+  "implementation": {
+    "module": "pedsafety.phase5.training_scaler",
+    "dataset_helper": "pedsafety.phase5.training_data.TrainingWindowDataset.fit_scaler_statistics",
+    "fit_partition": "train is required exactly",
+    "feature_space": "exact P5.5 derived node and edge inputs",
+    "future_targets_used_for_fit": false,
+    "raw_anchor_or_future_target_scaling": false,
+    "training_loop_implemented": false
+  },
+  "features": {
+    "node": [
+      "rel_u",
+      "rel_v",
+      "vel_u",
+      "vel_v",
+      "speed",
+      "heading_sin",
+      "heading_cos",
+      "box_h",
+      "frames_since_prev_obs"
+    ],
+    "edge": [
+      "du_px",
+      "dv_px",
+      "sep_px",
+      "bearing_sin",
+      "bearing_cos",
+      "rel_bearing_sin",
+      "rel_bearing_cos",
+      "sep_over_h",
+      "log_h_ratio",
+      "dv_row_px",
+      "dvel_u_px_s",
+      "dvel_v_px_s",
+      "closing_rate_px_s",
+      "overlap_ios"
+    ],
+    "mask_semantics": "only values under the corresponding P5.5 validity mask contribute; non-finite valid values are rejected",
+    "constant_feature_scale": 1.0,
+    "variance": "population standard deviation"
+  },
+  "persistence": {
+    "format": "deterministic JSON",
+    "schema_version": "phase5-train-feature-statistics-1.0.0",
+    "hash": "SHA-256 of canonical JSON payload excluding statistics_sha256",
+    "provenance": [
+      "fit_partition",
+      "split_identity",
+      "source_identity",
+      "configuration",
+      "feature_names",
+      "means",
+      "scales",
+      "valid_counts"
+    ],
+    "application": "existing P5.5 FeatureScaler via TrainOnlyFeatureStatistics.feature_scaler"
+  },
+  "pilot": {
+    "artifact": "experiments/phase5_task3_windows_pie_video_0004/20261115T035825Z_pie_video_0004/primary",
+    "windows_used": 2,
+    "label": "PILOT_DEVELOPMENT_ONLY_NON_INDEPENDENT",
+    "independent_validation": false
+  },
+  "validation": {
+    "focused_tests": {
+      "command": "conda run -n pcg-baseline python -m pytest tests/phase5/test_training_scaler.py -q",
+      "result": "6 passed",
+      "exit_code": 0
+    },
+    "phase5_tests": {
+      "command": "conda run -n pcg-baseline python -m pytest tests/phase5 -q",
+      "result": "173 passed, 1 skipped",
+      "exit_code": 0
+    },
+    "json_parse": {
+      "result": "passed",
+      "exit_code": 0
+    },
+    "diff_check": {
+      "result": "passed",
+      "exit_code": 0
+    }
+  },
+  "limitations": [
+    "The pilot has one video/group and cannot establish independent validation.",
+    "No training loop, optimizer, checkpointing, neural evaluation, or risk calibration is implemented.",
+    "Statistics must be supplied with explicit training indices or batches; no split is inferred."
+  ],
+  "files_changed": [
+    "pedsafety/phase5/training_scaler.py",
+    "pedsafety/phase5/training_data.py",
+    "tests/phase5/test_training_scaler.py",
+    "docs/phase5/PHASE5_TASK7_2_TRAIN_ONLY_SCALER.md",
+    "docs/phase5/phase5_task7_2_report.json"
+  ],
+  "integration_review": {
+    "date": "2026-11-16",
+    "verdict": "no defect found in the scaler logic; one repository-integration fix",
+    "checks": [
+      "training-only fitting",
+      "derived feature order equals the encoder's",
+      "validity-mask-aware statistics",
+      "constant-feature handling",
+      "deterministic serialization and SHA-256",
+      "provenance verification",
+      "raw anchors and future targets unchanged",
+      "independent numpy recomputation on the pilot"
+    ],
+    "review_tests": "tests/phase5/test_training_scaler_review.py (9 tests, pass)",
+    "fix": "training_scaler.py no longer imports torch (dependency policy); FeatureScaler.from_arrays added in models/scaling.py; API, format, hash and original tests unchanged",
+    "pilot_statistics_sha256": "ed5fd6824995c056b161564fb40ce93b0c96320de03a8672eba12af36e7fe169",
+    "pilot_statistics_file_sha256": "cc270aa6562931f5c66b909dcc5941ba20869101862ec91c35e924c81b0ce723",
+    "fit_windows": 2327,
+    "split_identity": "PILOT_ALL_WINDOWS_AS_TRAIN_DEVELOPMENT_ONLY",
+    "training_loop_in_7_2": false
+  }
+}

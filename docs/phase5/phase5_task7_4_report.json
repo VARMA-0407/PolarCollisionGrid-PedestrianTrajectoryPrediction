@@ -1,0 +1,453 @@
+{
+  "task": "P5.7.4",
+  "title": "Pilot training harness",
+  "status": "COMPLETED_WITH_LIMITATIONS",
+  "label": "PILOT_DEVELOPMENT_ONLY_NON_INDEPENDENT",
+  "date": "2026-11-16",
+  "policies": {
+    "split_policy": "PILOT_ALL_WINDOWS_AS_TRAIN_DEVELOPMENT_ONLY",
+    "checkpoint_selection": "FINAL_EPOCH_ONLY",
+    "independent_validation": false,
+    "checkpoint_selection_limitation": "final-epoch checkpoint only; no best-checkpoint selection (no independent validation partition exists)",
+    "torch_threads": 1,
+    "threads_reason": "multi-thread CPU backward reductions are not bitwise reproducible (12 gradient tensors differed between identical runs); one thread gives byte-identical runs and resumes"
+  },
+  "experiment": {
+    "directory": "experiments/phase5_task7_training/20261115T190117Z_pie_video_0004",
+    "rerun_directory": "experiments/phase5_task7_training/20261115T190117Z_pie_video_0004_determinism_rerun",
+    "windows": 2327,
+    "epochs": 20,
+    "steps": 740,
+    "batch_size": 64,
+    "optimizer": "AdamW",
+    "learning_rate": 0.003,
+    "weight_decay": 0.01,
+    "grad_clip_norm": 10.0,
+    "scheduler": "cosine",
+    "seed": 20261116,
+    "device": "cpu",
+    "parameter_counts": {
+      "encoder": 144128,
+      "decoder": 28571,
+      "total": 172699
+    },
+    "clipped_steps_total": 0,
+    "in_sample_epoch_summaries": [
+      {
+        "epoch": 1,
+        "mean_loss": 29.160392401399765,
+        "mean_selected_mode_ade_px": 52.75382927901559,
+        "mean_oracle_mode_ade_px": 51.34707116527418,
+        "mean_pairwise_mode_distance_px": 5.563198741639075,
+        "winner_counts": [
+          1003,
+          286,
+          189,
+          241,
+          608
+        ],
+        "lr_end": 0.002981717185783779
+      },
+      {
+        "epoch": 2,
+        "mean_loss": 26.149699900864427,
+        "mean_selected_mode_ade_px": 48.41336419237085,
+        "mean_oracle_mode_ade_px": 46.166084227256626,
+        "mean_pairwise_mode_distance_px": 15.463709008709063,
+        "winner_counts": [
+          900,
+          540,
+          149,
+          187,
+          551
+        ],
+        "lr_end": 0.0029273189266983027
+      },
+      {
+        "epoch": 3,
+        "mean_loss": 23.484807127168573,
+        "mean_selected_mode_ade_px": 44.62546978316494,
+        "mean_oracle_mode_ade_px": 41.285889052197206,
+        "mean_pairwise_mode_distance_px": 20.056850195648234,
+        "winner_counts": [
+          900,
+          446,
+          195,
+          227,
+          559
+        ],
+        "lr_end": 0.002838144688419725
+      },
+      {
+        "epoch": 4,
+        "mean_loss": 21.267981281288716,
+        "mean_selected_mode_ade_px": 41.91585427002688,
+        "mean_oracle_mode_ade_px": 37.19611656670925,
+        "mean_pairwise_mode_distance_px": 25.207777805270993,
+        "winner_counts": [
+          839,
+          482,
+          198,
+          264,
+          544
+        ],
+        "lr_end": 0.0027163902366467976
+      },
+      {
+        "epoch": 5,
+        "mean_loss": 19.564755148779028,
+        "mean_selected_mode_ade_px": 40.664656370660495,
+        "mean_oracle_mode_ade_px": 34.04178450944652,
+        "mean_pairwise_mode_distance_px": 30.31125627426718,
+        "winner_counts": [
+          744,
+          541,
+          180,
+          349,
+          513
+        ],
+        "lr_end": 0.0025650535700620244
+      },
+      {
+        "epoch": 6,
+        "mean_loss": 18.440592267045044,
+        "mean_selected_mode_ade_px": 41.38352610084393,
+        "mean_oracle_mode_ade_px": 31.919521602274884,
+        "mean_pairwise_mode_distance_px": 35.04240666821016,
+        "winner_counts": [
+          654,
+          561,
+          179,
+          430,
+          503
+        ],
+        "lr_end": 0.0023878610996543224
+      },
+      {
+        "epoch": 7,
+        "mean_loss": 17.349762084200293,
+        "mean_selected_mode_ade_px": 40.05167588913036,
+        "mean_oracle_mode_ade_px": 29.953912479251457,
+        "mean_pairwise_mode_distance_px": 37.1886455173599,
+        "winner_counts": [
+          611,
+          546,
+          183,
+          477,
+          510
+        ],
+        "lr_end": 0.002189175892113227
+      },
+      {
+        "epoch": 8,
+        "mean_loss": 16.50297738023208,
+        "mean_selected_mode_ade_px": 38.89559902261653,
+        "mean_oracle_mode_ade_px": 28.463432148079736,
+        "mean_pairwise_mode_distance_px": 38.95890852203173,
+        "winner_counts": [
+          549,
+          602,
+          203,
+          482,
+          491
+        ],
+        "lr_end": 0.0019738902366467958
+      },
+      {
+        "epoch": 9,
+        "mean_loss": 15.647563160977038,
+        "mean_selected_mode_ade_px": 37.93815446074141,
+        "mean_oracle_mode_ade_px": 26.98242789417262,
+        "mean_pairwise_mode_distance_px": 38.75726872613413,
+        "winner_counts": [
+          590,
+          553,
+          188,
+          483,
+          513
+        ],
+        "lr_end": 0.0017473051805847412
+      },
+      {
+        "epoch": 10,
+        "mean_loss": 14.910885601019112,
+        "mean_selected_mode_ade_px": 36.94244138867649,
+        "mean_oracle_mode_ade_px": 25.75725198621959,
+        "mean_pairwise_mode_distance_px": 39.63568743913533,
+        "winner_counts": [
+          597,
+          549,
+          191,
+          476,
+          514
+        ],
+        "lr_end": 0.0015149999999999983
+      },
+      {
+        "epoch": 11,
+        "mean_loss": 14.14482930744468,
+        "mean_selected_mode_ade_px": 35.19080065574367,
+        "mean_oracle_mode_ade_px": 24.419548400236295,
+        "mean_pairwise_mode_distance_px": 40.032026260566134,
+        "winner_counts": [
+          631,
+          525,
+          194,
+          463,
+          514
+        ],
+        "lr_end": 0.0012826948194152564
+      },
+      {
+        "epoch": 12,
+        "mean_loss": 13.510366858255725,
+        "mean_selected_mode_ade_px": 34.810011382158294,
+        "mean_oracle_mode_ade_px": 23.43498116539536,
+        "mean_pairwise_mode_distance_px": 40.85542950960101,
+        "winner_counts": [
+          626,
+          518,
+          195,
+          480,
+          508
+        ],
+        "lr_end": 0.0010561097633532027
+      },
+      {
+        "epoch": 13,
+        "mean_loss": 13.040776090044089,
+        "mean_selected_mode_ade_px": 33.61299586244853,
+        "mean_oracle_mode_ade_px": 22.63283217757569,
+        "mean_pairwise_mode_distance_px": 41.23793238798436,
+        "winner_counts": [
+          631,
+          523,
+          189,
+          471,
+          513
+        ],
+        "lr_end": 0.0008408241078867722
+      },
+      {
+        "epoch": 14,
+        "mean_loss": 12.626951586703246,
+        "mean_selected_mode_ade_px": 33.110789386305015,
+        "mean_oracle_mode_ade_px": 21.93339321856136,
+        "mean_pairwise_mode_distance_px": 41.78011537100247,
+        "winner_counts": [
+          632,
+          492,
+          188,
+          492,
+          523
+        ],
+        "lr_end": 0.0006421389003456771
+      },
+      {
+        "epoch": 15,
+        "mean_loss": 12.270393165027732,
+        "mean_selected_mode_ade_px": 32.725986116783886,
+        "mean_oracle_mode_ade_px": 21.350535864475514,
+        "mean_pairwise_mode_distance_px": 41.9129292611457,
+        "winner_counts": [
+          635,
+          480,
+          189,
+          495,
+          528
+        ],
+        "lr_end": 0.0004649464299379765
+      },
+      {
+        "epoch": 16,
+        "mean_loss": 12.018782183905758,
+        "mean_selected_mode_ade_px": 32.14929678719803,
+        "mean_oracle_mode_ade_px": 20.937515138299055,
+        "mean_pairwise_mode_distance_px": 42.04202208869386,
+        "winner_counts": [
+          638,
+          470,
+          192,
+          493,
+          534
+        ],
+        "lr_end": 0.00031360976335320287
+      },
+      {
+        "epoch": 17,
+        "mean_loss": 11.842017970066701,
+        "mean_selected_mode_ade_px": 31.746250965690532,
+        "mean_oracle_mode_ade_px": 20.645772483966667,
+        "mean_pairwise_mode_distance_px": 42.06892697801906,
+        "winner_counts": [
+          642,
+          464,
+          194,
+          495,
+          532
+        ],
+        "lr_end": 0.00019185531158027368
+      },
+      {
+        "epoch": 18,
+        "mean_loss": 11.723066357414663,
+        "mean_selected_mode_ade_px": 31.47326179917503,
+        "mean_oracle_mode_ade_px": 20.45919947179541,
+        "mean_pairwise_mode_distance_px": 42.34581832328374,
+        "winner_counts": [
+          643,
+          459,
+          192,
+          500,
+          533
+        ],
+        "lr_end": 0.00010268107330169698
+      },
+      {
+        "epoch": 19,
+        "mean_loss": 11.659899925540126,
+        "mean_selected_mode_ade_px": 31.51842181406976,
+        "mean_oracle_mode_ade_px": 20.35678615086469,
+        "mean_pairwise_mode_distance_px": 42.43205028447051,
+        "winner_counts": [
+          642,
+          461,
+          191,
+          501,
+          532
+        ],
+        "lr_end": 4.8282814216220586e-05
+      },
+      {
+        "epoch": 20,
+        "mean_loss": 11.626424538202945,
+        "mean_selected_mode_ade_px": 31.40770404309124,
+        "mean_oracle_mode_ade_px": 20.304893189968343,
+        "mean_pairwise_mode_distance_px": 42.30011693038907,
+        "winner_counts": [
+          643,
+          458,
+          191,
+          503,
+          532
+        ],
+        "lr_end": 3e-05
+      }
+    ],
+    "hyperparameter_provenance": "a-priori engineering defaults; one two-value, 2-epoch learning-rate probe (0.001 vs 0.003) on in-sample training loss; no other search"
+  },
+  "hashes": {
+    "window_run_manifest_sha256": "3369ea80c65652b8f1797c7a62a14c29428eb1dd7e9dc60b0d8a8e5be30dc1e8",
+    "training_config_sha256": "6a98708b5512a6e94b1a2dd0a185efea66c60be68b8f0572e6f8a3d0873bf40e",
+    "encoder_config_sha256": "15dbb9856c12a81767b7b8bdca697c985120d06e488d72c79be1d40baadd78c1",
+    "decoder_config_sha256": "ff2a38d9f8d613da8af3dbaf773073842ec2f9059519f69de3ed11d1a05569ea",
+    "scaler": {
+      "statistics_sha256": "ed5fd6824995c056b161564fb40ce93b0c96320de03a8672eba12af36e7fe169",
+      "split_identity": "PILOT_ALL_WINDOWS_AS_TRAIN_DEVELOPMENT_ONLY",
+      "fit_partition": "train",
+      "fit_windows": 2327,
+      "split_policy": "PILOT_ALL_WINDOWS_AS_TRAIN_DEVELOPMENT_ONLY",
+      "valid_counts_min": 126517
+    },
+    "data_artifacts": {
+      "config_resolved.json": {
+        "sha256": "36d930d7d8f3f80fc4cf70fe2725500754af76491ff5c7c9b300674f02f0130d",
+        "bytes": 3352
+      },
+      "scaler_statistics.json": {
+        "sha256": "cc270aa6562931f5c66b909dcc5941ba20869101862ec91c35e924c81b0ce723",
+        "bytes": 10699
+      },
+      "train_log.jsonl": {
+        "sha256": "882bf9e35e3aa3fb2a2d39b84d38a67c680220fc85cac38d5f7620da760fe37c",
+        "bytes": 112188
+      },
+      "checkpoints/checkpoint_epoch_0010.pt": {
+        "sha256": "d0f0f417bf1cf478d2744689c09b6c589d6f967d910217ba9bf02575d11d37d2",
+        "model_state_sha256": "78a8d920dbb4d70c431410a5902ca191fc4e9aea15b17876f15c723957da6b54",
+        "bytes": 2173788,
+        "epoch": 10,
+        "global_step": 370
+      },
+      "checkpoints/checkpoint_epoch_0020.pt": {
+        "sha256": "40aff17f1a40eb2da24d0e0b63245eecefa5bba4e3f6e44c272dc07f3ab71b44",
+        "model_state_sha256": "9c953c1adfc81c53d686f42431d42c8e5197db18f7c5530342bc49b17d15d4c7",
+        "bytes": 2173788,
+        "epoch": 20,
+        "global_step": 740
+      }
+    },
+    "run_manifest_sha256": "a2a0f70c51e0476a4fd175b4b4b97299c8d9b90f40c407dcb7e9c5e2b0ada4f6"
+  },
+  "reproducibility": {
+    "rerun_data_artifacts_identical": true,
+    "validator": {
+      "ok": true,
+      "n_checks": 17,
+      "includes": [
+        "independent numpy recomputation of scaler statistics",
+        "bitwise comparison with rerun"
+      ]
+    },
+    "resume_equals_continuous_run": "tested (byte-identical final checkpoint)"
+  },
+  "runtime_memory": {
+    "runtime_s": {
+      "total": 667.9003806,
+      "scaler_fit": 4.3400449000000005,
+      "collate_and_batch_prep": 149.78890709999968,
+      "forward_backward_step": 511.2219902000001,
+      "note": "offline measurement on one machine; not a real-time claim"
+    },
+    "peak_memory_bytes": 582500352,
+    "rerun_peak_memory_bytes": 580743168,
+    "environment": {
+      "python": "3.9.25",
+      "implementation": "CPython",
+      "platform": "Windows-10-10.0.26300-SP0",
+      "machine": "AMD64",
+      "processor": "Intel64 Family 6 Model 154 Stepping 4, GenuineIntel",
+      "packages": {
+        "numpy": "1.26.4",
+        "torch": "2.2.1+cpu",
+        "jsonschema": "4.25.1",
+        "pytest": "8.4.2"
+      },
+      "torch_threads": 1,
+      "torch_interop_threads": 12,
+      "cuda_available": false,
+      "device": "cpu"
+    }
+  },
+  "git": {
+    "commit_at_run": "afdf822e4d12b01872d8f759ea5cdf7df8c0bccf",
+    "branch_at_run": "feature/phase5-task6-multimodal-decoder",
+    "working_tree_dirty_at_run": true
+  },
+  "tests": {
+    "file": "tests/phase5/test_training_harness.py",
+    "passed": 33
+  },
+  "claims": {
+    "coordinate_space": "image (captured raster pixels)",
+    "metric_world_coordinates": false,
+    "physical_features": false,
+    "ttc_pet_or_collision_risk": false,
+    "independent_validation": false,
+    "independent_generalization": false,
+    "forecasting_accuracy_established": false,
+    "best_checkpoint_selected": false,
+    "calibrated_probabilities": false,
+    "real_time_claim": false,
+    "note": "Pilot training on one video / one scene; all losses are in-sample development diagnostics."
+  },
+  "limitations": [
+    "PILOT_DEVELOPMENT_ONLY_NON_INDEPENDENT: one PIE video, one scene group, 2,327 heavily overlapping windows from 84 pedestrian tracks; targets are perceived-track pseudo-targets.",
+    "No independent train/validation/test split exists; the model is trained on every pilot window, so every loss / metric computed on these windows is in-sample and says nothing about generalisation.",
+    "Checkpoint selection is FINAL_EPOCH_ONLY: best-checkpoint selection on correlated windows of the same video would be indefensible, so none is performed.",
+    "Train-only scaler statistics are fitted on all pilot windows because they are the only training partition; they are 'train-only' in procedure, not evidence of out-of-sample behaviour.",
+    "Hyperparameters are a-priori engineering defaults for a smoke-scale run; they were not tuned for accuracy and no hyperparameter search was performed.",
+    "WTA training on one scene may collapse onto few modes; mode diagnostics are logged but mode quality is not validated.",
+    "Image-space pixels only; no metric, physical, TTC/PET, collision-probability or deployment interpretation."
+  ]
+}

@@ -1,0 +1,158 @@
+{
+  "manifest_version": "phase5-neural-evaluation-run-manifest-1.0.0",
+  "task": "phase5_p5.7.5_neural_evaluation",
+  "status": "completed",
+  "label": "PILOT_DEVELOPMENT_ONLY_NON_INDEPENDENT",
+  "sample_status": "IN_SAMPLE_MODEL_TRAINED_ON_THESE_WINDOWS",
+  "data_artifacts": {
+    "evaluation_neural.npz": {
+      "sha256": "80988e8e7fcf496b016e349fc16186152d8336f3dd3e9f9d683cf8f17fcba72a",
+      "bytes": 342519
+    },
+    "evaluation_report.md": {
+      "sha256": "524a8df3e41e9aeb2bce9786e64815efbe17dc04347dc95852b30c5738b9fbd4",
+      "bytes": 2273
+    },
+    "evaluation_results.json": {
+      "sha256": "e7b8c8ff95ec20d8072ca4b8d32e9d11e6d1cf3fa1814e5f22b28462b02c6718",
+      "bytes": 45038
+    },
+    "predictions_neural.npz": {
+      "sha256": "c070134fb67ef42753ecca347260c9f25e8b7ad37ae3333b690f3f008ee99748",
+      "bytes": 1208952
+    }
+  },
+  "data_artifacts_note": "deterministic content: identical checkpoint, scaler, windows and configuration give identical hashes",
+  "inputs": {
+    "training_run": "experiments/phase5_task7_training/20261115T190117Z_pie_video_0004",
+    "training_run_manifest_sha256": "a2a0f70c51e0476a4fd175b4b4b97299c8d9b90f40c407dcb7e9c5e2b0ada4f6",
+    "checkpoint": "checkpoints/checkpoint_epoch_0020.pt",
+    "checkpoint_file_sha256": "40aff17f1a40eb2da24d0e0b63245eecefa5bba4e3f6e44c272dc07f3ab71b44",
+    "checkpoint_model_state_sha256": "9c953c1adfc81c53d686f42431d42c8e5197db18f7c5530342bc49b17d15d4c7",
+    "scaler_statistics_sha256": "ed5fd6824995c056b161564fb40ce93b0c96320de03a8672eba12af36e7fe169",
+    "windows_run": "experiments/phase5_task3_windows_pie_video_0004/20261115T035825Z_pie_video_0004/primary",
+    "windows_run_manifest_sha256": "3369ea80c65652b8f1797c7a62a14c29428eb1dd7e9dc60b0d8a8e5be30dc1e8",
+    "neural_evaluation_config": {
+      "path": "configs/phase5/neural_evaluation_default.json",
+      "sha256_canonical": "12353889d39016bf7cf902edb5b4c7b2faf3744ccd19f296ad10779430c0cc9f",
+      "sha256_file": "c9f913c3aa999d49bcd1ad727d685ffafea6fa9fe292a8308fb86cbb847b09ba"
+    },
+    "baseline_evaluation_config": {
+      "path": "configs/phase5/baseline_evaluation_default.json",
+      "sha256_canonical": "84741cc2ef0b287fcf1c3a0e621ecb986fa7031a81349b684c23fc4a2e5ffbb9"
+    },
+    "future_arrays_in_model_input": false,
+    "offline_kinematics_used": false
+  },
+  "counts": {
+    "windows": 2327,
+    "unique_target_tracks": 84,
+    "windows_evaluated": 2327,
+    "num_modes": 5,
+    "common_windows_with_baselines": 2327
+  },
+  "coordinates": {
+    "coordinate_system": "captured_1920x1080",
+    "unit": "pixel",
+    "origin": "top-left",
+    "world_coordinates": "unavailable"
+  },
+  "run_metadata": {
+    "git": {
+      "commit": "afdf822e4d12b01872d8f759ea5cdf7df8c0bccf",
+      "branch": "feature/phase5-task6-multimodal-decoder",
+      "working_tree_dirty": true,
+      "tracked_changes": [
+        ".gitignore",
+        "pedsafety/phase5/models/scaling.py",
+        "tests/phase5/conftest.py"
+      ],
+      "untracked_files": [
+        "configs/phase5/neural_evaluation_default.json",
+        "configs/phase5/training_default.json",
+        "docs/phase5/PHASE5_ARCHITECTURE.md",
+        "docs/phase5/PHASE5_TASK7_1_TRAINING_DATA_ADAPTER.md",
+        "docs/phase5/PHASE5_TASK7_2_TRAIN_ONLY_SCALER.md",
+        "docs/phase5/PHASE5_TASK7_6_INDEPENDENT_EVALUATION_STATUS.md",
+        "docs/phase5/phase5_task7_1_report.json",
+        "docs/phase5/phase5_task7_2_report.json",
+        "docs/phase5/phase5_task7_6_status.json",
+        "experiments/phase5_task7_neural_evaluation/20261115T191319Z_pie_video_0004/evaluation_report.md",
+        "experiments/phase5_task7_neural_evaluation/20261115T191319Z_pie_video_0004/evaluation_results.json",
+        "experiments/phase5_task7_neural_evaluation/20261115T191319Z_pie_video_0004/run_manifest.json",
+        "experiments/phase5_task7_training/20261115T190117Z_pie_video_0004/config_resolved.json",
+        "experiments/phase5_task7_training/20261115T190117Z_pie_video_0004/environment.json",
+        "experiments/phase5_task7_training/20261115T190117Z_pie_video_0004/run_manifest.json",
+        "experiments/phase5_task7_training/20261115T190117Z_pie_video_0004/scaler_statistics.json",
+        "experiments/phase5_task7_training/20261115T190117Z_pie_video_0004/train_log.jsonl",
+        "experiments/phase5_task7_training/20261115T190117Z_pie_video_0004/validation_report.json",
+        "experiments/phase5_task7_training/20261115T190117Z_pie_video_0004_determinism_rerun/config_resolved.json",
+        "experiments/phase5_task7_training/20261115T190117Z_pie_video_0004_determinism_rerun/environment.json",
+        "experiments/phase5_task7_training/20261115T190117Z_pie_video_0004_determinism_rerun/run_manifest.json",
+        "experiments/phase5_task7_training/20261115T190117Z_pie_video_0004_determinism_rerun/scaler_statistics.json",
+        "experiments/phase5_task7_training/20261115T190117Z_pie_video_0004_determinism_rerun/train_log.jsonl",
+        "pedsafety/phase5/independent_data_status.py",
+        "pedsafety/phase5/models/checkpoint.py",
+        "pedsafety/phase5/models/forecaster.py",
+        "pedsafety/phase5/models/neural_evaluation.py",
+        "pedsafety/phase5/models/training_harness.py",
+        "pedsafety/phase5/models/training_step.py",
+        "pedsafety/phase5/training_data.py",
+        "pedsafety/phase5/training_scaler.py",
+        "scripts/phase5_check_independent_data.py",
+        "scripts/phase5_evaluate_neural.py",
+        "scripts/phase5_train_pilot.py",
+        "scripts/phase5_validate_neural_evaluation.py",
+        "scripts/phase5_validate_training.py",
+        "tests/phase5/test_independent_data_status.py",
+        "tests/phase5/test_neural_evaluation.py",
+        "tests/phase5/test_training_data.py",
+        "tests/phase5/test_training_harness.py",
+        "tests/phase5/test_training_scaler.py",
+        "tests/phase5/test_training_scaler_review.py",
+        "tests/phase5/test_training_step.py"
+      ],
+      "note": "Phase 5 P5.3 code is uncommitted while under review; the dirty flag and file lists record exactly what differed from HEAD."
+    },
+    "started_utc": "2026-11-15T19:13:39Z",
+    "finished_utc": "2026-11-15T19:13:55Z",
+    "command": "phase5_evaluate_neural.py --train experiments/phase5_task7_training/20261115T190117Z_pie_video_0004 --windows experiments/phase5_task3_windows_pie_video_0004/20261115T035825Z_pie_video_0004/primary --config configs/phase5/neural_evaluation_default.json --out experiments/phase5_task7_neural_evaluation/20261115T191319Z_pie_video_0004_determinism_rerun",
+    "versions": {
+      "python": "3.9.25",
+      "numpy": "1.26.4",
+      "torch": "2.2.1+cpu",
+      "platform": "Windows-10-10.0.26300-SP0",
+      "torch_threads": 1,
+      "device": "cpu"
+    },
+    "runtime_s": {
+      "verify_and_load": 0.2774783000000003,
+      "inference_and_evaluation": 15.494347199999998,
+      "total": 16.0723873,
+      "note": "offline CPU measurement; not a real-time claim"
+    },
+    "peak_memory_bytes": 384622592
+  },
+  "claims": {
+    "coordinate_space": "image (captured raster pixels)",
+    "metric_world_coordinates": false,
+    "physical_features": false,
+    "ttc_pet_or_collision_risk": false,
+    "independent_validation": false,
+    "independent_generalization": false,
+    "forecasting_accuracy_established": false,
+    "best_checkpoint_selected": false,
+    "calibrated_probabilities": false,
+    "real_time_claim": false,
+    "note": "In-sample development evaluation of a model trained on the same pilot windows; not independent evidence.",
+    "baseline_superiority_established": false
+  },
+  "limitations": [
+    "PILOT_DEVELOPMENT_ONLY_NON_INDEPENDENT and IN-SAMPLE: the neural model was trained on every window evaluated here (one video, one scene group, overlapping windows, perceived-track pseudo-targets). The classical baselines have no trainable parameters. The comparison therefore cannot show that the neural model generalises or is better than any baseline.",
+    "Primary metrics use the most-probable mode; minADE@5 / minFDE@5 are best-of-K oracle metrics (ground truth selects the mode) and are never used as the single-trajectory result.",
+    "Mode probabilities are not calibrated and no calibration was assessed; no collision / conflict probability exists.",
+    "Errors are image-plane pixel distances: depth-dependent, include camera ego-motion, not metric; no TTC / PET / physical interpretation.",
+    "Miss rate is NOT_CONFIGURED (no approved pixel threshold). No confidence intervals: windows are correlated and only one video exists.",
+    "CPU single-thread offline measurements only; no real-time claim."
+  ]
+}

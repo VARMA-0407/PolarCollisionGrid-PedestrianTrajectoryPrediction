@@ -1,0 +1,155 @@
+{
+  "report_version": "phase5-consolidated-status-1.0.0",
+  "date": "2026-11-16",
+  "label": "PILOT_DEVELOPMENT_ONLY_NON_INDEPENDENT",
+  "verdict": "ACCEPTED_WITH_LIMITATIONS",
+  "scope": "P5.7.2 integration review, P5.7.3 training step, P5.7.4 pilot harness + experiment, P5.7.5 neural evaluator + experiment, P5.7.6 availability check",
+  "tasks": {
+    "P5.7.1": "implemented (pre-existing, preserved)",
+    "P5.7.2": "implemented (pre-existing); integration review passed; torch-import fix",
+    "P5.7.3": "implemented",
+    "P5.7.4": "implemented and run",
+    "P5.7.5": "implemented and run",
+    "P5.7.6": "BLOCKED_PENDING_SCENE_DIVERSE_DATA"
+  },
+  "git": {
+    "branch": "feature/phase5-task6-multimodal-decoder",
+    "head_before_commit": "afdf822e4d12b01872d8f759ea5cdf7df8c0bccf",
+    "commit": null,
+    "commit_message": null
+  },
+  "tests": {
+    "focused_p5_7": {
+      "command": "python -m pytest tests/phase5/test_training_data.py tests/phase5/test_training_scaler.py tests/phase5/test_training_scaler_review.py tests/phase5/test_training_step.py tests/phase5/test_training_harness.py tests/phase5/test_neural_evaluation.py tests/phase5/test_independent_data_status.py -q -p no:cacheprovider",
+      "passed": 94,
+      "skipped": 1,
+      "failed": 0,
+      "exit_code": 0,
+      "skipped_reason": "CUDA training-step test (no GPU)",
+      "by_file": {
+        "test_training_data.py": 14,
+        "test_training_scaler.py": 6,
+        "test_training_scaler_review.py": 9,
+        "test_training_step.py": "17 passed + 1 skipped",
+        "test_training_harness.py": 33,
+        "test_neural_evaluation.py": 11,
+        "test_independent_data_status.py": 4
+      }
+    },
+    "phase5_full": {
+      "command": "python -m pytest tests/phase5 -q -p no:cacheprovider",
+      "passed": 247,
+      "skipped": 2,
+      "failed": 0,
+      "exit_code": 0,
+      "skipped_reason": "two CUDA tests (no GPU)"
+    },
+    "p5_3_p5_6_evaluator_baseline_decoder": {
+      "command": "python -m pytest tests/phase5/test_evaluation_metrics.py tests/phase5/test_baselines.py tests/phase5/test_baseline_pipeline.py tests/phase5/test_decoder.py tests/phase5/test_decoder_losses.py -q -p no:cacheprovider",
+      "passed": 55,
+      "failed": 0,
+      "exit_code": 0
+    },
+    "task7_dependency_guards": {
+      "command": "python -m pytest tests/task7 -q -p no:cacheprovider",
+      "passed": 586,
+      "failed": 0,
+      "exit_code": 0
+    },
+    "full_regression": {
+      "command": "python -m pytest tests/phase5 tests/phase4 tests/phase3 tests/task7 tests/phase2 -q -rfs -p no:cacheprovider",
+      "passed": 1256,
+      "skipped": 8,
+      "failed": 1,
+      "exit_code": 1,
+      "duration_s": 223,
+      "skipped_detail": "cv2 / ultralytics not installed (5), original notebook not available (1), CUDA not available (2)"
+    }
+  },
+  "known_failures": {
+    "phase2_ttc_occupancy_mask": {
+      "test": "tests/phase2/test_ttc_masks.py::test_ttc_occupancy_mask_collapses_agent_dimension",
+      "result": "FAILED (UnboundLocalError: TTC_mask), unchanged and unrelated: the PCG baseline defect documented since Phase 2",
+      "present": true
+    },
+    "phase3_monitored_runner_pycache_isolation": {
+      "test": "tests/phase3/test_measurement_helpers.py (monitored-runner isolation tests)",
+      "result": "did NOT fail in this environment: tests/phase3/test_measurement_helpers.py 35 passed, 1 skipped; full regression showed no such failure",
+      "present": false,
+      "note": "previously reported as intermittent / environment dependent; not concealed and not modified"
+    }
+  },
+  "experiments": {
+    "training": {
+      "directory": "experiments/phase5_task7_training/20261115T190117Z_pie_video_0004",
+      "final_checkpoint_sha256": "40aff17f1a40eb2da24d0e0b63245eecefa5bba4e3f6e44c272dc07f3ab71b44",
+      "final_checkpoint_model_state_sha256": "9c953c1adfc81c53d686f42431d42c8e5197db18f7c5530342bc49b17d15d4c7",
+      "scaler_statistics_sha256": "ed5fd6824995c056b161564fb40ce93b0c96320de03a8672eba12af36e7fe169",
+      "rerun_identical": true,
+      "validator_ok": true
+    },
+    "neural_evaluation": {
+      "directory": "experiments/phase5_task7_neural_evaluation/20261115T191319Z_pie_video_0004",
+      "rerun_identical": true,
+      "validator_ok": true,
+      "sample_status": "IN_SAMPLE_MODEL_TRAINED_ON_THESE_WINDOWS",
+      "primary_ade_mean_px": 31.45653683752202,
+      "primary_fde_mean_px": 68.61318721271903,
+      "oracle_min_ade_mean_px": 20.280010316164034,
+      "oracle_min_fde_mean_px": 46.21176072956172
+    }
+  },
+  "acceptance": {
+    "A_architecture": {
+      "pass": true,
+      "evidence": "P5.7.2-P5.7.5 implemented; P5.3-P5.6 interfaces preserved (only additive FeatureScaler.from_arrays); encoder -> decoder -> loss -> training -> neural evaluator -> P5.4 evaluator integrated"
+    },
+    "B_scientific_correctness": {
+      "pass": true,
+      "evidence": "no future argument or field; future-mutation invariance; train-only scaler with independent numpy recomputation; raw pixel anchors/targets unchanged; masked-loss tests; primary (most-probable mode) vs oracle metrics distinct and independently recomputed; all claims false"
+    },
+    "C_tests": {
+      "pass": true,
+      "evidence": "focused P5.7 94 passed + 1 skipped (CUDA); tests/phase5 247 passed + 2 skipped (CUDA); tests/task7 586 passed; full regression 1256 passed, 8 skipped, 1 failed (known Phase 2 TTC defect, unchanged); training and neural evaluation experiments completed",
+      "cuda": "not exercised (no GPU); code paths device-agnostic; CUDA tests skipped, not passed"
+    },
+    "D_reproducibility": {
+      "pass": true,
+      "evidence": "configuration persisted; dataset and scaler provenance hashed; checkpoints load (weights_only) and round-trip; training rerun and evaluation rerun byte-identical; validators 17/17 and 17/17; all JSON reports parse"
+    },
+    "E_repository_integrity": {
+      "pass": true,
+      "evidence": "no Phase 2-4 source or historical artifact changed; only intended Phase 5 files staged (62); git diff --check and git diff --cached --check exit 0 (two pre-existing P5.7.1/P5.7.2 files had a trailing blank line at EOF, whitespace-only fix); no secrets, binaries or pycache staged; checkpoints and evaluation arrays ignored by narrow rules"
+    }
+  },
+  "safeguards": {
+    "metric_world": false,
+    "ttc_pet_collision": false,
+    "calibrated_probability": false,
+    "independent_generalization": false,
+    "real_time": false,
+    "best_checkpoint_selected": false,
+    "baseline_superiority_established": false
+  },
+  "p5_7_6": "BLOCKED_PENDING_SCENE_DIVERSE_DATA",
+  "limitations": [
+    "PILOT_DEVELOPMENT_ONLY_NON_INDEPENDENT: one PIE video, one scene group, 2,327 heavily overlapping windows from 84 pedestrian tracks; targets are perceived-track pseudo-targets.",
+    "No independent train/validation/test split exists; the model is trained on every pilot window, so every loss / metric computed on these windows is in-sample and says nothing about generalisation.",
+    "Checkpoint selection is FINAL_EPOCH_ONLY: best-checkpoint selection on correlated windows of the same video would be indefensible, so none is performed.",
+    "Train-only scaler statistics are fitted on all pilot windows because they are the only training partition; they are 'train-only' in procedure, not evidence of out-of-sample behaviour.",
+    "Hyperparameters are a-priori engineering defaults for a smoke-scale run; they were not tuned for accuracy and no hyperparameter search was performed.",
+    "WTA training on one scene may collapse onto few modes; mode diagnostics are logged but mode quality is not validated.",
+    "Image-space pixels only; no metric, physical, TTC/PET, collision-probability or deployment interpretation.",
+    "PILOT_DEVELOPMENT_ONLY_NON_INDEPENDENT and IN-SAMPLE: the neural model was trained on every window evaluated here (one video, one scene group, overlapping windows, perceived-track pseudo-targets). The classical baselines have no trainable parameters. The comparison therefore cannot show that the neural model generalises or is better than any baseline.",
+    "Primary metrics use the most-probable mode; minADE@5 / minFDE@5 are best-of-K oracle metrics (ground truth selects the mode) and are never used as the single-trajectory result.",
+    "Mode probabilities are not calibrated and no calibration was assessed; no collision / conflict probability exists."
+  ],
+  "findings_fixed_in_pass": [
+    "untracked training_scaler.py imported torch outside pedsafety/phase5/models (dependency guard failure) -> FeatureScaler.from_arrays",
+    "multi-thread CPU backward not bitwise reproducible -> torch_threads=1, validators apply recorded threads",
+    "tests/phase5 conftest import collided with tests/phase4 conftest -> p57_helpers.py",
+    "resume with a different epoch count reused a stale cosine horizon -> RESUME_SCHEDULE_MISMATCH",
+    "trailing blank line at EOF in two pre-existing P5.7.1/P5.7.2 files (git diff --check)"
+  ],
+  "commit_note": "a commit cannot contain its own hash: git.commit is filled by a follow-up docs-only commit; the hash is also reported in the final response"
+}

@@ -1,0 +1,314 @@
+{
+  "configuration": {
+    "center": "mean",
+    "constant_scale": 1.0,
+    "edge_feature_names": [
+      "du_px",
+      "dv_px",
+      "sep_px",
+      "bearing_sin",
+      "bearing_cos",
+      "rel_bearing_sin",
+      "rel_bearing_cos",
+      "sep_over_h",
+      "log_h_ratio",
+      "dv_row_px",
+      "dvel_u_px_s",
+      "dvel_v_px_s",
+      "closing_rate_px_s",
+      "overlap_ios"
+    ],
+    "fit_windows": 2327,
+    "node_feature_names": [
+      "rel_u",
+      "rel_v",
+      "vel_u",
+      "vel_v",
+      "speed",
+      "heading_sin",
+      "heading_cos",
+      "box_h",
+      "frames_since_prev_obs"
+    ],
+    "scale": "population_standard_deviation",
+    "split_policy": "PILOT_ALL_WINDOWS_AS_TRAIN_DEVELOPMENT_ONLY"
+  },
+  "edge": {
+    "feature_names": [
+      "du_px",
+      "dv_px",
+      "sep_px",
+      "bearing_sin",
+      "bearing_cos",
+      "rel_bearing_sin",
+      "rel_bearing_cos",
+      "sep_over_h",
+      "log_h_ratio",
+      "dv_row_px",
+      "dvel_u_px_s",
+      "dvel_v_px_s",
+      "closing_rate_px_s",
+      "overlap_ios"
+    ],
+    "mean": [
+      0.0,
+      0.0,
+      588.95851473897,
+      0.0,
+      0.0,
+      0.009113874249309577,
+      -0.08669932623130253,
+      3.637384060051137,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -38.38500819775817,
+      0.03609128048286844
+    ],
+    "scale": [
+      701.1524117772293,
+      85.38491749400617,
+      389.9142950068669,
+      0.2513638712611449,
+      0.967892661519982,
+      0.7244356929119732,
+      0.6838077881610231,
+      2.776109031672983,
+      0.7125251685141064,
+      85.38491749400617,
+      173.83707769555753,
+      227.93692216590708,
+      175.73562412914507,
+      0.15670899597444968
+    ],
+    "valid_count": [
+      1056154,
+      1056154,
+      1056154,
+      1056154,
+      1056154,
+      1022796,
+      1022796,
+      1056154,
+      1056154,
+      1056154,
+      990332,
+      990332,
+      990332,
+      1056154
+    ]
+  },
+  "fit_partition": "train",
+  "node": {
+    "feature_names": [
+      "rel_u",
+      "rel_v",
+      "vel_u",
+      "vel_v",
+      "speed",
+      "heading_sin",
+      "heading_cos",
+      "box_h",
+      "frames_since_prev_obs"
+    ],
+    "mean": [
+      -100.92177215924754,
+      1.255330790562904,
+      -15.18142372740773,
+      2.348553630870135,
+      128.66565508153485,
+      0.020121091788424146,
+      -0.09286318841217192,
+      143.47907711528651,
+      0.0760382095306197
+    ],
+    "scale": [
+      625.1642897879829,
+      67.13284015299429,
+      148.78036955984263,
+      154.25864583991697,
+      172.08273745302733,
+      0.703822597975744,
+      0.7039924153555398,
+      78.97198535520458,
+      1.0244112313973344
+    ],
+    "valid_count": [
+      130720,
+      130720,
+      126517,
+      126517,
+      126517,
+      126517,
+      126517,
+      130720,
+      128659
+    ]
+  },
+  "schema_version": "phase5-train-feature-statistics-1.0.0",
+  "source_identity": {
+    "label": "PILOT_DEVELOPMENT_ONLY_NON_INDEPENDENT",
+    "run_manifest_sha256": "3369ea80c65652b8f1797c7a62a14c29428eb1dd7e9dc60b0d8a8e5be30dc1e8",
+    "sources": {
+      "feature_dictionary_version": "interaction-feature-dictionary-1.0.0",
+      "task3_counts": {
+        "candidate_pairs_not_represented": {
+          "bicyclist__bicyclist": 18878,
+          "vehicle__vehicle": 141544
+        },
+        "causal_rows": 65388,
+        "edges_by_relation": {
+          "bicyclist__pedestrian": 42205,
+          "bicyclist__vehicle": 25715,
+          "pedestrian__bicyclist": 42205,
+          "pedestrian__pedestrian": 105634,
+          "pedestrian__vehicle": 81618,
+          "vehicle__bicyclist": 25715,
+          "vehicle__pedestrian": 81618
+        },
+        "edges_total": 404710,
+        "frames_with_nodes": 9326,
+        "nodes": 65388,
+        "nodes_by_type": {
+          "bicyclist": 7049,
+          "pedestrian": 23661,
+          "vehicle": 34678
+        },
+        "tracks": 1500
+      },
+      "task3_files_consumed": {
+        "config_resolved.json": "4f2dd0b3fd0611d6a6b7b2646bfa1e28dce25854c21633433a3296de70917949",
+        "edges_bicyclist__pedestrian.npz": "db657ca3a2ee3c67b7b1c57df47bd396abe3d7e96b62f4cf23d8740c78704e46",
+        "edges_bicyclist__vehicle.npz": "6d3169ee36af69db6cffecc9667f6216eef61eb28c569be13c129b8bf44fcad1",
+        "edges_pedestrian__bicyclist.npz": "ce70fb6f48832625a3defdeef2bce347470a50da88ddc26b68d37781398a577a",
+        "edges_pedestrian__pedestrian.npz": "2f2a804a01cdcffe7745924a68d0327b3e1df3d1967be4c36215b60f2efcd01a",
+        "edges_pedestrian__vehicle.npz": "524b7f8bb3f3edee8973e0971f8b93cde4fd0b974a82ac410f8c7d429f437d19",
+        "edges_vehicle__bicyclist.npz": "7e35b970709bf6ab4da17616e75db5af34b32ff499ce6aa6df1a83bbabcf1df7",
+        "edges_vehicle__pedestrian.npz": "353810f3377600c8faa0e013e48ad58190e92d829c1c39654b62f7bcfb29e175",
+        "feature_dictionary.json": "d3cb194cfd3c430f8cc7fa8fd5d8be9e0a6115b86bba90e6c8676d8a10ee49df",
+        "nodes.npz": "f904c4dc5178705393773a379d123494caeea969c80000410113684524cbc13c",
+        "tracks.json": "01cdb886e00a2c1930ffb0049e970b5c19f14aa6c133e4b6af30d85c22ecf3f3"
+      },
+      "task3_git": {
+        "branch": "feature/phase4-task3-interaction-representation",
+        "commit": "5d58ab7146ea4611733393769071b02a6bf9d187"
+      },
+      "task3_run_dir": "experiments/phase4_task3_pie_video_0004/20261115T034308Z_pie_video_0004_regen_5d58ab7/primary",
+      "task3_run_manifest": {
+        "path": "experiments/phase4_task3_pie_video_0004/20261115T034308Z_pie_video_0004_regen_5d58ab7/primary/run_manifest.json",
+        "sha256": "366b8d0cf33000965dc410268db8db0045ce4e318937071c322ff03a8bfdbe6e"
+      },
+      "upstream_verification": {
+        "causal_rows": {
+          "all_rows_view_causal": true,
+          "checked": true,
+          "checks": "view == CAUSAL, interpolated false, world_position_valid false, coordinate system, filter_kind none, position and velocity equal to the node within float32 tolerance, velocity validity equal to the node mask",
+          "rows_matched_to_nodes": 65388
+        },
+        "files": {
+          "phase3_agent_states": {
+            "bytes": 67565978,
+            "matches_task3_manifest": true,
+            "path": "PIE_pilot_inputs/agent_states.jsonl",
+            "sha256": "ff8b9b217144a9a6792069aa2db11cd9e9ca43fbf00077ad4da6e2b3fe485dc7"
+          },
+          "phase3_tracked_agents": {
+            "bytes": 38774621,
+            "consumed": false,
+            "note": "hashed for provenance only; not a Task 3 or Phase 5 input",
+            "path": "PIE_pilot_inputs/tracked_agents.jsonl",
+            "sha256": "182babb386a821da720b9520afa024cf4e9195baea3031c4970b64000c593ff5"
+          },
+          "task2_causal_kinematics": {
+            "bytes": 105925073,
+            "matches_task3_manifest": true,
+            "path": "experiments/phase4_task2_pie_video_0004/20261114T202653Z_pie_video_0004/primary_causal/causal_kinematics.jsonl",
+            "sha256": "9e5c5f3d6185028194b25f520a74aa0e9d751e66a16754881f366c87c7ac82e3"
+          },
+          "task2_config_resolved": {
+            "bytes": 1050,
+            "matches_task3_manifest": true,
+            "path": "experiments/phase4_task2_pie_video_0004/20261114T202653Z_pie_video_0004/primary_causal/config_resolved.json",
+            "sha256": "804f699369c84eeec75cfc06bf3ffd08191b2f3cc508ac42a74647ca4429c515"
+          },
+          "task2_manifest": {
+            "bytes": 6638,
+            "matches_task3_manifest": true,
+            "path": "experiments/phase4_task2_pie_video_0004/20261114T202653Z_pie_video_0004/primary_causal/run_manifest.json",
+            "sha256": "ad2089591d704ca403d530b7237bac3ebdee524852f09310f21087c5beac144b"
+          },
+          "task2_sidecar_schema": {
+            "bytes": 7061,
+            "matches_task3_manifest": true,
+            "path": "docs/phase4/schemas/image_kinematics_sidecar.schema.json",
+            "sha256": "1e64be9ac541f068a7a95e4743ba94dfb7e15c924e238df25a2fe3558f51ed57"
+          }
+        },
+        "phase3_manifest": {
+          "detector_label_map": {
+            "bicycle": "bike",
+            "bus": "bus",
+            "car": "car",
+            "person": "pedestrian",
+            "truck": "truck"
+          },
+          "first_frame_index": 0,
+          "fps": 30.0,
+          "fps_origin": "container",
+          "frames_delivered": 9840,
+          "git_commit": null,
+          "height": 1080,
+          "last_frame_index": 9839,
+          "note": "Phase 3 manifest records no per-file output hashes",
+          "outputs_listed": [
+            "agent_states.jsonl",
+            "annotated.mp4",
+            "detections.jsonl",
+            "run_manifest.json",
+            "tracked_agents.jsonl"
+          ],
+          "path": "PIE_pilot_inputs/run_manifest.json",
+          "provided": true,
+          "sha256": "e8c2a895543c6e222b58d9974a409faddab3b98e742fa048a4286bcd9b1dc7c2",
+          "timestamp_source": "frame_index_over_fps",
+          "tracker_class_flips": 4994,
+          "width": 1920,
+          "world_coordinates": "none: outputs are image-space pixels only"
+        },
+        "source_labels_by_node_type": {
+          "bicyclist": {
+            "bike": 7049
+          },
+          "pedestrian": {
+            "pedestrian": 23661
+          },
+          "vehicle": {
+            "bus": 1034,
+            "car": 32981,
+            "truck": 663
+          }
+        },
+        "source_line_join": {
+          "all_match": true,
+          "checks": "Phase 3 line track_id/frame_index equal node identity; coordinate system/unit; world fields null; interpolation_flag false; footpoint equal to node (u, v)",
+          "nodes_checked": 65388
+        },
+        "task2": {
+          "config_version": "phase4-task2-image-kinematics-config-1.0.0",
+          "git": null,
+          "manifest_status": "completed",
+          "note": "the offline (non-causal) sidecar is never opened by Task 3 or Phase 5",
+          "offline_sidecar_consumed": false,
+          "offline_sidecar_manifest_entry": {
+            "bytes": 106254970,
+            "rows": 65388,
+            "sha256": "9e19ff3f930a0206bb40a1e461fcb0a4bc22dda2add173f9f2c1be0e9e7509e8"
+          }
+        }
+      }
+    }
+  },
+  "split_identity": "PILOT_ALL_WINDOWS_AS_TRAIN_DEVELOPMENT_ONLY",
+  "statistics_sha256": "ed5fd6824995c056b161564fb40ce93b0c96320de03a8672eba12af36e7fe169"
+}
