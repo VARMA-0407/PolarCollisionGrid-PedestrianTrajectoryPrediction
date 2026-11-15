@@ -1,0 +1,477 @@
+{
+  "dictionary_version": "interaction-feature-dictionary-1.0.0",
+  "producer": "interaction-representation-0.1.0-phase4-task3",
+  "coordinate_system": "captured_1920x1080",
+  "coordinate_space": "image (captured raster pixels; origin top-left, +u right, +v down)",
+  "physical": false,
+  "causal_inputs_only": true,
+  "conventions": {
+    "edge_direction": "j -> i: source j (neighbour) to destination i (target); edge_index[0] = source node, edge_index[1] = destination node",
+    "displacement": "p_j - p_i",
+    "heading": "image-plane radians from +u toward +v (clockwise on screen), range [-pi, pi)",
+    "relative_bearing": "relative to the destination agent's heading",
+    "closing_rate": "positive when image-plane separation shrinks; not road-relative closing speed",
+    "missing_values": "NaN in float arrays, with a False entry in the parallel boolean mask array",
+    "edge_order": "per relation: frame ascending, then destination node index, then source node index",
+    "node_order": "frame ascending, then canonical (natural) track order"
+  },
+  "node_types": [
+    "pedestrian",
+    "vehicle",
+    "bicyclist"
+  ],
+  "node_type_codes": {
+    "pedestrian": 0,
+    "vehicle": 1,
+    "bicyclist": 2
+  },
+  "relations": [
+    "pedestrian__pedestrian",
+    "vehicle__pedestrian",
+    "pedestrian__vehicle",
+    "bicyclist__pedestrian",
+    "pedestrian__bicyclist",
+    "bicyclist__vehicle",
+    "vehicle__bicyclist"
+  ],
+  "node_features": [
+    {
+      "name": "u_px",
+      "index": 0,
+      "dtype": "float32",
+      "formula": "footpoint u (bbox bottom-centre x) from Task 2 position_x",
+      "unit": "px",
+      "coordinate_space": "image (captured raster pixels; origin top-left, +u right, +v down)",
+      "mask": "always valid (node exists only with a valid position)",
+      "missing_reason": null,
+      "missing_value": null,
+      "physical": false,
+      "causal": true
+    },
+    {
+      "name": "v_px",
+      "index": 1,
+      "dtype": "float32",
+      "formula": "footpoint v (bbox bottom y) from Task 2 position_y",
+      "unit": "px",
+      "coordinate_space": "image (captured raster pixels; origin top-left, +u right, +v down)",
+      "mask": "always valid",
+      "missing_reason": null,
+      "missing_value": null,
+      "physical": false,
+      "causal": true
+    },
+    {
+      "name": "vel_u_px_s",
+      "index": 2,
+      "dtype": "float32",
+      "formula": "Task 2 causal backward-difference velocity u",
+      "unit": "px/s",
+      "coordinate_space": "image (captured raster pixels; origin top-left, +u right, +v down)",
+      "mask": "velocity_valid",
+      "missing_reason": "Task 2 velocity_state != valid (track start, gap, ...)",
+      "missing_value": "NaN",
+      "physical": false,
+      "causal": true
+    },
+    {
+      "name": "vel_v_px_s",
+      "index": 3,
+      "dtype": "float32",
+      "formula": "Task 2 causal backward-difference velocity v",
+      "unit": "px/s",
+      "coordinate_space": "image (captured raster pixels; origin top-left, +u right, +v down)",
+      "mask": "velocity_valid",
+      "missing_reason": "Task 2 velocity_state != valid",
+      "missing_value": "NaN",
+      "physical": false,
+      "causal": true
+    },
+    {
+      "name": "speed_px_s",
+      "index": 4,
+      "dtype": "float32",
+      "formula": "Task 2 causal image speed |vel|",
+      "unit": "px/s",
+      "coordinate_space": "image (captured raster pixels; origin top-left, +u right, +v down)",
+      "mask": "velocity_valid",
+      "missing_reason": "Task 2 velocity_state != valid",
+      "missing_value": "NaN",
+      "physical": false,
+      "causal": true
+    },
+    {
+      "name": "heading_sin",
+      "index": 5,
+      "dtype": "float32",
+      "formula": "sin(Task 2 image heading); heading = atan2(vel_v, vel_u), from +u toward +v (clockwise on screen)",
+      "unit": "1",
+      "coordinate_space": "image (captured raster pixels; origin top-left, +u right, +v down)",
+      "mask": "heading_valid",
+      "missing_reason": "Task 2 heading_state != valid",
+      "missing_value": "NaN",
+      "physical": false,
+      "causal": true
+    },
+    {
+      "name": "heading_cos",
+      "index": 6,
+      "dtype": "float32",
+      "formula": "cos(Task 2 image heading)",
+      "unit": "1",
+      "coordinate_space": "image (captured raster pixels; origin top-left, +u right, +v down)",
+      "mask": "heading_valid",
+      "missing_reason": "Task 2 heading_state != valid",
+      "missing_value": "NaN",
+      "physical": false,
+      "causal": true
+    },
+    {
+      "name": "box_h_px",
+      "index": 7,
+      "dtype": "float32",
+      "formula": "y_max - y_min of the Phase 3 bbox joined through source_line",
+      "unit": "px",
+      "coordinate_space": "image (captured raster pixels; origin top-left, +u right, +v down)",
+      "mask": "always valid (non-positive height is a contract failure)",
+      "missing_reason": null,
+      "missing_value": null,
+      "physical": false,
+      "causal": true
+    },
+    {
+      "name": "frames_since_prev_obs",
+      "index": 8,
+      "dtype": "float32",
+      "formula": "Task 2 frame_gap_before: missing frames since the same track's previous accepted row (0 = consecutive)",
+      "unit": "frames",
+      "coordinate_space": "image (captured raster pixels; origin top-left, +u right, +v down)",
+      "mask": "frames_since_prev_obs_valid",
+      "missing_reason": "first accepted row of the track",
+      "missing_value": "NaN",
+      "physical": false,
+      "causal": true
+    },
+    {
+      "name": "track_age_frames",
+      "index": 9,
+      "dtype": "float32",
+      "formula": "frame_index - first observed frame of the track (0 at first observation; gap frames count)",
+      "unit": "frames",
+      "coordinate_space": "image (captured raster pixels; origin top-left, +u right, +v down)",
+      "mask": "always valid",
+      "missing_reason": null,
+      "missing_value": null,
+      "physical": false,
+      "causal": true
+    }
+  ],
+  "node_boxes": [
+    {
+      "name": "box_x_min_px",
+      "index": 0,
+      "dtype": "float32",
+      "unit": "px",
+      "formula": "Phase 3 bbox_xyxy column joined through source_line",
+      "coordinate_space": "image (captured raster pixels; origin top-left, +u right, +v down)",
+      "physical": false
+    },
+    {
+      "name": "box_y_min_px",
+      "index": 1,
+      "dtype": "float32",
+      "unit": "px",
+      "formula": "Phase 3 bbox_xyxy column joined through source_line",
+      "coordinate_space": "image (captured raster pixels; origin top-left, +u right, +v down)",
+      "physical": false
+    },
+    {
+      "name": "box_x_max_px",
+      "index": 2,
+      "dtype": "float32",
+      "unit": "px",
+      "formula": "Phase 3 bbox_xyxy column joined through source_line",
+      "coordinate_space": "image (captured raster pixels; origin top-left, +u right, +v down)",
+      "physical": false
+    },
+    {
+      "name": "box_y_max_px",
+      "index": 3,
+      "dtype": "float32",
+      "unit": "px",
+      "formula": "Phase 3 bbox_xyxy column joined through source_line",
+      "coordinate_space": "image (captured raster pixels; origin top-left, +u right, +v down)",
+      "physical": false
+    }
+  ],
+  "node_masks": [
+    {
+      "name": "position_valid",
+      "index": 0,
+      "dtype": "bool"
+    },
+    {
+      "name": "velocity_valid",
+      "index": 1,
+      "dtype": "bool"
+    },
+    {
+      "name": "heading_valid",
+      "index": 2,
+      "dtype": "bool"
+    },
+    {
+      "name": "frames_since_prev_obs_valid",
+      "index": 3,
+      "dtype": "bool"
+    }
+  ],
+  "edge_features": [
+    {
+      "name": "du_px",
+      "index": 0,
+      "dtype": "float32",
+      "formula": "u_j - u_i (edge j -> i)",
+      "unit": "px",
+      "coordinate_space": "image (captured raster pixels; origin top-left, +u right, +v down)",
+      "reversal_property": "antisymmetric",
+      "mask": "always valid",
+      "missing_reason": null,
+      "missing_value": null,
+      "physical": false,
+      "causal": true
+    },
+    {
+      "name": "dv_px",
+      "index": 1,
+      "dtype": "float32",
+      "formula": "v_j - v_i",
+      "unit": "px",
+      "coordinate_space": "image (captured raster pixels; origin top-left, +u right, +v down)",
+      "reversal_property": "antisymmetric",
+      "mask": "always valid",
+      "missing_reason": null,
+      "missing_value": null,
+      "physical": false,
+      "causal": true
+    },
+    {
+      "name": "sep_px",
+      "index": 2,
+      "dtype": "float32",
+      "formula": "sqrt(du^2 + dv^2): image-plane pixel separation, NOT a physical distance",
+      "unit": "px",
+      "coordinate_space": "image (captured raster pixels; origin top-left, +u right, +v down)",
+      "reversal_property": "symmetric",
+      "mask": "always valid",
+      "missing_reason": null,
+      "missing_value": null,
+      "physical": false,
+      "causal": true
+    },
+    {
+      "name": "bearing_sin",
+      "index": 3,
+      "dtype": "float32",
+      "formula": "dv / sep_px = sin(atan2(dv, du))",
+      "unit": "1",
+      "coordinate_space": "image (captured raster pixels; origin top-left, +u right, +v down)",
+      "reversal_property": "antisymmetric (reversal adds pi)",
+      "mask": "sep_px > 0",
+      "missing_reason": "zero separation",
+      "missing_value": "NaN",
+      "physical": false,
+      "causal": true
+    },
+    {
+      "name": "bearing_cos",
+      "index": 4,
+      "dtype": "float32",
+      "formula": "du / sep_px = cos(atan2(dv, du))",
+      "unit": "1",
+      "coordinate_space": "image (captured raster pixels; origin top-left, +u right, +v down)",
+      "reversal_property": "antisymmetric (reversal adds pi)",
+      "mask": "sep_px > 0",
+      "missing_reason": "zero separation",
+      "missing_value": "NaN",
+      "physical": false,
+      "causal": true
+    },
+    {
+      "name": "rel_bearing_sin",
+      "index": 5,
+      "dtype": "float32",
+      "formula": "sin(bearing - heading_i) using the DESTINATION heading",
+      "unit": "1",
+      "coordinate_space": "image (captured raster pixels; origin top-left, +u right, +v down)",
+      "reversal_property": "none",
+      "mask": "sep_px > 0 and heading_valid(i)",
+      "missing_reason": "zero separation or destination heading unavailable",
+      "missing_value": "NaN",
+      "physical": false,
+      "causal": true
+    },
+    {
+      "name": "rel_bearing_cos",
+      "index": 6,
+      "dtype": "float32",
+      "formula": "cos(bearing - heading_i)",
+      "unit": "1",
+      "coordinate_space": "image (captured raster pixels; origin top-left, +u right, +v down)",
+      "reversal_property": "none",
+      "mask": "sep_px > 0 and heading_valid(i)",
+      "missing_reason": "zero separation or destination heading unavailable",
+      "missing_value": "NaN",
+      "physical": false,
+      "causal": true
+    },
+    {
+      "name": "sep_over_h",
+      "index": 7,
+      "dtype": "float32",
+      "formula": "sep_px / max(box_h_j, box_h_i): heuristic depth-normalised proximity, not calibrated",
+      "unit": "1",
+      "coordinate_space": "image (captured raster pixels; origin top-left, +u right, +v down)",
+      "reversal_property": "symmetric",
+      "mask": "always valid; see flag scale_truncation_affected",
+      "missing_reason": null,
+      "missing_value": null,
+      "physical": false,
+      "causal": true
+    },
+    {
+      "name": "log_h_ratio",
+      "index": 8,
+      "dtype": "float32",
+      "formula": "ln(box_h_j / box_h_i): heuristic relative-scale proxy, not calibrated depth",
+      "unit": "1",
+      "coordinate_space": "image (captured raster pixels; origin top-left, +u right, +v down)",
+      "reversal_property": "antisymmetric",
+      "mask": "always valid; see flag scale_truncation_affected",
+      "missing_reason": null,
+      "missing_value": null,
+      "physical": false,
+      "causal": true
+    },
+    {
+      "name": "dv_row_px",
+      "index": 9,
+      "dtype": "float32",
+      "formula": "v_j - v_i (footpoint row difference; depth-order heuristic only under a flat road below the horizon). Numerically identical to dv_px by definition; kept as specified in the design",
+      "unit": "px",
+      "coordinate_space": "image (captured raster pixels; origin top-left, +u right, +v down)",
+      "reversal_property": "antisymmetric",
+      "mask": "always valid",
+      "missing_reason": null,
+      "missing_value": null,
+      "physical": false,
+      "causal": true
+    },
+    {
+      "name": "dvel_u_px_s",
+      "index": 10,
+      "dtype": "float32",
+      "formula": "vel_u_j - vel_u_i: relative IMAGE velocity (includes perspective and ego-motion parallax), not physical relative velocity",
+      "unit": "px/s",
+      "coordinate_space": "image (captured raster pixels; origin top-left, +u right, +v down)",
+      "reversal_property": "antisymmetric",
+      "mask": "velocity_valid(j) and velocity_valid(i)",
+      "missing_reason": "either endpoint velocity unavailable",
+      "missing_value": "NaN",
+      "physical": false,
+      "causal": true
+    },
+    {
+      "name": "dvel_v_px_s",
+      "index": 11,
+      "dtype": "float32",
+      "formula": "vel_v_j - vel_v_i",
+      "unit": "px/s",
+      "coordinate_space": "image (captured raster pixels; origin top-left, +u right, +v down)",
+      "reversal_property": "antisymmetric",
+      "mask": "velocity_valid(j) and velocity_valid(i)",
+      "missing_reason": "either endpoint velocity unavailable",
+      "missing_value": "NaN",
+      "physical": false,
+      "causal": true
+    },
+    {
+      "name": "closing_rate_px_s",
+      "index": 12,
+      "dtype": "float32",
+      "formula": "-(du*dvel_u + dv*dvel_v) / sep_px = -d(sep_px)/dt; positive = image-plane separation shrinking. Rate of change of PIXEL separation, not road-relative closing speed",
+      "unit": "px/s",
+      "coordinate_space": "image (captured raster pixels; origin top-left, +u right, +v down)",
+      "reversal_property": "symmetric",
+      "mask": "velocity_valid(j) and velocity_valid(i) and sep_px > 0",
+      "missing_reason": "either velocity unavailable or zero separation",
+      "missing_value": "NaN",
+      "physical": false,
+      "causal": true
+    },
+    {
+      "name": "overlap_ios",
+      "index": 13,
+      "dtype": "float32",
+      "formula": "intersection area / smaller box area (boxes j and i); occlusion indicator",
+      "unit": "1",
+      "coordinate_space": "image (captured raster pixels; origin top-left, +u right, +v down)",
+      "reversal_property": "symmetric",
+      "mask": "always valid",
+      "missing_reason": null,
+      "missing_value": null,
+      "physical": false,
+      "causal": true
+    }
+  ],
+  "edge_flags": [
+    {
+      "name": "scale_truncation_affected",
+      "index": 0,
+      "dtype": "bool",
+      "physical": false,
+      "definition": "either endpoint inherits Task 2 bbox_touches_border = true (box within 1 px of the image border): POSSIBLE truncation affecting box-height-based features; not confirmed truncation"
+    },
+    {
+      "name": "sep_over_h_le_2",
+      "index": 1,
+      "dtype": "bool",
+      "physical": false,
+      "definition": "sep_over_h <= 2; exploratory sensitivity flag, not a validated threshold; never removes an edge"
+    },
+    {
+      "name": "sep_over_h_le_5",
+      "index": 2,
+      "dtype": "bool",
+      "physical": false,
+      "definition": "sep_over_h <= 5; exploratory sensitivity flag, not a validated threshold; never removes an edge"
+    },
+    {
+      "name": "sep_over_h_le_10",
+      "index": 3,
+      "dtype": "bool",
+      "physical": false,
+      "definition": "sep_over_h <= 10; exploratory sensitivity flag, not a validated threshold; never removes an edge"
+    },
+    {
+      "name": "knn_4",
+      "index": 4,
+      "dtype": "bool",
+      "physical": false,
+      "definition": "source is among the 4 nearest incoming candidates of the destination across all enabled relations, ranked by (sep_over_h, sep_px, source canonical track order); exploratory; never removes an edge"
+    },
+    {
+      "name": "knn_8",
+      "index": 5,
+      "dtype": "bool",
+      "physical": false,
+      "definition": "source is among the 8 nearest incoming candidates of the destination across all enabled relations, ranked by (sep_over_h, sep_px, source canonical track order); exploratory; never removes an edge"
+    }
+  ],
+  "excluded": {
+    "acceleration": "excluded from default node features (decision A1: frame-to-frame raw acceleration dominated by non-smooth components)",
+    "same_track_family": "reserved in the design table and always false in Task 3 (fragments are never linked); not stored because it carries no information",
+    "uncertainty_features": "none in the default representation (Q8); see diagnostics.uncertainty",
+    "world_coordinates": "never produced; world_x/world_y null and world_position_valid false upstream"
+  }
+}

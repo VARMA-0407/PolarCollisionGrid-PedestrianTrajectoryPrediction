@@ -1,0 +1,249 @@
+{
+  "manifest_version": "phase4-task3-run-manifest-1.0.0",
+  "task": "phase4_task3_image_space_interaction_representation",
+  "status": "completed",
+  "versions": {
+    "interaction": "interaction-representation-0.1.0-phase4-task3",
+    "input_adapter": "interaction-input-adapter-0.1.0",
+    "python": "3.9.25",
+    "numpy": "1.26.4",
+    "jsonschema": "4.25.1",
+    "platform": "Windows-10-10.0.26300-SP0"
+  },
+  "git": {
+    "branch": "feature/phase4-task3-interaction-representation",
+    "commit": "2306309c786fa5608da96062123633cbb18acf7e"
+  },
+  "started_utc": "2026-11-14T21:46:18Z",
+  "finished_utc": "2026-11-14T21:46:18Z",
+  "command": "phase4_task3_synthetic_validation.py",
+  "inputs": {
+    "causal_kinematics": {
+      "path": "experiments\\phase4_task3_synthetic_validation\\20261114T214617Z_synthetic_scene\\task2\\causal_kinematics.jsonl",
+      "sha256": "38c4e696328a302335f3f3d0c85d8bbc4394027eda991674b003fd3990cb6c42",
+      "bytes": 274872,
+      "manifest_rows": 177
+    },
+    "phase3_agent_states": {
+      "path": "experiments\\phase4_task3_synthetic_validation\\20261114T214617Z_synthetic_scene\\inputs\\agent_states.jsonl",
+      "sha256": "7e6b5d1617afc2f63d5ff9d080e11b5fdc3b778bc241ad0889a720960e4788e0",
+      "bytes": 171115,
+      "task2_manifest_path_field": "experiments\\phase4_task3_synthetic_validation\\20261114T214617Z_synthetic_scene\\inputs\\agent_states.jsonl"
+    },
+    "sidecar_schema": {
+      "path": "D:\\BTech-Research\\PCG-Baseline\\docs\\phase4\\schemas\\image_kinematics_sidecar.schema.json",
+      "sha256": "1e64be9ac541f068a7a95e4743ba94dfb7e15c924e238df25a2fe3558f51ed57",
+      "version": "image-kinematics-sidecar-1.0.0"
+    },
+    "task2_manifest": {
+      "path": "experiments\\phase4_task3_synthetic_validation\\20261114T214617Z_synthetic_scene\\task2\\run_manifest.json",
+      "sha256": "237ccc59139231dbeb5b9bae298d9fb934b4a3834550b2ba3317a7dc1504401c"
+    },
+    "task2_config_resolved": {
+      "path": "experiments\\phase4_task3_synthetic_validation\\20261114T214617Z_synthetic_scene\\task2\\config_resolved.json",
+      "sha256": "804f699369c84eeec75cfc06bf3ffd08191b2f3cc508ac42a74647ca4429c515"
+    },
+    "unchanged_after_run": true
+  },
+  "config": {
+    "path": "configs/phase4/interaction_representation_default.json",
+    "sha256_resolved": "2770586a993448518b1b83aa3e6c0fcfcf6978a524cb770435b99e02995190e0",
+    "content": {
+      "config_version": "phase4-task3-interaction-representation-config-1.0.0",
+      "expected_coordinate_system": "captured_1920x1080",
+      "enable_vehicle_vehicle": false,
+      "radius_thresholds_sep_over_h": [
+        2.0,
+        5.0,
+        10.0
+      ],
+      "knn_k": [
+        4,
+        8
+      ],
+      "noise_reference_per_agent_velocity_px_s": 48.0
+    }
+  },
+  "decision_record": {
+    "path": "docs\\phase4\\PHASE4_TASK3_DECISION_RECORD.md",
+    "sha256": "5bb7fd2806aaf7f9716cd41ed748398cc028d460e0d726c32bd8d6f867043a11"
+  },
+  "design_document": {
+    "path": "docs\\phase4\\PHASE4_TASK3_INTERACTION_REPRESENTATION_DESIGN.md",
+    "sha256": "1433b22776a9d4b11f7acb24b63bb77544d3fa127798086cfe396a2735e74ad0"
+  },
+  "conventions": {
+    "edge_direction": "j -> i: source j (neighbour) to destination i (target); edge_index[0] = source node, edge_index[1] = destination node",
+    "displacement": "p_j - p_i",
+    "heading": "image-plane radians from +u toward +v (clockwise on screen), range [-pi, pi)",
+    "relative_bearing": "relative to the destination agent's heading",
+    "closing_rate": "positive when image-plane separation shrinks; not road-relative closing speed",
+    "missing_values": "NaN in float arrays, with a False entry in the parallel boolean mask array",
+    "edge_order": "per relation: frame ascending, then destination node index, then source node index",
+    "node_order": "frame ascending, then canonical (natural) track order",
+    "coordinate_system": "captured_1920x1080",
+    "relations": [
+      "pedestrian__pedestrian",
+      "vehicle__pedestrian",
+      "pedestrian__vehicle",
+      "bicyclist__pedestrian",
+      "pedestrian__bicyclist",
+      "bicyclist__vehicle",
+      "vehicle__bicyclist"
+    ]
+  },
+  "counts": {
+    "causal_rows": 177,
+    "frames_with_nodes": 30,
+    "nodes": 177,
+    "tracks": 6,
+    "nodes_by_type": {
+      "pedestrian": 57,
+      "vehicle": 60,
+      "bicyclist": 60
+    },
+    "edges_total": 750,
+    "edges_by_relation": {
+      "pedestrian__pedestrian": 54,
+      "vehicle__pedestrian": 114,
+      "pedestrian__vehicle": 114,
+      "bicyclist__pedestrian": 114,
+      "pedestrian__bicyclist": 114,
+      "bicyclist__vehicle": 120,
+      "vehicle__bicyclist": 120
+    },
+    "candidate_pairs_not_represented": {
+      "bicyclist__bicyclist": 60,
+      "vehicle__vehicle": 60
+    }
+  },
+  "validation": {
+    "all_input_contracts_passed": true,
+    "checks": [
+      "Task 2 manifest identity, hashes (causal, Phase 3 input before/after, sidecar schema, config_resolved)",
+      "Task 2 config: max_derivative_gap_frames == 0, smoothing none, raster matches",
+      "every causal row: full sidecar-schema validation + explicit view/method/space/system/unit/world checks",
+      "source_line: one-based physical line, in range, unique, non-blank, JSON object, track_id/frame_index/timestamp identity",
+      "Phase 3 bbox: four finite numbers, positive height and width",
+      "one timestamp per frame; observed rows have boolean bbox_touches_border and a known node type",
+      "frame_gap_before recomputed and equal on every row (P7)",
+      "feature dictionary validated against its schema; edges equal the complete-graph bound per relation"
+    ],
+    "adapter_counts": {
+      "causal_rows": 177,
+      "phase3_physical_lines": 177,
+      "phase3_blank_lines": 0,
+      "phase3_lines_referenced": 177,
+      "phase3_lines_not_referenced": 0,
+      "observation_types": {
+        "observed": 177
+      },
+      "invalid_rows_by_position_state": {},
+      "rejected_rows_by_state": {},
+      "task2_quarantined_rows": 0,
+      "source_line_base": "one-based physical line numbers (verified by identity match on every row)",
+      "frames": 30,
+      "frame_gap_before_rows_verified": 177
+    },
+    "edges_equal_theoretical_bound": true
+  },
+  "runtime_s": {
+    "input_validation_total": 0.1015528,
+    "input_manifest_and_hashes": 0.003521400000000008,
+    "input_causal_rows_read_and_schema_validated": 0.09527260000000004,
+    "input_schema_validation_loop": 0.07052790000000009,
+    "input_phase3_read_and_join": 0.0022804999999999076,
+    "input_frame_and_node_checks": 0.00015169999999997685,
+    "node_table": 0.0007477000000000178,
+    "edges": 0.011281600000000003,
+    "diagnostics_and_dictionary": 0.014949199999999996,
+    "writing_outputs": 0.2595341,
+    "total_before_manifest": 0.47959720000000006,
+    "note": "offline preprocessing time on one machine; not a real-time claim"
+  },
+  "peak_memory_bytes": null,
+  "outputs": {
+    "config_resolved.json": {
+      "sha256": "4f2dd0b3fd0611d6a6b7b2646bfa1e28dce25854c21633433a3296de70917949",
+      "bytes": 318
+    },
+    "edges_bicyclist__pedestrian.npz": {
+      "sha256": "03b18856909ee9a3cdeb947f9cb885866b0c0fa2e8580b62a81bdb1eef4ffeb0",
+      "bytes": 5108
+    },
+    "edges_bicyclist__vehicle.npz": {
+      "sha256": "50b1dea0d0cfa9a2fa7b86df3394c18c7779af2fc57463c4545b3c8d64ea8105",
+      "bytes": 5288
+    },
+    "edges_pedestrian__bicyclist.npz": {
+      "sha256": "52cce7630bc66a3730641ae79ca3946381cf791a8a959ec418152a15930876a5",
+      "bytes": 5130
+    },
+    "edges_pedestrian__pedestrian.npz": {
+      "sha256": "8bc59f05b56d33a9d6858808cc2cf714a50f0b42fed74fad2c8c1b62121677ed",
+      "bytes": 3011
+    },
+    "edges_pedestrian__vehicle.npz": {
+      "sha256": "b912eb8774d5746970d3e03bbd744e6c8767b8865912d3a5cf9880dd94ac7b9f",
+      "bytes": 5480
+    },
+    "edges_vehicle__bicyclist.npz": {
+      "sha256": "4b878f27ecd79c790713ba021f3d4f5a063ba5e2896d5f999b7419a70b4e9635",
+      "bytes": 5155
+    },
+    "edges_vehicle__pedestrian.npz": {
+      "sha256": "7e291a81e904b5f519b5256023d74f703a4c23ee373cf0e9d02030e74f58e777",
+      "bytes": 5336
+    },
+    "feature_dictionary.json": {
+      "sha256": "d3cb194cfd3c430f8cc7fa8fd5d8be9e0a6115b86bba90e6c8676d8a10ee49df",
+      "bytes": 16803
+    },
+    "interaction_diagnostics.json": {
+      "sha256": "6f81e8359add3cf34a4469e3cfaebcc36ed7f71cc0b0f7da939004055eacf077",
+      "bytes": 33628
+    },
+    "interaction_summary.md": {
+      "sha256": "405670222b18883ea1e0826c6152c13b3bfc4bfde696d53cb0817cb0e8bb3454",
+      "bytes": 801
+    },
+    "nodes.npz": {
+      "sha256": "2f248e2ed20dd59d5419d46c74b3cfb9adff7f348e6d9918fe17014fd418fa75",
+      "bytes": 5127
+    },
+    "tracks.json": {
+      "sha256": "431f81bcae67536b3d0c3ad802b8bbb135693f4810c7dc40dcfc2eb28e1de4b4",
+      "bytes": 1405
+    }
+  },
+  "output_total_bytes": 92590,
+  "claims": {
+    "coordinate_space": "image (captured raster pixels)",
+    "physical_features": false,
+    "metric_world_coordinates": false,
+    "world_position_valid": false,
+    "ttc_pet_or_min_separation": false,
+    "collision_or_conflict_probability": false,
+    "ego_motion_compensated": false,
+    "learned_components": false,
+    "real_time_claim": false,
+    "note": "Pixel separations, relative image velocities and closing rates are image-plane quantities affected by perspective and by moving-camera ego-motion; box-height normalisation is a heuristic proxy, not calibrated depth."
+  },
+  "limitations": [
+    "Image space only (captured_1920x1080 pixels, px/s, s, image-plane radians); no metric geometry is authorised (Phase 4 Task 1).",
+    "Relative image velocity and closing rate include depth-dependent ego-motion parallax and perspective; not physical relative motion.",
+    "sep_over_h and log_h_ratio use box height as a heuristic scale proxy; affected by truncation (flagged), pose and class size differences.",
+    "Node velocities inherit Task 2 per-frame jitter (~48 px/s per axis per agent, single-stride estimate); no smoothing applied (Q7).",
+    "Missing agents are not interpolated or carried forward; track fragments are not merged; class-flip holes from Phase 3 remain.",
+    "Radius and kNN flags are exploratory sensitivity diagnostics with unvalidated values (P5); they never remove edges.",
+    "Bicyclist->bicyclist pairs are not represented: the approved relation list has no such relation (counted in diagnostics).",
+    "Runtime is offline preprocessing time on one machine; it is not evidence of real-time performance."
+  ],
+  "deviations_and_notes": [
+    "dv_row_px is numerically identical to dv_px (both v_j - v_i) as specified in the design; kept for semantic labelling.",
+    "same_track_family (design \u00a76 table, 'always false in Task 3') is not stored because it is constant; recorded under excluded.",
+    "Bicyclist->bicyclist pairs are neither approved nor mentioned in the design; conservatively not represented and counted.",
+    "P10 applied conservatively: non-positive bbox WIDTH is also treated as a contract failure (positive height is the approved minimum).",
+    "Any malformed non-blank line in the Phase 3 file fails the run, even if no causal row references it (conservative reading of P13(c))."
+  ]
+}

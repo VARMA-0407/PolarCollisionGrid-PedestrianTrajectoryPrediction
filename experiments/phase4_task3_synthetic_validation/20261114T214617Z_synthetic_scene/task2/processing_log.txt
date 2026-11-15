@@ -1,0 +1,7 @@
+phase4-task2 image kinematics image-kinematics-0.1.0-phase4-task2
+started_utc 2026-11-14T21:46:17Z
+input experiments\phase4_task3_synthetic_validation\20261114T214617Z_synthetic_scene\inputs\agent_states.jsonl sha256 7e6b5d1617afc2f63d5ff9d080e11b5fdc3b778bc241ad0889a720960e4788e0
+lines 177 parsed 177 malformed 0
+causal rows 177 offline rows 177 quarantined 0 tracks 6
+input sha256 unchanged after processing
+finished_utc 2026-11-14T21:46:18Z

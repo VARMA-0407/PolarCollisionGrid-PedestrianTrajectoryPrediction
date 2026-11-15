@@ -1,0 +1,70 @@
+{
+  "tracks": [
+    {
+      "track_index": 0,
+      "track_id": "synthetic:scene:1",
+      "node_type": "pedestrian",
+      "source_labels": {
+        "pedestrian": 30
+      },
+      "n_nodes": 30,
+      "first_frame": 0,
+      "last_frame": 29
+    },
+    {
+      "track_index": 1,
+      "track_id": "synthetic:scene:2",
+      "node_type": "pedestrian",
+      "source_labels": {
+        "pedestrian": 27
+      },
+      "n_nodes": 27,
+      "first_frame": 0,
+      "last_frame": 29
+    },
+    {
+      "track_index": 2,
+      "track_id": "synthetic:scene:3",
+      "node_type": "vehicle",
+      "source_labels": {
+        "car": 30
+      },
+      "n_nodes": 30,
+      "first_frame": 0,
+      "last_frame": 29
+    },
+    {
+      "track_index": 3,
+      "track_id": "synthetic:scene:4",
+      "node_type": "vehicle",
+      "source_labels": {
+        "truck": 30
+      },
+      "n_nodes": 30,
+      "first_frame": 0,
+      "last_frame": 29
+    },
+    {
+      "track_index": 4,
+      "track_id": "synthetic:scene:5",
+      "node_type": "bicyclist",
+      "source_labels": {
+        "bike": 30
+      },
+      "n_nodes": 30,
+      "first_frame": 0,
+      "last_frame": 29
+    },
+    {
+      "track_index": 5,
+      "track_id": "synthetic:scene:6",
+      "node_type": "bicyclist",
+      "source_labels": {
+        "bike": 30
+      },
+      "n_nodes": 30,
+      "first_frame": 0,
+      "last_frame": 29
+    }
+  ]
+}

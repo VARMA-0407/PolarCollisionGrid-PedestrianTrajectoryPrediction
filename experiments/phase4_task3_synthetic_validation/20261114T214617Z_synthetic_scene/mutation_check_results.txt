@@ -1,0 +1,28 @@
+CAUGHT closing-rate sign flipped | 1 failed, 27 passed in 7.70s
+CAUGHT displacement direction reversed (p_i - p_j) | 1 failed, 27 passed in 7.40s
+CAUGHT relative bearing uses source heading | 1 failed, 27 passed in 7.50s
+CAUGHT velocity mask checks destination only | 1 failed, 33 passed in 7.48s
+CAUGHT zero-separation mask removed | 1 failed, 34 passed, 3 warnings in 7.58s
+CAUGHT masked dvel stored as 0 instead of NaN | 1 failed, 33 passed in 7.34s
+CAUGHT overlap uses IoU instead of IoS | 1 failed, 36 passed in 7.54s
+CAUGHT log_h_ratio inverted | 1 failed, 27 passed in 7.35s
+CAUGHT radius flag strict instead of inclusive | 1 failed, 43 passed in 7.53s
+CAUGHT truncation flag from source only | 1 failed, 44 passed in 7.61s
+CAUGHT kNN ignores sep_over_h | 1 failed, 43 passed in 7.59s
+CAUGHT V-V pairs leak into an enabled relation | 1 failed, 39 passed in 7.78s
+CAUGHT V-V default in dataclass (config file still false) | 1 failed, 40 passed in 7.84s
+CAUGHT lexicographic instead of canonical track order | 1 failed, 42 passed in 7.90s
+CAUGHT invalid rows become nodes | 1 failed, 25 passed in 7.37s
+CAUGHT source_line identity check removed (row-order trust) | 1 failed, 3 passed in 1.61s
+CAUGHT duplicate source_line check removed | 1 failed, 2 passed in 1.30s
+CAUGHT blank-line check removed | 1 failed, 1 passed in 0.95s
+CAUGHT frame timestamp check removed | 1 failed, 11 passed in 3.60s
+CAUGHT null border flag accepted | 1 failed, 12 passed in 3.90s
+CAUGHT non-positive box accepted | 1 failed, 9 passed in 3.02s
+CAUGHT causal hash check removed | 1 failed, 23 passed in 6.75s
+CAUGHT Phase 3 hash check removed | 1 failed, 23 passed in 6.72s
+CAUGHT frame_gap_before semantics not verified | 1 failed, 24 passed in 7.02s
+CAUGHT smoothed Task 2 input accepted | 1 failed, 26 passed in 7.38s
+CAUGHT offline filename not refused | 1 failed, 22 passed in 6.95s
+CAUGHT schema validation skipped | 1 failed, 21 passed in 6.27s
+CAUGHT npz member timestamp not fixed | 1 failed, 51 passed in 10.42s

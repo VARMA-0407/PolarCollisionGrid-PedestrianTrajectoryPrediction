@@ -1,0 +1,371 @@
+{
+  "units": {
+    "position": "pixel",
+    "velocity": "pixel/s",
+    "acceleration": "pixel/s^2",
+    "heading": "rad",
+    "time": "s"
+  },
+  "heading_convention": "atan2(vy, vx) in image axes: angle from +x toward +y; image +y points down so positive is clockwise on screen; not a world heading; range [-pi, pi)",
+  "input_rows": 177,
+  "quarantined_rows": 0,
+  "causal_rows": 177,
+  "observation_types": {
+    "observed": 177
+  },
+  "position_states": {
+    "ok": 177
+  },
+  "valid_position_rows": 177,
+  "invalid_position_rows": 0,
+  "rejected_rows": 0,
+  "interpolated_rows": 0,
+  "causal_estimate_rows": 0,
+  "filter_kind": "none",
+  "filtered_rows": 0,
+  "bbox_touches_border_rows": 30,
+  "causal_raw": {
+    "rows": 177,
+    "velocity_states": {
+      "gap_before": 1,
+      "insufficient_samples": 6,
+      "valid": 170
+    },
+    "acceleration_states": {
+      "gap_before": 1,
+      "insufficient_samples": 6,
+      "previous_velocity_unavailable": 7,
+      "valid": 163
+    },
+    "heading_states": {
+      "gap_before": 1,
+      "insufficient_samples": 6,
+      "valid": 170
+    },
+    "valid_velocity": 170,
+    "valid_acceleration": 163,
+    "valid_heading": 170,
+    "dt_s_of_valid_velocity": {
+      "n": 170,
+      "min": 0.033333333333333326,
+      "p05": 0.033333333333333326,
+      "p25": 0.033333333333333326,
+      "p50": 0.033333333333333326,
+      "p75": 0.033333333333333326,
+      "p95": 0.03333333333333338,
+      "p99": 0.03333333333333344,
+      "max": 0.03333333333333344,
+      "mean": 0.03333333333333333
+    },
+    "speed_px_per_s": {
+      "n": 170,
+      "min": 29.999999999999908,
+      "p05": 30.000000000000007,
+      "p25": 60.000000000000014,
+      "p50": 149.99999999999983,
+      "p75": 180.00000000000003,
+      "p95": 240.00000000000006,
+      "p99": 240.00000000000006,
+      "max": 240.00000000000006,
+      "mean": 126.52941176470588
+    },
+    "acceleration_magnitude_px_per_s2": {
+      "n": 163,
+      "min": 0.0,
+      "p05": 0.0,
+      "p25": 0.0,
+      "p50": 0.0,
+      "p75": 7.46069872548105e-13,
+      "p95": 8.95283847057726e-12,
+      "p99": 2.017372935370071e-11,
+      "max": 2.3874235921539373e-11,
+      "mean": 1.6294532185713202e-12
+    },
+    "heading_count_sensitivity": [
+      {
+        "min_speed_px_per_s": 0.0,
+        "rows_with_heading": 170
+      },
+      {
+        "min_speed_px_per_s": 10.0,
+        "rows_with_heading": 170
+      },
+      {
+        "min_speed_px_per_s": 30.0,
+        "rows_with_heading": 166
+      },
+      {
+        "min_speed_px_per_s": 60.0,
+        "rows_with_heading": 138
+      },
+      {
+        "min_speed_px_per_s": 120.0,
+        "rows_with_heading": 87
+      }
+    ],
+    "per_class": {
+      "bicyclist": {
+        "rows": 60,
+        "valid_velocity": 58,
+        "valid_acceleration": 56,
+        "valid_heading": 58,
+        "speed_px_per_s": {
+          "n": 58,
+          "min": 149.99999999999955,
+          "p05": 149.99999999999997,
+          "p25": 150.00000000000003,
+          "p50": 164.99999999999972,
+          "p75": 180.00000000000003,
+          "p95": 180.00000000000003,
+          "p99": 180.00000000000003,
+          "max": 180.00000000000003,
+          "mean": 165.0
+        },
+        "acceleration_magnitude_px_per_s2": {
+          "n": 56,
+          "min": 0.0,
+          "p05": 0.0,
+          "p25": 0.0,
+          "p50": 0.0,
+          "p75": 1.0658141036401503e-12,
+          "p95": 1.4495071809506011e-11,
+          "p99": 1.7905676941154496e-11,
+          "max": 1.7905676941154528e-11,
+          "mean": 2.1011763757477225e-12
+        }
+      },
+      "pedestrian": {
+        "rows": 57,
+        "valid_velocity": 54,
+        "valid_acceleration": 51,
+        "valid_heading": 54,
+        "speed_px_per_s": {
+          "n": 54,
+          "min": 59.999999999999815,
+          "p05": 59.99999999999999,
+          "p25": 60.000000000000014,
+          "p50": 89.99999999999991,
+          "p75": 90.00000000000001,
+          "p95": 90.00000000000001,
+          "p99": 90.00000000000001,
+          "max": 90.00000000000001,
+          "mean": 76.11111111111111
+        },
+        "acceleration_magnitude_px_per_s2": {
+          "n": 51,
+          "min": 0.0,
+          "p05": 0.0,
+          "p25": 0.0,
+          "p50": 0.0,
+          "p75": 4.2632564145606e-13,
+          "p95": 5.9685589803848335e-12,
+          "p99": 8.95283847057725e-12,
+          "max": 8.952838470577264e-12,
+          "mean": 9.446038722457792e-13
+        }
+      },
+      "vehicle": {
+        "rows": 60,
+        "valid_velocity": 58,
+        "valid_acceleration": 56,
+        "valid_heading": 58,
+        "speed_px_per_s": {
+          "n": 58,
+          "min": 29.999999999999908,
+          "p05": 29.999999999999993,
+          "p25": 30.000000000000007,
+          "p50": 134.99999999999963,
+          "p75": 240.00000000000006,
+          "p95": 240.00000000000006,
+          "p99": 240.00000000000006,
+          "max": 240.00000000000006,
+          "mean": 134.99999999999997
+        },
+        "acceleration_magnitude_px_per_s2": {
+          "n": 56,
+          "min": 0.0,
+          "p05": 0.0,
+          "p25": 0.0,
+          "p50": 0.0,
+          "p75": 5.062616992290714e-13,
+          "p95": 1.193711796076967e-11,
+          "p99": 2.3874235921539327e-11,
+          "max": 2.3874235921539373e-11,
+          "mean": 1.781432144655678e-12
+        }
+      }
+    }
+  },
+  "causal_filtered": null,
+  "offline_central_difference": {
+    "rows": 177,
+    "velocity_states": {
+      "gap_adjacent": 2,
+      "insufficient_neighbours": 12,
+      "valid": 163
+    },
+    "acceleration_states": {
+      "gap_adjacent": 2,
+      "insufficient_neighbours": 12,
+      "valid": 163
+    },
+    "heading_states": {
+      "gap_adjacent": 2,
+      "insufficient_neighbours": 12,
+      "valid": 163
+    },
+    "valid_velocity": 163,
+    "valid_acceleration": 163,
+    "valid_heading": 163,
+    "dt_s_of_valid_velocity": {
+      "n": 163,
+      "min": 0.06666666666666665,
+      "p05": 0.06666666666666665,
+      "p25": 0.06666666666666665,
+      "p50": 0.06666666666666665,
+      "p75": 0.06666666666666667,
+      "p95": 0.06666666666666676,
+      "p99": 0.06666666666666676,
+      "max": 0.06666666666666676,
+      "mean": 0.06666666666666667
+    },
+    "speed_px_per_s": {
+      "n": 163,
+      "min": 29.999999999999957,
+      "p05": 30.0,
+      "p25": 60.000000000000014,
+      "p50": 149.99999999999991,
+      "p75": 180.00000000000003,
+      "p95": 240.00000000000006,
+      "p99": 240.00000000000006,
+      "max": 240.00000000000006,
+      "mean": 126.99386503067484
+    },
+    "acceleration_magnitude_px_per_s2": {
+      "n": 163,
+      "min": 0.0,
+      "p05": 0.0,
+      "p25": 0.0,
+      "p50": 0.0,
+      "p75": 7.460698725481051e-13,
+      "p95": 8.95283847057725e-12,
+      "p99": 2.0173729353700708e-11,
+      "max": 2.387423592153933e-11,
+      "mean": 1.6294532185713202e-12
+    },
+    "heading_count_sensitivity": [
+      {
+        "min_speed_px_per_s": 0.0,
+        "rows_with_heading": 163
+      },
+      {
+        "min_speed_px_per_s": 10.0,
+        "rows_with_heading": 163
+      },
+      {
+        "min_speed_px_per_s": 30.0,
+        "rows_with_heading": 156
+      },
+      {
+        "min_speed_px_per_s": 60.0,
+        "rows_with_heading": 130
+      },
+      {
+        "min_speed_px_per_s": 120.0,
+        "rows_with_heading": 84
+      }
+    ],
+    "per_class": {
+      "bicyclist": {
+        "rows": 60,
+        "valid_velocity": 56,
+        "valid_acceleration": 56,
+        "valid_heading": 56,
+        "speed_px_per_s": {
+          "n": 56,
+          "min": 149.99999999999977,
+          "p05": 149.99999999999991,
+          "p25": 150.00000000000003,
+          "p50": 164.9999999999999,
+          "p75": 180.00000000000003,
+          "p95": 180.00000000000003,
+          "p99": 180.00000000000003,
+          "max": 180.00000000000003,
+          "mean": 165.0
+        },
+        "acceleration_magnitude_px_per_s2": {
+          "n": 56,
+          "min": 0.0,
+          "p05": 0.0,
+          "p25": 0.0,
+          "p50": 0.0,
+          "p75": 1.06581410364015e-12,
+          "p95": 1.4495071809506023e-11,
+          "p99": 1.79056769411545e-11,
+          "max": 1.79056769411545e-11,
+          "mean": 2.101176375747723e-12
+        }
+      },
+      "pedestrian": {
+        "rows": 57,
+        "valid_velocity": 51,
+        "valid_acceleration": 51,
+        "valid_heading": 51,
+        "speed_px_per_s": {
+          "n": 51,
+          "min": 59.999999999999915,
+          "p05": 59.999999999999986,
+          "p25": 60.000000000000014,
+          "p50": 89.99999999999994,
+          "p75": 90.00000000000001,
+          "p95": 90.00000000000001,
+          "p99": 90.00000000000001,
+          "max": 90.00000000000001,
+          "mean": 76.47058823529412
+        },
+        "acceleration_magnitude_px_per_s2": {
+          "n": 51,
+          "min": 0.0,
+          "p05": 0.0,
+          "p25": 0.0,
+          "p50": 0.0,
+          "p75": 4.2632564145606e-13,
+          "p95": 5.968558980384833e-12,
+          "p99": 8.95283847057725e-12,
+          "max": 8.95283847057725e-12,
+          "mean": 9.446038722457792e-13
+        }
+      },
+      "vehicle": {
+        "rows": 60,
+        "valid_velocity": 56,
+        "valid_acceleration": 56,
+        "valid_heading": 56,
+        "speed_px_per_s": {
+          "n": 56,
+          "min": 29.999999999999957,
+          "p05": 29.999999999999982,
+          "p25": 30.000000000000007,
+          "p50": 134.99999999999983,
+          "p75": 240.00000000000006,
+          "p95": 240.00000000000006,
+          "p99": 240.00000000000006,
+          "max": 240.00000000000006,
+          "mean": 134.99999999999997
+        },
+        "acceleration_magnitude_px_per_s2": {
+          "n": 56,
+          "min": 0.0,
+          "p05": 0.0,
+          "p25": 0.0,
+          "p50": 0.0,
+          "p75": 5.062616992290714e-13,
+          "p95": 1.1937117960769675e-11,
+          "p99": 2.387423592153933e-11,
+          "max": 2.387423592153933e-11,
+          "mean": 1.781432144655678e-12
+        }
+      }
+    }
+  }
+}

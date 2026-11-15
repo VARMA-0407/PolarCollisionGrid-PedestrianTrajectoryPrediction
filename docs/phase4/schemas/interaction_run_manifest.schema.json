@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "pedsafety/phase4/interaction_run_manifest/1.0.0",
+  "title": "Phase 4 Task 3 interaction representation run manifest",
+  "type": "object",
+  "required": ["manifest_version", "task", "status", "versions", "git", "started_utc", "finished_utc", "command", "inputs", "config",
+               "decision_record", "design_document", "conventions", "counts", "validation", "runtime_s", "peak_memory_bytes", "outputs",
+               "output_total_bytes", "claims", "limitations", "deviations_and_notes"],
+  "properties": {
+    "manifest_version": {"const": "phase4-task3-run-manifest-1.0.0"},
+    "task": {"const": "phase4_task3_image_space_interaction_representation"},
+    "status": {"const": "completed"},
+    "inputs": {"type": "object", "required": ["causal_kinematics", "phase3_agent_states", "task2_manifest", "task2_config_resolved", "sidecar_schema", "unchanged_after_run"],
+               "properties": {"unchanged_after_run": {"const": true}}},
+    "outputs": {"type": "object", "minProperties": 6, "not": {"required": ["run_manifest.json"]},
+                "additionalProperties": {"type": "object", "required": ["sha256", "bytes"],
+                                         "properties": {"sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}, "bytes": {"type": "integer", "minimum": 0}}}},
+    "claims": {"type": "object",
+               "required": ["coordinate_space", "physical_features", "metric_world_coordinates", "world_position_valid", "ttc_pet_or_min_separation",
+                            "collision_or_conflict_probability", "ego_motion_compensated", "learned_components", "real_time_claim"],
+               "properties": {"physical_features": {"const": false}, "metric_world_coordinates": {"const": false}, "world_position_valid": {"const": false},
+                              "ttc_pet_or_min_separation": {"const": false}, "collision_or_conflict_probability": {"const": false},
+                              "ego_motion_compensated": {"const": false}, "learned_components": {"const": false}, "real_time_claim": {"const": false}}},
+    "validation": {"type": "object", "required": ["all_input_contracts_passed"], "properties": {"all_input_contracts_passed": {"const": true}}}
+  }
+}

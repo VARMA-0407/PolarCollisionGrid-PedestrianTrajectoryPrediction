@@ -1,0 +1,14 @@
+{
+  "config_version": "phase4-task3-interaction-representation-config-1.0.0",
+  "expected_coordinate_system": "captured_1920x1080",
+  "enable_vehicle_vehicle": false,
+  "radius_thresholds_sep_over_h": [2.0, 5.0, 10.0],
+  "knn_k": [4, 8],
+  "noise_reference_per_agent_velocity_px_s": 48.0,
+  "_notes": {
+    "enable_vehicle_vehicle": "V-V edges are optional and disabled by default (decision record, V-V).",
+    "radius_thresholds_sep_over_h": "Exploratory sensitivity values (P5). Diagnostics flags only; they never remove a stored candidate edge.",
+    "knn_k": "Exploratory sensitivity values (P5). Per destination, ranking across all enabled incoming relations by (sep_over_h, sep_px, source canonical track order) (P4).",
+    "noise_reference_per_agent_velocity_px_s": "Task 2 single-stride jitter estimate (~48 px/s per axis per agent). Used only for the P17 diagnostic reference sqrt(2) x 48 ~ 68 px/s per component under an independence assumption. Not a threshold, not calibrated uncertainty, not physical."
+  }
+}

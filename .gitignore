@@ -182,3 +182,5 @@ cython_debug/
 # Superseded synthetic runs: kept locally as historical evidence, not versioned unless their inclusion is approved
 /experiments/phase4_task2_synthetic_validation/20261114T195051Z_smoothing/
 /experiments/phase4_task2_synthetic_validation/20261114T195107Z_phase3_synthetic_replay_format_check/
+# Phase 4 Task 3 real-pilot arrays (regenerable from committed code + hashed local inputs; ~21 MB per run); reports, manifests and JSON stay visible
+/experiments/phase4_task3_pie_video_0004/**/*.npz

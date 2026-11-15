@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "pedsafety/phase4/interaction_feature_dictionary/1.0.0",
+  "title": "Phase 4 Task 3 interaction feature dictionary",
+  "description": "Every stored node/edge column must be documented with formula, unit, coordinate space, mask rule and physical:false.",
+  "type": "object",
+  "required": ["dictionary_version", "producer", "coordinate_system", "coordinate_space", "physical", "causal_inputs_only", "conventions",
+               "node_types", "node_type_codes", "relations", "node_features", "node_boxes", "node_masks", "edge_features", "edge_flags", "excluded"],
+  "properties": {
+    "dictionary_version": {"const": "interaction-feature-dictionary-1.0.0"},
+    "producer": {"type": "string", "minLength": 1},
+    "coordinate_system": {"type": "string", "minLength": 1},
+    "coordinate_space": {"type": "string", "pattern": "^image"},
+    "physical": {"const": false},
+    "causal_inputs_only": {"const": true},
+    "conventions": {"type": "object", "required": ["edge_direction", "displacement", "heading", "relative_bearing", "closing_rate", "missing_values", "edge_order", "node_order"]},
+    "node_types": {"const": ["pedestrian", "vehicle", "bicyclist"]},
+    "node_type_codes": {"const": {"pedestrian": 0, "vehicle": 1, "bicyclist": 2}},
+    "relations": {"type": "array", "minItems": 7, "items": {"type": "string", "pattern": "^(pedestrian|vehicle|bicyclist)__(pedestrian|vehicle|bicyclist)$"}},
+    "node_features": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/feature"}},
+    "node_boxes": {"type": "array", "items": {"type": "object", "required": ["name", "index", "unit", "physical"], "properties": {"physical": {"const": false}}}},
+    "node_masks": {"type": "array", "items": {"type": "object", "required": ["name", "index", "dtype"]}},
+    "edge_features": {"type": "array", "minItems": 14, "items": {"$ref": "#/$defs/feature"}},
+    "edge_flags": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["name", "index", "dtype", "definition", "physical"],
+                                                             "properties": {"physical": {"const": false}, "dtype": {"const": "bool"}}}},
+    "excluded": {"type": "object", "required": ["acceleration", "world_coordinates"]}
+  },
+  "$defs": {
+    "feature": {
+      "type": "object",
+      "required": ["name", "index", "dtype", "formula", "unit", "coordinate_space", "mask", "missing_reason", "missing_value", "physical", "causal"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "index": {"type": "integer", "minimum": 0},
+        "dtype": {"const": "float32"},
+        "formula": {"type": "string", "minLength": 1},
+        "unit": {"enum": ["px", "px/s", "1", "frames"]},
+        "coordinate_space": {"type": "string", "pattern": "^image"},
+        "mask": {"type": "string", "minLength": 1},
+        "missing_value": {"enum": ["NaN", null]},
+        "physical": {"const": false},
+        "causal": {"const": true}
+      }
+    }
+  }
+}

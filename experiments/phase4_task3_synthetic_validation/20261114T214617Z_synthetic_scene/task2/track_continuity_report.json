@@ -1,0 +1,855 @@
+{
+  "continuity_version": "track-continuity-0.1.0-phase4-task2",
+  "frame_step": 1,
+  "max_derivative_gap_frames": 0,
+  "summary": {
+    "n_tracks": 6,
+    "n_sequences": 1,
+    "track_length_valid_positions": {
+      "n": 6,
+      "min": 27.0,
+      "p05": 27.75,
+      "p25": 30.0,
+      "p50": 30.0,
+      "p75": 30.0,
+      "p95": 30.0,
+      "p99": 30.0,
+      "max": 30.0,
+      "mean": 29.5
+    },
+    "track_duration_s": {
+      "n": 6,
+      "min": 0.9666666666666667,
+      "p05": 0.9666666666666667,
+      "p25": 0.9666666666666667,
+      "p50": 0.9666666666666667,
+      "p75": 0.9666666666666667,
+      "p95": 0.9666666666666667,
+      "p99": 0.9666666666666667,
+      "max": 0.9666666666666667,
+      "mean": 0.9666666666666667
+    },
+    "short_tracks": [
+      {
+        "valid_positions_lt": 1,
+        "n_tracks": 0
+      },
+      {
+        "valid_positions_lt": 2,
+        "n_tracks": 0
+      },
+      {
+        "valid_positions_lt": 3,
+        "n_tracks": 0
+      },
+      {
+        "valid_positions_lt": 5,
+        "n_tracks": 0
+      },
+      {
+        "valid_positions_lt": 10,
+        "n_tracks": 0
+      },
+      {
+        "valid_positions_lt": 30,
+        "n_tracks": 1
+      }
+    ],
+    "n_gaps": 1,
+    "n_tracks_with_gaps": 1,
+    "gap_missing_frames_histogram": {
+      "3": 1
+    },
+    "gap_elapsed_s": {
+      "n": 1,
+      "min": 0.13333333333333336,
+      "p05": 0.13333333333333336,
+      "p25": 0.13333333333333336,
+      "p50": 0.13333333333333336,
+      "p75": 0.13333333333333336,
+      "p95": 0.13333333333333336,
+      "p99": 0.13333333333333336,
+      "max": 0.13333333333333336,
+      "mean": 0.13333333333333336
+    },
+    "grouping_and_stream_issues": {},
+    "n_border_touching_rows": 30,
+    "per_class": {
+      "bicyclist": {
+        "n_tracks": 2,
+        "n_valid_positions": 60,
+        "n_gaps": 0,
+        "missing_frames_total": 0,
+        "track_length_valid_positions": {
+          "n": 2,
+          "min": 30.0,
+          "p05": 30.0,
+          "p25": 30.0,
+          "p50": 30.0,
+          "p75": 30.0,
+          "p95": 30.0,
+          "p99": 30.0,
+          "max": 30.0,
+          "mean": 30.0
+        }
+      },
+      "pedestrian": {
+        "n_tracks": 2,
+        "n_valid_positions": 57,
+        "n_gaps": 1,
+        "missing_frames_total": 3,
+        "track_length_valid_positions": {
+          "n": 2,
+          "min": 27.0,
+          "p05": 27.15,
+          "p25": 27.75,
+          "p50": 28.5,
+          "p75": 29.25,
+          "p95": 29.85,
+          "p99": 29.97,
+          "max": 30.0,
+          "mean": 28.5
+        }
+      },
+      "vehicle": {
+        "n_tracks": 2,
+        "n_valid_positions": 60,
+        "n_gaps": 0,
+        "missing_frames_total": 0,
+        "track_length_valid_positions": {
+          "n": 2,
+          "min": 30.0,
+          "p05": 30.0,
+          "p25": 30.0,
+          "p50": 30.0,
+          "p75": 30.0,
+          "p95": 30.0,
+          "p99": 30.0,
+          "max": 30.0,
+          "mean": 30.0
+        }
+      }
+    }
+  },
+  "anomaly_indicators": {
+    "note": "Indicators only. A suspicious jump or a fragment pair is a POSSIBLE ID switch / fragmentation, never a confirmed one; no track was merged, split or renamed.",
+    "suspicious_jumps_consecutive_frames": {
+      "displacement_table": [
+        {
+          "displacement_over_box_height_gt": 0.25,
+          "n_pairs": 0,
+          "n_tracks": 0
+        },
+        {
+          "displacement_over_box_height_gt": 0.5,
+          "n_pairs": 0,
+          "n_tracks": 0
+        },
+        {
+          "displacement_over_box_height_gt": 1.0,
+          "n_pairs": 0,
+          "n_tracks": 0
+        },
+        {
+          "displacement_over_box_height_gt": 2.0,
+          "n_pairs": 0,
+          "n_tracks": 0
+        }
+      ],
+      "box_height_change_table": [
+        {
+          "box_height_ratio_gt": 1.5,
+          "n_pairs": 0,
+          "n_tracks": 0
+        },
+        {
+          "box_height_ratio_gt": 2.0,
+          "n_pairs": 0,
+          "n_tracks": 0
+        },
+        {
+          "box_height_ratio_gt": 3.0,
+          "n_pairs": 0,
+          "n_tracks": 0
+        }
+      ],
+      "n_pairs_evaluated": 170,
+      "possible_id_switch_indicators": {
+        "rule": "displacement/box_height > 2.0 AND box_height_ratio > 1.5",
+        "n_pairs": 0,
+        "items": []
+      },
+      "largest_items": [
+        {
+          "track_id": "synthetic:scene:5",
+          "from_frame": 0,
+          "to_frame": 1,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.06315789473684211,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "synthetic:scene:5",
+          "from_frame": 1,
+          "to_frame": 2,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.06315789473684211,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "synthetic:scene:5",
+          "from_frame": 2,
+          "to_frame": 3,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.06315789473684211,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "synthetic:scene:5",
+          "from_frame": 3,
+          "to_frame": 4,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.06315789473684211,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "synthetic:scene:5",
+          "from_frame": 4,
+          "to_frame": 5,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.06315789473684211,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "synthetic:scene:5",
+          "from_frame": 5,
+          "to_frame": 6,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.06315789473684211,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "synthetic:scene:5",
+          "from_frame": 6,
+          "to_frame": 7,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.06315789473684211,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "synthetic:scene:5",
+          "from_frame": 7,
+          "to_frame": 8,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.06315789473684211,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "synthetic:scene:5",
+          "from_frame": 8,
+          "to_frame": 9,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.06315789473684211,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "synthetic:scene:5",
+          "from_frame": 9,
+          "to_frame": 10,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.06315789473684211,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "synthetic:scene:5",
+          "from_frame": 10,
+          "to_frame": 11,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.06315789473684211,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "synthetic:scene:5",
+          "from_frame": 11,
+          "to_frame": 12,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.06315789473684211,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "synthetic:scene:5",
+          "from_frame": 12,
+          "to_frame": 13,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.06315789473684211,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "synthetic:scene:5",
+          "from_frame": 13,
+          "to_frame": 14,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.06315789473684211,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "synthetic:scene:5",
+          "from_frame": 14,
+          "to_frame": 15,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.06315789473684211,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "synthetic:scene:5",
+          "from_frame": 15,
+          "to_frame": 16,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.06315789473684211,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "synthetic:scene:5",
+          "from_frame": 16,
+          "to_frame": 17,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.06315789473684211,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "synthetic:scene:5",
+          "from_frame": 17,
+          "to_frame": 18,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.06315789473684211,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "synthetic:scene:5",
+          "from_frame": 18,
+          "to_frame": 19,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.06315789473684211,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "synthetic:scene:5",
+          "from_frame": 19,
+          "to_frame": 20,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.06315789473684211,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "synthetic:scene:5",
+          "from_frame": 20,
+          "to_frame": 21,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.06315789473684211,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "synthetic:scene:5",
+          "from_frame": 21,
+          "to_frame": 22,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.06315789473684211,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "synthetic:scene:5",
+          "from_frame": 22,
+          "to_frame": 23,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.06315789473684211,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "synthetic:scene:5",
+          "from_frame": 23,
+          "to_frame": 24,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.06315789473684211,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "synthetic:scene:5",
+          "from_frame": 24,
+          "to_frame": 25,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.06315789473684211,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "synthetic:scene:5",
+          "from_frame": 25,
+          "to_frame": 26,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.06315789473684211,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "synthetic:scene:5",
+          "from_frame": 26,
+          "to_frame": 27,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.06315789473684211,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "synthetic:scene:5",
+          "from_frame": 27,
+          "to_frame": 28,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.06315789473684211,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "synthetic:scene:5",
+          "from_frame": 28,
+          "to_frame": 29,
+          "missing_frames": 0,
+          "displacement_px": 6.0,
+          "displacement_over_box_height": 0.06315789473684211,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "synthetic:scene:6",
+          "from_frame": 0,
+          "to_frame": 1,
+          "missing_frames": 0,
+          "displacement_px": 5.0,
+          "displacement_over_box_height": 0.05263157894736842,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "synthetic:scene:6",
+          "from_frame": 1,
+          "to_frame": 2,
+          "missing_frames": 0,
+          "displacement_px": 5.0,
+          "displacement_over_box_height": 0.05263157894736842,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "synthetic:scene:6",
+          "from_frame": 2,
+          "to_frame": 3,
+          "missing_frames": 0,
+          "displacement_px": 5.0,
+          "displacement_over_box_height": 0.05263157894736842,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "synthetic:scene:6",
+          "from_frame": 3,
+          "to_frame": 4,
+          "missing_frames": 0,
+          "displacement_px": 5.0,
+          "displacement_over_box_height": 0.05263157894736842,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "synthetic:scene:6",
+          "from_frame": 4,
+          "to_frame": 5,
+          "missing_frames": 0,
+          "displacement_px": 5.0,
+          "displacement_over_box_height": 0.05263157894736842,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "synthetic:scene:6",
+          "from_frame": 5,
+          "to_frame": 6,
+          "missing_frames": 0,
+          "displacement_px": 5.0,
+          "displacement_over_box_height": 0.05263157894736842,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "synthetic:scene:6",
+          "from_frame": 6,
+          "to_frame": 7,
+          "missing_frames": 0,
+          "displacement_px": 5.0,
+          "displacement_over_box_height": 0.05263157894736842,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "synthetic:scene:6",
+          "from_frame": 7,
+          "to_frame": 8,
+          "missing_frames": 0,
+          "displacement_px": 5.0,
+          "displacement_over_box_height": 0.05263157894736842,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "synthetic:scene:6",
+          "from_frame": 8,
+          "to_frame": 9,
+          "missing_frames": 0,
+          "displacement_px": 5.0,
+          "displacement_over_box_height": 0.05263157894736842,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "synthetic:scene:6",
+          "from_frame": 9,
+          "to_frame": 10,
+          "missing_frames": 0,
+          "displacement_px": 5.0,
+          "displacement_over_box_height": 0.05263157894736842,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "synthetic:scene:6",
+          "from_frame": 10,
+          "to_frame": 11,
+          "missing_frames": 0,
+          "displacement_px": 5.0,
+          "displacement_over_box_height": 0.05263157894736842,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "synthetic:scene:6",
+          "from_frame": 11,
+          "to_frame": 12,
+          "missing_frames": 0,
+          "displacement_px": 5.0,
+          "displacement_over_box_height": 0.05263157894736842,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "synthetic:scene:6",
+          "from_frame": 12,
+          "to_frame": 13,
+          "missing_frames": 0,
+          "displacement_px": 5.0,
+          "displacement_over_box_height": 0.05263157894736842,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "synthetic:scene:6",
+          "from_frame": 13,
+          "to_frame": 14,
+          "missing_frames": 0,
+          "displacement_px": 5.0,
+          "displacement_over_box_height": 0.05263157894736842,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "synthetic:scene:6",
+          "from_frame": 14,
+          "to_frame": 15,
+          "missing_frames": 0,
+          "displacement_px": 5.0,
+          "displacement_over_box_height": 0.05263157894736842,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "synthetic:scene:6",
+          "from_frame": 15,
+          "to_frame": 16,
+          "missing_frames": 0,
+          "displacement_px": 5.0,
+          "displacement_over_box_height": 0.05263157894736842,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "synthetic:scene:6",
+          "from_frame": 16,
+          "to_frame": 17,
+          "missing_frames": 0,
+          "displacement_px": 5.0,
+          "displacement_over_box_height": 0.05263157894736842,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "synthetic:scene:6",
+          "from_frame": 17,
+          "to_frame": 18,
+          "missing_frames": 0,
+          "displacement_px": 5.0,
+          "displacement_over_box_height": 0.05263157894736842,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "synthetic:scene:6",
+          "from_frame": 18,
+          "to_frame": 19,
+          "missing_frames": 0,
+          "displacement_px": 5.0,
+          "displacement_over_box_height": 0.05263157894736842,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "synthetic:scene:6",
+          "from_frame": 19,
+          "to_frame": 20,
+          "missing_frames": 0,
+          "displacement_px": 5.0,
+          "displacement_over_box_height": 0.05263157894736842,
+          "box_height_ratio": 1.0
+        },
+        {
+          "track_id": "synthetic:scene:6",
+          "from_frame": 20,
+          "to_frame": 21,
+          "missing_frames": 0,
+          "displacement_px": 5.0,
+          "displacement_over_box_height": 0.05263157894736842,
+          "box_height_ratio": 1.0
+        }
+      ]
+    },
+    "displacement_across_gaps": {
+      "n": 1,
+      "min": 0.1111111111111111,
+      "p05": 0.1111111111111111,
+      "p25": 0.1111111111111111,
+      "p50": 0.1111111111111111,
+      "p75": 0.1111111111111111,
+      "p95": 0.1111111111111111,
+      "p99": 0.1111111111111111,
+      "max": 0.1111111111111111,
+      "mean": 0.1111111111111111
+    },
+    "possible_fragment_pairs": {
+      "max_distance_box_heights": 1.0,
+      "table": [
+        {
+          "max_gap_frames": 1,
+          "n_pairs": 0
+        },
+        {
+          "max_gap_frames": 5,
+          "n_pairs": 0
+        },
+        {
+          "max_gap_frames": 15,
+          "n_pairs": 0
+        },
+        {
+          "max_gap_frames": 30,
+          "n_pairs": 0
+        }
+      ],
+      "items": []
+    },
+    "confirmed_id_switches": null,
+    "confirmed_id_switches_note": "not determinable: no independent identity evidence was supplied"
+  },
+  "per_track": [
+    {
+      "track_id": "synthetic:scene:1",
+      "sequence_id": "synthetic:scene",
+      "agent_class": "pedestrian",
+      "classes_seen": {
+        "pedestrian": 30
+      },
+      "n_input_rows": 30,
+      "n_accepted": 30,
+      "n_valid_positions": 30,
+      "first_frame": 0,
+      "last_frame": 29,
+      "first_time_s": 0.0,
+      "last_time_s": 0.9666666666666667,
+      "duration_s": 0.9666666666666667,
+      "span_frames": 30,
+      "missing_frames_total": 0,
+      "n_gaps": 0,
+      "max_gap_frames": 0,
+      "gaps": [],
+      "n_duplicate_rows": 0,
+      "n_out_of_order_rows": 0,
+      "n_timestamp_not_monotonic": 0,
+      "n_invalid_time": 0,
+      "n_off_grid": 0,
+      "n_track_sequence_conflict": 0,
+      "n_border_touching_rows": 0,
+      "n_suspicious_jumps_at_lowest_threshold": 0
+    },
+    {
+      "track_id": "synthetic:scene:2",
+      "sequence_id": "synthetic:scene",
+      "agent_class": "pedestrian",
+      "classes_seen": {
+        "pedestrian": 27
+      },
+      "n_input_rows": 27,
+      "n_accepted": 27,
+      "n_valid_positions": 27,
+      "first_frame": 0,
+      "last_frame": 29,
+      "first_time_s": 0.0,
+      "last_time_s": 0.9666666666666667,
+      "duration_s": 0.9666666666666667,
+      "span_frames": 30,
+      "missing_frames_total": 3,
+      "n_gaps": 1,
+      "max_gap_frames": 3,
+      "gaps": [
+        {
+          "after_frame": 11,
+          "before_frame": 15,
+          "missing_frames": 3,
+          "elapsed_s": 0.13333333333333336
+        }
+      ],
+      "n_duplicate_rows": 0,
+      "n_out_of_order_rows": 0,
+      "n_timestamp_not_monotonic": 0,
+      "n_invalid_time": 0,
+      "n_off_grid": 0,
+      "n_track_sequence_conflict": 0,
+      "n_border_touching_rows": 0,
+      "n_suspicious_jumps_at_lowest_threshold": 0
+    },
+    {
+      "track_id": "synthetic:scene:3",
+      "sequence_id": "synthetic:scene",
+      "agent_class": "vehicle",
+      "classes_seen": {
+        "vehicle": 30
+      },
+      "n_input_rows": 30,
+      "n_accepted": 30,
+      "n_valid_positions": 30,
+      "first_frame": 0,
+      "last_frame": 29,
+      "first_time_s": 0.0,
+      "last_time_s": 0.9666666666666667,
+      "duration_s": 0.9666666666666667,
+      "span_frames": 30,
+      "missing_frames_total": 0,
+      "n_gaps": 0,
+      "max_gap_frames": 0,
+      "gaps": [],
+      "n_duplicate_rows": 0,
+      "n_out_of_order_rows": 0,
+      "n_timestamp_not_monotonic": 0,
+      "n_invalid_time": 0,
+      "n_off_grid": 0,
+      "n_track_sequence_conflict": 0,
+      "n_border_touching_rows": 30,
+      "n_suspicious_jumps_at_lowest_threshold": 0
+    },
+    {
+      "track_id": "synthetic:scene:4",
+      "sequence_id": "synthetic:scene",
+      "agent_class": "vehicle",
+      "classes_seen": {
+        "vehicle": 30
+      },
+      "n_input_rows": 30,
+      "n_accepted": 30,
+      "n_valid_positions": 30,
+      "first_frame": 0,
+      "last_frame": 29,
+      "first_time_s": 0.0,
+      "last_time_s": 0.9666666666666667,
+      "duration_s": 0.9666666666666667,
+      "span_frames": 30,
+      "missing_frames_total": 0,
+      "n_gaps": 0,
+      "max_gap_frames": 0,
+      "gaps": [],
+      "n_duplicate_rows": 0,
+      "n_out_of_order_rows": 0,
+      "n_timestamp_not_monotonic": 0,
+      "n_invalid_time": 0,
+      "n_off_grid": 0,
+      "n_track_sequence_conflict": 0,
+      "n_border_touching_rows": 0,
+      "n_suspicious_jumps_at_lowest_threshold": 0
+    },
+    {
+      "track_id": "synthetic:scene:5",
+      "sequence_id": "synthetic:scene",
+      "agent_class": "bicyclist",
+      "classes_seen": {
+        "bicyclist": 30
+      },
+      "n_input_rows": 30,
+      "n_accepted": 30,
+      "n_valid_positions": 30,
+      "first_frame": 0,
+      "last_frame": 29,
+      "first_time_s": 0.0,
+      "last_time_s": 0.9666666666666667,
+      "duration_s": 0.9666666666666667,
+      "span_frames": 30,
+      "missing_frames_total": 0,
+      "n_gaps": 0,
+      "max_gap_frames": 0,
+      "gaps": [],
+      "n_duplicate_rows": 0,
+      "n_out_of_order_rows": 0,
+      "n_timestamp_not_monotonic": 0,
+      "n_invalid_time": 0,
+      "n_off_grid": 0,
+      "n_track_sequence_conflict": 0,
+      "n_border_touching_rows": 0,
+      "n_suspicious_jumps_at_lowest_threshold": 0
+    },
+    {
+      "track_id": "synthetic:scene:6",
+      "sequence_id": "synthetic:scene",
+      "agent_class": "bicyclist",
+      "classes_seen": {
+        "bicyclist": 30
+      },
+      "n_input_rows": 30,
+      "n_accepted": 30,
+      "n_valid_positions": 30,
+      "first_frame": 0,
+      "last_frame": 29,
+      "first_time_s": 0.0,
+      "last_time_s": 0.9666666666666667,
+      "duration_s": 0.9666666666666667,
+      "span_frames": 30,
+      "missing_frames_total": 0,
+      "n_gaps": 0,
+      "max_gap_frames": 0,
+      "gaps": [],
+      "n_duplicate_rows": 0,
+      "n_out_of_order_rows": 0,
+      "n_timestamp_not_monotonic": 0,
+      "n_invalid_time": 0,
+      "n_off_grid": 0,
+      "n_track_sequence_conflict": 0,
+      "n_border_touching_rows": 0,
+      "n_suspicious_jumps_at_lowest_threshold": 0
+    }
+  ]
+}

@@ -1,0 +1,173 @@
+{
+  "run": "experiments\\phase4_task3_pie_video_0004\\20261114T214634Z_pie_video_0004\\primary",
+  "checks": {
+    "manifest_hashes_and_sizes": true,
+    "node_dtypes": true,
+    "node_order_canonical": true,
+    "node_nan_exactly_where_masked": true,
+    "edges_bicyclist__pedestrian": {
+      "edges": 42205,
+      "dtypes": true,
+      "in_bounds": true,
+      "no_self_edges": true,
+      "same_frame": true,
+      "types": true,
+      "nan_exactly_where_masked": true,
+      "truncation_flag": true,
+      "radius_flags": true
+    },
+    "edges_bicyclist__vehicle": {
+      "edges": 25715,
+      "dtypes": true,
+      "in_bounds": true,
+      "no_self_edges": true,
+      "same_frame": true,
+      "types": true,
+      "nan_exactly_where_masked": true,
+      "truncation_flag": true,
+      "radius_flags": true
+    },
+    "edges_pedestrian__bicyclist": {
+      "edges": 42205,
+      "dtypes": true,
+      "in_bounds": true,
+      "no_self_edges": true,
+      "same_frame": true,
+      "types": true,
+      "nan_exactly_where_masked": true,
+      "truncation_flag": true,
+      "radius_flags": true
+    },
+    "edges_pedestrian__pedestrian": {
+      "edges": 105634,
+      "dtypes": true,
+      "in_bounds": true,
+      "no_self_edges": true,
+      "same_frame": true,
+      "types": true,
+      "nan_exactly_where_masked": true,
+      "truncation_flag": true,
+      "radius_flags": true
+    },
+    "edges_pedestrian__vehicle": {
+      "edges": 81618,
+      "dtypes": true,
+      "in_bounds": true,
+      "no_self_edges": true,
+      "same_frame": true,
+      "types": true,
+      "nan_exactly_where_masked": true,
+      "truncation_flag": true,
+      "radius_flags": true
+    },
+    "edges_vehicle__bicyclist": {
+      "edges": 25715,
+      "dtypes": true,
+      "in_bounds": true,
+      "no_self_edges": true,
+      "same_frame": true,
+      "types": true,
+      "nan_exactly_where_masked": true,
+      "truncation_flag": true,
+      "radius_flags": true
+    },
+    "edges_vehicle__pedestrian": {
+      "edges": 81618,
+      "dtypes": true,
+      "in_bounds": true,
+      "no_self_edges": true,
+      "same_frame": true,
+      "types": true,
+      "nan_exactly_where_masked": true,
+      "truncation_flag": true,
+      "radius_flags": true
+    },
+    "edges_equal_complete_graph_bound": {
+      "bicyclist__pedestrian": true,
+      "bicyclist__vehicle": true,
+      "pedestrian__bicyclist": true,
+      "pedestrian__pedestrian": true,
+      "pedestrian__vehicle": true,
+      "vehicle__bicyclist": true,
+      "vehicle__pedestrian": true
+    },
+    "pairs_not_represented": {
+      "vehicle__vehicle": 141544,
+      "bicyclist__bicyclist": 18878
+    },
+    "reversal_identities_max_abs_deviation": {
+      "pedestrian__pedestrian vs pedestrian__pedestrian": {
+        "pairs": 105634,
+        "max_abs_deviation": {
+          "du_px": 0.0,
+          "dv_px": 0.0,
+          "dv_row_px": 0.0,
+          "log_h_ratio": 0.0,
+          "dvel_u_px_s": 0.0,
+          "dvel_v_px_s": 0.0,
+          "bearing_sin": 0.0,
+          "bearing_cos": 0.0,
+          "sep_px": 0.0,
+          "sep_over_h": 0.0,
+          "closing_rate_px_s": 0.0,
+          "overlap_ios": 0.0
+        }
+      },
+      "vehicle__pedestrian vs pedestrian__vehicle": {
+        "pairs": 81618,
+        "max_abs_deviation": {
+          "du_px": 0.0,
+          "dv_px": 0.0,
+          "dv_row_px": 0.0,
+          "log_h_ratio": 0.0,
+          "dvel_u_px_s": 0.0,
+          "dvel_v_px_s": 0.0,
+          "bearing_sin": 0.0,
+          "bearing_cos": 0.0,
+          "sep_px": 0.0,
+          "sep_over_h": 0.0,
+          "closing_rate_px_s": 0.0,
+          "overlap_ios": 0.0
+        }
+      },
+      "bicyclist__pedestrian vs pedestrian__bicyclist": {
+        "pairs": 42205,
+        "max_abs_deviation": {
+          "du_px": 0.0,
+          "dv_px": 0.0,
+          "dv_row_px": 0.0,
+          "log_h_ratio": 0.0,
+          "dvel_u_px_s": 0.0,
+          "dvel_v_px_s": 0.0,
+          "bearing_sin": 0.0,
+          "bearing_cos": 0.0,
+          "sep_px": 0.0,
+          "sep_over_h": 0.0,
+          "closing_rate_px_s": 0.0,
+          "overlap_ios": 0.0
+        }
+      },
+      "bicyclist__vehicle vs vehicle__bicyclist": {
+        "pairs": 25715,
+        "max_abs_deviation": {
+          "du_px": 0.0,
+          "dv_px": 0.0,
+          "dv_row_px": 0.0,
+          "log_h_ratio": 0.0,
+          "dvel_u_px_s": 0.0,
+          "dvel_v_px_s": 0.0,
+          "bearing_sin": 0.0,
+          "bearing_cos": 0.0,
+          "sep_px": 0.0,
+          "sep_over_h": 0.0,
+          "closing_rate_px_s": 0.0,
+          "overlap_ios": 0.0
+        }
+      }
+    },
+    "all_features_physical_false": true,
+    "no_world_coordinate_values_in_outputs": true
+  },
+  "nodes": 65388,
+  "edges_total": 404710
+}
