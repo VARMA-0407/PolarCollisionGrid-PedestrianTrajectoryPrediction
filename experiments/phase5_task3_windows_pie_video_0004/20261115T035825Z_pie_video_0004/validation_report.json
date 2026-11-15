@@ -1,0 +1,271 @@
+{
+  "run": "experiments\\phase5_task3_windows_pie_video_0004\\20261115T035825Z_pie_video_0004\\primary",
+  "checks": {
+    "output_hashes_match_manifest": {
+      "pass": true,
+      "detail": [
+        "graph_bank.npz",
+        "rejected_candidates.npz",
+        "smoke_manifest.json",
+        "windows.npz"
+      ]
+    },
+    "config_hash_matches_manifest": {
+      "pass": true,
+      "detail": null
+    },
+    "label_pilot_only": {
+      "pass": true,
+      "detail": null
+    },
+    "claims_all_false": {
+      "pass": true,
+      "detail": null
+    },
+    "task3_manifest_hash_matches": {
+      "pass": true,
+      "detail": null
+    },
+    "dataset.shapes": {
+      "pass": true,
+      "detail": {
+        "windows": 2327,
+        "H": 6,
+        "F": 15
+      }
+    },
+    "dataset.anchor_is_last_history_frame": {
+      "pass": true,
+      "detail": null
+    },
+    "dataset.anchors_on_grid": {
+      "pass": true,
+      "detail": null
+    },
+    "dataset.history_frame_offsets": {
+      "pass": true,
+      "detail": [
+        -15,
+        -12,
+        -9,
+        -6,
+        -3,
+        0
+      ]
+    },
+    "dataset.future_frame_offsets": {
+      "pass": true,
+      "detail": [
+        3,
+        6,
+        9,
+        12,
+        15,
+        18,
+        21,
+        24,
+        27,
+        30,
+        33,
+        36,
+        39,
+        42,
+        45
+      ]
+    },
+    "dataset.frame_stride_equals_fps_over_hz": {
+      "pass": true,
+      "detail": {
+        "stride": 3,
+        "source_fps": 30.0,
+        "target_hz": 10.0
+      }
+    },
+    "dataset.history_timestamps_strictly_increasing": {
+      "pass": true,
+      "detail": null
+    },
+    "dataset.future_timestamps_strictly_increasing": {
+      "pass": true,
+      "detail": null
+    },
+    "dataset.future_after_last_history": {
+      "pass": true,
+      "detail": null
+    },
+    "dataset.history_future_frames_disjoint": {
+      "pass": true,
+      "detail": null
+    },
+    "dataset.sampling_interval_10hz_within_tolerance": {
+      "pass": true,
+      "detail": {
+        "expected_s": 0.1,
+        "tolerance_s": 1e-06,
+        "max_abs_dev_s": 3.4111602431607935e-14
+      }
+    },
+    "dataset.timestamps_equal_frame_over_fps": {
+      "pass": true,
+      "detail": null
+    },
+    "dataset.history_span_s": {
+      "pass": true,
+      "detail": 0.5
+    },
+    "dataset.future_horizon_s": {
+      "pass": true,
+      "detail": 1.5
+    },
+    "dataset.strict_target_future_complete": {
+      "pass": true,
+      "detail": null
+    },
+    "dataset.strict_target_history_complete": {
+      "pass": true,
+      "detail": null
+    },
+    "dataset.candidates_unique_and_disjoint": {
+      "pass": true,
+      "detail": null
+    },
+    "dataset.rejection_codes_known": {
+      "pass": true,
+      "detail": null
+    },
+    "dataset.bank_frames_equal_history_frames": {
+      "pass": true,
+      "detail": {
+        "bank_frames": 1295
+      }
+    },
+    "dataset.bank_node_frames_consistent": {
+      "pass": true,
+      "detail": null
+    },
+    "dataset.bank_edge_frames_and_types_consistent": {
+      "pass": true,
+      "detail": null
+    },
+    "dataset.feature_validity_masks": {
+      "pass": true,
+      "detail": "node NaN exactly where the governing mask is False; edge NaN exactly where edge_mask is False"
+    },
+    "dataset.semantic_uncertainty_flags": {
+      "pass": true,
+      "detail": null
+    },
+    "dataset.approved_relations_only": {
+      "pass": true,
+      "detail": [
+        "pedestrian__pedestrian",
+        "vehicle__pedestrian",
+        "pedestrian__vehicle",
+        "bicyclist__pedestrian",
+        "pedestrian__bicyclist",
+        "bicyclist__vehicle",
+        "vehicle__bicyclist"
+      ]
+    },
+    "dataset.target_bank_nodes_are_target_track": {
+      "pass": true,
+      "detail": null
+    },
+    "dataset.target_bank_nodes_at_history_frames": {
+      "pass": true,
+      "detail": null
+    },
+    "dataset.targets_are_pedestrians": {
+      "pass": true,
+      "detail": null
+    },
+    "dataset.history_inputs_not_after_anchor": {
+      "pass": true,
+      "detail": null
+    },
+    "dataset.history_target_uv_equals_bank": {
+      "pass": true,
+      "detail": null
+    },
+    "dataset.history_target_task3_node_equals_bank": {
+      "pass": true,
+      "detail": null
+    },
+    "dataset.bank_nodes_equal_task3": {
+      "pass": true,
+      "detail": null
+    },
+    "dataset.bank_contains_every_task3_node_of_its_frames": {
+      "pass": true,
+      "detail": null
+    },
+    "dataset.bank_edges_equal_task3_and_complete": {
+      "pass": true,
+      "detail": {
+        "pedestrian__pedestrian": 31756,
+        "vehicle__pedestrian": 21532,
+        "pedestrian__vehicle": 21532,
+        "bicyclist__pedestrian": 13540,
+        "pedestrian__bicyclist": 13540,
+        "bicyclist__vehicle": 7712,
+        "vehicle__bicyclist": 7712
+      }
+    },
+    "dataset.relations_equal_task3": {
+      "pass": true,
+      "detail": [
+        "bicyclist__pedestrian",
+        "bicyclist__vehicle",
+        "pedestrian__bicyclist",
+        "pedestrian__pedestrian",
+        "pedestrian__vehicle",
+        "vehicle__bicyclist",
+        "vehicle__pedestrian"
+      ]
+    },
+    "dataset.no_interpolation_history_targets_are_task3_nodes": {
+      "pass": true,
+      "detail": null
+    },
+    "dataset.no_interpolation_future_targets_are_task3_nodes": {
+      "pass": true,
+      "detail": null
+    },
+    "dataset.timestamps_equal_task3": {
+      "pass": true,
+      "detail": null
+    },
+    "dataset.target_track_ids_equal_task3": {
+      "pass": true,
+      "detail": null
+    },
+    "counts_match_manifest": {
+      "pass": true,
+      "detail": null
+    },
+    "collate_batch_default_and_optional_context": {
+      "pass": true,
+      "detail": {
+        "windows": 16,
+        "agents_default": 14,
+        "agents_with_optional": 17,
+        "relations_default": [
+          "pedestrian__pedestrian",
+          "vehicle__pedestrian",
+          "pedestrian__vehicle"
+        ],
+        "relations_with_optional": [
+          "pedestrian__pedestrian",
+          "vehicle__pedestrian",
+          "pedestrian__vehicle",
+          "bicyclist__pedestrian",
+          "pedestrian__bicyclist",
+          "bicyclist__vehicle",
+          "vehicle__bicyclist"
+        ]
+      }
+    }
+  },
+  "ok": true,
+  "n_checks": 45
+}

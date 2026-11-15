@@ -1,0 +1,202 @@
+{
+  "record_version": "phase5-task3-regeneration-record-1.0.0",
+  "purpose": "clean provenance of the Phase 5 P5.3 input (Input contract \u00a713)",
+  "original_run": {
+    "path": "experiments/phase4_task3_pie_video_0004/20261114T214634Z_pie_video_0004/primary",
+    "manifest_sha256": "e320ea6baae698aa4aa91cfebc382573235f5a4dad46285c732a2b2f68a6f28a",
+    "git": {
+      "branch": "feature/phase4-task3-interaction-representation",
+      "commit": "2306309c786fa5608da96062123633cbb18acf7e"
+    }
+  },
+  "regenerated_run": {
+    "path": "experiments/phase4_task3_pie_video_0004/20261115T034308Z_pie_video_0004_regen_5d58ab7/primary",
+    "manifest_sha256": "366b8d0cf33000965dc410268db8db0045ce4e318937071c322ff03a8bfdbe6e",
+    "git": {
+      "branch": "feature/phase4-task3-interaction-representation",
+      "commit": "5d58ab7146ea4611733393769071b02a6bf9d187"
+    },
+    "started_utc": "2026-11-15T03:43:08Z",
+    "finished_utc": "2026-11-15T03:43:51Z",
+    "command": "run_interaction_representation.py --causal experiments/phase4_task2_pie_video_0004/20261114T202653Z_pie_video_0004/primary_causal/causal_kinematics.jsonl --task2-manifest experiments/phase4_task2_pie_video_0004/20261114T202653Z_pie_video_0004/primary_causal/run_manifest.json --phase3 PIE_pilot_inputs/agent_states.jsonl --config configs/phase4/interaction_representation_default.json --out experiments/phase4_task3_pie_video_0004/20261115T034308Z_pie_video_0004_regen_5d58ab7/primary",
+    "versions": {
+      "interaction": "interaction-representation-0.1.0-phase4-task3",
+      "input_adapter": "interaction-input-adapter-0.1.0",
+      "python": "3.9.25",
+      "numpy": "1.26.4",
+      "jsonschema": "4.25.1",
+      "platform": "Windows-10-10.0.26300-SP0"
+    },
+    "config_sha256_resolved": "2770586a993448518b1b83aa3e6c0fcfcf6978a524cb770435b99e02995190e0",
+    "input_hashes": {
+      "causal_kinematics": "9e5c5f3d6185028194b25f520a74aa0e9d751e66a16754881f366c87c7ac82e3",
+      "phase3_agent_states": "ff8b9b217144a9a6792069aa2db11cd9e9ca43fbf00077ad4da6e2b3fe485dc7",
+      "sidecar_schema": "1e64be9ac541f068a7a95e4743ba94dfb7e15c924e238df25a2fe3558f51ed57",
+      "task2_manifest": "ad2089591d704ca403d530b7237bac3ebdee524852f09310f21087c5beac144b",
+      "task2_config_resolved": "804f699369c84eeec75cfc06bf3ffd08191b2f3cc508ac42a74647ca4429c515"
+    },
+    "output_hashes": {
+      "config_resolved.json": "4f2dd0b3fd0611d6a6b7b2646bfa1e28dce25854c21633433a3296de70917949",
+      "edges_bicyclist__pedestrian.npz": "db657ca3a2ee3c67b7b1c57df47bd396abe3d7e96b62f4cf23d8740c78704e46",
+      "edges_bicyclist__vehicle.npz": "6d3169ee36af69db6cffecc9667f6216eef61eb28c569be13c129b8bf44fcad1",
+      "edges_pedestrian__bicyclist.npz": "ce70fb6f48832625a3defdeef2bce347470a50da88ddc26b68d37781398a577a",
+      "edges_pedestrian__pedestrian.npz": "2f2a804a01cdcffe7745924a68d0327b3e1df3d1967be4c36215b60f2efcd01a",
+      "edges_pedestrian__vehicle.npz": "524b7f8bb3f3edee8973e0971f8b93cde4fd0b974a82ac410f8c7d429f437d19",
+      "edges_vehicle__bicyclist.npz": "7e35b970709bf6ab4da17616e75db5af34b32ff499ce6aa6df1a83bbabcf1df7",
+      "edges_vehicle__pedestrian.npz": "353810f3377600c8faa0e013e48ad58190e92d829c1c39654b62f7bcfb29e175",
+      "feature_dictionary.json": "d3cb194cfd3c430f8cc7fa8fd5d8be9e0a6115b86bba90e6c8676d8a10ee49df",
+      "interaction_diagnostics.json": "f188d1b7dac28a28391ffd2e9c8bf6ad0696ed4e71df11eb90418d505e452bd9",
+      "interaction_summary.md": "d2794ad7f170b169c9554d8b2e8ac7ca984d9e090be09a50a064846b2065fecc",
+      "nodes.npz": "f904c4dc5178705393773a379d123494caeea969c80000410113684524cbc13c",
+      "tracks.json": "01cdb886e00a2c1930ffb0049e970b5c19f14aa6c133e4b6af30d85c22ecf3f3"
+    },
+    "peak_memory_bytes": 956784640,
+    "runtime_s_total": 42.8293989
+  },
+  "pre_run_working_tree": "Observed by git status --porcelain --untracked-files=all and git diff --quiet HEAD immediately before the run: branch feature/phase4-task3-interaction-representation at 5d58ab7; tracked files clean (no staged or unstaged changes); untracked: the 5 Phase 5 planning documents under docs/phase5/ (no code files).",
+  "inference_rerun": false,
+  "phase3_outputs_reused": true,
+  "schema_validation": {
+    "original": "PASS (run manifest + feature dictionary schemas, output hashes, mask/NaN contract)",
+    "regenerated": "PASS (same checks)"
+  },
+  "comparison": {
+    "all_output_files_byte_identical": true,
+    "output_sha256_equal": {
+      "config_resolved.json": true,
+      "edges_bicyclist__pedestrian.npz": true,
+      "edges_bicyclist__vehicle.npz": true,
+      "edges_pedestrian__bicyclist.npz": true,
+      "edges_pedestrian__pedestrian.npz": true,
+      "edges_pedestrian__vehicle.npz": true,
+      "edges_vehicle__bicyclist.npz": true,
+      "edges_vehicle__pedestrian.npz": true,
+      "feature_dictionary.json": true,
+      "interaction_diagnostics.json": true,
+      "interaction_summary.md": true,
+      "nodes.npz": true,
+      "tracks.json": true
+    },
+    "node_count": [
+      65388,
+      65388
+    ],
+    "edge_count": [
+      404710,
+      404710
+    ],
+    "relation_counts_equal": true,
+    "relation_counts": {
+      "pedestrian__pedestrian": 105634,
+      "vehicle__pedestrian": 81618,
+      "pedestrian__vehicle": 81618,
+      "bicyclist__pedestrian": 42205,
+      "pedestrian__bicyclist": 42205,
+      "bicyclist__vehicle": 25715,
+      "vehicle__bicyclist": 25715
+    },
+    "node_feature_dims": [
+      [
+        65388,
+        10
+      ],
+      [
+        65388,
+        10
+      ]
+    ],
+    "edge_feature_dims": {
+      "pedestrian__pedestrian": [
+        [
+          105634,
+          14
+        ],
+        [
+          105634,
+          14
+        ]
+      ],
+      "vehicle__pedestrian": [
+        [
+          81618,
+          14
+        ],
+        [
+          81618,
+          14
+        ]
+      ],
+      "pedestrian__vehicle": [
+        [
+          81618,
+          14
+        ],
+        [
+          81618,
+          14
+        ]
+      ],
+      "bicyclist__pedestrian": [
+        [
+          42205,
+          14
+        ],
+        [
+          42205,
+          14
+        ]
+      ],
+      "pedestrian__bicyclist": [
+        [
+          42205,
+          14
+        ],
+        [
+          42205,
+          14
+        ]
+      ],
+      "bicyclist__vehicle": [
+        [
+          25715,
+          14
+        ],
+        [
+          25715,
+          14
+        ]
+      ],
+      "vehicle__bicyclist": [
+        [
+          25715,
+          14
+        ],
+        [
+          25715,
+          14
+        ]
+      ]
+    },
+    "node_masks_equal": true,
+    "node_features_equal_nan_aware": true,
+    "edge_masks_equal": true,
+    "source_line_references_equal": true,
+    "coordinate_metadata_equal": true,
+    "inputs_equal": true,
+    "config_equal": true,
+    "manifest_keys_that_differ": [
+      "command",
+      "finished_utc",
+      "git",
+      "peak_memory_bytes",
+      "runtime_s",
+      "started_utc"
+    ],
+    "explanation": "Only provenance/measurement fields differ: git.commit (original recorded 2306309 because Task 3 code was uncommitted at run time; regeneration records 5d58ab7), started/finished timestamps, the command's --out path, runtime_s, and peak_memory_bytes (null in the original because of the since-fixed Windows API typing issue)."
+  },
+  "record_environment": {
+    "python": "3.9.25",
+    "numpy": "1.26.4",
+    "jsonschema": "4.25.1"
+  }
+}

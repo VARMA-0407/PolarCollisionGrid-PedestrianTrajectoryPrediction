@@ -1,0 +1,743 @@
+{
+  "manifest_version": "phase5-window-run-manifest-1.0.0",
+  "task": "phase5_p5.3_pilot_window_generation",
+  "status": "completed",
+  "label": "PILOT_DEVELOPMENT_ONLY_NON_INDEPENDENT",
+  "versions": {
+    "phase5_windows": "phase5-window-generation-0.1.0-p5.3",
+    "python": "3.9.25",
+    "numpy": "1.26.4",
+    "jsonschema": "4.25.1",
+    "platform": "Windows-10-10.0.26300-SP0"
+  },
+  "git": {
+    "commit": "5d58ab7146ea4611733393769071b02a6bf9d187",
+    "branch": "feature/phase4-task3-interaction-representation",
+    "working_tree_dirty": true,
+    "tracked_changes": [],
+    "untracked_files": [
+      "configs/phase5/window_generation_default.json",
+      "docs/phase5/PHASE5_DATASET_READINESS.md",
+      "docs/phase5/PHASE5_EVALUATION_PROTOCOL.md",
+      "docs/phase5/PHASE5_IMPLEMENTATION_ROADMAP.md",
+      "docs/phase5/PHASE5_INPUT_CONTRACT.md",
+      "docs/phase5/PHASE5_KICKOFF_REPORT.md",
+      "experiments/phase4_task3_pie_video_0004/20261115T034308Z_pie_video_0004_regen_5d58ab7/primary/config_resolved.json",
+      "experiments/phase4_task3_pie_video_0004/20261115T034308Z_pie_video_0004_regen_5d58ab7/primary/feature_dictionary.json",
+      "experiments/phase4_task3_pie_video_0004/20261115T034308Z_pie_video_0004_regen_5d58ab7/primary/interaction_diagnostics.json",
+      "experiments/phase4_task3_pie_video_0004/20261115T034308Z_pie_video_0004_regen_5d58ab7/primary/interaction_summary.md",
+      "experiments/phase4_task3_pie_video_0004/20261115T034308Z_pie_video_0004_regen_5d58ab7/primary/run_manifest.json",
+      "experiments/phase4_task3_pie_video_0004/20261115T034308Z_pie_video_0004_regen_5d58ab7/primary/tracks.json",
+      "experiments/phase4_task3_pie_video_0004/20261115T034308Z_pie_video_0004_regen_5d58ab7/regeneration_record.json",
+      "pedsafety/phase5/__init__.py",
+      "pedsafety/phase5/errors.py",
+      "pedsafety/phase5/graph_window_adapter.py",
+      "pedsafety/phase5/runner.py",
+      "pedsafety/phase5/task3_source.py",
+      "pedsafety/phase5/trajectory_targets.py",
+      "pedsafety/phase5/upstream.py",
+      "pedsafety/phase5/window_builder.py",
+      "pedsafety/phase5/window_config.py",
+      "pedsafety/phase5/window_manifest.py",
+      "pedsafety/phase5/window_storage.py",
+      "pedsafety/phase5/window_validation.py",
+      "scripts/phase5_generate_windows.py",
+      "scripts/phase5_task3_regeneration_record.py",
+      "scripts/phase5_validate_windows.py",
+      "tests/phase5/conftest.py",
+      "tests/phase5/phase5_helpers.py",
+      "tests/phase5/test_window_config.py",
+      "tests/phase5/test_window_generation.py",
+      "tests/phase5/test_window_pipeline.py"
+    ],
+    "note": "Phase 5 P5.3 code is uncommitted while under review; the dirty flag and file lists record exactly what differed from HEAD."
+  },
+  "started_utc": "2026-11-15T03:58:25Z",
+  "finished_utc": "2026-11-15T03:58:28Z",
+  "command": "phase5_generate_windows.py --task3 experiments/phase4_task3_pie_video_0004/20261115T034308Z_pie_video_0004_regen_5d58ab7/primary --phase3-manifest PIE_pilot_inputs/run_manifest.json --tracked-agents PIE_pilot_inputs/tracked_agents.jsonl --config configs/phase5/window_generation_default.json --out experiments/phase5_task3_windows_pie_video_0004/20261115T035825Z_pie_video_0004/primary",
+  "config": {
+    "path": "configs/phase5/window_generation_default.json",
+    "sha256_resolved": "65eebeededba135d3f707f31fa3ae0901ad92f89833594d4fec9005a6ea31034",
+    "content": {
+      "config_version": "phase5-window-generation-config-1.0.0",
+      "source_fps": 30.0,
+      "target_sampling_hz": 10.0,
+      "sampling_stride_frames": 3,
+      "history_length": 6,
+      "prediction_length": 15,
+      "history_span_s": 0.5,
+      "future_horizon_s": 1.5,
+      "anchor_stride_frames": 3,
+      "anchor_phase_frames": 0,
+      "timestamp_tolerance_s": 1e-06,
+      "coordinate_system": "captured_1920x1080",
+      "coordinate_unit": "pixel",
+      "target_source_mode": "PILOT_SMOKE",
+      "input_source": "phase4_task3_interaction_representation",
+      "expected_feature_dictionary_version": "interaction-feature-dictionary-1.0.0",
+      "target_node_types": [
+        "pedestrian"
+      ],
+      "default_context_node_types": [
+        "pedestrian",
+        "vehicle"
+      ],
+      "optional_context_node_types": [
+        "bicyclist"
+      ],
+      "semantically_uncertain_node_types": [
+        "bicyclist"
+      ],
+      "missing_observation_policy": "TARGET_STRICT_CONTEXT_MASKED",
+      "track_continuity_policy": "NO_INTERPOLATION_NO_FORWARD_FILL_NO_ID_MERGE",
+      "pilot_split_label": "PILOT_DEVELOPMENT_ONLY_NON_INDEPENDENT"
+    },
+    "derived": {
+      "sampling_interval_s": 0.1,
+      "history_offsets_frames": [
+        -15,
+        -12,
+        -9,
+        -6,
+        -3,
+        0
+      ],
+      "future_offsets_frames": [
+        3,
+        6,
+        9,
+        12,
+        15,
+        18,
+        21,
+        24,
+        27,
+        30,
+        33,
+        36,
+        39,
+        42,
+        45
+      ],
+      "history_offsets_s": [
+        -0.5,
+        -0.4,
+        -0.3,
+        -0.2,
+        -0.1,
+        0.0
+      ],
+      "future_offsets_s": [
+        0.1,
+        0.2,
+        0.3,
+        0.4,
+        0.5,
+        0.6,
+        0.7,
+        0.8,
+        0.9,
+        1.0,
+        1.1,
+        1.2,
+        1.3,
+        1.4,
+        1.5
+      ],
+      "dependency_interval_offsets_frames": [
+        -16,
+        45
+      ],
+      "dependency_interval_length_frames": 62,
+      "minimum_purge_gap_frames": 62,
+      "note": "dependency interval [t0-(H-1)s-1, t0+F*s]; the -1 is the Task 2 one-frame backward difference"
+    }
+  },
+  "sources": {
+    "task3_run_dir": "experiments/phase4_task3_pie_video_0004/20261115T034308Z_pie_video_0004_regen_5d58ab7/primary",
+    "task3_run_manifest": {
+      "path": "experiments/phase4_task3_pie_video_0004/20261115T034308Z_pie_video_0004_regen_5d58ab7/primary/run_manifest.json",
+      "sha256": "366b8d0cf33000965dc410268db8db0045ce4e318937071c322ff03a8bfdbe6e"
+    },
+    "task3_git": {
+      "branch": "feature/phase4-task3-interaction-representation",
+      "commit": "5d58ab7146ea4611733393769071b02a6bf9d187"
+    },
+    "task3_counts": {
+      "causal_rows": 65388,
+      "frames_with_nodes": 9326,
+      "nodes": 65388,
+      "tracks": 1500,
+      "nodes_by_type": {
+        "pedestrian": 23661,
+        "vehicle": 34678,
+        "bicyclist": 7049
+      },
+      "edges_total": 404710,
+      "edges_by_relation": {
+        "pedestrian__pedestrian": 105634,
+        "vehicle__pedestrian": 81618,
+        "pedestrian__vehicle": 81618,
+        "bicyclist__pedestrian": 42205,
+        "pedestrian__bicyclist": 42205,
+        "bicyclist__vehicle": 25715,
+        "vehicle__bicyclist": 25715
+      },
+      "candidate_pairs_not_represented": {
+        "bicyclist__bicyclist": 18878,
+        "vehicle__vehicle": 141544
+      }
+    },
+    "task3_files_consumed": {
+      "config_resolved.json": "4f2dd0b3fd0611d6a6b7b2646bfa1e28dce25854c21633433a3296de70917949",
+      "edges_bicyclist__pedestrian.npz": "db657ca3a2ee3c67b7b1c57df47bd396abe3d7e96b62f4cf23d8740c78704e46",
+      "edges_bicyclist__vehicle.npz": "6d3169ee36af69db6cffecc9667f6216eef61eb28c569be13c129b8bf44fcad1",
+      "edges_pedestrian__bicyclist.npz": "ce70fb6f48832625a3defdeef2bce347470a50da88ddc26b68d37781398a577a",
+      "edges_pedestrian__pedestrian.npz": "2f2a804a01cdcffe7745924a68d0327b3e1df3d1967be4c36215b60f2efcd01a",
+      "edges_pedestrian__vehicle.npz": "524b7f8bb3f3edee8973e0971f8b93cde4fd0b974a82ac410f8c7d429f437d19",
+      "edges_vehicle__bicyclist.npz": "7e35b970709bf6ab4da17616e75db5af34b32ff499ce6aa6df1a83bbabcf1df7",
+      "edges_vehicle__pedestrian.npz": "353810f3377600c8faa0e013e48ad58190e92d829c1c39654b62f7bcfb29e175",
+      "feature_dictionary.json": "d3cb194cfd3c430f8cc7fa8fd5d8be9e0a6115b86bba90e6c8676d8a10ee49df",
+      "nodes.npz": "f904c4dc5178705393773a379d123494caeea969c80000410113684524cbc13c",
+      "tracks.json": "01cdb886e00a2c1930ffb0049e970b5c19f14aa6c133e4b6af30d85c22ecf3f3"
+    },
+    "feature_dictionary_version": "interaction-feature-dictionary-1.0.0",
+    "upstream_verification": {
+      "files": {
+        "task2_causal_kinematics": {
+          "path": "experiments/phase4_task2_pie_video_0004/20261114T202653Z_pie_video_0004/primary_causal/causal_kinematics.jsonl",
+          "sha256": "9e5c5f3d6185028194b25f520a74aa0e9d751e66a16754881f366c87c7ac82e3",
+          "bytes": 105925073,
+          "matches_task3_manifest": true
+        },
+        "phase3_agent_states": {
+          "path": "PIE_pilot_inputs/agent_states.jsonl",
+          "sha256": "ff8b9b217144a9a6792069aa2db11cd9e9ca43fbf00077ad4da6e2b3fe485dc7",
+          "bytes": 67565978,
+          "matches_task3_manifest": true
+        },
+        "task2_manifest": {
+          "path": "experiments/phase4_task2_pie_video_0004/20261114T202653Z_pie_video_0004/primary_causal/run_manifest.json",
+          "sha256": "ad2089591d704ca403d530b7237bac3ebdee524852f09310f21087c5beac144b",
+          "bytes": 6638,
+          "matches_task3_manifest": true
+        },
+        "task2_config_resolved": {
+          "path": "experiments/phase4_task2_pie_video_0004/20261114T202653Z_pie_video_0004/primary_causal/config_resolved.json",
+          "sha256": "804f699369c84eeec75cfc06bf3ffd08191b2f3cc508ac42a74647ca4429c515",
+          "bytes": 1050,
+          "matches_task3_manifest": true
+        },
+        "task2_sidecar_schema": {
+          "path": "docs/phase4/schemas/image_kinematics_sidecar.schema.json",
+          "sha256": "1e64be9ac541f068a7a95e4743ba94dfb7e15c924e238df25a2fe3558f51ed57",
+          "bytes": 7061,
+          "matches_task3_manifest": true
+        },
+        "phase3_tracked_agents": {
+          "path": "PIE_pilot_inputs/tracked_agents.jsonl",
+          "sha256": "182babb386a821da720b9520afa024cf4e9195baea3031c4970b64000c593ff5",
+          "bytes": 38774621,
+          "consumed": false,
+          "note": "hashed for provenance only; not a Task 3 or Phase 5 input"
+        }
+      },
+      "phase3_manifest": {
+        "provided": true,
+        "path": "PIE_pilot_inputs/run_manifest.json",
+        "sha256": "e8c2a895543c6e222b58d9974a409faddab3b98e742fa048a4286bcd9b1dc7c2",
+        "fps": 30.0,
+        "fps_origin": "container",
+        "timestamp_source": "frame_index_over_fps",
+        "width": 1920,
+        "height": 1080,
+        "frames_delivered": 9840,
+        "first_frame_index": 0,
+        "last_frame_index": 9839,
+        "detector_label_map": {
+          "person": "pedestrian",
+          "bicycle": "bike",
+          "car": "car",
+          "bus": "bus",
+          "truck": "truck"
+        },
+        "tracker_class_flips": 4994,
+        "git_commit": null,
+        "world_coordinates": "none: outputs are image-space pixels only",
+        "outputs_listed": [
+          "agent_states.jsonl",
+          "annotated.mp4",
+          "detections.jsonl",
+          "run_manifest.json",
+          "tracked_agents.jsonl"
+        ],
+        "note": "Phase 3 manifest records no per-file output hashes"
+      },
+      "task2": {
+        "manifest_status": "completed",
+        "config_version": "phase4-task2-image-kinematics-config-1.0.0",
+        "git": null,
+        "offline_sidecar_consumed": false,
+        "offline_sidecar_manifest_entry": {
+          "sha256": "9e19ff3f930a0206bb40a1e461fcb0a4bc22dda2add173f9f2c1be0e9e7509e8",
+          "bytes": 106254970,
+          "rows": 65388
+        },
+        "note": "the offline (non-causal) sidecar is never opened by Task 3 or Phase 5"
+      },
+      "source_line_join": {
+        "nodes_checked": 65388,
+        "all_match": true,
+        "checks": "Phase 3 line track_id/frame_index equal node identity; coordinate system/unit; world fields null; interpolation_flag false; footpoint equal to node (u, v)"
+      },
+      "source_labels_by_node_type": {
+        "pedestrian": {
+          "pedestrian": 23661
+        },
+        "vehicle": {
+          "truck": 663,
+          "car": 32981,
+          "bus": 1034
+        },
+        "bicyclist": {
+          "bike": 7049
+        }
+      },
+      "causal_rows": {
+        "checked": true,
+        "rows_matched_to_nodes": 65388,
+        "all_rows_view_causal": true,
+        "checks": "view == CAUSAL, interpolated false, world_position_valid false, coordinate system, filter_kind none, position and velocity equal to the node within float32 tolerance, velocity validity equal to the node mask"
+      }
+    }
+  },
+  "coordinates": {
+    "coordinate_system": "captured_1920x1080",
+    "unit": "pixel",
+    "origin": "top-left",
+    "u_axis": "+right",
+    "v_axis": "+down",
+    "position": "bbox footpoint (bottom-centre)",
+    "velocity_unit": "px/s (image plane, not physical)",
+    "time_unit": "s",
+    "world_position_valid": false
+  },
+  "target_source": {
+    "mode": "PILOT_SMOKE",
+    "description": "perceived_phase3_bytetrack_tracks_via_phase4_task3_nodes (pseudo-targets, not ground truth)",
+    "annotated_target": {
+      "status": "NOT_IMPLEMENTED_FUTURE_EXTENSION",
+      "requirements": [
+        "PIE annotation XML for each video (video_0004_annt.xml is not on this machine)",
+        "verified identity mapping between annotated pedestrians and perceived track ids (no invented mapping)",
+        "frame/timestamp alignment between annotations and the 30 fps source frames",
+        "annotation validity checks (occlusion, out-of-frame, missing boxes)",
+        "independent future targets kept separate from perceived inputs"
+      ]
+    }
+  },
+  "input_source": {
+    "name": "phase4_task3_interaction_representation",
+    "causal_only": true,
+    "history_inputs": "Task 3 nodes and edges at the 6 history frames only (graph_bank.npz)",
+    "future_use": "target node positions only (windows.npz target_future_*); no future nodes of other agents, no future edges",
+    "offline_kinematics_used": false
+  },
+  "sampling": {
+    "source_fps": 30.0,
+    "target_sampling_hz": 10.0,
+    "stride_frames": 3,
+    "history_length": 6,
+    "prediction_length": 15,
+    "history_span_s": 0.5,
+    "future_horizon_s": 1.5,
+    "anchor_grid": "frame % 3 == 0"
+  },
+  "policies": {
+    "missing_observation": "TARGET_STRICT_CONTEXT_MASKED",
+    "track_continuity": "NO_INTERPOLATION_NO_FORWARD_FILL_NO_ID_MERGE",
+    "context_agents": "present at a history frame only if Task 3 has a node there; absence = presence mask False; never a reason to reject",
+    "target_node_types": [
+      "pedestrian"
+    ],
+    "default_context_node_types": [
+      "pedestrian",
+      "vehicle"
+    ],
+    "optional_context_node_types": [
+      "bicyclist"
+    ],
+    "semantically_uncertain_node_types": [
+      "bicyclist"
+    ]
+  },
+  "counts": {
+    "candidate_windows": 8698,
+    "accepted_windows": 2327,
+    "rejected_windows": 6371,
+    "rejection_reasons": {
+      "history_before_video_start": 17,
+      "future_after_video_end": 3,
+      "target_absent_at_anchor": 829,
+      "history_before_track_start": 1936,
+      "target_history_gap": 822,
+      "future_after_track_end": 2158,
+      "target_future_gap": 606
+    },
+    "rejection_reason_precedence": [
+      "history_before_video_start",
+      "future_after_video_end",
+      "target_absent_at_anchor",
+      "history_before_track_start",
+      "target_history_gap",
+      "future_after_track_end",
+      "target_future_gap"
+    ],
+    "pedestrian_tracks_in_task3": 586,
+    "pedestrian_tracks_with_candidates": 551,
+    "unique_pedestrian_target_tracks_accepted": 84,
+    "windows_target_border_at_anchor": 0,
+    "windows_any_target_future_border": 41,
+    "windows_target_missing_unsampled_frames": 166,
+    "windows_target_missing_unsampled_frames_note": "accepted windows whose target has no node at one or more NON-sampled frames between h_0 and f_{F-1}; allowed by the contract (sampled positions are all observed), never filled; affected Task 2 velocities are already masked",
+    "video_count": 1,
+    "scene_group_count": 1,
+    "graph_bank_frames": 1295,
+    "graph_bank_nodes": 12999,
+    "graph_bank_nodes_by_type": {
+      "pedestrian": 6181,
+      "vehicle": 4765,
+      "bicyclist": 2053
+    },
+    "graph_bank_edges_by_relation": {
+      "pedestrian__pedestrian": 31756,
+      "vehicle__pedestrian": 21532,
+      "pedestrian__vehicle": 21532,
+      "bicyclist__pedestrian": 13540,
+      "pedestrian__bicyclist": 13540,
+      "bicyclist__vehicle": 7712,
+      "vehicle__bicyclist": 7712
+    },
+    "active_relations_default_context": [
+      "pedestrian__pedestrian",
+      "vehicle__pedestrian",
+      "pedestrian__vehicle"
+    ],
+    "active_relations_with_optional_context": [
+      "pedestrian__pedestrian",
+      "vehicle__pedestrian",
+      "pedestrian__vehicle",
+      "bicyclist__pedestrian",
+      "pedestrian__bicyclist",
+      "bicyclist__vehicle",
+      "vehicle__bicyclist"
+    ],
+    "context": {
+      "distinct_context_tracks_per_window": {
+        "pedestrian": {
+          "mean": 6.677696605070906,
+          "median": 7.0,
+          "max": 15,
+          "windows_with_at_least_one": 2232
+        },
+        "vehicle": {
+          "mean": 4.31413837559089,
+          "median": 4.0,
+          "max": 19,
+          "windows_with_at_least_one": 2321
+        },
+        "bicyclist": {
+          "mean": 3.160721959604641,
+          "median": 3.0,
+          "max": 13,
+          "windows_with_at_least_one": 1656
+        }
+      },
+      "windows_without_any_context_agent_default_types": 0,
+      "max_nodes_in_one_history_frame_default_types": 18,
+      "max_nodes_in_one_history_frame_all_types": 23,
+      "note": "context agents are counted when they have a Task 3 node in at least one of the window's history frames; absence at other history frames is an explicit presence mask"
+    }
+  },
+  "dependency_and_overlap": {
+    "dependency_interval_offsets_frames": [
+      -16,
+      45
+    ],
+    "dependency_interval_length_frames": 62,
+    "minimum_purge_gap_frames": 62,
+    "overlap_note": "anchors every 3 frames with a 62-frame dependency interval: consecutive windows of one track share most frames; any future partition must assign whole independent groups and purge at least the dependency length between chronological blocks"
+  },
+  "validation": {
+    "ok": true,
+    "n_checks": 38,
+    "checks": {
+      "shapes": {
+        "pass": true,
+        "detail": {
+          "windows": 2327,
+          "H": 6,
+          "F": 15
+        }
+      },
+      "anchor_is_last_history_frame": {
+        "pass": true,
+        "detail": null
+      },
+      "anchors_on_grid": {
+        "pass": true,
+        "detail": null
+      },
+      "history_frame_offsets": {
+        "pass": true,
+        "detail": [
+          -15,
+          -12,
+          -9,
+          -6,
+          -3,
+          0
+        ]
+      },
+      "future_frame_offsets": {
+        "pass": true,
+        "detail": [
+          3,
+          6,
+          9,
+          12,
+          15,
+          18,
+          21,
+          24,
+          27,
+          30,
+          33,
+          36,
+          39,
+          42,
+          45
+        ]
+      },
+      "frame_stride_equals_fps_over_hz": {
+        "pass": true,
+        "detail": {
+          "stride": 3,
+          "source_fps": 30.0,
+          "target_hz": 10.0
+        }
+      },
+      "history_timestamps_strictly_increasing": {
+        "pass": true,
+        "detail": null
+      },
+      "future_timestamps_strictly_increasing": {
+        "pass": true,
+        "detail": null
+      },
+      "future_after_last_history": {
+        "pass": true,
+        "detail": null
+      },
+      "history_future_frames_disjoint": {
+        "pass": true,
+        "detail": null
+      },
+      "sampling_interval_10hz_within_tolerance": {
+        "pass": true,
+        "detail": {
+          "expected_s": 0.1,
+          "tolerance_s": 1e-06,
+          "max_abs_dev_s": 3.4111602431607935e-14
+        }
+      },
+      "timestamps_equal_frame_over_fps": {
+        "pass": true,
+        "detail": null
+      },
+      "history_span_s": {
+        "pass": true,
+        "detail": 0.5
+      },
+      "future_horizon_s": {
+        "pass": true,
+        "detail": 1.5
+      },
+      "strict_target_future_complete": {
+        "pass": true,
+        "detail": null
+      },
+      "strict_target_history_complete": {
+        "pass": true,
+        "detail": null
+      },
+      "candidates_unique_and_disjoint": {
+        "pass": true,
+        "detail": null
+      },
+      "rejection_codes_known": {
+        "pass": true,
+        "detail": null
+      },
+      "bank_frames_equal_history_frames": {
+        "pass": true,
+        "detail": {
+          "bank_frames": 1295
+        }
+      },
+      "bank_node_frames_consistent": {
+        "pass": true,
+        "detail": null
+      },
+      "bank_edge_frames_and_types_consistent": {
+        "pass": true,
+        "detail": null
+      },
+      "feature_validity_masks": {
+        "pass": true,
+        "detail": "node NaN exactly where the governing mask is False; edge NaN exactly where edge_mask is False"
+      },
+      "semantic_uncertainty_flags": {
+        "pass": true,
+        "detail": null
+      },
+      "approved_relations_only": {
+        "pass": true,
+        "detail": [
+          "pedestrian__pedestrian",
+          "vehicle__pedestrian",
+          "pedestrian__vehicle",
+          "bicyclist__pedestrian",
+          "pedestrian__bicyclist",
+          "bicyclist__vehicle",
+          "vehicle__bicyclist"
+        ]
+      },
+      "target_bank_nodes_are_target_track": {
+        "pass": true,
+        "detail": null
+      },
+      "target_bank_nodes_at_history_frames": {
+        "pass": true,
+        "detail": null
+      },
+      "targets_are_pedestrians": {
+        "pass": true,
+        "detail": null
+      },
+      "history_inputs_not_after_anchor": {
+        "pass": true,
+        "detail": null
+      },
+      "history_target_uv_equals_bank": {
+        "pass": true,
+        "detail": null
+      },
+      "history_target_task3_node_equals_bank": {
+        "pass": true,
+        "detail": null
+      },
+      "bank_nodes_equal_task3": {
+        "pass": true,
+        "detail": null
+      },
+      "bank_contains_every_task3_node_of_its_frames": {
+        "pass": true,
+        "detail": null
+      },
+      "bank_edges_equal_task3_and_complete": {
+        "pass": true,
+        "detail": {
+          "pedestrian__pedestrian": 31756,
+          "vehicle__pedestrian": 21532,
+          "pedestrian__vehicle": 21532,
+          "bicyclist__pedestrian": 13540,
+          "pedestrian__bicyclist": 13540,
+          "bicyclist__vehicle": 7712,
+          "vehicle__bicyclist": 7712
+        }
+      },
+      "relations_equal_task3": {
+        "pass": true,
+        "detail": [
+          "bicyclist__pedestrian",
+          "bicyclist__vehicle",
+          "pedestrian__bicyclist",
+          "pedestrian__pedestrian",
+          "pedestrian__vehicle",
+          "vehicle__bicyclist",
+          "vehicle__pedestrian"
+        ]
+      },
+      "no_interpolation_history_targets_are_task3_nodes": {
+        "pass": true,
+        "detail": null
+      },
+      "no_interpolation_future_targets_are_task3_nodes": {
+        "pass": true,
+        "detail": null
+      },
+      "timestamps_equal_task3": {
+        "pass": true,
+        "detail": null
+      },
+      "target_track_ids_equal_task3": {
+        "pass": true,
+        "detail": null
+      }
+    }
+  },
+  "runtime_s": {
+    "load_and_verify_task3": 0.27723499999999995,
+    "upstream_verification": 1.5450120000000003,
+    "build_windows": 0.09626149999999978,
+    "build_graph_bank": 0.016677500000000123,
+    "validation": 0.055723899999999826,
+    "note": "offline preprocessing on one machine; not a real-time claim"
+  },
+  "outputs": {
+    "graph_bank.npz": {
+      "sha256": "fc0821a36b90f4b3696d64b9ce29dd1285171565f3e636bb2e200f821a8d0779",
+      "bytes": 6378146
+    },
+    "rejected_candidates.npz": {
+      "sha256": "6efbe92a4d99da4c70b1806103005ebbb4a8e368e5fdc0d9c4bfab1448375a29",
+      "bytes": 8229
+    },
+    "smoke_manifest.json": {
+      "sha256": "02c21aab7beb057727e680a8e9ed43644a556f42f1d120b1514697b9a39a7c2b",
+      "bytes": 1164
+    },
+    "windows.npz": {
+      "sha256": "49b4ca392bb8e07b473702f8c6982c983d6f757775c5e5053c031ad964b3d637",
+      "bytes": 147231
+    }
+  },
+  "output_total_bytes": 6534770,
+  "claims": {
+    "coordinate_space": "image (captured raster pixels)",
+    "metric_world_coordinates": false,
+    "world_position_valid": false,
+    "physical_features": false,
+    "ttc_pet_or_min_separation": false,
+    "collision_or_conflict_probability": false,
+    "ego_motion_compensated": false,
+    "independent_ground_truth_targets": false,
+    "forecasting_accuracy": false,
+    "independent_generalization": false,
+    "independent_train_validation_test_split": false,
+    "model_trained": false,
+    "real_time_claim": false,
+    "note": "Future targets are perceived-track pseudo-targets (PILOT_SMOKE) for pipeline validation only."
+  },
+  "limitations": [
+    "Pilot only: one PIE video (set01/video_0004) of one scene group; windows are strongly correlated (same scene, camera, drive and overlapping tracks). No independent train/validation/test split exists; nothing here supports a generalization claim.",
+    "PILOT_SMOKE targets are perceived YOLO11n + ByteTrack positions of the same tracks; they inherit detector/tracker errors and are not independent ground truth. Phase 3 detection/tracking quality on PIE has not been measured.",
+    "Image space only (captured_1920x1080 pixels, px/s, s); image velocities mix agent motion with moving-camera ego-motion and perspective.",
+    "Node velocities are Task 2 one-frame (1/30 s) causal backward differences with ~48 px/s per-axis jitter; no smoothing.",
+    "Bicyclist nodes come from the COCO 'bicycle' detection class (Phase 3 label 'bike' mapped to 'bicyclist' by assumption). A bicycle detection is not evidence of a rider (parked bicycles are possible). They are stored, flagged semantically_uncertain, and excluded from the default context.",
+    "Strict target policy: windows need the target at all 6 history and 15 future samples; short and fragmented tracks are under-represented, which biases the pilot towards long, continuously tracked pedestrians.",
+    "Track fragments and possible identity switches are not repaired or merged; Phase 3 class-flip holes remain.",
+    "Overlapping windows of the same track share frames (stride 0.1 s, window span 2.0 s); the effective sample size is closer to the number of distinct tracks than to the number of windows."
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "label": "PILOT_DEVELOPMENT_ONLY_NON_INDEPENDENT",
+  "split_created": false,
+  "independent_groups": 1,
+  "video_ids": [
+    "pie:video_0004"
+  ],
+  "group_ids": [
+    "pie:video_0004"
+  ],
+  "partitions": {
+    "pilot_development": {
+      "n_windows": 2327,
+      "window_ids": "all windows in windows.npz",
+      "windows_sha256": "49b4ca392bb8e07b473702f8c6982c983d6f757775c5e5053c031ad964b3d637"
+    }
+  },
+  "permitted_uses": [
+    "loading and batching tests",
+    "data-pipeline smoke tests",
+    "preliminary engineering diagnostics"
+  ],
+  "forbidden_uses": [
+    "train/validation/test evaluation",
+    "model selection reported as research evidence",
+    "forecasting-accuracy claims",
+    "generalization claims"
+  ],
+  "formal_split_requirements": {
+    "split_unit": "independent group (proposal: PIE recording set, after verifying set semantics); never windows, frames or tracks",
+    "dependency_interval_offsets_frames": [
+      -16,
+      45
+    ],
+    "dependency_interval_length_frames": 62,
+    "minimum_purge_gap_frames_for_chronological_blocks": 62,
+    "note": "recompute if H, F, stride or any derived-feature lookback changes"
+  }
+}
