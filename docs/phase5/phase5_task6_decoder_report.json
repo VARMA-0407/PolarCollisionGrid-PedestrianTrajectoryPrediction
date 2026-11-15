@@ -1,0 +1,49 @@
+{
+  "report_version": "phase5-task6-decoder-report-1.0.0",
+  "task": "P5.6 multimodal trajectory decoder and forecasting head",
+  "status": "IMPLEMENTED_WITH_LIMITATIONS",
+  "implementation": {
+    "decoder": "pedsafety/phase5/models/decoder.py",
+    "losses": "pedsafety/phase5/models/losses.py",
+    "configuration": "configs/phase5/decoder_default.json",
+    "num_modes": 5,
+    "history_steps": 6,
+    "future_steps": 15,
+    "sampling_hz": 10.0,
+    "coordinate_space": "image",
+    "coordinate_unit": "pixels",
+    "output_representation": "raw_pixel_offsets",
+    "autoregressive": false,
+    "input_embedding_shape": "[B,64]",
+    "anchor_shape": "[B,2]",
+    "trajectory_offsets_shape": "[B,5,15,2]",
+    "trajectory_shape": "[B,5,15,2]",
+    "mode_logits_shape": "[B,5]",
+    "mode_probabilities_shape": "[B,5]",
+    "prediction_valid_shape": "[B,5,15]",
+    "loss": "masked minimum-ADE winner-takes-all SmoothL1 plus configurable mode cross-entropy",
+    "classification_weight": 0.1
+  },
+  "training_performed": false,
+  "pilot_independence": false,
+  "future_information_in_inference": false,
+  "physical_or_metric_claims": false,
+  "protected_files": {
+    "p53_p54_p55_implementations_unchanged": true,
+    "historical_experiment_artifacts_unchanged": true
+  },
+  "validation": {
+    "focused_tests": "PASSED: 12 passed in 1.75s using Python 3.9.25 and PyTorch 2.2.1+cpu",
+    "syntax_validation": "PASSED: py_compile and Pylance file syntax checks",
+    "full_phase5_tests": "PASSED: 153 passed, 1 skipped in 17.19s",
+    "full_repository_tests": "2 unrelated failures: 1161 passed, 7 skipped, 2 failed in 206.84s",
+    "evaluator_compatibility": "PASSED: decoder evaluator-array conversion and Phase 5 evaluator tests"
+  },
+  "limitations": [
+    "No training or checkpointing is included.",
+    "The pilot is one PIE video with perceived-track pseudo-targets and cannot support generalization claims.",
+    "The classification weight is an unvalidated engineering default.",
+    "Train-only target normalization is deferred to P5.7."
+  ],
+  "handoff": "P5.7 training and validation infrastructure"
+}

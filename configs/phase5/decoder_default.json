@@ -1,0 +1,23 @@
+{
+  "config_version": "phase5-decoder-config-1.0.0",
+  "num_modes": 5,
+  "history_steps": 6,
+  "future_steps": 15,
+  "sampling_hz": 10.0,
+  "coordinate_space": "image",
+  "coordinate_unit": "pixels",
+  "output_representation": "raw_pixel_offsets",
+  "input_embedding_dim": 64,
+  "decoder_hidden_dim": 128,
+  "dropout": 0.0,
+  "regression_loss": "smooth_l1",
+  "classification_loss": "cross_entropy",
+  "classification_weight": 0.1,
+  "winner_selection": "minimum_masked_ADE",
+  "autoregressive": false,
+  "_notes": {
+    "classification_weight": "Initial engineering default; not tuned or validated on data.",
+    "output_scaling": "Raw image-pixel displacement offsets; no dataset-fitted normalization is used.",
+    "target_source": "Future targets are supplied only to the loss/evaluator, never to decoder inference."
+  }
+}
