@@ -1,0 +1,322 @@
+{
+  "report_version": "phase5-task5-encoder-report-1.0.0",
+  "date": "2026-11-15",
+  "task": "P5.5 heterogeneous GATv2 + causal dilated TCN encoder",
+  "status": "COMPLETED_WITH_LIMITATIONS",
+  "label": "PILOT_DEVELOPMENT_ONLY_NON_INDEPENDENT",
+  "status_note": "implementation, tests and smoke evidence meet the criteria; the dependency-declaration guard failure found earlier was resolved with Option A (requirements-phase5.txt + path-scoped guard extension)",
+  "git": {
+    "branch": "feature/phase4-task3-interaction-representation",
+    "initial_head": "95aa920769bcd0eaa66a90887ff0fe2255bb8c12",
+    "initial_working_tree": "clean",
+    "final_head": "95aa920769bcd0eaa66a90887ff0fe2255bb8c12",
+    "committed": false,
+    "staged": false,
+    "pushed": false,
+    "tracked_files_modified": [
+      "docs/phase5/PHASE5_IMPLEMENTATION_ROADMAP.md",
+      "tests/task7/test_stage61_dependencies_version.py"
+    ],
+    "gitignore_changed": false,
+    "requirements_files_changed": "only the new requirements-phase5.txt; requirements-pedsafety.txt, requirements.txt, requirements-perception.txt, requirements-dev.txt unchanged",
+    "new_dependency_file": "requirements-phase5.txt",
+    "earlier_attempt_note": "a first declaration of torch in requirements-pedsafety.txt conflicted with the Phase 2 pinned-lines guard and was reverted before Option A"
+  },
+  "architecture": {
+    "package": "pedsafety/phase5/models/",
+    "config": "configs/phase5/encoder_default.json",
+    "config_sha256_canonical": "15dbb9856c12a81767b7b8bdca697c985120d06e488d72c79be1d40baadd78c1",
+    "hidden_dim": 64,
+    "heads": 4,
+    "spatial_layers": 2,
+    "spatial": "relation-specific GATv2 (z=LeakyReLU(Ws h_j+Wd h_i+We e_ij), logit=a.z, softmax over valid incoming edges per destination and relation, message alpha*(Ws h_j+Wm e_ij), summed over relations, type-specific root term, residual+LayerNorm)",
+    "temporal": "causal dilated TCN, kernel 3, dilations [1,2], one causal conv per level, left-only padding, per-timestep LayerNorm, presence mask on every conv input and output",
+    "receptive_field_samples": 7,
+    "history_length": 6,
+    "node_input_dim": 13,
+    "edge_input_dim": 28,
+    "default_node_types": [
+      "pedestrian",
+      "vehicle"
+    ],
+    "default_relations": [
+      "pedestrian__pedestrian",
+      "vehicle__pedestrian",
+      "pedestrian__vehicle"
+    ],
+    "bicyclist_context": "optional, off by default, semantically uncertain; B->B never; V->V only by explicit opt-in and a Task 3 run that produced it",
+    "inputs_history_only": true,
+    "future_fields_in_input": false,
+    "track_age_frames_used": false,
+    "absolute_position_used": false,
+    "parameter_count": 144128,
+    "parameter_count_with_bicyclist_context": 281344,
+    "parameter_breakdown": {
+      "spatial": 114816,
+      "temporal": 29312
+    },
+    "feature_scaling": {
+      "source": "NOMINAL_DEVELOPMENT_DEFAULT_NOT_FITTED",
+      "provenance": {
+        "fitted": false,
+        "note": "fixed nominal constants; not computed from any dataset"
+      }
+    },
+    "initialisation": "torch.manual_seed(init_seed) default PyTorch initialisation",
+    "trained": false
+  },
+  "pilot_smoke": {
+    "experiment_dir": "experiments/phase5_task5_encoder_smoke_pie_video_0004/20261115T044455Z_pie_video_0004",
+    "label": "PILOT_DEVELOPMENT_ONLY_NON_INDEPENDENT",
+    "device": "cpu",
+    "windows": {
+      "windows_run": "experiments/phase5_task3_windows_pie_video_0004/20261115T035825Z_pie_video_0004/primary",
+      "windows": 2327,
+      "unique_target_tracks": 84,
+      "history_length": 6,
+      "target_source_mode": "PILOT_SMOKE"
+    },
+    "default_context_forward": {
+      "context": "pedestrian + vehicle (P5.3 default), relations pedestrian__pedestrian, vehicle__pedestrian, pedestrian__vehicle",
+      "batch_size": 64,
+      "windows": 2327,
+      "batches": 37,
+      "max_agent_slots": 22,
+      "present_node_steps": 130720,
+      "nonfinite_values": 0,
+      "absent_nonzero_values": 0,
+      "target_slot_mismatch": 0,
+      "target_absent_steps": 0,
+      "edges_by_relation": {
+        "pedestrian__pedestrian": 485488,
+        "vehicle__pedestrian": 285333,
+        "pedestrian__vehicle": 285333
+      },
+      "sequence_shape_first": [
+        64,
+        16,
+        6,
+        64
+      ],
+      "sequence_shape_last": [
+        23,
+        9,
+        6,
+        64
+      ],
+      "target_summary_shape": [
+        23,
+        64
+      ],
+      "output_shapes": {
+        "sequence_embeddings": "[B, A, 6, 64]",
+        "target_summary": "[B, 64]",
+        "spatial_embeddings": "[B, 6, A, 64]"
+      }
+    },
+    "output_hashes": {
+      "sequence_embeddings_sha256": "a44c09a601ebe514c5bd677ee155a4affcaec09178c8f0b6ff662f384e19bc8b",
+      "target_summary_sha256": "b7170d2a35e2444277ee68f3583c0a0e39c6b67f02bd49ee40b87ccc53622a15",
+      "spatial_embeddings_sha256": "aece42ab389b46a67c38e5fff87bebb370f9bee1814aa3cce08914c0f910d7be",
+      "hashed_value_counts": {
+        "sequence_embeddings": 14603904,
+        "target_summary": 148928,
+        "spatial_embeddings": 14603904
+      },
+      "encoding": "little-endian float32 bytes of the per-batch tensors, concatenated in batch order (batches are padded to the batch's own maximum agent count)"
+    },
+    "optional_bicycle_context": {
+      "context": "pedestrian + vehicle + bicyclist (semantically uncertain; optional) on the first 128 windows",
+      "parameter_count": 281344,
+      "windows": 128,
+      "batches": 2,
+      "max_agent_slots": 19,
+      "present_node_steps": 7852,
+      "nonfinite_values": 0,
+      "absent_nonzero_values": 0,
+      "target_slot_mismatch": 0,
+      "target_absent_steps": 0,
+      "edges_by_relation": {
+        "pedestrian__pedestrian": 22274,
+        "vehicle__pedestrian": 18144,
+        "pedestrian__vehicle": 18144,
+        "bicyclist__pedestrian": 909,
+        "pedestrian__bicyclist": 909,
+        "bicyclist__vehicle": 903,
+        "vehicle__bicyclist": 903
+      },
+      "sequence_shape_first": [
+        64,
+        17,
+        6,
+        64
+      ],
+      "sequence_shape_last": [
+        64,
+        19,
+        6,
+        64
+      ],
+      "target_summary_shape": [
+        64,
+        64
+      ],
+      "hashes": {
+        "sequence_embeddings_sha256": "2dd957b04b6fdbd761309a94a012fb7e8d66e8059085b689ecd3eb06bf5da6f4",
+        "target_summary_sha256": "1a0427abf56df158cb507f42fd70ed179ae94ac0dc4014af70cea3f11d3d5f28",
+        "spatial_embeddings_sha256": "023e42beab533151951668caf556f05bc76120ee05ce142d4b537c8259a4368b",
+        "hashed_value_counts": {
+          "sequence_embeddings": 884736,
+          "target_summary": 8192,
+          "spatial_embeddings": 884736
+        },
+        "encoding": "little-endian float32 bytes of the per-batch tensors, concatenated in batch order (batches are padded to the batch's own maximum agent count)"
+      }
+    },
+    "numerical_validity": {
+      "all_finite": true,
+      "absent_steps_exactly_zero": true,
+      "slot0_is_window_target_track": true,
+      "target_present_all_steps": true,
+      "overall": true
+    },
+    "inputs": {
+      "windows_run": "experiments/phase5_task3_windows_pie_video_0004/20261115T035825Z_pie_video_0004/primary",
+      "windows_run_files": {
+        "graph_bank.npz": "fc0821a36b90f4b3696d64b9ce29dd1285171565f3e636bb2e200f821a8d0779",
+        "rejected_candidates.npz": "6efbe92a4d99da4c70b1806103005ebbb4a8e368e5fdc0d9c4bfab1448375a29",
+        "smoke_manifest.json": "02c21aab7beb057727e680a8e9ed43644a556f42f1d120b1514697b9a39a7c2b",
+        "windows.npz": "49b4ca392bb8e07b473702f8c6982c983d6f757775c5e5053c031ad964b3d637",
+        "run_manifest.json": "3369ea80c65652b8f1797c7a62a14c29428eb1dd7e9dc60b0d8a8e5be30dc1e8"
+      },
+      "window_config_sha256": "65eebeededba135d3f707f31fa3ae0901ad92f89833594d4fec9005a6ea31034",
+      "encoder_config": {
+        "path": "configs/phase5/encoder_default.json",
+        "sha256_canonical": "15dbb9856c12a81767b7b8bdca697c985120d06e488d72c79be1d40baadd78c1",
+        "sha256_file": "a2419c6931a159eb8c39f60d2426e03db378566293a4a192a69110102f2117ce"
+      },
+      "targets_or_future_arrays_read": false,
+      "offline_kinematics_used": false
+    },
+    "data_artifacts": {
+      "smoke_results.json": {
+        "sha256": "fd485ece60b75e6346abb72de68522bfe41aaa49d2fb67076b90959a24a4d01b",
+        "bytes": 7269
+      }
+    },
+    "determinism_rerun_identical": true,
+    "runtime_s": {
+      "verify_and_load": 0.13239080000000003,
+      "default_forward_total": 4.338455100000001,
+      "optional_bicycle_forward_total": 0.35041869999999964,
+      "default_batch_latency_mean": 0.11036755135135137,
+      "default_batch_latency_max": 0.2090588000000002,
+      "batches": 37,
+      "note": "includes P5.3 collation and encoder forward; offline CPU; not a real-time claim"
+    },
+    "peak_memory_bytes": 346742784,
+    "rerun_peak_memory_bytes": 350248960,
+    "versions": {
+      "python": "3.9.25",
+      "numpy": "1.26.4",
+      "torch": "2.2.1+cpu",
+      "platform": "Windows-10-10.0.26300-SP0",
+      "torch_threads": 10,
+      "cuda_available": false
+    },
+    "primary_run_manifest_sha256": "d8ea1560b1c54080610e33a2558a22b81fbca209916076b1adc43ad6a1db7e0b",
+    "independent_validation": {
+      "ok": true,
+      "n_checks": 25,
+      "report": "experiments/phase5_task5_encoder_smoke_pie_video_0004/20261115T044455Z_pie_video_0004/validation_report.json"
+    }
+  },
+  "tests": {
+    "phase5": {
+      "command": "python -m pytest tests/phase5 -q -p no:cacheprovider",
+      "passed": 141,
+      "skipped": 1,
+      "failed": 0,
+      "new_passing": 59,
+      "skipped_reason": "CUDA test: no GPU detected",
+      "by_file": {
+        "test_encoder_spatial.py": 16,
+        "test_encoder_temporal.py": 13,
+        "test_encoder_integrated.py": "25 passed + 1 skipped",
+        "test_encoder_smoke.py": 5
+      }
+    },
+    "regression": {
+      "command": "python -m pytest tests/phase5 tests/phase4 tests/phase3 tests/task7 tests/phase2 -q -rf -p no:cacheprovider",
+      "passed": 1150,
+      "skipped": 7,
+      "failed": 1,
+      "known_preexisting_failure": "tests/phase2/test_ttc_masks.py::test_ttc_occupancy_mask_collapses_agent_dimension (PCG TTC_mask defect; unrelated)",
+      "new_failure_caused_by_p55": null,
+      "resolved_failure": "tests/task7/test_stage61_dependencies_version.py::test_every_third_party_import_of_the_package_is_declared",
+      "task7": {
+        "command": "python -m pytest tests/task7 -q -p no:cacheprovider",
+        "passed": 586,
+        "failed": 0
+      },
+      "note": "only the known pre-existing TTC_mask failure remains"
+    },
+    "mutation_checks_not_committed": {
+      "symmetric_padding": "4 tests fail",
+      "edge_mask_ignored": "1 test fails",
+      "absolute_position_input": "1 test fails"
+    }
+  },
+  "claims": {
+    "coordinate_space": "image (captured raster pixels)",
+    "metric_world_coordinates": false,
+    "physical_features": false,
+    "ttc_pet_or_collision_risk": false,
+    "model_trained": false,
+    "forecasting_accuracy": false,
+    "independent_generalization": false,
+    "baseline_comparison": false,
+    "architecture_validated_for_forecasting": false,
+    "real_time_claim": false,
+    "note": "Engineering forward-pass smoke test of an untrained, randomly initialised encoder on the pilot windows."
+  },
+  "limitations": [
+    "PILOT_DEVELOPMENT_ONLY_NON_INDEPENDENT: one PIE video, one scene group, overlapping windows; nothing is evaluated or generalised.",
+    "Weights are randomly initialised (seed in the configuration) and untrained: outputs only demonstrate shapes, masking, finiteness and determinism.",
+    "Feature scaling uses nominal, non-fitted development constants; train-only statistics belong to the training workflow (P5.7).",
+    "Runtime and memory are offline CPU measurements on one machine, not real-time claims; CUDA was not exercised.",
+    "Image-space inputs only; no metric or physical interpretation."
+  ],
+  "deviations": [
+    "pedsafety/phase5/models/ instead of roadmap pedsafety/forecasting/",
+    "configs/phase5/encoder_default.json (model_default.json reserved for P5.7)",
+    "smoke experiment stores JSON only (tensors represented by hashes), so no .gitignore change"
+  ],
+  "acceptance": {
+    "met": "with_limitations",
+    "open_decision": null
+  },
+  "recommended_next": "commit P5.5 (code, tests, dependency policy, docs), then P5.6 multimodal decoder and loss; P5.2 data acquisition in parallel",
+  "dependency_resolution": {
+    "option": "A",
+    "requirements_phase5": {
+      "path": "requirements-phase5.txt",
+      "runtime_lines": [
+        "-r requirements-pedsafety.txt",
+        "torch>=2.2"
+      ],
+      "own_packages": [
+        "torch"
+      ],
+      "tested_with": "torch 2.2.1+cpu (pcg-baseline); no install or upgrade performed"
+    },
+    "guard_change": "tests/task7/test_stage61_dependencies_version.py: third_party_imports gains skip_paths (subtree exemption relative to pedsafety/); the core scan skips ONLY pedsafety/phase5/models; models may use requirements-pedsafety.txt + requirements-phase5.txt; perception checks, name-based skip, jsonschema and pinned-lines tests unchanged",
+    "new_guard_tests": 5,
+    "probes": {
+      "undeclared_import_in_models": "real guard fails",
+      "torch_outside_models": "real guard fails",
+      "clean_tree": "real guard passes"
+    },
+    "pedsafety_core_requirements_changed": false
+  }
+}

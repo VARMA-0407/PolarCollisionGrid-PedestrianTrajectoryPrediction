@@ -1,0 +1,106 @@
+{
+  "manifest_version": "phase5-encoder-smoke-run-manifest-1.0.0",
+  "task": "phase5_p5.5_encoder_smoke",
+  "status": "completed",
+  "label": "PILOT_DEVELOPMENT_ONLY_NON_INDEPENDENT",
+  "data_artifacts": {
+    "smoke_results.json": {
+      "sha256": "fd485ece60b75e6346abb72de68522bfe41aaa49d2fb67076b90959a24a4d01b",
+      "bytes": 7269
+    }
+  },
+  "data_artifacts_note": "deterministic content: identical inputs, configuration and seed give identical hashes (including the output-tensor hashes inside)",
+  "inputs": {
+    "windows_run": "experiments/phase5_task3_windows_pie_video_0004/20261115T035825Z_pie_video_0004/primary",
+    "windows_run_files": {
+      "graph_bank.npz": "fc0821a36b90f4b3696d64b9ce29dd1285171565f3e636bb2e200f821a8d0779",
+      "rejected_candidates.npz": "6efbe92a4d99da4c70b1806103005ebbb4a8e368e5fdc0d9c4bfab1448375a29",
+      "smoke_manifest.json": "02c21aab7beb057727e680a8e9ed43644a556f42f1d120b1514697b9a39a7c2b",
+      "windows.npz": "49b4ca392bb8e07b473702f8c6982c983d6f757775c5e5053c031ad964b3d637",
+      "run_manifest.json": "3369ea80c65652b8f1797c7a62a14c29428eb1dd7e9dc60b0d8a8e5be30dc1e8"
+    },
+    "window_config_sha256": "65eebeededba135d3f707f31fa3ae0901ad92f89833594d4fec9005a6ea31034",
+    "encoder_config": {
+      "path": "configs/phase5/encoder_default.json",
+      "sha256_canonical": "15dbb9856c12a81767b7b8bdca697c985120d06e488d72c79be1d40baadd78c1",
+      "sha256_file": "a2419c6931a159eb8c39f60d2426e03db378566293a4a192a69110102f2117ce"
+    },
+    "targets_or_future_arrays_read": false,
+    "offline_kinematics_used": false
+  },
+  "counts": {
+    "windows": 2327,
+    "parameter_count": 144128,
+    "valid": true
+  },
+  "run_metadata": {
+    "git": {
+      "commit": "95aa920769bcd0eaa66a90887ff0fe2255bb8c12",
+      "branch": "feature/phase4-task3-interaction-representation",
+      "working_tree_dirty": true,
+      "tracked_changes": [],
+      "untracked_files": [
+        "configs/phase5/encoder_default.json",
+        "experiments/phase5_task5_encoder_smoke_pie_video_0004/20261115T044455Z_pie_video_0004/primary/run_manifest.json",
+        "experiments/phase5_task5_encoder_smoke_pie_video_0004/20261115T044455Z_pie_video_0004/primary/smoke_results.json",
+        "pedsafety/phase5/models/__init__.py",
+        "pedsafety/phase5/models/config.py",
+        "pedsafety/phase5/models/encoder.py",
+        "pedsafety/phase5/models/scaling.py",
+        "pedsafety/phase5/models/smoke.py",
+        "pedsafety/phase5/models/spatial.py",
+        "pedsafety/phase5/models/temporal.py",
+        "scripts/phase5_run_encoder_smoke.py",
+        "scripts/phase5_validate_encoder_smoke.py",
+        "tests/phase5/enc_helpers.py",
+        "tests/phase5/test_encoder_integrated.py",
+        "tests/phase5/test_encoder_smoke.py",
+        "tests/phase5/test_encoder_spatial.py",
+        "tests/phase5/test_encoder_temporal.py"
+      ],
+      "note": "Phase 5 P5.3 code is uncommitted while under review; the dirty flag and file lists record exactly what differed from HEAD."
+    },
+    "started_utc": "2026-11-15T04:45:04Z",
+    "finished_utc": "2026-11-15T04:45:09Z",
+    "command": "phase5_run_encoder_smoke.py --windows experiments/phase5_task3_windows_pie_video_0004/20261115T035825Z_pie_video_0004/primary --config configs/phase5/encoder_default.json --out experiments/phase5_task5_encoder_smoke_pie_video_0004/20261115T044455Z_pie_video_0004/determinism_rerun",
+    "versions": {
+      "python": "3.9.25",
+      "numpy": "1.26.4",
+      "torch": "2.2.1+cpu",
+      "platform": "Windows-10-10.0.26300-SP0",
+      "torch_threads": 10,
+      "cuda_available": false
+    },
+    "runtime_s": {
+      "verify_and_load": 0.13352600000000003,
+      "default_forward_total": 4.2553446,
+      "optional_bicycle_forward_total": 0.32512960000000035,
+      "default_batch_latency_mean": 0.1082820945945946,
+      "default_batch_latency_max": 0.16422509999999946,
+      "batches": 37,
+      "note": "includes P5.3 collation and encoder forward; offline CPU; not a real-time claim"
+    },
+    "peak_memory_bytes": 350248960,
+    "peak_memory_note": "process peak working set at the end of the run (Python, numpy, torch, P5.3 dataset)"
+  },
+  "claims": {
+    "coordinate_space": "image (captured raster pixels)",
+    "metric_world_coordinates": false,
+    "physical_features": false,
+    "ttc_pet_or_collision_risk": false,
+    "model_trained": false,
+    "forecasting_accuracy": false,
+    "independent_generalization": false,
+    "baseline_comparison": false,
+    "architecture_validated_for_forecasting": false,
+    "real_time_claim": false,
+    "note": "Engineering forward-pass smoke test of an untrained, randomly initialised encoder on the pilot windows."
+  },
+  "limitations": [
+    "PILOT_DEVELOPMENT_ONLY_NON_INDEPENDENT: one PIE video, one scene group, overlapping windows; nothing is evaluated or generalised.",
+    "Weights are randomly initialised (seed in the configuration) and untrained: outputs only demonstrate shapes, masking, finiteness and determinism.",
+    "Feature scaling uses nominal, non-fitted development constants; train-only statistics belong to the training workflow (P5.7).",
+    "Runtime and memory are offline CPU measurements on one machine, not real-time claims; CUDA was not exercised.",
+    "Image-space inputs only; no metric or physical interpretation."
+  ]
+}

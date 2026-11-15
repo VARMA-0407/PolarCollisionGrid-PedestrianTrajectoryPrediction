@@ -1,0 +1,7 @@
+# Phase 5 P5.5 spatial-temporal encoder (pedsafety/phase5/models): plain PyTorch, CPU is sufficient; no PyTorch Geometric or other graph framework.
+# Only pedsafety/phase5/models may import the packages declared here; the rest of pedsafety/ (including the other pedsafety/phase5 modules)
+# stays within requirements-pedsafety.txt, and the Phase 2 pinned lines of that file are unchanged.
+-r requirements-pedsafety.txt
+# Developed and tested with torch 2.2.1+cpu only (the pcg-baseline environment, which already provides it: do not reinstall there).
+# The lower bound matches requirements-perception.txt and is not a tested minimum.
+torch>=2.2

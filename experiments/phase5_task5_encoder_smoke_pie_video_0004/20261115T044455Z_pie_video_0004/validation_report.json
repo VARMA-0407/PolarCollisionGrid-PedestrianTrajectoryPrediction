@@ -1,0 +1,124 @@
+{
+  "run": "experiments\\phase5_task5_encoder_smoke_pie_video_0004\\20261115T044455Z_pie_video_0004\\primary",
+  "checks": {
+    "data_artifact_hashes_match_manifest": {
+      "pass": true,
+      "detail": [
+        "smoke_results.json"
+      ]
+    },
+    "label_pilot_only": {
+      "pass": true,
+      "detail": null
+    },
+    "claims_all_false": {
+      "pass": true,
+      "detail": null
+    },
+    "not_trained_and_no_targets_read": {
+      "pass": true,
+      "detail": null
+    },
+    "encoder_config_hash_matches": {
+      "pass": true,
+      "detail": null
+    },
+    "scaling_is_nominal_not_fitted": {
+      "pass": true,
+      "detail": null
+    },
+    "p53_inputs_reverify_and_manifest_hash_matches": {
+      "pass": true,
+      "detail": null
+    },
+    "receptive_field_covers_history": {
+      "pass": true,
+      "detail": null
+    },
+    "recomputed_sequence_embeddings_sha256": {
+      "pass": true,
+      "detail": null
+    },
+    "recomputed_target_summary_sha256": {
+      "pass": true,
+      "detail": null
+    },
+    "recomputed_spatial_embeddings_sha256": {
+      "pass": true,
+      "detail": null
+    },
+    "recomputed_count_windows": {
+      "pass": true,
+      "detail": 2327
+    },
+    "recomputed_count_max_agent_slots": {
+      "pass": true,
+      "detail": 22
+    },
+    "recomputed_count_present_node_steps": {
+      "pass": true,
+      "detail": 130720
+    },
+    "recomputed_count_nonfinite_values": {
+      "pass": true,
+      "detail": 0
+    },
+    "recomputed_count_absent_nonzero_values": {
+      "pass": true,
+      "detail": 0
+    },
+    "recomputed_count_target_slot_mismatch": {
+      "pass": true,
+      "detail": 0
+    },
+    "recomputed_count_edges_by_relation": {
+      "pass": true,
+      "detail": {
+        "pedestrian__pedestrian": 485488,
+        "vehicle__pedestrian": 285333,
+        "pedestrian__vehicle": 285333
+      }
+    },
+    "recomputed_optional_bicycle_hash": {
+      "pass": true,
+      "detail": null
+    },
+    "parameter_count_manual": {
+      "pass": true,
+      "detail": 144128
+    },
+    "independent_presence_equals_adapter_presence": {
+      "pass": true,
+      "detail": null
+    },
+    "independent_absent_zero_and_finite": {
+      "pass": true,
+      "detail": null
+    },
+    "independent_slot0_is_target_track_present_every_step": {
+      "pass": true,
+      "detail": null
+    },
+    "encoder_input_has_no_future_or_target_fields": {
+      "pass": true,
+      "detail": [
+        "window_id",
+        "anchor_frame",
+        "history_frames",
+        "track_index",
+        "node_type",
+        "slot_valid",
+        "present",
+        "node_features",
+        "node_masks",
+        "edges"
+      ]
+    },
+    "numerical_validity_recorded_true": {
+      "pass": true,
+      "detail": null
+    }
+  },
+  "ok": true,
+  "n_checks": 25
+}

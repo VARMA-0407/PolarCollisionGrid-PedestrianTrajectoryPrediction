@@ -1,0 +1,34 @@
+{
+  "config_version": "phase5-encoder-config-1.0.0",
+  "hidden_dim": 64,
+  "num_heads": 4,
+  "num_spatial_layers": 2,
+  "leaky_relu_slope": 0.2,
+  "node_types": ["pedestrian", "vehicle"],
+  "relations": ["pedestrian__pedestrian", "vehicle__pedestrian", "pedestrian__vehicle"],
+  "allow_vehicle_vehicle": false,
+  "bicyclist_context_enabled": false,
+  "use_edge_flags": false,
+  "position_mode": "target_centred",
+  "tcn_kernel_size": 3,
+  "tcn_dilations": [1, 2],
+  "require_full_history_coverage": true,
+  "dropout": 0.0,
+  "attention_dropout": 0.0,
+  "init_seed": 0,
+  "feature_scaling": {
+    "source": "NOMINAL_DEVELOPMENT_DEFAULT_NOT_FITTED",
+    "node": {"rel_u": 1000.0, "rel_v": 1000.0, "vel_u": 500.0, "vel_v": 500.0, "speed": 500.0, "heading_sin": 1.0, "heading_cos": 1.0, "box_h": 1080.0, "frames_since_prev_obs": 30.0},
+    "edge": {"du_px": 1000.0, "dv_px": 1000.0, "sep_px": 1000.0, "bearing_sin": 1.0, "bearing_cos": 1.0, "rel_bearing_sin": 1.0, "rel_bearing_cos": 1.0,
+             "sep_over_h": 10.0, "log_h_ratio": 1.0, "dv_row_px": 1000.0, "dvel_u_px_s": 500.0, "dvel_v_px_s": 500.0, "closing_rate_px_s": 500.0, "overlap_ios": 1.0}
+  },
+  "_notes": {
+    "scope": "P5.5 encoder only: no decoder, trajectory head, conflict head, loss or training. Randomly initialised weights are not meaningful features.",
+    "history_length": "Not stored here: taken from the accepted window configuration (configs/phase5/window_generation_default.json, H = 6) or from the input tensors. With kernel 3 and dilations [1, 2] the temporal receptive field is 1 + 2 * (1 + 2) = 7 >= H = 6 (require_full_history_coverage checks this).",
+    "node_types_relations": "Default context = pedestrian + vehicle with the three approved relations P->P, V->P, P->V. Bicyclist nodes come from COCO 'bicycle' detections (not evidence of a rider) and are off by default: enabling them needs node_types to include 'bicyclist', bicyclist_context_enabled = true and the relations B->P, P->B, B->V, V->B. V->V requires allow_vehicle_vehicle = true AND a Task 3 run that produced it (not the pilot). bicyclist->bicyclist does not exist.",
+    "feature_scaling": "NOMINAL_DEVELOPMENT_DEFAULT_NOT_FITTED: fixed constants derived from the 1920x1080 / 30 fps geometry; NOT computed from the pilot or any dataset. A future training workflow supplies TRAIN_PARTITION_STATISTICS (fit_partition = 'train' + statistics_sha256); statistics fitted on validation/test data are refused.",
+    "position_mode": "target_centred: u, v minus the target pedestrian's position at the LAST history sample (history only). Absolute pixel position is not an input.",
+    "use_edge_flags": "false: the six Task 3 sensitivity flags (knn/radius/truncation) are diagnostic; set true only for the planned ablations.",
+    "track_age_frames": "not used (unbounded past-only counter)."
+  }
+}

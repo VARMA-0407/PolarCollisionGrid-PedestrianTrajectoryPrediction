@@ -1,0 +1,218 @@
+{
+  "label": "PILOT_DEVELOPMENT_ONLY_NON_INDEPENDENT",
+  "results_version": "phase5-encoder-smoke-results-1.0.0",
+  "purpose": "engineering forward-pass smoke test of the UNTRAINED encoder; no training, no accuracy, no baseline comparison",
+  "encoder_config": {
+    "path": "configs/phase5/encoder_default.json",
+    "sha256_canonical": "15dbb9856c12a81767b7b8bdca697c985120d06e488d72c79be1d40baadd78c1",
+    "content": {
+      "config_version": "phase5-encoder-config-1.0.0",
+      "hidden_dim": 64,
+      "num_heads": 4,
+      "num_spatial_layers": 2,
+      "leaky_relu_slope": 0.2,
+      "node_types": [
+        "pedestrian",
+        "vehicle"
+      ],
+      "relations": [
+        "pedestrian__pedestrian",
+        "vehicle__pedestrian",
+        "pedestrian__vehicle"
+      ],
+      "allow_vehicle_vehicle": false,
+      "bicyclist_context_enabled": false,
+      "use_edge_flags": false,
+      "position_mode": "target_centred",
+      "tcn_kernel_size": 3,
+      "tcn_dilations": [
+        1,
+        2
+      ],
+      "require_full_history_coverage": true,
+      "dropout": 0.0,
+      "attention_dropout": 0.0,
+      "feature_scaling": {
+        "source": "NOMINAL_DEVELOPMENT_DEFAULT_NOT_FITTED",
+        "node": {
+          "rel_u": 1000.0,
+          "rel_v": 1000.0,
+          "vel_u": 500.0,
+          "vel_v": 500.0,
+          "speed": 500.0,
+          "heading_sin": 1.0,
+          "heading_cos": 1.0,
+          "box_h": 1080.0,
+          "frames_since_prev_obs": 30.0
+        },
+        "edge": {
+          "du_px": 1000.0,
+          "dv_px": 1000.0,
+          "sep_px": 1000.0,
+          "bearing_sin": 1.0,
+          "bearing_cos": 1.0,
+          "rel_bearing_sin": 1.0,
+          "rel_bearing_cos": 1.0,
+          "sep_over_h": 10.0,
+          "log_h_ratio": 1.0,
+          "dv_row_px": 1000.0,
+          "dvel_u_px_s": 500.0,
+          "dvel_v_px_s": 500.0,
+          "closing_rate_px_s": 500.0,
+          "overlap_ios": 1.0
+        }
+      },
+      "init_seed": 0
+    },
+    "receptive_field": 7,
+    "history_length_from_window_config": 6
+  },
+  "model": {
+    "parameter_count": 144128,
+    "parameter_bytes_float32": 576512,
+    "trainable": true,
+    "trained": false,
+    "initialisation": "torch.manual_seed(init_seed) default PyTorch initialisation",
+    "mode": "eval, torch.no_grad",
+    "feature_scaling": {
+      "source": "NOMINAL_DEVELOPMENT_DEFAULT_NOT_FITTED",
+      "provenance": {
+        "fitted": false,
+        "note": "fixed nominal constants; not computed from any dataset"
+      }
+    }
+  },
+  "windows": {
+    "windows_run": "experiments/phase5_task3_windows_pie_video_0004/20261115T035825Z_pie_video_0004/primary",
+    "windows": 2327,
+    "unique_target_tracks": 84,
+    "history_length": 6,
+    "target_source_mode": "PILOT_SMOKE"
+  },
+  "default_context_forward": {
+    "context": "pedestrian + vehicle (P5.3 default), relations pedestrian__pedestrian, vehicle__pedestrian, pedestrian__vehicle",
+    "batch_size": 64,
+    "windows": 2327,
+    "batches": 37,
+    "max_agent_slots": 22,
+    "present_node_steps": 130720,
+    "nonfinite_values": 0,
+    "absent_nonzero_values": 0,
+    "target_slot_mismatch": 0,
+    "target_absent_steps": 0,
+    "edges_by_relation": {
+      "pedestrian__pedestrian": 485488,
+      "vehicle__pedestrian": 285333,
+      "pedestrian__vehicle": 285333
+    },
+    "sequence_shape_first": [
+      64,
+      16,
+      6,
+      64
+    ],
+    "sequence_shape_last": [
+      23,
+      9,
+      6,
+      64
+    ],
+    "target_summary_shape": [
+      23,
+      64
+    ],
+    "output_shapes": {
+      "sequence_embeddings": "[B, A, 6, 64]",
+      "target_summary": "[B, 64]",
+      "spatial_embeddings": "[B, 6, A, 64]"
+    },
+    "hashes": {
+      "sequence_embeddings_sha256": "a44c09a601ebe514c5bd677ee155a4affcaec09178c8f0b6ff662f384e19bc8b",
+      "target_summary_sha256": "b7170d2a35e2444277ee68f3583c0a0e39c6b67f02bd49ee40b87ccc53622a15",
+      "spatial_embeddings_sha256": "aece42ab389b46a67c38e5fff87bebb370f9bee1814aa3cce08914c0f910d7be",
+      "hashed_value_counts": {
+        "sequence_embeddings": 14603904,
+        "target_summary": 148928,
+        "spatial_embeddings": 14603904
+      },
+      "encoding": "little-endian float32 bytes of the per-batch tensors, concatenated in batch order (batches are padded to the batch's own maximum agent count)"
+    }
+  },
+  "optional_bicycle_context_forward": {
+    "context": "pedestrian + vehicle + bicyclist (semantically uncertain; optional) on the first 128 windows",
+    "parameter_count": 281344,
+    "windows": 128,
+    "batches": 2,
+    "max_agent_slots": 19,
+    "present_node_steps": 7852,
+    "nonfinite_values": 0,
+    "absent_nonzero_values": 0,
+    "target_slot_mismatch": 0,
+    "target_absent_steps": 0,
+    "edges_by_relation": {
+      "pedestrian__pedestrian": 22274,
+      "vehicle__pedestrian": 18144,
+      "pedestrian__vehicle": 18144,
+      "bicyclist__pedestrian": 909,
+      "pedestrian__bicyclist": 909,
+      "bicyclist__vehicle": 903,
+      "vehicle__bicyclist": 903
+    },
+    "sequence_shape_first": [
+      64,
+      17,
+      6,
+      64
+    ],
+    "sequence_shape_last": [
+      64,
+      19,
+      6,
+      64
+    ],
+    "target_summary_shape": [
+      64,
+      64
+    ],
+    "hashes": {
+      "sequence_embeddings_sha256": "2dd957b04b6fdbd761309a94a012fb7e8d66e8059085b689ecd3eb06bf5da6f4",
+      "target_summary_sha256": "1a0427abf56df158cb507f42fd70ed179ae94ac0dc4014af70cea3f11d3d5f28",
+      "spatial_embeddings_sha256": "023e42beab533151951668caf556f05bc76120ee05ce142d4b537c8259a4368b",
+      "hashed_value_counts": {
+        "sequence_embeddings": 884736,
+        "target_summary": 8192,
+        "spatial_embeddings": 884736
+      },
+      "encoding": "little-endian float32 bytes of the per-batch tensors, concatenated in batch order (batches are padded to the batch's own maximum agent count)"
+    }
+  },
+  "numerical_validity": {
+    "all_finite": true,
+    "absent_steps_exactly_zero": true,
+    "slot0_is_window_target_track": true,
+    "target_present_all_steps": true,
+    "overall": true
+  },
+  "device": "cpu",
+  "cuda_available": false,
+  "claims": {
+    "coordinate_space": "image (captured raster pixels)",
+    "metric_world_coordinates": false,
+    "physical_features": false,
+    "ttc_pet_or_collision_risk": false,
+    "model_trained": false,
+    "forecasting_accuracy": false,
+    "independent_generalization": false,
+    "baseline_comparison": false,
+    "architecture_validated_for_forecasting": false,
+    "real_time_claim": false,
+    "note": "Engineering forward-pass smoke test of an untrained, randomly initialised encoder on the pilot windows."
+  },
+  "limitations": [
+    "PILOT_DEVELOPMENT_ONLY_NON_INDEPENDENT: one PIE video, one scene group, overlapping windows; nothing is evaluated or generalised.",
+    "Weights are randomly initialised (seed in the configuration) and untrained: outputs only demonstrate shapes, masking, finiteness and determinism.",
+    "Feature scaling uses nominal, non-fitted development constants; train-only statistics belong to the training workflow (P5.7).",
+    "Runtime and memory are offline CPU measurements on one machine, not real-time claims; CUDA was not exercised.",
+    "Image-space inputs only; no metric or physical interpretation."
+  ]
+}
