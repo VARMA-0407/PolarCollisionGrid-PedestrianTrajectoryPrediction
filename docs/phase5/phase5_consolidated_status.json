@@ -15,8 +15,10 @@
   "git": {
     "branch": "feature/phase5-task6-multimodal-decoder",
     "head_before_commit": "afdf822e4d12b01872d8f759ea5cdf7df8c0bccf",
-    "commit": null,
-    "commit_message": null
+    "commit": "e383ea4c3c5a021a313e4bebc4a7d9cbfae42e5a",
+    "commit_message": "feat(phase5): complete multimodal trajectory forecasting pipeline",
+    "parent": "afdf822e4d12b01872d8f759ea5cdf7df8c0bccf",
+    "pushed": false
   },
   "tests": {
     "focused_p5_7": {
@@ -151,5 +153,5 @@
     "resume with a different epoch count reused a stale cosine horizon -> RESUME_SCHEDULE_MISMATCH",
     "trailing blank line at EOF in two pre-existing P5.7.1/P5.7.2 files (git diff --check)"
   ],
-  "commit_note": "a commit cannot contain its own hash: git.commit is filled by a follow-up docs-only commit; the hash is also reported in the final response"
+  "commit_note": "the hash above was recorded by a follow-up docs-only commit (a commit cannot contain its own hash)"
 }
