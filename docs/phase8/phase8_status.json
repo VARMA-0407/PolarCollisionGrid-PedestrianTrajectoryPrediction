@@ -1,0 +1,17 @@
+{
+  "phase": 8,
+  "label": "PILOT_DEVELOPMENT_ONLY_NON_INDEPENDENT",
+  "prototype_notice": "RESEARCH PROTOTYPE: not validated, not for operational use",
+  "base_commit": "209b738",
+  "branch": "feature/phase8-early-warning",
+  "phase7_input": {"schema": "phase7-risk-output-1.0.0", "cross_checked_against": "experiments/phase7_risk_pie_video_0004/risk_arrays.npz", "records": 8233},
+  "event_schema": "phase8-alert-event-1.0.0",
+  "implemented": ["deterministic 6-state alert state machine", "persistence, hysteresis, escalation, de-escalation, dedup, cooldown, clearance", "invalid/absent/gap/out-of-order handling", "validated JSON event schema", "alert table and summary", "python API and CLI", "lead-time interface"],
+  "empirically_validated": [],
+  "provisional": ["all thresholds and persistence parameters (engineering configuration)", "warning_level labels"],
+  "blocked": {"lead_time": "BLOCKED_INSUFFICIENT_GROUND_TRUTH", "alert_precision_recall_false_alarm": "no verified events", "calibrated_probability": "Phase 7 calibration blocked", "real_time_claim": "no end-to-end latency measurement"},
+  "not_built": ["HTTP API", "dashboard", "external ITS connection (no supporting infrastructure in the repository)"],
+  "real_data_run": {"experiment": "experiments/phase8_alerts_pie_video_0004", "events": 1200, "alerts": 28, "pedestrians_alerted": 10, "escalated": 8, "clearance_kinds": {"RISK_SUBSIDED": 3, "EVIDENCE_LOST": 25, "END_OF_STREAM": 0}},
+  "claims": {"verified_collision": false, "calibrated_probability": false, "physical_ttc_pet": false, "validated_early_warning_time": false, "real_time_performance": false, "deployment_ready": false},
+  "tests": {"phase8": "30 passed", "phase4_to_8": "458 passed, 2 skipped, 0 failed"}
+}

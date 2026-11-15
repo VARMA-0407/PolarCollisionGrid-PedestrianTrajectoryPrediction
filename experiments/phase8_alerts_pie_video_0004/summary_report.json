@@ -1,0 +1,72 @@
+{
+ "alerts_by_clearance_kind": {
+  "EVIDENCE_LOST": 25,
+  "RISK_SUBSIDED": 3
+ },
+ "alerts_reached_escalated": 8,
+ "alerts_with_evidence_loss": 26,
+ "calibration": "Phase 7 probabilities are null (NOT_CALIBRATED); no alert decision uses a probability",
+ "claims": {
+  "calibrated_probability": false,
+  "deployment_ready": false,
+  "physical_ttc_pet": false,
+  "real_time_performance": false,
+  "validated_early_warning_time": false,
+  "verified_collision": false
+ },
+ "event_types": {
+  "ALERT_UPDATED": 92,
+  "STATE_TRANSITION": 1108
+ },
+ "label": "PILOT_DEVELOPMENT_ONLY_NON_INDEPENDENT",
+ "lead_time": {
+  "reason": "no independently established event timestamps or verified conflict labels exist (one PIE video, no annotation files, perceived tracks only)",
+  "required": [
+   "verified collision / near-conflict events with frame timestamps from a documented independent source (name, type, version, SHA-256)",
+   "pair identities that match the alert dedup keys",
+   "multiple independent videos for any aggregate statement"
+  ],
+  "status": "BLOCKED_INSUFFICIENT_GROUND_TRUTH"
+ },
+ "n_alerts": 28,
+ "n_events": 1200,
+ "n_frames": 1139,
+ "n_records": 8233,
+ "phase7_category_counts_input": {
+  "CRITICAL": 112,
+  "HIGH": 297,
+  "INSUFFICIENT_EVIDENCE": 1231,
+  "LOW": 6080,
+  "MODERATE": 513
+ },
+ "prototype_notice": "RESEARCH PROTOTYPE: not validated, not for operational use",
+ "stats": {
+  "absent_pair_steps": 893,
+  "duplicate_batches_ignored": 0,
+  "gap_events": 28,
+  "invalid_observations": 1231,
+  "observations": 8233,
+  "steps": 1139,
+  "suppressed_by_cooldown": 1,
+  "valid_observations": 7002
+ },
+ "transitions": {
+  "ACTIVE_WARNING->CLEARED": 3,
+  "ACTIVE_WARNING->ESCALATED_WARNING": 8,
+  "ACTIVE_WARNING->INSUFFICIENT_EVIDENCE": 28,
+  "CLEARED->NO_ALERT": 28,
+  "ESCALATED_WARNING->ACTIVE_WARNING": 1,
+  "ESCALATED_WARNING->INSUFFICIENT_EVIDENCE": 12,
+  "INSUFFICIENT_EVIDENCE->ACTIVE_WARNING": 10,
+  "INSUFFICIENT_EVIDENCE->CLEARED": 25,
+  "INSUFFICIENT_EVIDENCE->ESCALATED_WARNING": 5,
+  "INSUFFICIENT_EVIDENCE->NO_ALERT": 423,
+  "INSUFFICIENT_EVIDENCE->WARNING_PENDING": 10,
+  "NO_ALERT->INSUFFICIENT_EVIDENCE": 421,
+  "NO_ALERT->WARNING_PENDING": 62,
+  "WARNING_PENDING->ACTIVE_WARNING": 28,
+  "WARNING_PENDING->INSUFFICIENT_EVIDENCE": 12,
+  "WARNING_PENDING->NO_ALERT": 32
+ },
+ "unique_pedestrians_alerted": 10
+}

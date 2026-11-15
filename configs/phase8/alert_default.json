@@ -1,0 +1,18 @@
+{
+  "config_version": "phase8-alert-config-1.0.0",
+  "config_status": "ENGINEERING_CONFIGURATION_NOT_VALIDATED",
+  "source_fps": 30.0,
+  "enter_min_category": "HIGH",
+  "hold_min_category": "MODERATE",
+  "escalate_min_category": "CRITICAL",
+  "escalated_hold_min_category": "HIGH",
+  "enter_persistence": 3,
+  "escalate_persistence": 2,
+  "deescalate_persistence": 2,
+  "clear_persistence": 3,
+  "max_insufficient_observations": 5,
+  "max_gap_frames": 6,
+  "cooldown_frames": 30,
+  "conflicting_indicators_policy": "flag_only",
+  "_notes": "Every value is an engineering choice made for the pilot; none is derived from verified events or validated early-warning evidence. Persistence counts are consecutive anchor observations (anchors are 3 frames apart = 0.1 s at 30 fps)."
+}

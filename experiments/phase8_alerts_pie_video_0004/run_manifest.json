@@ -1,0 +1,65 @@
+{
+ "alert_config": {
+  "content": {
+   "clear_persistence": 3,
+   "config_status": "ENGINEERING_CONFIGURATION_NOT_VALIDATED",
+   "config_version": "phase8-alert-config-1.0.0",
+   "conflicting_indicators_policy": "flag_only",
+   "cooldown_frames": 30,
+   "deescalate_persistence": 2,
+   "enter_min_category": "HIGH",
+   "enter_persistence": 3,
+   "escalate_min_category": "CRITICAL",
+   "escalate_persistence": 2,
+   "escalated_hold_min_category": "HIGH",
+   "hold_min_category": "MODERATE",
+   "max_gap_frames": 6,
+   "max_insufficient_observations": 5,
+   "source_fps": 30.0
+  },
+  "sha256": "143db9df3a3ebf010665806e8fb0834a8dbbc9cc23ad4ea0a03398cd91dd687e"
+ },
+ "alert_events_sha256_uncompressed": "2425bf74d94296d8bc7b8bbef9571bd20aa86dfd02c08faf60f331451e9600e2",
+ "component_throughput": {
+  "caveat": "microbenchmark of the alert manager alone on one machine; excludes video, perception, forecasting and risk computation; NOT an end-to-end latency or real-time claim",
+  "observations_per_s_state_machine_only": 21566.379813470332,
+  "seconds": 0.38175159999999997
+ },
+ "event_schema_sha256": "6bfecb9910c3918b4c7df9b926001e1bd3d3f0d67c462f3bf3b2e97588e55ab3",
+ "event_schema_version": "phase8-alert-event-1.0.0",
+ "hashes": {
+  "calibration_artifact_sha256": null,
+  "phase7_risk_config_sha256": "2f56a18291892c20ee5e4a80758712b896da2ba0b390c28e747ef18b38396d95",
+  "source_checkpoint_file_sha256": "40aff17f1a40eb2da24d0e0b63245eecefa5bba4e3f6e44c272dc07f3ab71b44"
+ },
+ "label": "PILOT_DEVELOPMENT_ONLY_NON_INDEPENDENT",
+ "manifest_version": "phase8-run-manifest-1.0.0",
+ "phase7_artifact_cross_check": {
+  "fields_equal": {
+   "anchor_frame": true,
+   "calibrated_probability_all_nan": true,
+   "category_status": true,
+   "conflict_score": true,
+   "risk_category": true,
+   "risk_score": true,
+   "window_id": true
+  },
+  "file_sha256": "3aa4f9a90e7f985d8b35e02968f0104d82512b2e62ec4ffcca4335a6786181f5",
+  "n": 8233
+ },
+ "phase7_input_file_sha256_uncompressed": "37e97c75d7628df2f30483c97f5900514cca814232c8bd29be01b6273f48436a",
+ "phase7_input_records_sha256": "37e97c75d7628df2f30483c97f5900514cca814232c8bd29be01b6273f48436a",
+ "phase7_provenance": {
+  "coordinate_system": "captured_1920x1080",
+  "dataset": "PIE set01/video_0004",
+  "label": "PILOT_DEVELOPMENT_ONLY_NON_INDEPENDENT",
+  "phase5_run_manifest_sha256": "de2c805602d5c41368c09debea017ac007ce6546a8f76ac8ba13d01dfaa8de42",
+  "phase6_config_sha256": "22f84e29d84d06c6472f6b8d0cdab774729fc0a77f44df8e2eafe5eccd8ac7e9",
+  "phase7_calibration_status": "BLOCKED_NO_VERIFIED_CONFLICT_LABELS",
+  "phase7_category_status": "PROVISIONAL_ENGINEERING",
+  "phase7_risk_report_sha256": "0a5c677ea6d4713ec394c7d81985b64c7010ce9c1c3bbe93de01535fe4415b90",
+  "phase7_schema": "phase7-risk-output-1.0.0",
+  "phase7_threshold_evidence": "NONE_UNVALIDATED_ENGINEERING_DEFAULT",
+  "sample_status": "IN_SAMPLE_PHASE5_MODEL"
+ }
+}

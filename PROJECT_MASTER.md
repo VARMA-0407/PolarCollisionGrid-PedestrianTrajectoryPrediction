@@ -194,3 +194,25 @@ real-time claim is supported. Details: `docs/phase5/PHASE5_CONSOLIDATED_ACCEPTAN
 | Date | Revision |
 |---|---|
 | 2026-11-16 | Appended the Phase 3-5 status addendum; no earlier text was changed. |
+
+
+## Status addendum - 16 November 2026 (Phases 6-8; earlier sections are historical)
+
+Appended by the Phase 8 pass. Pipeline: Video -> Phase 3 perception -> Phase 4 geometry and interaction representation -> Phase 5 trajectory forecasting
+-> Phase 6 conflict representation -> Phase 7 risk assessment -> Phase 8 early-warning event generation. All phases remain image-space (`captured_1920x1080`, pixels), pilot
+(one PIE video, in-sample Phase 5 model, perceived tracks), and research-prototype only.
+
+| Phase | Status (evidence) | Commit |
+|---|---|---|
+| 6 conflict representation | image-space pairwise features, label specification, gated supervised head; supervised training BLOCKED (no verified conflict labels, one scene group) | `d6ac175` |
+| 7 risk assessment | heuristic risk score, provisional categories with INSUFFICIENT_EVIDENCE, calibration interface/artifacts tested on synthetic labels; calibration BLOCKED, categories PROVISIONAL_ENGINEERING | `209b738` |
+| 8 early warning | deterministic alert state machine, JSON event schema, CLI; 28 pilot alerts on the single video (25 closed by evidence loss); lead time BLOCKED_INSUFFICIENT_GROUND_TRUTH; thresholds are engineering choices | see `git log` (feat(phase8)) |
+
+Roadmap and remaining dependencies: (1) acquire independent, annotated, scene-diverse data with verified conflict events (single blocker behind Phase 5 independent evaluation (P5.7.6),
+Phase 6 supervised training, Phase 7 calibration and category validation, and Phase 8 lead time / false-alarm evaluation); (2) metric geometry or calibration evidence before any physical TTC/PET,
+distance or severity statement; (3) frozen group-level splits and re-tuning of Phase 7/8 thresholds on validation groups only; (4) measured end-to-end latency before any real-time claim;
+(5) only then an ITS dashboard or connection, which needs infrastructure the repository does not have. Details: `docs/phase6/`, `docs/phase7/`, `docs/phase8/`.
+
+| Date | Revision |
+|---|---|
+| 2026-11-16 | Appended the Phase 6-8 status addendum; no earlier text was changed. |
