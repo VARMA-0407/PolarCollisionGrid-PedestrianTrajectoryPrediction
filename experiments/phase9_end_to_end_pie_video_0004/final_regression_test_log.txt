@@ -1,0 +1,147 @@
+.................................F.............s........................ [  5%]
+........................................................................ [ 10%]
+........................................................................ [ 15%]
+.......s................................................................ [ 20%]
+........................................................................ [ 25%]
+........................................................................ [ 31%]
+......................................................s................. [ 36%]
+........................................................................ [ 41%]
+..........................................................s............. [ 46%]
+........................................................................ [ 51%]
+........................................................................ [ 57%]
+........................................................................ [ 62%]
+........................................................................ [ 67%]
+........................................................................ [ 72%]
+........................................................................ [ 77%]
+........................................................................ [ 83%]
+........................................................................ [ 88%]
+........................................................................ [ 93%]
+........................................................................ [ 98%]
+..................                                                       [100%]
+================================== FAILURES ===================================
+______________ test_ttc_occupancy_mask_collapses_agent_dimension ______________
+
+    def test_ttc_occupancy_mask_collapses_agent_dimension():
+        pedestrians = torch.tensor([[0.0, 0.0, 1.0, 0.0]])
+        vehicles = torch.tensor([[10.0, 0.0, 0.0, 0.0]])
+    
+>       mask, ttc_mask = getInteractionGridMask(
+            pedestrians,
+            vehicles,
+            TTC_min=[10.0],
+            d_min=1.0,
+            num_sector=4,
+            is_heterogeneous=True,
+            is_occupancy=True,
+        )
+
+tests\phase2\test_ttc_masks.py:56: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+frame = tensor([[0., 0., 1., 0.]]), frame_other = tensor([[10.,  0.,  0.,  0.]])
+TTC_min = [10.0], d_min = 1.0, num_sector = 4, is_heterogeneous = True
+is_occupancy = True
+
+    def getInteractionGridMask(frame, frame_other, TTC_min, d_min, num_sector, is_heterogeneous = False, is_occupancy = False):
+    
+        '''
+        This function computes the binary mask that represents the
+        occupancy of each ped in the other's grid
+        params:
+        frame : This will be a num_typeI x 3 matrix with each row being [x, y, vx, vy]
+        TTC_min: Is the list of number of TTC thresholds that is considered. Form smaler to bigger time
+        num_sector: Is the number of equal sectors the circle around each aget is divided to for approach angle consideration
+        is_heterogeneous: A flag used specifying wether the inetractions between ped-ped is being considered or ped-veh
+        is_occupancy: A flag using for calculation of accupancy map
+    
+        '''
+    
+        num_agent = frame.shape[0]
+        num_agent_other = frame_other.shape[0]
+        num_TTC = len(TTC_min)
+    
+        if is_occupancy:
+            frame_mask = np.zeros((num_agent, num_TTC*num_sector))
+        else:
+            frame_mask = np.zeros((num_agent, num_agent_other, num_TTC*num_sector))
+            TTC_mask = np.zeros((num_agent, num_agent_other, num_TTC*num_sector))
+    
+        frame_np =  frame.data.numpy()
+        frame_other_np =  frame_other.data.numpy()
+    
+        #instead of 2 inner loop, we check all possible 2-permutations which is 2 times faster.
+        list_indices = list(range(0, num_agent))
+        list_indices_other = list(range(0, num_agent_other))
+    
+        for real_frame_index, other_real_frame_index in itertools.product(list_indices,list_indices_other):
+    
+            if (is_heterogeneous==False and real_frame_index==other_real_frame_index):
+                # In case of heterogeneous agents as the input for frame and frame_other is the same then we want to skip
+                # considering one agent with itself
+                continue
+    
+            current_position = frame_np[real_frame_index, 0:2]
+            current_velocity = frame_np[real_frame_index, 2:4]
+            other_position = frame_other_np[other_real_frame_index, 0:2]
+            other_velocity = frame_other_np[other_real_frame_index, 2:4]
+    
+            t_conflict = Time2Conflict(current_position, current_velocity, other_position, other_velocity, d_min)
+    
+            if (t_conflict == -1 or t_conflict == -2): # not conlficting
+                continue
+    
+            TTC_min.sort()
+            time_cell = -1
+            for i, t_threshold in enumerate(TTC_min):
+                if ((t_conflict>=0) and (t_conflict <= t_threshold)):
+                    time_cell = i
+                    break # finding the first time_threshold that passes the condition
+    
+            if time_cell == -1: # the t_conflcit is not critical at this step
+                continue
+    
+    
+            approach_cell = approach_angle_sector(current_velocity, other_velocity, num_sector)
+    
+            if is_occupancy:
+                frame_mask[real_frame_index,time_cell*num_sector+approach_cell] = 1
+            else:
+                frame_mask[real_frame_index, other_real_frame_index, time_cell*num_sector+approach_cell] = 1
+                TTC_mask[real_frame_index, other_real_frame_index, time_cell*num_sector+approach_cell] = (TTC_min[0] - t_conflict) #/ (TTC_min[0])
+                # The ones already within d_min distance from the ego (t_conflict=0) will get the highest number (attenstion) in the tensor
+    
+>       return frame_mask, TTC_mask
+E       UnboundLocalError: local variable 'TTC_mask' referenced before assignment
+
+utils\Interaction.py:173: UnboundLocalError
+============================== warnings summary ===============================
+C:\Users\revan\anaconda3\envs\pcg-baseline\lib\site-packages\matplotlib\_fontconfig_pattern.py:88
+C:\Users\revan\anaconda3\envs\pcg-baseline\lib\site-packages\matplotlib\_fontconfig_pattern.py:88
+C:\Users\revan\anaconda3\envs\pcg-baseline\lib\site-packages\matplotlib\_fontconfig_pattern.py:88
+C:\Users\revan\anaconda3\envs\pcg-baseline\lib\site-packages\matplotlib\_fontconfig_pattern.py:88
+C:\Users\revan\anaconda3\envs\pcg-baseline\lib\site-packages\matplotlib\_fontconfig_pattern.py:88
+C:\Users\revan\anaconda3\envs\pcg-baseline\lib\site-packages\matplotlib\_fontconfig_pattern.py:88
+  C:\Users\revan\anaconda3\envs\pcg-baseline\lib\site-packages\matplotlib\_fontconfig_pattern.py:88: PyparsingDeprecationWarning: 'parseString' deprecated - use 'parse_string'
+    parse = parser.parseString(pattern)
+
+C:\Users\revan\anaconda3\envs\pcg-baseline\lib\site-packages\matplotlib\_fontconfig_pattern.py:92
+C:\Users\revan\anaconda3\envs\pcg-baseline\lib\site-packages\matplotlib\_fontconfig_pattern.py:92
+C:\Users\revan\anaconda3\envs\pcg-baseline\lib\site-packages\matplotlib\_fontconfig_pattern.py:92
+C:\Users\revan\anaconda3\envs\pcg-baseline\lib\site-packages\matplotlib\_fontconfig_pattern.py:92
+C:\Users\revan\anaconda3\envs\pcg-baseline\lib\site-packages\matplotlib\_fontconfig_pattern.py:92
+C:\Users\revan\anaconda3\envs\pcg-baseline\lib\site-packages\matplotlib\_fontconfig_pattern.py:92
+  C:\Users\revan\anaconda3\envs\pcg-baseline\lib\site-packages\matplotlib\_fontconfig_pattern.py:92: PyparsingDeprecationWarning: 'resetCache' deprecated - use 'reset_cache'
+    parser.resetCache()
+
+C:\Users\revan\anaconda3\envs\pcg-baseline\lib\site-packages\matplotlib\_mathtext.py:45
+  C:\Users\revan\anaconda3\envs\pcg-baseline\lib\site-packages\matplotlib\_mathtext.py:45: PyparsingDeprecationWarning: 'enablePackrat' deprecated - use 'enable_packrat'
+    ParserElement.enablePackrat()
+
+tests/phase3/test_measurement_helpers.py::test_appended_cells_run_end_to_end_against_a_fake_colab_tree_with_default_flags
+  <cell 6>:16: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/phase2/test_ttc_masks.py::test_ttc_occupancy_mask_collapses_agent_dimension
+1 failed, 1381 passed, 8 skipped, 14 warnings in 421.54s (0:07:01)
+exit=1

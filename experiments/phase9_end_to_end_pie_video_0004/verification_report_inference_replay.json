@@ -1,0 +1,98 @@
+{
+ "checks": {
+  "all_compared_checks_pass": true,
+  "phase5_predictions_npz": {
+   "arrays": {
+    "equal": true,
+    "n_arrays": 11,
+    "same_keys": true,
+    "unequal_arrays": []
+   },
+   "sha256_equal": true
+  },
+  "phase7_arrays_vs_records": {
+   "anchor_frame_equal": true,
+   "calibration_status_all_not_calibrated": true,
+   "probabilities_all_null": true,
+   "risk_category_equal": true,
+   "risk_score_equal": true,
+   "window_id_equal": true
+  },
+  "phase7_records": {
+   "covers": "pedestrian/vehicle ids, anchor frames, window ids, risk scores, risk categories, category status, masks, probabilities (all null), reasons",
+   "exactly_equal_lists": true,
+   "n": 8233,
+   "n_reference": 8233
+  },
+  "phase8_alert_table": {
+   "exactly_equal": true
+  },
+  "phase8_events": {
+   "alert_ids_equal_in_order": true,
+   "all_fields_equal_except_provenance": true,
+   "event_ids_equal_in_order": true,
+   "n": 1200,
+   "n_reference": 1200,
+   "note": "the free-form provenance block names the producing stage; all other event fields, including hashes and source references, are exactly equal",
+   "pairs_equal_in_order": true,
+   "provenance_keys_that_differ": [
+    "phase5_predictions_sha256",
+    "phase9_execution_mode",
+    "phase9_stage"
+   ],
+   "transitions_equal_in_order": true
+  }
+ },
+ "input_sha256_computed_after_the_run": {
+  "PIE_pilot_inputs/agent_states.jsonl": "ff8b9b217144a9a6792069aa2db11cd9e9ca43fbf00077ad4da6e2b3fe485dc7",
+  "PIE_pilot_inputs/run_manifest.json": "e8c2a895543c6e222b58d9974a409faddab3b98e742fa048a4286bcd9b1dc7c2",
+  "PIE_pilot_inputs/tracked_agents.jsonl": "182babb386a821da720b9520afa024cf4e9195baea3031c4970b64000c593ff5",
+  "configs/phase4/image_kinematics_default.json": "757f5588cfca49fa0f21a554de576ff06f073d5311ee1b02e2910c53ea6090fe",
+  "configs/phase4/interaction_representation_default.json": "252dccd578e1333b2ccb7dafc0bb159a58b6c3880b11d4b64c334cc7ba9d99d6",
+  "configs/phase5/neural_evaluation_default.json": "c9f913c3aa999d49bcd1ad727d685ffafea6fa9fe292a8308fb86cbb847b09ba",
+  "configs/phase5/window_generation_default.json": "6a35036c21cc3b549bc02a4f85c20705511c1ed6f552f958b7b963cda98d789a",
+  "configs/phase6/conflict_default.json": "3e1163183b66581fcdbe4a8633c21fc1430dbe3ce7cb17065bfe37e2bf9bdb38",
+  "configs/phase7/risk_default.json": "b2d1ff5a32d8b8f3a72c6530b3da213c005f2f2303ed52b6f9f4b0daf47cb6d8",
+  "configs/phase8/alert_default.json": "f120d3607ba708a04e2782e20637916c39e394a4f2c44209ed693a4d7299b864",
+  "experiments/phase4_task2_pie_video_0004/20261114T202653Z_pie_video_0004/primary_causal/causal_kinematics.jsonl": "9e5c5f3d6185028194b25f520a74aa0e9d751e66a16754881f366c87c7ac82e3",
+  "experiments/phase4_task2_pie_video_0004/20261114T202653Z_pie_video_0004/primary_causal/run_manifest.json": "ad2089591d704ca403d530b7237bac3ebdee524852f09310f21087c5beac144b",
+  "experiments/phase4_task3_pie_video_0004/20261115T034308Z_pie_video_0004_regen_5d58ab7/primary/run_manifest.json": "366b8d0cf33000965dc410268db8db0045ce4e318937071c322ff03a8bfdbe6e",
+  "experiments/phase5_task3_windows_pie_video_0004/20261115T035825Z_pie_video_0004/primary/graph_bank.npz": "fc0821a36b90f4b3696d64b9ce29dd1285171565f3e636bb2e200f821a8d0779",
+  "experiments/phase5_task3_windows_pie_video_0004/20261115T035825Z_pie_video_0004/primary/rejected_candidates.npz": "6efbe92a4d99da4c70b1806103005ebbb4a8e368e5fdc0d9c4bfab1448375a29",
+  "experiments/phase5_task3_windows_pie_video_0004/20261115T035825Z_pie_video_0004/primary/run_manifest.json": "3369ea80c65652b8f1797c7a62a14c29428eb1dd7e9dc60b0d8a8e5be30dc1e8",
+  "experiments/phase5_task3_windows_pie_video_0004/20261115T035825Z_pie_video_0004/primary/windows.npz": "49b4ca392bb8e07b473702f8c6982c983d6f757775c5e5053c031ad964b3d637",
+  "experiments/phase5_task7_neural_evaluation/20261115T191319Z_pie_video_0004/predictions_neural.npz": "c070134fb67ef42753ecca347260c9f25e8b7ad37ae3333b690f3f008ee99748",
+  "experiments/phase5_task7_neural_evaluation/20261115T191319Z_pie_video_0004/run_manifest.json": "de2c805602d5c41368c09debea017ac007ce6546a8f76ac8ba13d01dfaa8de42",
+  "experiments/phase5_task7_training/20261115T190117Z_pie_video_0004/checkpoints/checkpoint_epoch_0010.pt": "d0f0f417bf1cf478d2744689c09b6c589d6f967d910217ba9bf02575d11d37d2",
+  "experiments/phase5_task7_training/20261115T190117Z_pie_video_0004/checkpoints/checkpoint_epoch_0020.pt": "40aff17f1a40eb2da24d0e0b63245eecefa5bba4e3f6e44c272dc07f3ab71b44",
+  "experiments/phase5_task7_training/20261115T190117Z_pie_video_0004/config_resolved.json": "36d930d7d8f3f80fc4cf70fe2725500754af76491ff5c7c9b300674f02f0130d",
+  "experiments/phase5_task7_training/20261115T190117Z_pie_video_0004/run_manifest.json": "a2a0f70c51e0476a4fd175b4b4b97299c8d9b90f40c407dcb7e9c5e2b0ada4f6",
+  "experiments/phase5_task7_training/20261115T190117Z_pie_video_0004/scaler_statistics.json": "cc270aa6562931f5c66b909dcc5941ba20869101862ec91c35e924c81b0ce723",
+  "experiments/phase7_risk_pie_video_0004/risk_arrays.npz": "3aa4f9a90e7f985d8b35e02968f0104d82512b2e62ec4ffcca4335a6786181f5",
+  "experiments/phase7_risk_pie_video_0004/risk_report.json": "0a5c677ea6d4713ec394c7d81985b64c7010ce9c1c3bbe93de01535fe4415b90",
+  "experiments/phase8_alerts_pie_video_0004/alert_events.jsonl.gz": "360b00e4e8357ce443a75e5f48cd442c3abfc2c735dc2becd2820c23096b4622",
+  "experiments/phase8_alerts_pie_video_0004/alerts.json": "575f694a273f2540816d1372fece8de80b16c28700b5ffb660fe2b857a5e3aac",
+  "experiments/phase8_alerts_pie_video_0004/phase7_records_input.jsonl.gz": "543f918f681ccbf516ab7fa539cec3829e19254e80df73965f14c6fb096c081f",
+  "experiments/phase8_alerts_pie_video_0004/run_manifest.json": "79374267e137ec34e2509ec7312213917de5ba238b184551e4063665a1a1596a"
+ },
+ "note": "input hashes are computed now and are tied to the run by the upstream manifests' recorded hashes (Phase 4 input sha, Phase 5 window and model hashes)",
+ "output_sha256": {
+  "S5B_forecast/predictions_neural.npz": "c070134fb67ef42753ecca347260c9f25e8b7ad37ae3333b690f3f008ee99748",
+  "S8_alerts/alert_events.jsonl.gz": "db80d6933029aafca422d243775573db8ffd14ba93f1b35e70ea89d3ba2d831b",
+  "S8_alerts/alerts.json": "575f694a273f2540816d1372fece8de80b16c28700b5ffb660fe2b857a5e3aac",
+  "S8_alerts/phase7_records_input.jsonl.gz": "543f918f681ccbf516ab7fa539cec3829e19254e80df73965f14c6fb096c081f",
+  "S8_alerts/run_manifest.json": "4e36342bc08b43a5490f27bd813367d6c9486d753f2ff8a5fdcf4fabed7b352d",
+  "S8_alerts/summary_report.json": "3bf11d9a09ff67d7fc104e15a0a8ced12fe307c4cdc0caa364d975ee270e6c03",
+  "run_manifest.json": "0551de25dbed0dd23a8f36585c378b03e281669344a7a7aecaafb0bbcf489342",
+  "verification_report.json": "3cc270bc28bf51f576aecd159f51bfa3f2b54a184c42fc5f2c047076ca920803"
+ },
+ "run_dir": "outputs/phase9_runs/inference_replay",
+ "stage_manifests": {
+  "S8_alerts": {
+   "config_sha256": "143db9df3a3ebf010665806e8fb0834a8dbbc9cc23ad4ea0a03398cd91dd687e",
+   "manifest_sha256": "4e36342bc08b43a5490f27bd813367d6c9486d753f2ff8a5fdcf4fabed7b352d",
+   "status": null,
+   "task": null
+  }
+ }
+}

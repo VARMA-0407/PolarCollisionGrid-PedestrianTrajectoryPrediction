@@ -1,0 +1,225 @@
+{
+ "attribution_version": "phase9-performance-attribution-1.0.0",
+ "categories": {
+  "file_io_and_serialization": {
+   "included_in_stage_times_not_separable": [
+    "S3 read",
+    "S4A read/write",
+    "S4B read/write",
+    "S5A read/write",
+    "S8 gzip/JSON writes",
+    "S6 window/graph-bank read"
+   ],
+   "phase5_predictions_write_s": 0.2817613999999935,
+   "reason": "separating them would require instrumenting Phase 4/5/8 code, which Phase 9 does not modify",
+   "status": "PARTIALLY_MEASURED"
+  },
+  "phase3_artifact_validation": {
+   "mean_s": 0.5177160999999999,
+   "median_s": 0.5177160999999999,
+   "n": 1,
+   "scope": "reading and contract-validating the precomputed Phase 3 rows; NOT perception time",
+   "status": "MEASURED"
+  },
+  "phase3_perception": {
+   "mean_s": null,
+   "median_s": null,
+   "n": 0,
+   "reason": "YOLO/ByteTrack were not executed here; not zero",
+   "recorded_not_measured_here": {
+    "caveat": "RECORDED from the Colab T4 run of Phase 3 (normal run, no warm-up or stage isolation); not measured here, different hardware",
+    "cpu": "Intel(R) Xeon(R) CPU @ 2.00GHz",
+    "detect_mean_ms": 20.387763016665456,
+    "frames_per_s_wall_including_decode_and_io": 16.151175304359587,
+    "frames_processed": 9840,
+    "hardware": [
+     {
+      "compute_capability": "7.5",
+      "index": 0,
+      "name": "Tesla T4",
+      "total_memory_mib": 14912.7
+     }
+    ],
+    "track_mean_ms": 2.5348743713429367,
+    "wall_time_s": 609.2435884430001
+   },
+   "status": "UNAVAILABLE"
+  },
+  "phase4_preprocessing_image_kinematics": {
+   "mean_s": 151.36584363333336,
+   "median_s": 158.0217165,
+   "n": 3,
+   "runs_s": [
+    158.0217165,
+    130.4066262,
+    165.6691882
+   ],
+   "scope": "Phase 4 Task 2 incl. its own file read/write",
+   "status": "MEASURED"
+  },
+  "phase4_preprocessing_interaction": {
+   "mean_s": 104.90601399999998,
+   "median_s": 106.76331479999999,
+   "n": 3,
+   "runs_s": [
+    106.76331479999999,
+    99.8546407,
+    108.10008649999997
+   ],
+   "scope": "Phase 4 Task 3 incl. its own file read/write",
+   "status": "MEASURED"
+  },
+  "phase5_inference_collate_and_other": {
+   "cv": 0.0430603533403772,
+   "mean_s": 7.801225079999995,
+   "median_s": 7.8413207000001535,
+   "n": 5,
+   "scope": "dataset item construction and batching around the forward pass, steady state",
+   "status": "MEASURED",
+   "std_s": 0.33592350843261215
+  },
+  "phase5_inference_model_forward": {
+   "cv": 0.037098716421724166,
+   "mean_s": 9.919924660000003,
+   "median_s": 9.96427089999986,
+   "n": 5,
+   "scope": "GATv2 + TCN encoder and decoder forward passes, batch 64, CPU, 1 thread, steady state",
+   "status": "MEASURED",
+   "std_s": 0.3680164718862086
+  },
+  "phase5_model_load_and_verification": {
+   "mean_s": 0.35988689999999224,
+   "median_s": 0.35988689999999224,
+   "n": 1,
+   "scope": "checkpoint / scaler / config / window-run hash verification and model construction (first pass)",
+   "status": "MEASURED"
+  },
+  "phase5_window_generation": {
+   "mean_s": 8.456913566666666,
+   "median_s": 8.09917059999998,
+   "n": 3,
+   "runs_s": [
+    9.216258900000014,
+    8.09917059999998,
+    8.055311200000006
+   ],
+   "scope": "P5.3 window generation incl. its own file read/write",
+   "status": "MEASURED"
+  },
+  "phase6_conflict_processing": {
+   "cv": 0.09176081973828394,
+   "mean_s": 0.3304414199999883,
+   "median_s": 0.3273575999999707,
+   "n": 5,
+   "scope": "pair construction and image-space features, steady state",
+   "status": "MEASURED",
+   "std_s": 0.030321575574681497
+  },
+  "phase7_risk_processing": {
+   "cv": 0.04298319643743151,
+   "mean_s": 0.1827568200000087,
+   "median_s": 0.18003590000000713,
+   "n": 5,
+   "scope": "heuristic risk scoring, categories and record construction, steady state",
+   "status": "MEASURED",
+   "std_s": 0.007855472294340686
+  },
+  "phase8_alert_processing": {
+   "cv": 0.05517165104369108,
+   "mean_s": 1.6155793000000016,
+   "median_s": 1.6286695000000009,
+   "n": 5,
+   "scope": "state machine over all records, no file output, steady state",
+   "status": "MEASURED",
+   "std_s": 0.0891341773730108
+  },
+  "video_decoding": {
+   "mean_s": null,
+   "median_s": null,
+   "n": 0,
+   "reason": "no raw video and no OpenCV in this environment; not zero",
+   "status": "UNAVAILABLE"
+  }
+ },
+ "environment": {
+  "cpu_name": "12th Gen Intel(R) Core(TM) i5-1235U",
+  "cuda_available": false,
+  "gpu": "NOT_APPLICABLE_NO_CUDA_DEVICE",
+  "logical_cpus": 12,
+  "measured_after_run_on_the_same_machine": true,
+  "memory_method": "process peak working set via the OS API (Windows GetProcessMemoryInfo) or ru_maxrss; process-level and monotone, not per stage",
+  "platform": "Windows-10-10.0.26300-SP0",
+  "processor": "Intel64 Family 6 Model 154 Stepping 4, GenuineIntel",
+  "psutil": "unavailable",
+  "python": "3.9.25",
+  "ram_total_bytes": 16890978304,
+  "torch": "2.2.1+cpu",
+  "torch_threads": 10
+ },
+ "execution_mode": "PRECOMPUTED_PHASE3_ARTIFACTS",
+ "first_pass_stage_wall_s": {
+  "S3_PERCEPTION": 0.5177160999999999,
+  "S4A_IMAGE_KINEMATICS": 158.0217165,
+  "S4B_INTERACTION": 106.76331479999999,
+  "S5A_WINDOWS": 9.216258900000014,
+  "S5B_FORECAST": 19.91693699999996,
+  "S6_CONFLICT": 0.45728170000001,
+  "S7_RISK": 0.26988810000000285,
+  "S8_ALERTS": 1.9136098000000175,
+  "S9_EVALUATION_GATES": 0.5876676999999972
+ },
+ "gpu": "NOT_APPLICABLE_NO_CUDA_DEVICE",
+ "isolated_component_not_system_throughput": "the Phase 8 alert manager alone processed ~2e4 observations/s; this is a component microbenchmark, not complete-system throughput",
+ "memory": {
+  "gpu_memory": "NOT_APPLICABLE_NO_CUDA_DEVICE",
+  "method": "process peak working set via the OS API; process-level, monotone, includes the benchmark repeats and extra preprocessing runs",
+  "per_stage_isolated": false,
+  "process_peak_working_set_bytes": 1541705728,
+  "psutil": "unavailable"
+ },
+ "phase3_perception": "NOT_EXECUTED_PRECOMPUTED_ARTIFACTS_VALIDATED_ONLY",
+ "phase4_to_phase8_chain_complete": true,
+ "phase4_to_phase8_first_pass_wall_s": 296.5590068,
+ "phase4_to_phase8_offline_batch_throughput": {
+  "WARNING": "NOT raw-video end-to-end FPS and NOT a real-time result: excludes video decoding and Phase 3 perception, processes the whole recording as an offline batch, and the window builder needs each target's future frames. Phase 4 Task 2/3 are 90% of this time. Never compare with a 30 FPS requirement.",
+  "frames_per_s": 33.180580506314264,
+  "frames_represented": 9840,
+  "ms_per_frame": 30.138110447154475
+ },
+ "precomputed_artifact_integration_success": true,
+ "raw_video_executed": false,
+ "raw_video_to_alert_pipeline_success": false,
+ "realtime_assessment": {
+  "claim_supported": false,
+  "measured_frames_per_s_of_measured_stages": 33.180580506314264,
+  "target_fps": 30.0,
+  "unmet_conditions": [
+   "video decoding and perception (Phase 3) were not part of this measurement",
+   "the pipeline is an offline batch replay: the window builder requires the target's future frames to accept a window, so no causal online mode exists"
+  ]
+ },
+ "repetitions": {
+  "inference_steady_state_repeats": 5,
+  "inference_warmup_runs": 1,
+  "inference_warmup_s": [
+   20.625493699999993
+  ],
+  "note": "preprocessing runs are cold (no warm-up) repetitions; run 1 is the main pass",
+  "preprocessing_runs_per_stage": {
+   "S4A": 3,
+   "S4B": 3,
+   "S5A": 3
+  }
+ },
+ "run_total_wall_s_including_benchmark_repeats": 938.0077911,
+ "stages_completed": [
+  "S4A_IMAGE_KINEMATICS",
+  "S4B_INTERACTION",
+  "S5A_WINDOWS",
+  "S5B_FORECAST",
+  "S6_CONFLICT",
+  "S7_RISK",
+  "S8_ALERTS"
+ ],
+ "statement": "Phases 4-8 were executed on precomputed Phase 3 artifacts; Phase 3 raw-video inference was not run (no raw video, no OpenCV/Ultralytics/GPU locally). This is NOT a raw-video-to-alert execution."
+}

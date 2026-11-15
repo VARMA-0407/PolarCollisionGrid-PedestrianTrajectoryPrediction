@@ -1,0 +1,32 @@
+{
+  "config_version": "phase9-pipeline-config-1.0.0",
+  "label": "PILOT_DEVELOPMENT_ONLY_NON_INDEPENDENT",
+  "stages": ["S3_PERCEPTION", "S4A_IMAGE_KINEMATICS", "S4B_INTERACTION", "S5A_WINDOWS", "S5B_FORECAST", "S6_CONFLICT", "S7_RISK", "S8_ALERTS", "S9_EVALUATION_GATES"],
+  "phase3": {"dir": "PIE_pilot_inputs"},
+  "reference_runs": {
+    "task2_dir": "experiments/phase4_task2_pie_video_0004/20261114T202653Z_pie_video_0004/primary_causal",
+    "task3_dir": "experiments/phase4_task3_pie_video_0004/20261115T034308Z_pie_video_0004_regen_5d58ab7/primary",
+    "windows_dir": "experiments/phase5_task3_windows_pie_video_0004/20261115T035825Z_pie_video_0004/primary",
+    "training_dir": "experiments/phase5_task7_training/20261115T190117Z_pie_video_0004",
+    "neural_eval_dir": "experiments/phase5_task7_neural_evaluation/20261115T191319Z_pie_video_0004",
+    "phase7_dir": "experiments/phase7_risk_pie_video_0004",
+    "phase8_dir": "experiments/phase8_alerts_pie_video_0004"
+  },
+  "configs": {
+    "image_kinematics": "configs/phase4/image_kinematics_default.json",
+    "interaction": "configs/phase4/interaction_representation_default.json",
+    "windows": "configs/phase5/window_generation_default.json",
+    "neural_eval": "configs/phase5/neural_evaluation_default.json",
+    "conflict": "configs/phase6/conflict_default.json",
+    "risk": "configs/phase7/risk_default.json",
+    "alert": "configs/phase8/alert_default.json",
+    "split_manifest": null
+  },
+  "inference_windows": "reference",
+  "benchmark": {"inference_warmup": 1, "inference_repeats": 5, "preprocessing_extra_repeats": 2},
+  "streaming_capable": false,
+  "target_fps": 30.0,
+  "output_root": "outputs/phase9_runs",
+  "report_dir": "experiments/phase9_end_to_end_pie_video_0004",
+  "_notes": "Precomputed-Phase-3 integration run on the PIE pilot (in-sample, one video). inference_windows=reference because the Phase 5 model verifies the exact window-run manifest hash."
+}

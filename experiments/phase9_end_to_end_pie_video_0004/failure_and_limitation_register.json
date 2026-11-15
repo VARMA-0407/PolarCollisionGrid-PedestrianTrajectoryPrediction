@@ -1,0 +1,72 @@
+{
+ "extended_after_run": true,
+ "limitations": [
+  {
+   "area": "data",
+   "id": "L1",
+   "text": "One PIE video (set01/video_0004); the Phase 5 model is trained and evaluated on the same windows (in-sample)."
+  },
+  {
+   "area": "data",
+   "id": "L2",
+   "text": "No annotation files, verified conflict labels, verified events or independent scene groups exist: independent evaluation is blocked."
+  },
+  {
+   "area": "coordinates",
+   "id": "L3",
+   "text": "Image-space pixels only; the camera moves; no ego-motion compensation, no metric geometry, no TTC/PET/distance/severity."
+  },
+  {
+   "area": "streaming",
+   "id": "L4",
+   "text": "The window builder accepts a window only if the target also has its 15 future samples, so windows (and alerts) are conditioned on future track existence; the pipeline is an offline replay, not a causal online system. Inference inputs themselves are history-only (verified by future-scrambling)."
+  },
+  {
+   "area": "perception",
+   "id": "L5",
+   "text": "Video decoding and detection/tracking were not executed in this environment (no raw video, no OpenCV/Ultralytics, no GPU); Phase 3 results are recorded from the Colab T4 run."
+  },
+  {
+   "area": "provenance",
+   "id": "L6",
+   "text": "The Phase 5 model verifies the exact window-run manifest hash; regenerating windows creates a new manifest, so the model rejects them (by design). Re-execution is therefore checked for data-file equality and inference uses the reference window run."
+  },
+  {
+   "area": "performance",
+   "id": "L7",
+   "text": "CPU-only, one machine; peak memory is the process peak working set; no GPU, no end-to-end real-time measurement."
+  },
+  {
+   "area": "calibration",
+   "id": "L8",
+   "text": "Phase 7 probabilities are null; categories and Phase 8 thresholds are unvalidated engineering configuration."
+  },
+  {
+   "area": "alerts",
+   "id": "L9",
+   "text": "Alerts are properties of a heuristic on one in-sample video; most close by evidence loss (pair no longer observed), not by risk subsiding."
+  },
+  {
+   "area": "record",
+   "id": "L10",
+   "text": "The recorded full run (pie_video_0004_full) was executed with the code revision BEFORE four additions: enriched Phase 8 provenance, the execution_mode / input-hash fields in the manifest, the CPU-name and RAM fields, and torch routed through the guarded Phase 5 module. Execution mode, attribution and input hashes for that run were derived afterwards with `attribute` and `verify-run` (read-only, no re-measurement); the new code paths are demonstrated by the inference replay run and the tests."
+  },
+  {
+   "area": "regression",
+   "id": "L11",
+   "text": "tests/phase2/test_ttc_masks.py::test_ttc_occupancy_mask_collapses_agent_dimension fails (UnboundLocalError: TTC_mask, utils/Interaction.py:173). Verified pre-existing: it fails identically at Phase 5 commit afdf822 and utils/ and tests/phase2/ are byte-identical since. It is baseline code unrelated to Phases 3-9 and was not modified."
+  },
+  {
+   "area": "provenance",
+   "id": "L12",
+   "text": "Metadata-only differences between Phase 9 and the committed Phase 8 events: inference replay differs in 3 provenance keys (phase5_predictions_sha256, phase9_execution_mode, phase9_stage); the recorded full run differs in 10 (its S8 provenance predates the enrichment). Event ids, alert ids, pairs, transitions, ordering, risk values, masks and every non-provenance field are exactly equal. No scientific content differs."
+  },
+  {
+   "area": "performance",
+   "id": "L13",
+   "text": "Peak memory is the process peak working set from the Windows API (psutil is not installed); it is monotone, process-wide and includes the benchmark repetitions. S3 time (0.52 s) is artifact validation, not perception. No local YOLO or video-decoding time exists. Phase 4-8 offline-batch throughput (33.2 frames of video per second of processing) is not raw-video end-to-end FPS."
+  }
+ ],
+ "register_version": "phase9-failure-limitation-register-1.0.0",
+ "run_failures": []
+}

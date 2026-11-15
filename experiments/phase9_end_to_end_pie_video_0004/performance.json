@@ -1,0 +1,172 @@
+{
+ "downstream_frames_per_s_offline_batch": 33.180580506314264,
+ "downstream_ms_per_frame": 30.138110447154475,
+ "downstream_stages_measured": [
+  "S4A_IMAGE_KINEMATICS",
+  "S4B_INTERACTION",
+  "S5A_WINDOWS",
+  "S5B_FORECAST",
+  "S6_CONFLICT",
+  "S7_RISK",
+  "S8_ALERTS"
+ ],
+ "downstream_wall_s_first_pass": 296.5590068,
+ "first_pass_includes_warmup_effects": true,
+ "gpu": "NOT_APPLICABLE_NO_CUDA_DEVICE",
+ "hardware": {
+  "cuda_available": false,
+  "gpu": "NOT_APPLICABLE_NO_CUDA_DEVICE",
+  "logical_cpus": 12,
+  "platform": "Windows-10-10.0.26300-SP0",
+  "processor": "Intel64 Family 6 Model 154 Stepping 4, GenuineIntel",
+  "python": "3.9.25",
+  "torch": "2.2.1+cpu",
+  "torch_threads": 1
+ },
+ "inference_chain": {
+  "ms_per_window_mean": 8.538671671680277,
+  "pairs": 8233,
+  "scope": "model forward, collate, Phase 6 pairs, Phase 7 risk, Phase 8 manager; excludes file I/O (measured separately) and all preprocessing",
+  "steady_state": {
+   "alert_manager": {
+    "cv": 0.05517165104369108,
+    "max": 1.7069457000000057,
+    "mean": 1.6155793000000016,
+    "median": 1.6286695000000009,
+    "min": 1.5149479000000383,
+    "n": 5,
+    "std_sample": 0.0891341773730108
+   },
+   "collate_and_other": {
+    "cv": 0.0430603533403772,
+    "max": 8.16610519999989,
+    "mean": 7.801225079999995,
+    "median": 7.8413207000001535,
+    "min": 7.2505723999998395,
+    "n": 5,
+    "std_sample": 0.33592350843261215
+   },
+   "conflict_pairs": {
+    "cv": 0.09176081973828394,
+    "max": 0.3754623999999467,
+    "mean": 0.3304414199999883,
+    "median": 0.3273575999999707,
+    "min": 0.2940151999999898,
+    "n": 5,
+    "std_sample": 0.030321575574681497
+   },
+   "inference_chain_total": {
+    "cv": 0.03703972636482591,
+    "max": 20.68234849999999,
+    "mean": 19.869488980000007,
+    "median": 20.02477060000001,
+    "min": 18.727577399999973,
+    "n": 5,
+    "std_sample": 0.7359604348281241
+   },
+   "model_forward": {
+    "cv": 0.037098716421724166,
+    "max": 10.279992500000105,
+    "mean": 9.919924660000003,
+    "median": 9.96427089999986,
+    "min": 9.410850900000128,
+    "n": 5,
+    "std_sample": 0.3680164718862086
+   },
+   "risk": {
+    "cv": 0.04298319643743151,
+    "max": 0.19293440000001283,
+    "mean": 0.1827568200000087,
+    "median": 0.18003590000000713,
+    "min": 0.1758250999999973,
+    "n": 5,
+    "std_sample": 0.007855472294340686
+   }
+  },
+  "warmup_total_s": [
+   20.625493699999993
+  ],
+  "windows": 2327
+ },
+ "main_run_stage_wall_s": {
+  "S3_PERCEPTION": 0.5177160999999999,
+  "S4A_IMAGE_KINEMATICS": 158.0217165,
+  "S4B_INTERACTION": 106.76331479999999,
+  "S5A_WINDOWS": 9.216258900000014,
+  "S5B_FORECAST": 19.91693699999996,
+  "S6_CONFLICT": 0.45728170000001,
+  "S7_RISK": 0.26988810000000285,
+  "S8_ALERTS": 1.9136098000000175,
+  "S9_EVALUATION_GATES": 0.5876676999999972
+ },
+ "preprocessing": {
+  "runs_s": {
+   "S4A": [
+    158.0217165,
+    130.4066262,
+    165.6691882
+   ],
+   "S4B": [
+    106.76331479999999,
+    99.8546407,
+    108.10008649999997
+   ],
+   "S5A": [
+    9.216258900000014,
+    8.09917059999998,
+    8.055311200000006
+   ]
+  },
+  "scope": "Phase 4 Task 2, Task 3 and Phase 5 window generation, each including its own file I/O (JSONL/NPZ read and write); first sample = main run",
+  "stats": {
+   "S4A": {
+    "cv": 0.12254810365714637,
+    "max": 165.6691882,
+    "mean": 151.36584363333336,
+    "median": 158.0217165,
+    "min": 130.4066262,
+    "n": 3,
+    "std_sample": 18.549597095729144
+   },
+   "S4B": {
+    "cv": 0.04218426852381379,
+    "max": 108.10008649999997,
+    "mean": 104.90601399999998,
+    "median": 106.76331479999999,
+    "min": 99.8546407,
+    "n": 3,
+    "std_sample": 4.425383464338968
+   },
+   "S5A": {
+    "cv": 0.07780354995917536,
+    "max": 9.216258900000014,
+    "mean": 8.456913566666666,
+    "median": 8.09917059999998,
+    "min": 8.055311200000006,
+    "n": 3,
+    "std_sample": 0.6579778971845779
+   }
+  }
+ },
+ "process_peak_working_set_bytes": 1541705728,
+ "realtime_assessment": {
+  "claim_supported": false,
+  "measured_frames_per_s_of_measured_stages": 33.180580506314264,
+  "target_fps": 30.0,
+  "unmet_conditions": [
+   "video decoding and perception (Phase 3) were not part of this measurement",
+   "the pipeline is an offline batch replay: the window builder requires the target's future frames to accept a window, so no causal online mode exists"
+  ]
+ },
+ "stage_detail": {
+  "S5B": {
+   "collate_and_other_s": 8.018619600000022,
+   "forward_ms_per_window": 4.463513880532854,
+   "model_forward_s": 10.38659679999995,
+   "model_load_and_verify_s": 0.35988689999999224,
+   "predict_total_s": 18.405216399999972,
+   "windows": 2327,
+   "write_predictions_s": 0.2817613999999935
+  }
+ }
+}

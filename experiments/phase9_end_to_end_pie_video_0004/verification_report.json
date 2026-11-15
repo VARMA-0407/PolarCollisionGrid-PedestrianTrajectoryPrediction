@@ -1,0 +1,169 @@
+{
+ "checks": {
+  "all_compared_checks_pass": true,
+  "phase5_predictions_npz": {
+   "arrays": {
+    "equal": true,
+    "n_arrays": 11,
+    "same_keys": true,
+    "unequal_arrays": []
+   },
+   "sha256_equal": true
+  },
+  "phase5_windows": {
+   "graph_bank.npz": {
+    "equal": true,
+    "n_arrays": 64,
+    "same_keys": true,
+    "unequal_arrays": []
+   },
+   "rejected_candidates.npz": {
+    "equal": true,
+    "n_arrays": 4,
+    "same_keys": true,
+    "unequal_arrays": []
+   },
+   "windows.npz": {
+    "equal": true,
+    "n_arrays": 22,
+    "same_keys": true,
+    "unequal_arrays": []
+   }
+  },
+  "phase7_arrays_vs_records": {
+   "anchor_frame_equal": true,
+   "calibration_status_all_not_calibrated": true,
+   "probabilities_all_null": true,
+   "risk_category_equal": true,
+   "risk_score_equal": true,
+   "window_id_equal": true
+  },
+  "phase7_records": {
+   "covers": "pedestrian/vehicle ids, anchor frames, window ids, risk scores, risk categories, category status, masks, probabilities (all null), reasons",
+   "exactly_equal_lists": true,
+   "n": 8233,
+   "n_reference": 8233
+  },
+  "phase8_alert_table": {
+   "exactly_equal": true
+  },
+  "phase8_events": {
+   "alert_ids_equal_in_order": true,
+   "all_fields_equal_except_provenance": true,
+   "event_ids_equal_in_order": true,
+   "n": 1200,
+   "n_reference": 1200,
+   "note": "the free-form provenance block names the producing stage; all other event fields, including hashes and source references, are exactly equal",
+   "pairs_equal_in_order": true,
+   "provenance_keys_that_differ": [
+    "coordinate_system",
+    "phase5_run_manifest_sha256",
+    "phase6_config_sha256",
+    "phase7_calibration_status",
+    "phase7_category_status",
+    "phase7_risk_report_sha256",
+    "phase7_schema",
+    "phase7_threshold_evidence",
+    "phase9_stage",
+    "sample_status"
+   ],
+   "transitions_equal_in_order": true
+  }
+ },
+ "input_sha256_computed_after_the_run": {
+  "PIE_pilot_inputs/agent_states.jsonl": "ff8b9b217144a9a6792069aa2db11cd9e9ca43fbf00077ad4da6e2b3fe485dc7",
+  "PIE_pilot_inputs/run_manifest.json": "e8c2a895543c6e222b58d9974a409faddab3b98e742fa048a4286bcd9b1dc7c2",
+  "PIE_pilot_inputs/tracked_agents.jsonl": "182babb386a821da720b9520afa024cf4e9195baea3031c4970b64000c593ff5",
+  "configs/phase4/image_kinematics_default.json": "757f5588cfca49fa0f21a554de576ff06f073d5311ee1b02e2910c53ea6090fe",
+  "configs/phase4/interaction_representation_default.json": "252dccd578e1333b2ccb7dafc0bb159a58b6c3880b11d4b64c334cc7ba9d99d6",
+  "configs/phase5/neural_evaluation_default.json": "c9f913c3aa999d49bcd1ad727d685ffafea6fa9fe292a8308fb86cbb847b09ba",
+  "configs/phase5/window_generation_default.json": "6a35036c21cc3b549bc02a4f85c20705511c1ed6f552f958b7b963cda98d789a",
+  "configs/phase6/conflict_default.json": "3e1163183b66581fcdbe4a8633c21fc1430dbe3ce7cb17065bfe37e2bf9bdb38",
+  "configs/phase7/risk_default.json": "b2d1ff5a32d8b8f3a72c6530b3da213c005f2f2303ed52b6f9f4b0daf47cb6d8",
+  "configs/phase8/alert_default.json": "f120d3607ba708a04e2782e20637916c39e394a4f2c44209ed693a4d7299b864",
+  "experiments/phase4_task2_pie_video_0004/20261114T202653Z_pie_video_0004/primary_causal/causal_kinematics.jsonl": "9e5c5f3d6185028194b25f520a74aa0e9d751e66a16754881f366c87c7ac82e3",
+  "experiments/phase4_task2_pie_video_0004/20261114T202653Z_pie_video_0004/primary_causal/run_manifest.json": "ad2089591d704ca403d530b7237bac3ebdee524852f09310f21087c5beac144b",
+  "experiments/phase4_task3_pie_video_0004/20261115T034308Z_pie_video_0004_regen_5d58ab7/primary/run_manifest.json": "366b8d0cf33000965dc410268db8db0045ce4e318937071c322ff03a8bfdbe6e",
+  "experiments/phase5_task3_windows_pie_video_0004/20261115T035825Z_pie_video_0004/primary/graph_bank.npz": "fc0821a36b90f4b3696d64b9ce29dd1285171565f3e636bb2e200f821a8d0779",
+  "experiments/phase5_task3_windows_pie_video_0004/20261115T035825Z_pie_video_0004/primary/rejected_candidates.npz": "6efbe92a4d99da4c70b1806103005ebbb4a8e368e5fdc0d9c4bfab1448375a29",
+  "experiments/phase5_task3_windows_pie_video_0004/20261115T035825Z_pie_video_0004/primary/run_manifest.json": "3369ea80c65652b8f1797c7a62a14c29428eb1dd7e9dc60b0d8a8e5be30dc1e8",
+  "experiments/phase5_task3_windows_pie_video_0004/20261115T035825Z_pie_video_0004/primary/windows.npz": "49b4ca392bb8e07b473702f8c6982c983d6f757775c5e5053c031ad964b3d637",
+  "experiments/phase5_task7_neural_evaluation/20261115T191319Z_pie_video_0004/predictions_neural.npz": "c070134fb67ef42753ecca347260c9f25e8b7ad37ae3333b690f3f008ee99748",
+  "experiments/phase5_task7_neural_evaluation/20261115T191319Z_pie_video_0004/run_manifest.json": "de2c805602d5c41368c09debea017ac007ce6546a8f76ac8ba13d01dfaa8de42",
+  "experiments/phase5_task7_training/20261115T190117Z_pie_video_0004/checkpoints/checkpoint_epoch_0010.pt": "d0f0f417bf1cf478d2744689c09b6c589d6f967d910217ba9bf02575d11d37d2",
+  "experiments/phase5_task7_training/20261115T190117Z_pie_video_0004/checkpoints/checkpoint_epoch_0020.pt": "40aff17f1a40eb2da24d0e0b63245eecefa5bba4e3f6e44c272dc07f3ab71b44",
+  "experiments/phase5_task7_training/20261115T190117Z_pie_video_0004/config_resolved.json": "36d930d7d8f3f80fc4cf70fe2725500754af76491ff5c7c9b300674f02f0130d",
+  "experiments/phase5_task7_training/20261115T190117Z_pie_video_0004/run_manifest.json": "a2a0f70c51e0476a4fd175b4b4b97299c8d9b90f40c407dcb7e9c5e2b0ada4f6",
+  "experiments/phase5_task7_training/20261115T190117Z_pie_video_0004/scaler_statistics.json": "cc270aa6562931f5c66b909dcc5941ba20869101862ec91c35e924c81b0ce723",
+  "experiments/phase7_risk_pie_video_0004/risk_arrays.npz": "3aa4f9a90e7f985d8b35e02968f0104d82512b2e62ec4ffcca4335a6786181f5",
+  "experiments/phase7_risk_pie_video_0004/risk_report.json": "0a5c677ea6d4713ec394c7d81985b64c7010ce9c1c3bbe93de01535fe4415b90",
+  "experiments/phase8_alerts_pie_video_0004/alert_events.jsonl.gz": "360b00e4e8357ce443a75e5f48cd442c3abfc2c735dc2becd2820c23096b4622",
+  "experiments/phase8_alerts_pie_video_0004/alerts.json": "575f694a273f2540816d1372fece8de80b16c28700b5ffb660fe2b857a5e3aac",
+  "experiments/phase8_alerts_pie_video_0004/phase7_records_input.jsonl.gz": "543f918f681ccbf516ab7fa539cec3829e19254e80df73965f14c6fb096c081f",
+  "experiments/phase8_alerts_pie_video_0004/run_manifest.json": "79374267e137ec34e2509ec7312213917de5ba238b184551e4063665a1a1596a"
+ },
+ "note": "input hashes are computed now and are tied to the run by the upstream manifests' recorded hashes (Phase 4 input sha, Phase 5 window and model hashes)",
+ "output_sha256": {
+  "S4A_image_kinematics/causal_kinematics.jsonl": "9e5c5f3d6185028194b25f520a74aa0e9d751e66a16754881f366c87c7ac82e3",
+  "S4A_image_kinematics/config_resolved.json": "804f699369c84eeec75cfc06bf3ffd08191b2f3cc508ac42a74647ca4429c515",
+  "S4A_image_kinematics/kinematic_quality_report.json": "a7b71acc37517169d25b238bfb65ac25a16c6b2be6c58e7ce1e4a7ce48167313",
+  "S4A_image_kinematics/offline_kinematics.jsonl": "9e19ff3f930a0206bb40a1e461fcb0a4bc22dda2add173f9f2c1be0e9e7509e8",
+  "S4A_image_kinematics/processing_log.txt": "960abe4191808295737c50f47e00065a299c0ea937115fb17267ba42cbdc7c35",
+  "S4A_image_kinematics/quarantine.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "S4A_image_kinematics/run_manifest.json": "bb59e38a06679f472f41011eed9166add60031230d0a4c2cc7d5da9897ddae59",
+  "S4A_image_kinematics/track_continuity_report.json": "64f8b734afc63f606d3e744bf0f46f27244f084e2db9e2f438eb6e4b843b4d7c",
+  "S4B_interaction/config_resolved.json": "4f2dd0b3fd0611d6a6b7b2646bfa1e28dce25854c21633433a3296de70917949",
+  "S4B_interaction/edges_bicyclist__pedestrian.npz": "db657ca3a2ee3c67b7b1c57df47bd396abe3d7e96b62f4cf23d8740c78704e46",
+  "S4B_interaction/edges_bicyclist__vehicle.npz": "6d3169ee36af69db6cffecc9667f6216eef61eb28c569be13c129b8bf44fcad1",
+  "S4B_interaction/edges_pedestrian__bicyclist.npz": "ce70fb6f48832625a3defdeef2bce347470a50da88ddc26b68d37781398a577a",
+  "S4B_interaction/edges_pedestrian__pedestrian.npz": "2f2a804a01cdcffe7745924a68d0327b3e1df3d1967be4c36215b60f2efcd01a",
+  "S4B_interaction/edges_pedestrian__vehicle.npz": "524b7f8bb3f3edee8973e0971f8b93cde4fd0b974a82ac410f8c7d429f437d19",
+  "S4B_interaction/edges_vehicle__bicyclist.npz": "7e35b970709bf6ab4da17616e75db5af34b32ff499ce6aa6df1a83bbabcf1df7",
+  "S4B_interaction/edges_vehicle__pedestrian.npz": "353810f3377600c8faa0e013e48ad58190e92d829c1c39654b62f7bcfb29e175",
+  "S4B_interaction/feature_dictionary.json": "d3cb194cfd3c430f8cc7fa8fd5d8be9e0a6115b86bba90e6c8676d8a10ee49df",
+  "S4B_interaction/interaction_diagnostics.json": "f188d1b7dac28a28391ffd2e9c8bf6ad0696ed4e71df11eb90418d505e452bd9",
+  "S4B_interaction/interaction_summary.md": "d2794ad7f170b169c9554d8b2e8ac7ca984d9e090be09a50a064846b2065fecc",
+  "S4B_interaction/nodes.npz": "f904c4dc5178705393773a379d123494caeea969c80000410113684524cbc13c",
+  "S4B_interaction/run_manifest.json": "09ac3994e27a3e665ca97b8ebb36635aed44e98e2dd224cb01569c4f9617608d",
+  "S4B_interaction/tracks.json": "01cdb886e00a2c1930ffb0049e970b5c19f14aa6c133e4b6af30d85c22ecf3f3",
+  "S5A_windows/graph_bank.npz": "fc0821a36b90f4b3696d64b9ce29dd1285171565f3e636bb2e200f821a8d0779",
+  "S5A_windows/rejected_candidates.npz": "6efbe92a4d99da4c70b1806103005ebbb4a8e368e5fdc0d9c4bfab1448375a29",
+  "S5A_windows/run_manifest.json": "1ec1b184e547ed4ff03c0ea8a20520fbdfe0ec21cad3e33c8ba60d4cff1aa2f0",
+  "S5A_windows/smoke_manifest.json": "02c21aab7beb057727e680a8e9ed43644a556f42f1d120b1514697b9a39a7c2b",
+  "S5A_windows/windows.npz": "49b4ca392bb8e07b473702f8c6982c983d6f757775c5e5053c031ad964b3d637",
+  "S5B_forecast/predictions_neural.npz": "c070134fb67ef42753ecca347260c9f25e8b7ad37ae3333b690f3f008ee99748",
+  "S8_alerts/alert_events.jsonl.gz": "d68ee0ec2c391a0fa7772cd77962ce6d153bdabd9fd1ab1ab081d2fa508ec1d9",
+  "S8_alerts/alerts.json": "575f694a273f2540816d1372fece8de80b16c28700b5ffb660fe2b857a5e3aac",
+  "S8_alerts/phase7_records_input.jsonl.gz": "543f918f681ccbf516ab7fa539cec3829e19254e80df73965f14c6fb096c081f",
+  "S8_alerts/run_manifest.json": "ea46194855f12f4a27e6dcae64dabb794c68d018b2a28166e37046d30da9130b",
+  "S8_alerts/summary_report.json": "3bf11d9a09ff67d7fc104e15a0a8ced12fe307c4cdc0caa364d975ee270e6c03",
+  "run_manifest.json": "ead952f3610d8ac2b92e306c1741cc0f3ff8f2104da9e0391e5cb98c3dabbd28"
+ },
+ "run_dir": "outputs/phase9_runs/pie_video_0004_full",
+ "stage_manifests": {
+  "S4A_image_kinematics": {
+   "config_sha256": "1f5e931c05f5226958389c36528acd0334678a728ef4236f43a7107a5d925c28",
+   "manifest_sha256": "bb59e38a06679f472f41011eed9166add60031230d0a4c2cc7d5da9897ddae59",
+   "status": "completed",
+   "task": "phase4_task2_image_space_kinematics"
+  },
+  "S4B_interaction": {
+   "config_sha256": "2770586a993448518b1b83aa3e6c0fcfcf6978a524cb770435b99e02995190e0",
+   "manifest_sha256": "09ac3994e27a3e665ca97b8ebb36635aed44e98e2dd224cb01569c4f9617608d",
+   "status": "completed",
+   "task": "phase4_task3_image_space_interaction_representation"
+  },
+  "S5A_windows": {
+   "config_sha256": "65eebeededba135d3f707f31fa3ae0901ad92f89833594d4fec9005a6ea31034",
+   "manifest_sha256": "1ec1b184e547ed4ff03c0ea8a20520fbdfe0ec21cad3e33c8ba60d4cff1aa2f0",
+   "status": "completed",
+   "task": "phase5_p5.3_pilot_window_generation"
+  },
+  "S8_alerts": {
+   "config_sha256": "143db9df3a3ebf010665806e8fb0834a8dbbc9cc23ad4ea0a03398cd91dd687e",
+   "manifest_sha256": "ea46194855f12f4a27e6dcae64dabb794c68d018b2a28166e37046d30da9130b",
+   "status": null,
+   "task": null
+  }
+ }
+}

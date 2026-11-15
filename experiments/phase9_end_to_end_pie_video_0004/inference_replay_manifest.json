@@ -1,0 +1,675 @@
+{
+ "claims": {
+  "calibrated_probability": false,
+  "deployment_ready": false,
+  "independent_generalization": false,
+  "physical_ttc_pet": false,
+  "real_time_performance": false,
+  "validated_early_warning_time": false
+ },
+ "config": {
+  "content": {
+   "benchmark": {
+    "inference_repeats": 5,
+    "inference_warmup": 1,
+    "preprocessing_extra_repeats": 2
+   },
+   "config_version": "phase9-pipeline-config-1.0.0",
+   "configs": {
+    "alert": "configs/phase8/alert_default.json",
+    "conflict": "configs/phase6/conflict_default.json",
+    "image_kinematics": "configs/phase4/image_kinematics_default.json",
+    "interaction": "configs/phase4/interaction_representation_default.json",
+    "neural_eval": "configs/phase5/neural_evaluation_default.json",
+    "risk": "configs/phase7/risk_default.json",
+    "split_manifest": null,
+    "windows": "configs/phase5/window_generation_default.json"
+   },
+   "inference_windows": "reference",
+   "label": "PILOT_DEVELOPMENT_ONLY_NON_INDEPENDENT",
+   "output_root": "outputs/phase9_runs",
+   "phase3": {
+    "dir": "PIE_pilot_inputs"
+   },
+   "reference_runs": {
+    "neural_eval_dir": "experiments/phase5_task7_neural_evaluation/20261115T191319Z_pie_video_0004",
+    "phase7_dir": "experiments/phase7_risk_pie_video_0004",
+    "phase8_dir": "experiments/phase8_alerts_pie_video_0004",
+    "task2_dir": "experiments/phase4_task2_pie_video_0004/20261114T202653Z_pie_video_0004/primary_causal",
+    "task3_dir": "experiments/phase4_task3_pie_video_0004/20261115T034308Z_pie_video_0004_regen_5d58ab7/primary",
+    "training_dir": "experiments/phase5_task7_training/20261115T190117Z_pie_video_0004",
+    "windows_dir": "experiments/phase5_task3_windows_pie_video_0004/20261115T035825Z_pie_video_0004/primary"
+   },
+   "report_dir": "",
+   "stages": [
+    "S3_PERCEPTION",
+    "S5B_FORECAST",
+    "S6_CONFLICT",
+    "S7_RISK",
+    "S8_ALERTS",
+    "S9_EVALUATION_GATES"
+   ],
+   "streaming_capable": false,
+   "target_fps": 30.0
+  },
+  "sha256": "7282ec1a4163e9002c44fa3b1907eadaf168f81d411f80adcbad68511cbea1c2"
+ },
+ "contract_version": "phase9-stage-contracts-1.0.0",
+ "counts": {
+  "alert_events": 1200,
+  "alert_transitions_to_insufficient_evidence": 473,
+  "alerts": 28,
+  "alerts_by_clearance_kind": {
+   "EVIDENCE_LOST": 25,
+   "RISK_SUBSIDED": 3
+  },
+  "alerts_escalated": 8,
+  "frames_processed_phase3": 9840,
+  "frames_skipped_phase3": 0,
+  "insufficient_evidence_records": 1231,
+  "pairs": 8233,
+  "pairs_invalid": 143,
+  "pairs_valid": 8090,
+  "phase3_track_rows": 65388,
+  "phase3_tracks": 1500,
+  "risk_categories": {
+   "CRITICAL": 112,
+   "HIGH": 297,
+   "INSUFFICIENT_EVIDENCE": 1231,
+   "LOW": 6080,
+   "MODERATE": 513
+  },
+  "windows_predicted": 2327
+ },
+ "execution_mode": "PRECOMPUTED_PHASE3_ARTIFACTS",
+ "failure_and_limitation_register": {
+  "limitations": [
+   {
+    "area": "data",
+    "id": "L1",
+    "text": "One PIE video (set01/video_0004); the Phase 5 model is trained and evaluated on the same windows (in-sample)."
+   },
+   {
+    "area": "data",
+    "id": "L2",
+    "text": "No annotation files, verified conflict labels, verified events or independent scene groups exist: independent evaluation is blocked."
+   },
+   {
+    "area": "coordinates",
+    "id": "L3",
+    "text": "Image-space pixels only; the camera moves; no ego-motion compensation, no metric geometry, no TTC/PET/distance/severity."
+   },
+   {
+    "area": "streaming",
+    "id": "L4",
+    "text": "The window builder accepts a window only if the target also has its 15 future samples, so windows (and alerts) are conditioned on future track existence; the pipeline is an offline replay, not a causal online system. Inference inputs themselves are history-only (verified by future-scrambling)."
+   },
+   {
+    "area": "perception",
+    "id": "L5",
+    "text": "Video decoding and detection/tracking were not executed in this environment (no raw video, no OpenCV/Ultralytics, no GPU); Phase 3 results are recorded from the Colab T4 run."
+   },
+   {
+    "area": "provenance",
+    "id": "L6",
+    "text": "The Phase 5 model verifies the exact window-run manifest hash; regenerating windows creates a new manifest, so the model rejects them (by design). Re-execution is therefore checked for data-file equality and inference uses the reference window run."
+   },
+   {
+    "area": "performance",
+    "id": "L7",
+    "text": "CPU-only, one machine; peak memory is the process peak working set; no GPU, no end-to-end real-time measurement."
+   },
+   {
+    "area": "calibration",
+    "id": "L8",
+    "text": "Phase 7 probabilities are null; categories and Phase 8 thresholds are unvalidated engineering configuration."
+   },
+   {
+    "area": "alerts",
+    "id": "L9",
+    "text": "Alerts are properties of a heuristic on one in-sample video; most close by evidence loss (pair no longer observed), not by risk subsiding."
+   }
+  ],
+  "register_version": "phase9-failure-limitation-register-1.0.0",
+  "run_failures": []
+ },
+ "inputs": {
+  "sha256_before": {
+   "PIE_pilot_inputs/agent_states.jsonl": "ff8b9b217144a9a6792069aa2db11cd9e9ca43fbf00077ad4da6e2b3fe485dc7",
+   "PIE_pilot_inputs/run_manifest.json": "e8c2a895543c6e222b58d9974a409faddab3b98e742fa048a4286bcd9b1dc7c2",
+   "PIE_pilot_inputs/tracked_agents.jsonl": "182babb386a821da720b9520afa024cf4e9195baea3031c4970b64000c593ff5",
+   "configs/phase4/image_kinematics_default.json": "757f5588cfca49fa0f21a554de576ff06f073d5311ee1b02e2910c53ea6090fe",
+   "configs/phase4/interaction_representation_default.json": "252dccd578e1333b2ccb7dafc0bb159a58b6c3880b11d4b64c334cc7ba9d99d6",
+   "configs/phase5/neural_evaluation_default.json": "c9f913c3aa999d49bcd1ad727d685ffafea6fa9fe292a8308fb86cbb847b09ba",
+   "configs/phase5/window_generation_default.json": "6a35036c21cc3b549bc02a4f85c20705511c1ed6f552f958b7b963cda98d789a",
+   "configs/phase6/conflict_default.json": "3e1163183b66581fcdbe4a8633c21fc1430dbe3ce7cb17065bfe37e2bf9bdb38",
+   "configs/phase7/risk_default.json": "b2d1ff5a32d8b8f3a72c6530b3da213c005f2f2303ed52b6f9f4b0daf47cb6d8",
+   "configs/phase8/alert_default.json": "f120d3607ba708a04e2782e20637916c39e394a4f2c44209ed693a4d7299b864",
+   "experiments/phase4_task2_pie_video_0004/20261114T202653Z_pie_video_0004/primary_causal/causal_kinematics.jsonl": "9e5c5f3d6185028194b25f520a74aa0e9d751e66a16754881f366c87c7ac82e3",
+   "experiments/phase4_task2_pie_video_0004/20261114T202653Z_pie_video_0004/primary_causal/run_manifest.json": "ad2089591d704ca403d530b7237bac3ebdee524852f09310f21087c5beac144b",
+   "experiments/phase4_task3_pie_video_0004/20261115T034308Z_pie_video_0004_regen_5d58ab7/primary/run_manifest.json": "366b8d0cf33000965dc410268db8db0045ce4e318937071c322ff03a8bfdbe6e",
+   "experiments/phase5_task3_windows_pie_video_0004/20261115T035825Z_pie_video_0004/primary/graph_bank.npz": "fc0821a36b90f4b3696d64b9ce29dd1285171565f3e636bb2e200f821a8d0779",
+   "experiments/phase5_task3_windows_pie_video_0004/20261115T035825Z_pie_video_0004/primary/rejected_candidates.npz": "6efbe92a4d99da4c70b1806103005ebbb4a8e368e5fdc0d9c4bfab1448375a29",
+   "experiments/phase5_task3_windows_pie_video_0004/20261115T035825Z_pie_video_0004/primary/run_manifest.json": "3369ea80c65652b8f1797c7a62a14c29428eb1dd7e9dc60b0d8a8e5be30dc1e8",
+   "experiments/phase5_task3_windows_pie_video_0004/20261115T035825Z_pie_video_0004/primary/windows.npz": "49b4ca392bb8e07b473702f8c6982c983d6f757775c5e5053c031ad964b3d637",
+   "experiments/phase5_task7_neural_evaluation/20261115T191319Z_pie_video_0004/predictions_neural.npz": "c070134fb67ef42753ecca347260c9f25e8b7ad37ae3333b690f3f008ee99748",
+   "experiments/phase5_task7_neural_evaluation/20261115T191319Z_pie_video_0004/run_manifest.json": "de2c805602d5c41368c09debea017ac007ce6546a8f76ac8ba13d01dfaa8de42",
+   "experiments/phase5_task7_training/20261115T190117Z_pie_video_0004/checkpoints/checkpoint_epoch_0010.pt": "d0f0f417bf1cf478d2744689c09b6c589d6f967d910217ba9bf02575d11d37d2",
+   "experiments/phase5_task7_training/20261115T190117Z_pie_video_0004/checkpoints/checkpoint_epoch_0020.pt": "40aff17f1a40eb2da24d0e0b63245eecefa5bba4e3f6e44c272dc07f3ab71b44",
+   "experiments/phase5_task7_training/20261115T190117Z_pie_video_0004/config_resolved.json": "36d930d7d8f3f80fc4cf70fe2725500754af76491ff5c7c9b300674f02f0130d",
+   "experiments/phase5_task7_training/20261115T190117Z_pie_video_0004/run_manifest.json": "a2a0f70c51e0476a4fd175b4b4b97299c8d9b90f40c407dcb7e9c5e2b0ada4f6",
+   "experiments/phase5_task7_training/20261115T190117Z_pie_video_0004/scaler_statistics.json": "cc270aa6562931f5c66b909dcc5941ba20869101862ec91c35e924c81b0ce723",
+   "experiments/phase7_risk_pie_video_0004/risk_arrays.npz": "3aa4f9a90e7f985d8b35e02968f0104d82512b2e62ec4ffcca4335a6786181f5",
+   "experiments/phase7_risk_pie_video_0004/risk_report.json": "0a5c677ea6d4713ec394c7d81985b64c7010ce9c1c3bbe93de01535fe4415b90",
+   "experiments/phase8_alerts_pie_video_0004/alert_events.jsonl.gz": "360b00e4e8357ce443a75e5f48cd442c3abfc2c735dc2becd2820c23096b4622",
+   "experiments/phase8_alerts_pie_video_0004/alerts.json": "575f694a273f2540816d1372fece8de80b16c28700b5ffb660fe2b857a5e3aac",
+   "experiments/phase8_alerts_pie_video_0004/phase7_records_input.jsonl.gz": "543f918f681ccbf516ab7fa539cec3829e19254e80df73965f14c6fb096c081f",
+   "experiments/phase8_alerts_pie_video_0004/run_manifest.json": "79374267e137ec34e2509ec7312213917de5ba238b184551e4063665a1a1596a"
+  },
+  "unchanged_after_run": true
+ },
+ "label": "PILOT_DEVELOPMENT_ONLY_NON_INDEPENDENT",
+ "manifest_version": "phase9-run-manifest-1.0.0",
+ "performance": {
+  "downstream_frames_per_s_offline_batch": 487.7561314514672,
+  "downstream_ms_per_frame": 2.0502048780487803,
+  "downstream_stages_measured": [
+   "S5B_FORECAST",
+   "S6_CONFLICT",
+   "S7_RISK",
+   "S8_ALERTS"
+  ],
+  "downstream_wall_s_first_pass": 20.174015999999995,
+  "gpu": "NOT_APPLICABLE_NO_CUDA_DEVICE",
+  "hardware": {
+   "cpu_name": "12th Gen Intel(R) Core(TM) i5-1235U",
+   "cuda_available": false,
+   "gpu": "NOT_APPLICABLE_NO_CUDA_DEVICE",
+   "logical_cpus": 12,
+   "memory_method": "process peak working set via the OS API (Windows GetProcessMemoryInfo) or ru_maxrss; process-level and monotone, not per stage",
+   "platform": "Windows-10-10.0.26300-SP0",
+   "processor": "Intel64 Family 6 Model 154 Stepping 4, GenuineIntel",
+   "psutil": "unavailable",
+   "python": "3.9.25",
+   "ram_total_bytes": 16890978304,
+   "torch": "2.2.1+cpu",
+   "torch_threads": 1
+  },
+  "main_run_stage_wall_s": {
+   "S3_PERCEPTION": 0.5237079000000002,
+   "S4A_IMAGE_KINEMATICS": null,
+   "S4B_INTERACTION": null,
+   "S5A_WINDOWS": null,
+   "S5B_FORECAST": 17.5835555,
+   "S6_CONFLICT": 0.4758226999999984,
+   "S7_RISK": 0.18741069999999738,
+   "S8_ALERTS": 1.9272270999999996,
+   "S9_EVALUATION_GATES": 0.46284749999999875
+  },
+  "note": "benchmark skipped (disabled or a stage failed)",
+  "process_peak_working_set_bytes": 459948032,
+  "realtime_assessment": {
+   "claim_supported": false,
+   "measured_frames_per_s_of_measured_stages": 487.7561314514672,
+   "target_fps": 30.0,
+   "unmet_conditions": [
+    "video decoding and perception (Phase 3) were not part of this measurement",
+    "the pipeline is an offline batch replay: the window builder requires the target's future frames to accept a window, so no causal online mode exists"
+   ]
+  },
+  "stage_detail": {
+   "S5B": {
+    "collate_and_other_s": 7.162301800000002,
+    "forward_ms_per_window": 4.011925311559947,
+    "model_forward_s": 9.335750199999996,
+    "model_load_and_verify_s": 0.15967489999999973,
+    "predict_total_s": 16.498051999999998,
+    "windows": 2327,
+    "write_predictions_s": 0.15255339999999862
+   }
+  }
+ },
+ "performance_attribution": {
+  "attribution_version": "phase9-performance-attribution-1.0.0",
+  "categories": {
+   "file_io_and_serialization": {
+    "included_in_stage_times_not_separable": [
+     "S3 read",
+     "S4A read/write",
+     "S4B read/write",
+     "S5A read/write",
+     "S8 gzip/JSON writes",
+     "S6 window/graph-bank read"
+    ],
+    "phase5_predictions_write_s": 0.15255339999999862,
+    "reason": "separating them would require instrumenting Phase 4/5/8 code, which Phase 9 does not modify",
+    "status": "PARTIALLY_MEASURED"
+   },
+   "phase3_artifact_validation": {
+    "mean_s": 0.5237079000000002,
+    "median_s": 0.5237079000000002,
+    "n": 1,
+    "scope": "reading and contract-validating the precomputed Phase 3 rows; NOT perception time",
+    "status": "MEASURED"
+   },
+   "phase3_perception": {
+    "mean_s": null,
+    "median_s": null,
+    "n": 0,
+    "reason": "YOLO/ByteTrack were not executed here; not zero",
+    "recorded_not_measured_here": {
+     "caveat": "RECORDED from the Colab T4 run of Phase 3 (normal run, no warm-up or stage isolation); not measured here, different hardware",
+     "cpu": "Intel(R) Xeon(R) CPU @ 2.00GHz",
+     "detect_mean_ms": 20.387763016665456,
+     "frames_per_s_wall_including_decode_and_io": 16.151175304359587,
+     "frames_processed": 9840,
+     "hardware": [
+      {
+       "compute_capability": "7.5",
+       "index": 0,
+       "name": "Tesla T4",
+       "total_memory_mib": 14912.7
+      }
+     ],
+     "track_mean_ms": 2.5348743713429367,
+     "wall_time_s": 609.2435884430001
+    },
+    "status": "UNAVAILABLE"
+   },
+   "phase4_preprocessing_image_kinematics": {
+    "mean_s": null,
+    "median_s": null,
+    "n": 1,
+    "scope": "Phase 4 Task 2 incl. its own file read/write",
+    "status": "MEASURED"
+   },
+   "phase4_preprocessing_interaction": {
+    "mean_s": null,
+    "median_s": null,
+    "n": 1,
+    "scope": "Phase 4 Task 3 incl. its own file read/write",
+    "status": "MEASURED"
+   },
+   "phase5_inference_collate_and_other": {
+    "mean_s": null,
+    "median_s": null,
+    "n": 0,
+    "status": "UNAVAILABLE"
+   },
+   "phase5_inference_model_forward": {
+    "mean_s": null,
+    "median_s": null,
+    "n": 0,
+    "status": "UNAVAILABLE"
+   },
+   "phase5_model_load_and_verification": {
+    "mean_s": 0.15967489999999973,
+    "median_s": 0.15967489999999973,
+    "n": 1,
+    "scope": "checkpoint / scaler / config / window-run hash verification and model construction (first pass)",
+    "status": "MEASURED"
+   },
+   "phase5_window_generation": {
+    "mean_s": null,
+    "median_s": null,
+    "n": 1,
+    "scope": "P5.3 window generation incl. its own file read/write",
+    "status": "MEASURED"
+   },
+   "phase6_conflict_processing": {
+    "mean_s": null,
+    "median_s": null,
+    "n": 0,
+    "status": "UNAVAILABLE"
+   },
+   "phase7_risk_processing": {
+    "mean_s": null,
+    "median_s": null,
+    "n": 0,
+    "status": "UNAVAILABLE"
+   },
+   "phase8_alert_processing": {
+    "mean_s": null,
+    "median_s": null,
+    "n": 0,
+    "status": "UNAVAILABLE"
+   },
+   "video_decoding": {
+    "mean_s": null,
+    "median_s": null,
+    "n": 0,
+    "reason": "no raw video and no OpenCV in this environment; not zero",
+    "status": "UNAVAILABLE"
+   }
+  },
+  "environment": {
+   "cpu_name": "12th Gen Intel(R) Core(TM) i5-1235U",
+   "cuda_available": false,
+   "gpu": "NOT_APPLICABLE_NO_CUDA_DEVICE",
+   "logical_cpus": 12,
+   "memory_method": "process peak working set via the OS API (Windows GetProcessMemoryInfo) or ru_maxrss; process-level and monotone, not per stage",
+   "platform": "Windows-10-10.0.26300-SP0",
+   "processor": "Intel64 Family 6 Model 154 Stepping 4, GenuineIntel",
+   "psutil": "unavailable",
+   "python": "3.9.25",
+   "ram_total_bytes": 16890978304,
+   "torch": "2.2.1+cpu",
+   "torch_threads": 1
+  },
+  "execution_mode": "PRECOMPUTED_PHASE3_ARTIFACTS",
+  "first_pass_stage_wall_s": {
+   "S3_PERCEPTION": 0.5237079000000002,
+   "S5B_FORECAST": 17.5835555,
+   "S6_CONFLICT": 0.4758226999999984,
+   "S7_RISK": 0.18741069999999738,
+   "S8_ALERTS": 1.9272270999999996,
+   "S9_EVALUATION_GATES": 0.46284749999999875
+  },
+  "gpu": "NOT_APPLICABLE_NO_CUDA_DEVICE",
+  "isolated_component_not_system_throughput": "the Phase 8 alert manager alone processed ~2e4 observations/s; this is a component microbenchmark, not complete-system throughput",
+  "memory": {
+   "gpu_memory": "NOT_APPLICABLE_NO_CUDA_DEVICE",
+   "method": "process peak working set via the OS API (Windows GetProcessMemoryInfo) or ru_maxrss; process-level and monotone, not per stage",
+   "per_stage_isolated": false,
+   "process_peak_working_set_bytes": 459948032,
+   "psutil": "unavailable"
+  },
+  "phase3_perception": "NOT_EXECUTED_PRECOMPUTED_ARTIFACTS_VALIDATED_ONLY",
+  "phase4_to_phase8_chain_complete": false,
+  "phase4_to_phase8_first_pass_wall_s": 20.174015999999995,
+  "phase4_to_phase8_offline_batch_throughput": {
+   "WARNING": "NOT raw-video end-to-end FPS and NOT a real-time result: excludes video decoding and Phase 3 perception, processes the whole recording as an offline batch, and the window builder needs each target's future frames. Phase 4 Task 2/3 are 90% of this time. Never compare with a 30 FPS requirement.",
+   "frames_per_s": 487.7561314514672,
+   "frames_represented": 9840,
+   "ms_per_frame": 2.0502048780487803
+  },
+  "precomputed_artifact_integration_success": false,
+  "raw_video_executed": false,
+  "raw_video_to_alert_pipeline_success": false,
+  "realtime_assessment": {
+   "claim_supported": false,
+   "measured_frames_per_s_of_measured_stages": 487.7561314514672,
+   "target_fps": 30.0,
+   "unmet_conditions": [
+    "video decoding and perception (Phase 3) were not part of this measurement",
+    "the pipeline is an offline batch replay: the window builder requires the target's future frames to accept a window, so no causal online mode exists"
+   ]
+  },
+  "repetitions": {
+   "inference_steady_state_repeats": null,
+   "inference_warmup_runs": 0,
+   "inference_warmup_s": null,
+   "note": "preprocessing runs are cold (no warm-up) repetitions; run 1 is the main pass",
+   "preprocessing_runs_per_stage": {}
+  },
+  "run_total_wall_s_including_benchmark_repeats": 21.7245871,
+  "stages_completed": [
+   "S5B_FORECAST",
+   "S6_CONFLICT",
+   "S7_RISK",
+   "S8_ALERTS"
+  ],
+  "statement": "Phases 4-8 were executed on precomputed Phase 3 artifacts; Phase 3 raw-video inference was not run (no raw video, no OpenCV/Ultralytics/GPU locally). This is NOT a raw-video-to-alert execution."
+ },
+ "phase3_perception": "NOT_EXECUTED_PRECOMPUTED_ARTIFACTS_VALIDATED_ONLY",
+ "phase4_to_phase8_chain_complete": false,
+ "precomputed_artifact_integration_success": false,
+ "raw_video_executed": false,
+ "raw_video_to_alert_pipeline_success": false,
+ "run_dir": "D:\\BTech-Research\\PCG-Baseline\\outputs\\phase9_runs\\inference_replay",
+ "run_id": "inference_replay",
+ "sample_status": "IN_SAMPLE_PHASE5_MODEL_ONE_VIDEO",
+ "scientific_evaluation": {
+  "blocked": {
+   "alert_precision_recall_false_alerts_missed_duplicate_lead_time_coverage_clearance": {
+    "needs": "needs verified event annotations and timestamps on independent groups",
+    "status": "BLOCKED_INSUFFICIENT_INDEPENDENT_SCENES"
+   },
+   "calibration_Brier_ECE_NLL_reliability": {
+    "needs": "needs verified labels and disjoint calibration / test groups",
+    "status": "BLOCKED_INSUFFICIENT_INDEPENDENT_SCENES"
+   },
+   "conflict_precision_recall_F1_PR_ROC_AUC_false_alarm": {
+    "needs": "needs verified conflict labels on independent groups",
+    "status": "BLOCKED_INSUFFICIENT_INDEPENDENT_SCENES"
+   },
+   "perception_quality_vs_annotations": {
+    "needs": "needs annotation files and an identity mapping",
+    "status": "BLOCKED_INSUFFICIENT_INDEPENDENT_SCENES"
+   },
+   "trajectory_independent_ADE_FDE_horizon_minADE_minFDE": {
+    "needs": "needs independent held-out groups with verified trajectory ground truth",
+    "status": "BLOCKED_INSUFFICIENT_INDEPENDENT_SCENES"
+   }
+  },
+  "independent": "BLOCKED_INSUFFICIENT_INDEPENDENT_SCENES"
+ },
+ "stages": {
+  "S3_PERCEPTION": {
+   "cpu_s": 0.5,
+   "detail": {
+    "mode": "PRECOMPUTED_PHASE3_ARTIFACTS_VALIDATED",
+    "stats": {
+     "first_frame": 0,
+     "frames": 9326,
+     "last_frame": 9818,
+     "rows": 65388,
+     "tracks": 1500,
+     "video_id": "video_0004"
+    },
+    "video_execution": {
+     "executed": false,
+     "probes": {
+      "cuda_device": false,
+      "cv2": false,
+      "ultralytics": false
+     },
+     "raw_video_found": false,
+     "reason": "no raw PIE video in the repository (Phase 3 ran on Colab); OpenCV/Ultralytics are missing in this environment",
+     "recorded_phase3_run": {
+      "backend": "yolo",
+      "caveat": "RECORDED from the Colab T4 run of Phase 3 (normal run, no warm-up or stage isolation); not measured here, different hardware",
+      "cpu": "Intel(R) Xeon(R) CPU @ 2.00GHz",
+      "detect_mean_ms": 20.387763016665456,
+      "frames_per_s_wall_including_decode_and_io": 16.151175304359587,
+      "frames_processed": 9840,
+      "frames_skipped": 0,
+      "hardware": [
+       {
+        "compute_capability": "7.5",
+        "index": 0,
+        "name": "Tesla T4",
+        "total_memory_mib": 14912.7
+       }
+      ],
+      "is_mock": false,
+      "track_mean_ms": 2.5348743713429367,
+      "wall_time_s": 609.2435884430001
+     },
+     "status": "BLOCKED_ENVIRONMENT"
+    }
+   },
+   "mean_cores_busy": 0.9547306809769335,
+   "process_peak_working_set_bytes_after": 180944896,
+   "status": "COMPLETED",
+   "wall_s": 0.5237079000000002
+  },
+  "S4A_IMAGE_KINEMATICS": {
+   "note": "input (if needed) comes from a validated reference run",
+   "status": "NOT_SELECTED"
+  },
+  "S4B_INTERACTION": {
+   "note": "input (if needed) comes from a validated reference run",
+   "status": "NOT_SELECTED"
+  },
+  "S5A_WINDOWS": {
+   "note": "input (if needed) comes from a validated reference run",
+   "status": "NOT_SELECTED"
+  },
+  "S5B_FORECAST": {
+   "cpu_s": 17.203125,
+   "detail": {
+    "determinism": {
+     "note": "bitwise equality needs torch_threads=1 as configured",
+     "predictions_equal_reference": true
+    },
+    "future_isolation": {
+     "passed": true,
+     "windows_perturbed": 48
+    },
+    "history_only": {
+     "history_only": true,
+     "min_future_gap_frames": 3,
+     "windows": 2327
+    },
+    "verification": {
+     "checkpoint": "checkpoints/checkpoint_epoch_0020.pt",
+     "checkpoint_epoch": 20,
+     "checkpoint_file_sha256": "40aff17f1a40eb2da24d0e0b63245eecefa5bba4e3f6e44c272dc07f3ab71b44",
+     "checkpoint_model_state_sha256": "9c953c1adfc81c53d686f42431d42c8e5197db18f7c5530342bc49b17d15d4c7",
+     "config_hashes_verified": true,
+     "scaler_buffers_equal_statistics": true,
+     "scaler_source_identity_verified": true,
+     "scaler_split_identity": "PILOT_ALL_WINDOWS_AS_TRAIN_DEVELOPMENT_ONLY",
+     "scaler_statistics_sha256": "ed5fd6824995c056b161564fb40ce93b0c96320de03a8672eba12af36e7fe169",
+     "training_artifacts_verified": [
+      "checkpoints/checkpoint_epoch_0010.pt",
+      "checkpoints/checkpoint_epoch_0020.pt",
+      "config_resolved.json",
+      "scaler_statistics.json",
+      "train_log.jsonl"
+     ],
+     "window_run_manifest_sha256": "3369ea80c65652b8f1797c7a62a14c29428eb1dd7e9dc60b0d8a8e5be30dc1e8"
+    }
+   },
+   "mean_cores_busy": 0.9783644155472425,
+   "process_peak_working_set_bytes_after": 357900288,
+   "status": "COMPLETED",
+   "wall_s": 17.5835555
+  },
+  "S6_CONFLICT": {
+   "cpu_s": 0.484375,
+   "detail": {
+    "exclusions": {
+     "context_agents_total": 8233,
+     "context_motion_invalid_reasons": {
+      "anchor_position_unavailable": 0,
+      "no_valid_causal_velocity_in_history": 143
+     },
+     "context_motion_invalid_rows": 143,
+     "pairs": 8233,
+     "pairs_by_type": {
+      "pedestrian_bicyclist": 0,
+      "pedestrian_pedestrian": 0,
+      "pedestrian_vehicle": 8233
+     },
+     "pairs_invalid": 143,
+     "pairs_valid": 8090,
+     "windows": 2327,
+     "windows_without_context_agent": 29
+    }
+   },
+   "mean_cores_busy": 1.0179737116367118,
+   "process_peak_working_set_bytes_after": 459948032,
+   "status": "COMPLETED",
+   "wall_s": 0.4758226999999984
+  },
+  "S7_RISK": {
+   "cpu_s": 0.1875,
+   "detail": {
+    "determinism": {
+     "risk_category_equal_reference": true,
+     "risk_score_equal_reference": true
+    },
+    "validation": {
+     "insufficient_evidence": 1231,
+     "records": 8233,
+     "source_fps": 30.0
+    }
+   },
+   "mean_cores_busy": 1.0004764936047015,
+   "process_peak_working_set_bytes_after": 459948032,
+   "status": "COMPLETED",
+   "wall_s": 0.18741069999999738
+  },
+  "S8_ALERTS": {
+   "cpu_s": 1.84375,
+   "detail": {
+    "determinism": {
+     "n_alerts_equal_reference": true,
+     "transitions_equal_reference": true
+    },
+    "summary": {
+     "alerts_by_clearance_kind": {
+      "EVIDENCE_LOST": 25,
+      "RISK_SUBSIDED": 3
+     },
+     "n_alerts": 28,
+     "n_events": 1200
+    },
+    "validation": {
+     "alerts": 28,
+     "events": 1200
+    }
+   },
+   "mean_cores_busy": 0.9566853849242781,
+   "process_peak_working_set_bytes_after": 459948032,
+   "status": "COMPLETED",
+   "wall_s": 1.9272270999999996
+  },
+  "S9_EVALUATION_GATES": {
+   "cpu_s": 0.421875,
+   "detail": {
+    "blocked_evaluations": {
+     "alert_precision_recall_false_alerts_missed_duplicate_lead_time_coverage_clearance": {
+      "needs": "needs verified event annotations and timestamps on independent groups",
+      "status": "BLOCKED_INSUFFICIENT_INDEPENDENT_SCENES"
+     },
+     "calibration_Brier_ECE_NLL_reliability": {
+      "needs": "needs verified labels and disjoint calibration / test groups",
+      "status": "BLOCKED_INSUFFICIENT_INDEPENDENT_SCENES"
+     },
+     "conflict_precision_recall_F1_PR_ROC_AUC_false_alarm": {
+      "needs": "needs verified conflict labels on independent groups",
+      "status": "BLOCKED_INSUFFICIENT_INDEPENDENT_SCENES"
+     },
+     "perception_quality_vs_annotations": {
+      "needs": "needs annotation files and an identity mapping",
+      "status": "BLOCKED_INSUFFICIENT_INDEPENDENT_SCENES"
+     },
+     "trajectory_independent_ADE_FDE_horizon_minADE_minFDE": {
+      "needs": "needs independent held-out groups with verified trajectory ground truth",
+      "status": "BLOCKED_INSUFFICIENT_INDEPENDENT_SCENES"
+     }
+    },
+    "independent_evaluation": {
+     "annotation_xml_files": [],
+     "distinct_scene_groups_processed": 1,
+     "fabricated_results": false,
+     "local_video_files": [],
+     "problems": [
+      "1 independent scene group(s) processed; at least 3 are required"
+     ],
+     "required_groups": 3,
+     "scan_status": "BLOCKED_PENDING_SCENE_DIVERSE_DATA",
+     "split_manifest": null,
+     "status": "BLOCKED_INSUFFICIENT_INDEPENDENT_SCENES"
+    }
+   },
+   "mean_cores_busy": 0.9114773224442201,
+   "process_peak_working_set_bytes_after": 459948032,
+   "status": "COMPLETED",
+   "wall_s": 0.46284749999999875
+  }
+ },
+ "stages_completed": [
+  "S5B_FORECAST",
+  "S6_CONFLICT",
+  "S7_RISK",
+  "S8_ALERTS"
+ ],
+ "started_utc": "2026-11-15T20:41:21Z",
+ "statement": "Phases 4-8 were executed on precomputed Phase 3 artifacts; Phase 3 raw-video inference was not run (no raw video, no OpenCV/Ultralytics/GPU locally). This is NOT a raw-video-to-alert execution.",
+ "status": "COMPLETED",
+ "total_wall_s": 21.7245871
+}

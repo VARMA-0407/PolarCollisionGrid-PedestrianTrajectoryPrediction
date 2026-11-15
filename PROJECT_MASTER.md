@@ -216,3 +216,25 @@ distance or severity statement; (3) frozen group-level splits and re-tuning of P
 | Date | Revision |
 |---|---|
 | 2026-11-16 | Appended the Phase 6-8 status addendum; no earlier text was changed. |
+
+
+## Status addendum - 16 November 2026 (Phases 8-9; earlier sections are historical)
+
+Appended by the Phase 9 pass. Pipeline: Video -> Phase 3 perception -> Phase 4 geometry and interaction -> Phase 5 forecasting -> Phase 6 conflict -> Phase 7 risk -> Phase 8 warning events -> Phase 9 orchestration,
+verification and evaluation gates. Everything remains image-space (`captured_1920x1080` pixels), single-video pilot, in-sample model, research prototype.
+
+| Phase | Status (evidence) | Commit |
+|---|---|---|
+| 8 early warning | deterministic alert state machine, JSON event schema, CLI; 28 pilot alerts (25 closed by evidence loss); lead time BLOCKED_INSUFFICIENT_GROUND_TRUTH | `cee4575` |
+| 9 integration and validation | `ACCEPTED_WITH_LIMITATIONS`. Orchestrator over the existing public APIs, versioned stage contracts, exact reference comparison, benchmark, gated independent evaluation. Execution mode PRECOMPUTED_PHASE3_ARTIFACTS: Phases 4-8 run end to end (exit 0) and reproduce the committed Phase 5/7/8 artifacts exactly (metadata provenance differences documented). Phase 3 raw-video inference NOT executed locally. | see `git log` (feat(phase9)) |
+
+Verification facts: full suite 1381 passed, 8 skipped, 1 failed; the failure (`tests/phase2/test_ttc_masks.py`, `utils/Interaction.py`) is pre-existing, reproduced at commit `afdf822`, unmodified. Phase 4-8 offline-batch processing of the 9,840-frame
+recording took 296.6 s on a CPU (i5-1235U, no GPU), 89% in Phase 4 Task 2/3; this is NOT raw-video end-to-end FPS and no real-time claim is supported (perception not measured; the window builder requires future frames, so there is no causal online mode).
+
+Roadmap after Phase 9 (nothing below is done): (1) acquire the full PIE set (>= 3, preferably >= 5 independent sets) with annotation XML, licence and acquisition records; (2) run Phase 3 on Colab (T4) for every video, then Phase 4 Task 2/3 and window generation per video;
+(3) implement the ANNOTATED_TARGET adapter with a verified identity mapping and timestamp alignment, and a perception evaluation against annotations; (4) freeze the group-level split manifest before training; (5) retrain Phase 5 on train groups, calibrate Phase 7 on calibration groups, choose Phase 7/8 thresholds on validation groups, evaluate once on test groups with `pedsafety.phase9.evaluation`;
+(6) build a causal window builder (no future requirement) and measure end-to-end latency with perception on a GPU before any real-time claim; (7) metric geometry / ego-motion evidence before any physical TTC/PET. Colab execution plan: Phase 3 + training notebooks first (existing Colab bundles), local verification with `phase9 verify-run`. Details: `docs/phase9/`.
+
+| Date | Revision |
+|---|---|
+| 2026-11-16 | Appended the Phase 8-9 status addendum and post-Phase-9 roadmap; no earlier text was changed. |

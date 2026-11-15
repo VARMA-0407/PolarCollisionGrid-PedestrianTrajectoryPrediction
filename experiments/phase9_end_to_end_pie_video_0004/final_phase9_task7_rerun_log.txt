@@ -1,0 +1,35 @@
+........................................................................ [ 11%]
+........................................................................ [ 22%]
+........................................................................ [ 33%]
+........................................................................ [ 44%]
+........................................................................ [ 55%]
+........................................................................ [ 66%]
+........................................................................ [ 77%]
+........................................................................ [ 88%]
+........................................................................ [ 99%]
+....                                                                     [100%]
+============================== warnings summary ===============================
+tests/task7/test_stage61_output_policy.py::test_every_command_completes_with_its_documented_completion_file
+tests/task7/test_stage61_output_policy.py::test_every_command_completes_with_its_documented_completion_file
+tests/task7/test_stage61_output_policy.py::test_every_command_completes_with_its_documented_completion_file
+tests/task7/test_stage61_output_policy.py::test_every_command_completes_with_its_documented_completion_file
+tests/task7/test_stage61_output_policy.py::test_every_command_completes_with_its_documented_completion_file
+tests/task7/test_stage61_output_policy.py::test_every_command_completes_with_its_documented_completion_file
+  C:\Users\revan\anaconda3\envs\pcg-baseline\lib\site-packages\matplotlib\_fontconfig_pattern.py:88: PyparsingDeprecationWarning: 'parseString' deprecated - use 'parse_string'
+    parse = parser.parseString(pattern)
+
+tests/task7/test_stage61_output_policy.py::test_every_command_completes_with_its_documented_completion_file
+tests/task7/test_stage61_output_policy.py::test_every_command_completes_with_its_documented_completion_file
+tests/task7/test_stage61_output_policy.py::test_every_command_completes_with_its_documented_completion_file
+tests/task7/test_stage61_output_policy.py::test_every_command_completes_with_its_documented_completion_file
+tests/task7/test_stage61_output_policy.py::test_every_command_completes_with_its_documented_completion_file
+tests/task7/test_stage61_output_policy.py::test_every_command_completes_with_its_documented_completion_file
+  C:\Users\revan\anaconda3\envs\pcg-baseline\lib\site-packages\matplotlib\_fontconfig_pattern.py:92: PyparsingDeprecationWarning: 'resetCache' deprecated - use 'reset_cache'
+    parser.resetCache()
+
+tests/task7/test_stage61_output_policy.py::test_every_command_completes_with_its_documented_completion_file
+  C:\Users\revan\anaconda3\envs\pcg-baseline\lib\site-packages\matplotlib\_mathtext.py:45: PyparsingDeprecationWarning: 'enablePackrat' deprecated - use 'enable_packrat'
+    ParserElement.enablePackrat()
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+652 passed, 13 warnings in 148.79s (0:02:28)

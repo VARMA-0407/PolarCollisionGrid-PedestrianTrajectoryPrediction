@@ -1,0 +1,21 @@
+{
+  "phase": 9,
+  "acceptance_status": "ACCEPTED_WITH_LIMITATIONS",
+  "label": "PILOT_DEVELOPMENT_ONLY_NON_INDEPENDENT",
+  "prototype_notice": "RESEARCH PROTOTYPE: not validated, not for operational use",
+  "branch": "feature/phase9-end-to-end-validation",
+  "base_commit": "cee4575",
+  "execution_mode": "PRECOMPUTED_PHASE3_ARTIFACTS",
+  "raw_video_executed": false,
+  "raw_video_to_alert_pipeline_success": false,
+  "precomputed_artifact_integration_success": true,
+  "phase3_perception": "NOT_EXECUTED_LOCALLY_BLOCKED_ENVIRONMENT_NO_RAW_VIDEO_NO_OPENCV_ULTRALYTICS_GPU",
+  "full_pipeline_run": {"run_id": "pie_video_0004_full", "exit_code": 0, "stages_completed": 9, "frames_represented": 9840, "agent_states": 65388, "windows": 2327, "pairs": 8233, "alerts": 28, "events": 1200, "total_wall_s": 938.0, "phase4_to_phase8_first_pass_wall_s": 296.6},
+  "reference_comparison": {"phase5_predictions": "bitwise_equal", "phase5_windows_graph_bank_rejected": "sha256_equal", "phase7_records": "exactly_equal", "phase8_events_and_alerts": "equal_except_provenance_metadata", "provenance_keys_differing_in_replay": ["phase5_predictions_sha256", "phase9_execution_mode", "phase9_stage"], "inputs_unchanged": true},
+  "tests": {"full_suite_command": "python -m pytest tests -q -p no:cacheprovider", "full_suite_result": "1381 passed, 1 failed, 8 skipped, exit 1", "phase9_focused": "66 passed (tests/phase9)", "final_rerun_phase9_plus_task7": "652 passed, 0 failed, exit 0", "remaining_failure": "tests/phase2/test_ttc_masks.py::test_ttc_occupancy_mask_collapses_agent_dimension (verified pre-existing at afdf822; utils/ and tests/phase2 unchanged)"},
+  "performance": {"cpu": "12th Gen Intel Core i5-1235U (12 logical)", "ram_bytes": 16890978304, "gpu": "none (no CUDA)", "inference_chain_steady_state_s": {"mean": 19.87, "median": 20.03, "n": 5, "warmup_s": 20.63}, "model_forward_ms_per_window": 4.26, "peak_working_set_bytes": 1541705728, "phase4_to_phase8_offline_batch_frames_per_s": 33.18, "raw_video_end_to_end_fps": "UNAVAILABLE", "perception_ms_per_frame": "UNAVAILABLE", "realtime_claim_supported": false},
+  "independent_scientific_evaluation": "BLOCKED_INSUFFICIENT_INDEPENDENT_SCENES",
+  "blocked": ["raw-video execution and FPS", "independent trajectory metrics", "conflict metrics", "calibration metrics", "alert precision/recall/false-alert rate/lead time", "perception quality vs annotations", "causal online operation"],
+  "claims": {"independent_generalization": false, "calibrated_probability": false, "physical_ttc_pet": false, "validated_early_warning_time": false, "real_time_performance": false, "deployment_ready": false, "scientifically_validated": false},
+  "records": "experiments/phase9_end_to_end_pie_video_0004/"
+}
