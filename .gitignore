@@ -186,3 +186,5 @@ cython_debug/
 /experiments/phase4_task3_pie_video_0004/**/*.npz
 # Phase 5 P5.3 pilot window arrays (regenerable from committed code + hashed local Task 3 run; ~6.5 MB per run); manifests and reports stay visible
 /experiments/phase5_task3_windows_pie_video_0004/**/*.npz
+# Phase 5 P5.4 baseline prediction/evaluation arrays (regenerable from committed code + the hashed local P5.3 window run); manifests, reports and JSON stay visible
+/experiments/phase5_task4_baselines_pie_video_0004/**/*.npz

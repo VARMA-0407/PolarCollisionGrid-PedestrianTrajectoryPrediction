@@ -1,0 +1,42 @@
+{
+  "config_version": "phase5-baseline-evaluation-config-1.0.0",
+  "pilot_label": "PILOT_DEVELOPMENT_ONLY_NON_INDEPENDENT",
+  "window_config_reference": {
+    "path": "configs/phase5/window_generation_default.json",
+    "config_version": "phase5-window-generation-config-1.0.0",
+    "sha256_resolved": "65eebeededba135d3f707f31fa3ae0901ad92f89833594d4fec9005a6ea31034"
+  },
+  "dataset_identifier": "pie_set01_video_0004_p53_pilot_windows",
+  "target_source_mode": "PILOT_SMOKE",
+  "prediction_horizon_steps": 15,
+  "prediction_horizon_s": 1.5,
+  "sampling_hz": 10.0,
+  "coordinate_system": "captured_1920x1080",
+  "units": {"position": "pixel", "displacement": "pixel", "velocity": "pixel/s", "time": "s"},
+  "baselines": [
+    {"baseline_id": "B0_zero_velocity", "params": {}},
+    {"baseline_id": "B1_last_valid_causal_velocity", "params": {"max_lookback_samples": 5}},
+    {"baseline_id": "B2_history_linear_regression",
+     "params": {"min_valid_samples": 3, "min_time_span_s": 0.2, "min_centered_time_variance_s2": 1e-06, "center_timestamps": true}}
+  ],
+  "metrics": ["ADE", "FDE", "per_horizon_displacement_error", "minADE@K", "minFDE@K", "miss_rate"],
+  "aggregation": {
+    "primary": "window_weighted",
+    "secondary": "track_weighted",
+    "std_ddof": 0,
+    "comparison_set": "common_evaluated_windows",
+    "report_horizons_s": [0.5, 1.0, 1.5]
+  },
+  "partial_target_policy": "STRICT_FULL_HORIZON",
+  "invalid_prediction_policy": "EXCLUDE_AND_COUNT",
+  "miss_rate_threshold_px": null,
+  "_notes": {
+    "separation": "Baseline/evaluation configuration only. The dataset (a P5.3 window run directory) is passed on the command line and verified against window_config_reference.",
+    "B1": "max_lookback_samples 5 = search all six history samples backward from the anchor for the latest valid Task 2 causal velocity. No fallback: no valid velocity -> window invalid (never zero velocity).",
+    "B2": "Least squares over valid history samples with timestamps centred at their mean; needs >= 3 valid samples, a time span >= 0.2 s (two 10 Hz intervals) and centred time variance > 1e-6 s^2; prediction anchored at the last observed position. Thresholds fixed before any pilot result was seen.",
+    "miss_rate_threshold_px": "null = not configured: no defensible pixel threshold has been approved (pixel distances are depth-dependent).",
+    "std_ddof": "population standard deviation (ddof 0) over evaluated windows; descriptive only.",
+    "partial_target_policy": "STRICT_FULL_HORIZON: windows with any invalid target step are excluded and counted, never zero-filled.",
+    "invalid_prediction_policy": "EXCLUDE_AND_COUNT: invalid predictions are excluded and counted per reason; comparisons are also reported on the common set of windows evaluated by every baseline."
+  }
+}

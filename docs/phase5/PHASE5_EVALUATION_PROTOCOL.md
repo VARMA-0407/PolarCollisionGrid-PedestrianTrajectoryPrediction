@@ -1,6 +1,6 @@
 # Phase 5 Evaluation Protocol (leakage-safe, non-oracle by default)
 
-**Version:** 0.1.1 (H = 6 reconciliation for P5.3, sections 1 and 3). **Date:** 15 November 2026. **Status:** `PROPOSED — NOT IMPLEMENTED` (no evaluator, split or metric is implemented by P5.3).
+**Version:** 0.1.2 (H = 6 reconciliation for P5.3, sections 1 and 3; baseline names B0–B2 standardised for P5.4, section 6). **Date:** 15 November 2026. **Status:** `PROPOSED — NOT IMPLEMENTED` (no evaluator, split or metric is implemented by P5.3).
 Built on the Phase 2 Task 6 protocol (`docs/phase2/task6_data_splitting_evaluation_protocol.md`, `configs/phase2/split_protocol.template.json`) and the existing Stage 5 split code (`pedsafety/splitting.py`: grouping policy, explicit group assignment, `verify_window_isolation`) and the non-oracle evaluator (`pedsafety/evaluation.py`). Nothing here overrides them; Phase 5 specialisations are listed explicitly. All errors are in **pixels** of `captured_1920x1080` (no validated metric unit exists).
 
 ## 1. Split protocol
@@ -43,8 +43,8 @@ Windows are correlated (same track, same scene). Confidence intervals by **clust
 | # | Baseline | Definition | Comparability |
 |---|---|---|---|
 | B0 | Zero-velocity | `p̂_t = p_{t0}` | always comparable (sanity floor) |
-| B1 | Constant velocity (CV) | velocity estimated from history positions over the last `m` samples (`m` fixed on validation), extrapolated linearly; uses positions only (robust to Task 2 one-frame jitter) | always comparable |
-| B2 | CV with Task 2 velocity | uses the `t0` node velocity if valid | comparable; shows effect of one-frame jitter |
+| B1 | Last valid causal velocity | `p̂_{t0+τ} = p_{t0} + v·τ`, `v` = the most recent valid Task 2 causal velocity among the history samples (searched backward from the anchor); no valid velocity → window invalid, no zero-velocity fallback (implemented in P5.4 as `B1_last_valid_causal_velocity`) | comparable; shows the effect of one-frame velocity jitter |
+| B2 | Historical linear regression | least-squares slope over the valid history positions (actual timestamps, mean-centred), extrapolated linearly from the last observed position; positions only, robust to Task 2 one-frame jitter (implemented in P5.4 as `B2_history_linear_regression`; uses all valid history samples, `m` not tuned) | always comparable |
 | B3 | Temporal-only neural (target track only) | same TCN encoder and decoder as the full model, no graph | comparable; ablation of interactions |
 | B4 | PCG (historical) | original HBS checkpoints and best-of-5 results | **not comparable**: different dataset (HBS), coordinates (unresolved units, not PIE pixels), horizon (2 Hz, 3 s / 3 s), oracle best-of-5 selection, future information in rollout. Kept as a historical reference only; never placed in the same results table as PIE metrics without these caveats |
 | B5 | PCG-style re-implementation on PIE | only if its TTC grid can be defined in image space without metric thresholds; otherwise not attempted | decision deferred |

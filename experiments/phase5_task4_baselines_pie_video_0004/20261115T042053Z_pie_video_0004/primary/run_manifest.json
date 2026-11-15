@@ -1,0 +1,195 @@
+{
+  "manifest_version": "phase5-baseline-evaluation-run-manifest-1.0.0",
+  "task": "phase5_p5.4_baselines_and_evaluation",
+  "status": "completed",
+  "label": "PILOT_DEVELOPMENT_ONLY_NON_INDEPENDENT",
+  "data_artifacts": {
+    "evaluation_B0_zero_velocity.npz": {
+      "sha256": "34bf0b1424a7b979303967ced42bafad08de201bd10c584081253ae9a49071b0",
+      "bytes": 342702
+    },
+    "evaluation_B1_last_valid_causal_velocity.npz": {
+      "sha256": "eaa0c1d5000a26418b9b28cfe73f29bf53d788449322a088cf377a73df17a8d8",
+      "bytes": 341478
+    },
+    "evaluation_B2_history_linear_regression.npz": {
+      "sha256": "b8fef8158db822a7a390c6c15d548af6e429e2643df90cc88d4a4e15ea2e749a",
+      "bytes": 342190
+    },
+    "evaluation_report.md": {
+      "sha256": "aa593c9b9cf73debd68975a9d81471b980e29def2a10f1f74a4b7447b5369977",
+      "bytes": 2575
+    },
+    "evaluation_results.json": {
+      "sha256": "fa089f5e5b2fb2413da599f643cd5e22ea121660adf2f7acb20127f62fc0ff8d",
+      "bytes": 98965
+    },
+    "predictions_B0_zero_velocity.npz": {
+      "sha256": "a62d7f08f79e8d2f2462e377377022f1dcfb1a7b90b05aa2959552ad020a8e76",
+      "bytes": 28248
+    },
+    "predictions_B1_last_valid_causal_velocity.npz": {
+      "sha256": "0c34a884b00b14125aee98d1dcd38a0952968f8e81dd416184eafbb772c84c72",
+      "bytes": 305948
+    },
+    "predictions_B2_history_linear_regression.npz": {
+      "sha256": "95dba91620c0a368e20d7cdd935130d3291be717aaba368b3d6466cc200dd615",
+      "bytes": 408442
+    }
+  },
+  "data_artifacts_note": "deterministic outputs: identical inputs and configuration give identical hashes",
+  "inputs": {
+    "windows_run": "experiments/phase5_task3_windows_pie_video_0004/20261115T035825Z_pie_video_0004/primary",
+    "windows_run_files": {
+      "graph_bank.npz": "fc0821a36b90f4b3696d64b9ce29dd1285171565f3e636bb2e200f821a8d0779",
+      "rejected_candidates.npz": "6efbe92a4d99da4c70b1806103005ebbb4a8e368e5fdc0d9c4bfab1448375a29",
+      "smoke_manifest.json": "02c21aab7beb057727e680a8e9ed43644a556f42f1d120b1514697b9a39a7c2b",
+      "windows.npz": "49b4ca392bb8e07b473702f8c6982c983d6f757775c5e5053c031ad964b3d637",
+      "run_manifest.json": "3369ea80c65652b8f1797c7a62a14c29428eb1dd7e9dc60b0d8a8e5be30dc1e8"
+    },
+    "windows_run_git": "5d58ab7146ea4611733393769071b02a6bf9d187",
+    "window_config_sha256": "65eebeededba135d3f707f31fa3ae0901ad92f89833594d4fec9005a6ea31034",
+    "baseline_config": {
+      "path": "configs/phase5/baseline_evaluation_default.json",
+      "sha256_canonical": "84741cc2ef0b287fcf1c3a0e621ecb986fa7031a81349b684c23fc4a2e5ffbb9",
+      "sha256_file": "45c079b3bb998aa56477400f4eb4e76c0c4dbd6182fc98235ce78ccdcb2782d9"
+    },
+    "future_targets_read_by": "evaluator only (after all predictions were produced)",
+    "velocity_source": "task2_causal_backward_difference_via_p53_graph_bank",
+    "offline_kinematics_used": false
+  },
+  "counts": {
+    "windows": 2327,
+    "unique_target_tracks": 84,
+    "per_baseline": {
+      "B0_zero_velocity": {
+        "valid_predictions": 2327,
+        "invalid_predictions": 0,
+        "evaluated_windows": 2327
+      },
+      "B1_last_valid_causal_velocity": {
+        "valid_predictions": 2327,
+        "invalid_predictions": 0,
+        "evaluated_windows": 2327
+      },
+      "B2_history_linear_regression": {
+        "valid_predictions": 2327,
+        "invalid_predictions": 0,
+        "evaluated_windows": 2327
+      }
+    },
+    "common_evaluated_windows": 2327
+  },
+  "coordinates": {
+    "coordinate_system": "captured_1920x1080",
+    "units": {
+      "position": "pixel",
+      "displacement": "pixel",
+      "velocity": "pixel/s",
+      "time": "s"
+    },
+    "origin": "top-left",
+    "u": "+right",
+    "v": "+down",
+    "world_coordinates": "unavailable"
+  },
+  "target_source": "PILOT_SMOKE",
+  "baseline_ids": [
+    "B0_zero_velocity",
+    "B1_last_valid_causal_velocity",
+    "B2_history_linear_regression"
+  ],
+  "run_metadata": {
+    "git": {
+      "commit": "c3137b448686a9211153c1582cf7177a861071a0",
+      "branch": "feature/phase4-task3-interaction-representation",
+      "working_tree_dirty": true,
+      "tracked_changes": [],
+      "untracked_files": [
+        "configs/phase5/baseline_evaluation_default.json",
+        "experiments/phase5_task4_baselines_pie_video_0004/20261115T042023Z_pie_video_0004/determinism_rerun/evaluation_B0_zero_velocity.npz",
+        "experiments/phase5_task4_baselines_pie_video_0004/20261115T042023Z_pie_video_0004/determinism_rerun/evaluation_B1_last_valid_causal_velocity.npz",
+        "experiments/phase5_task4_baselines_pie_video_0004/20261115T042023Z_pie_video_0004/determinism_rerun/evaluation_B2_history_linear_regression.npz",
+        "experiments/phase5_task4_baselines_pie_video_0004/20261115T042023Z_pie_video_0004/determinism_rerun/evaluation_report.md",
+        "experiments/phase5_task4_baselines_pie_video_0004/20261115T042023Z_pie_video_0004/determinism_rerun/evaluation_results.json",
+        "experiments/phase5_task4_baselines_pie_video_0004/20261115T042023Z_pie_video_0004/determinism_rerun/predictions_B0_zero_velocity.npz",
+        "experiments/phase5_task4_baselines_pie_video_0004/20261115T042023Z_pie_video_0004/determinism_rerun/predictions_B1_last_valid_causal_velocity.npz",
+        "experiments/phase5_task4_baselines_pie_video_0004/20261115T042023Z_pie_video_0004/determinism_rerun/predictions_B2_history_linear_regression.npz",
+        "experiments/phase5_task4_baselines_pie_video_0004/20261115T042023Z_pie_video_0004/determinism_rerun/run_manifest.json",
+        "experiments/phase5_task4_baselines_pie_video_0004/20261115T042023Z_pie_video_0004/primary/evaluation_B0_zero_velocity.npz",
+        "experiments/phase5_task4_baselines_pie_video_0004/20261115T042023Z_pie_video_0004/primary/evaluation_B1_last_valid_causal_velocity.npz",
+        "experiments/phase5_task4_baselines_pie_video_0004/20261115T042023Z_pie_video_0004/primary/evaluation_B2_history_linear_regression.npz",
+        "experiments/phase5_task4_baselines_pie_video_0004/20261115T042023Z_pie_video_0004/primary/evaluation_report.md",
+        "experiments/phase5_task4_baselines_pie_video_0004/20261115T042023Z_pie_video_0004/primary/evaluation_results.json",
+        "experiments/phase5_task4_baselines_pie_video_0004/20261115T042023Z_pie_video_0004/primary/predictions_B0_zero_velocity.npz",
+        "experiments/phase5_task4_baselines_pie_video_0004/20261115T042023Z_pie_video_0004/primary/predictions_B1_last_valid_causal_velocity.npz",
+        "experiments/phase5_task4_baselines_pie_video_0004/20261115T042023Z_pie_video_0004/primary/predictions_B2_history_linear_regression.npz",
+        "experiments/phase5_task4_baselines_pie_video_0004/20261115T042023Z_pie_video_0004/primary/run_manifest.json",
+        "experiments/phase5_task4_baselines_pie_video_0004/20261115T042023Z_pie_video_0004/recomputed_from_predictions/evaluation_B0_zero_velocity.npz",
+        "experiments/phase5_task4_baselines_pie_video_0004/20261115T042023Z_pie_video_0004/recomputed_from_predictions/evaluation_B1_last_valid_causal_velocity.npz",
+        "experiments/phase5_task4_baselines_pie_video_0004/20261115T042023Z_pie_video_0004/recomputed_from_predictions/evaluation_B2_history_linear_regression.npz",
+        "experiments/phase5_task4_baselines_pie_video_0004/20261115T042023Z_pie_video_0004/recomputed_from_predictions/recomputed_summary.json",
+        "experiments/phase5_task4_baselines_pie_video_0004/20261115T042023Z_pie_video_0004/validation_report.json",
+        "pedsafety/phase5/baselines/__init__.py",
+        "pedsafety/phase5/baselines/base.py",
+        "pedsafety/phase5/baselines/history_input.py",
+        "pedsafety/phase5/baselines/predictors.py",
+        "pedsafety/phase5/evaluation/__init__.py",
+        "pedsafety/phase5/evaluation/experiment.py",
+        "pedsafety/phase5/evaluation/metrics.py",
+        "scripts/phase5_evaluate_predictions.py",
+        "scripts/phase5_run_baselines.py",
+        "scripts/phase5_validate_evaluation.py",
+        "tests/phase5/p54_helpers.py",
+        "tests/phase5/test_baseline_pipeline.py",
+        "tests/phase5/test_baselines.py",
+        "tests/phase5/test_evaluation_metrics.py"
+      ],
+      "note": "Phase 5 P5.3 code is uncommitted while under review; the dirty flag and file lists record exactly what differed from HEAD."
+    },
+    "started_utc": "2026-11-15T04:20:54Z",
+    "finished_utc": "2026-11-15T04:20:54Z",
+    "command": "phase5_run_baselines.py --windows experiments/phase5_task3_windows_pie_video_0004/20261115T035825Z_pie_video_0004/primary --config configs/phase5/baseline_evaluation_default.json --out experiments/phase5_task4_baselines_pie_video_0004/20261115T042053Z_pie_video_0004/primary",
+    "versions": {
+      "python": "3.9.25",
+      "numpy": "1.26.4",
+      "torch": "2.2.1+cpu (installed; not imported or used)",
+      "platform": "Windows-10-10.0.26300-SP0"
+    },
+    "runtime_s": {
+      "verify_and_load_inputs": 0.14898069999999997,
+      "predict_total": 0.00717599999999996,
+      "predict_per_baseline": {
+        "B0_zero_velocity": 0.0008669000000000038,
+        "B1_last_valid_causal_velocity": 0.0015676999999999497,
+        "B2_history_linear_regression": 0.0030988999999999045
+      },
+      "evaluate": 0.034966400000000064,
+      "total_before_writing": 0.1911231,
+      "note": "offline CPU timing on one machine; not a real-time claim"
+    },
+    "peak_memory_bytes": 66899968,
+    "peak_memory_note": "process peak working set at the end of evaluation (includes Python, numpy and the loaded P5.3 dataset)"
+  },
+  "claims": {
+    "coordinate_space": "image (captured raster pixels)",
+    "metric_world_coordinates": false,
+    "physical_distance": false,
+    "ttc_pet_or_collision_risk": false,
+    "independent_ground_truth_targets": false,
+    "independent_generalization": false,
+    "research_grade_performance": false,
+    "statistically_significant_ranking": false,
+    "learned_model": false,
+    "real_time_claim": false,
+    "note": "Pseudo-targets are perceived tracks of one video (PILOT_SMOKE); results are pipeline diagnostics only."
+  },
+  "limitations": [
+    "PILOT_DEVELOPMENT_ONLY_NON_INDEPENDENT: one PIE video, one scene group, 2,327 heavily overlapping windows from 84 tracks; no split; no generalization, cross-scene or research-grade claim; no ranking of baselines is statistically supported.",
+    "Targets are perceived YOLO11n + ByteTrack footpoints (pseudo-targets) with unmeasured detection/tracking error.",
+    "Errors are image-plane pixel distances: depth-dependent and affected by camera ego-motion; not metric.",
+    "B1 uses Task 2 one-frame (1/30 s) causal velocities with ~48 px/s per-axis jitter, which is amplified over a 1.5 s horizon.",
+    "Strict windows (all history and future observed) favour long, continuously tracked pedestrians.",
+    "No confidence intervals: windows are correlated and only one video exists; track-weighted summaries are reported alongside window-weighted ones."
+  ]
+}

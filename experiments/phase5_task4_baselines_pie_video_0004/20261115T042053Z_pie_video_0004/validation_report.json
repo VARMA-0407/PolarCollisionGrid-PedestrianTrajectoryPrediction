@@ -1,0 +1,120 @@
+{
+  "run": "experiments\\phase5_task4_baselines_pie_video_0004\\20261115T042053Z_pie_video_0004\\primary",
+  "checks": {
+    "data_artifact_hashes_match_manifest": {
+      "pass": true,
+      "detail": [
+        "evaluation_B0_zero_velocity.npz",
+        "evaluation_B1_last_valid_causal_velocity.npz",
+        "evaluation_B2_history_linear_regression.npz",
+        "evaluation_report.md",
+        "evaluation_results.json",
+        "predictions_B0_zero_velocity.npz",
+        "predictions_B1_last_valid_causal_velocity.npz",
+        "predictions_B2_history_linear_regression.npz"
+      ]
+    },
+    "label_pilot_only": {
+      "pass": true,
+      "detail": null
+    },
+    "claims_all_false": {
+      "pass": true,
+      "detail": null
+    },
+    "baseline_config_hash_matches": {
+      "pass": true,
+      "detail": null
+    },
+    "window_run_manifest_hash_matches": {
+      "pass": true,
+      "detail": null
+    },
+    "B0_zero_velocity.predictions_regenerate_bit_identical": {
+      "pass": true,
+      "detail": null
+    },
+    "B0_zero_velocity.predictions_invariant_to_future_targets": {
+      "pass": true,
+      "detail": null
+    },
+    "B0_zero_velocity.shape_units_coordinates": {
+      "pass": true,
+      "detail": null
+    },
+    "B0_zero_velocity.invalid_predictions_are_nan_not_zero": {
+      "pass": true,
+      "detail": null
+    },
+    "B0_zero_velocity.per_window_metrics_recomputed": {
+      "pass": true,
+      "detail": null
+    },
+    "B0_zero_velocity.summary_recomputed": {
+      "pass": true,
+      "detail": null
+    },
+    "B0_zero_velocity.min_metrics_equal_ade_fde_for_k1": {
+      "pass": true,
+      "detail": null
+    },
+    "B1_last_valid_causal_velocity.predictions_regenerate_bit_identical": {
+      "pass": true,
+      "detail": null
+    },
+    "B1_last_valid_causal_velocity.predictions_invariant_to_future_targets": {
+      "pass": true,
+      "detail": null
+    },
+    "B1_last_valid_causal_velocity.shape_units_coordinates": {
+      "pass": true,
+      "detail": null
+    },
+    "B1_last_valid_causal_velocity.invalid_predictions_are_nan_not_zero": {
+      "pass": true,
+      "detail": null
+    },
+    "B1_last_valid_causal_velocity.per_window_metrics_recomputed": {
+      "pass": true,
+      "detail": null
+    },
+    "B1_last_valid_causal_velocity.summary_recomputed": {
+      "pass": true,
+      "detail": null
+    },
+    "B1_last_valid_causal_velocity.min_metrics_equal_ade_fde_for_k1": {
+      "pass": true,
+      "detail": null
+    },
+    "B2_history_linear_regression.predictions_regenerate_bit_identical": {
+      "pass": true,
+      "detail": null
+    },
+    "B2_history_linear_regression.predictions_invariant_to_future_targets": {
+      "pass": true,
+      "detail": null
+    },
+    "B2_history_linear_regression.shape_units_coordinates": {
+      "pass": true,
+      "detail": null
+    },
+    "B2_history_linear_regression.invalid_predictions_are_nan_not_zero": {
+      "pass": true,
+      "detail": null
+    },
+    "B2_history_linear_regression.per_window_metrics_recomputed": {
+      "pass": true,
+      "detail": null
+    },
+    "B2_history_linear_regression.summary_recomputed": {
+      "pass": true,
+      "detail": null
+    },
+    "B2_history_linear_regression.min_metrics_equal_ade_fde_for_k1": {
+      "pass": true,
+      "detail": null
+    }
+  },
+  "ok": true,
+  "n_checks": 26
+}
