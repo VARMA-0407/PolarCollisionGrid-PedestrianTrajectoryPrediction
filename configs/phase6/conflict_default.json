@@ -1,0 +1,16 @@
+{
+  "config_version": "phase6-conflict-config-1.0.0",
+  "label": "PILOT_DEVELOPMENT_ONLY_NON_INDEPENDENT",
+  "coordinate_system": "captured_1920x1080",
+  "coordinate_unit": "pixel",
+  "context_agent_types": ["vehicle"],
+  "context_motion_model": "B1_last_valid_causal_velocity",
+  "baseline_evaluation_config_path": "configs/phase5/baseline_evaluation_default.json",
+  "box_assumption": "CONSTANT_ANCHOR_BOX_SIZE_AT_PREDICTED_FOOTPOINT",
+  "min_valid_steps": 3,
+  "score_kappa_sep_over_h": 2.0,
+  "sensitivity_sep_over_h": [0.5, 1.0, 2.0],
+  "norm_epsilon": 1e-9,
+  "candidate_label_policy": "CANDIDATE_ONLY_NEVER_SUPERVISION",
+  "_notes": "All thresholds are exploratory image-space parameters, not physical or safety boundaries."
+}

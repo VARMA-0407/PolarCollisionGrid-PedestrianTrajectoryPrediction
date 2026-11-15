@@ -1,0 +1,14 @@
+{
+  "phase": 6,
+  "label": "PILOT_DEVELOPMENT_ONLY_NON_INDEPENDENT",
+  "base_commit": "f3d44bf71b5d0d079d3fc0e369aab5e62e7ea44a",
+  "coordinate_system": "captured_1920x1080",
+  "coordinate_unit": "pixel",
+  "implemented": ["pairwise image-space conflict features", "pair builder from Phase 5 predictions", "heuristic proximity scorer", "label specification and validator", "gated logistic head", "supervised metrics (gated)", "runner and provenance report"],
+  "blocked": {"supervised_conflict_training_and_evaluation": "no verified conflict labels; single scene group; context-agent futures not stored"},
+  "physical_ttc_pet": false,
+  "calibrated_probability": false,
+  "independent_generalization": false,
+  "tests": {"phase6": "15 passed", "phase4_phase5": "399 passed, 2 skipped"},
+  "report": "experiments/phase6_conflict_pie_video_0004/conflict_report.json"
+}

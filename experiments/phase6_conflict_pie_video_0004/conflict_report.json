@@ -1,0 +1,81 @@
+{
+  "status": "completed",
+  "label": "PILOT_DEVELOPMENT_ONLY_NON_INDEPENDENT",
+  "sample_status": "IN_SAMPLE_PHASE5_MODEL",
+  "coordinate_system": "captured_1920x1080",
+  "coordinate_unit": "pixel",
+  "config_sha256": "22f84e29d84d06c6472f6b8d0cdab774729fc0a77f44df8e2eafe5eccd8ac7e9",
+  "provenance": {
+    "predictions_sha256": "c070134fb67ef42753ecca347260c9f25e8b7ad37ae3333b690f3f008ee99748",
+    "windows_npz_sha256": "49b4ca392bb8e07b473702f8c6982c983d6f757775c5e5053c031ad964b3d637",
+    "graph_bank_sha256": "fc0821a36b90f4b3696d64b9ce29dd1285171565f3e636bb2e200f821a8d0779",
+    "baseline_config_sha256_canonical": "84741cc2ef0b287fcf1c3a0e621ecb986fa7031a81349b684c23fc4a2e5ffbb9",
+    "coordinate_system": "captured_1920x1080",
+    "coordinate_unit": "pixel",
+    "context_motion_model": "B1_last_valid_causal_velocity",
+    "context_motion_is_learned": false,
+    "context_motion_inputs": "observed history only (graph-bank nodes of the window's history frames)",
+    "pedestrian_predictions": "Phase 5 neural multimodal predictions (uncalibrated mode weights)",
+    "box_assumption": "CONSTANT_ANCHOR_BOX_SIZE_AT_PREDICTED_FOOTPOINT",
+    "ego_motion_compensated": false,
+    "physical_quantities": false,
+    "labels_used": false,
+    "future_observations_used": false
+  },
+  "exclusions": {
+    "windows": 2327,
+    "windows_without_context_agent": 29,
+    "context_agents_total": 8233,
+    "context_motion_invalid_rows": 143,
+    "context_motion_invalid_reasons": {
+      "anchor_position_unavailable": 0,
+      "no_valid_causal_velocity_in_history": 143
+    },
+    "pairs": 8233,
+    "pairs_by_type": {
+      "pedestrian_vehicle": 8233,
+      "pedestrian_pedestrian": 0,
+      "pedestrian_bicyclist": 0
+    },
+    "pairs_valid": 8090,
+    "pairs_invalid": 143
+  },
+  "summary": {
+    "n_pairs": 8233,
+    "n_pairs_valid": 8090,
+    "n_windows_with_pairs": 2298,
+    "pairs_by_type": {
+      "pedestrian_vehicle": 8233,
+      "pedestrian_pedestrian": 0,
+      "pedestrian_bicyclist": 0
+    },
+    "score_kind": "UNCALIBRATED_HEURISTIC_PROXIMITY_SCORE",
+    "score_calibrated": false,
+    "heuristic_score": {
+      "mean": 0.07453435129839242,
+      "median": 0.0,
+      "p90": 0.30290531580763425,
+      "max": 0.985925188781203,
+      "fraction_nonzero": 0.2582200247218789
+    },
+    "worst_case_min_sep_over_h": {
+      "min": 0.007351286678189544,
+      "median": 3.2891210744612343
+    }
+  },
+  "supervision": {
+    "supervised_conflict_training": "BLOCKED_NO_VERIFIED_CONFLICT_LABELS_AND_ONE_SCENE_GROUP",
+    "reasons": [
+      "no collision / near-conflict / interaction annotation exists in the repository (one PIE video, no annotation XML)",
+      "the graph bank stores only history nodes of context agents, so the realised future of a vehicle is unavailable",
+      "a single independent group exists; at least 3 are required for a train/validation/test protocol"
+    ],
+    "candidate_labels_generated": false
+  },
+  "claims": {
+    "physical_ttc_pet": false,
+    "collision_probability": false,
+    "calibrated": false,
+    "independent_generalization": false
+  }
+}
