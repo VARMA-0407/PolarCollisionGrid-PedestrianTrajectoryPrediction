@@ -130,6 +130,8 @@ HASH_VIDEOS = True                    # SHA-256 of every MP4 (cached on Drive; f
 SPLIT_SCHEME = "PIE_OFFICIAL"         # "PIE_OFFICIAL" (train/val/test as published) | "PIE_OFFICIAL_CALIBRATION_FROM_VAL" (documented deviation)
 CALIBRATION_SETS = None               # only for PIE_OFFICIAL_CALIBRATION_FROM_VAL; default = last official validation set
 ALLOW_UNVERIFIED_SPLIT_REFERENCE = False   # True only if pie_data.py is unavailable (the split is then recorded as unverified)
+DOWNLOAD_PIE_DATA_PY_IF_MISSING = False    # True = fetch the PIE toolkit's pie_data.py (read-only text, parsed never executed) into PIE_RAW_DIR/utilities/
+PIE_DATA_PY_URL = "https://raw.githubusercontent.com/aras62/PIE/master/utilities/pie_data.py"
 
 # ---- repository code --------------------------------------------------------------------------------------------------------------
 REPO_SOURCE = "github"                # "github" | "git_bundle" (a `git bundle` file on Drive) | "existing" (an existing checkout)
@@ -404,8 +406,8 @@ from pedsafety.multivideo import MULTIVIDEO_LABEL, TARGET_SOURCE
 from pedsafety.multivideo.common import canonical_sha256, git_state, read_json, sha256_file, utc_now, write_json, MARKER
 from pedsafety.multivideo.experiment import StageTracker, create_or_resume_experiment
 from pedsafety.multivideo.inventory import extract_annotation_archives, inventory_pie
-from pedsafety.multivideo.split import (build_split_manifest, check_split_integrity, freeze_split, load_frozen_split, resolve_official_split,
-                                        video_partitions)
+from pedsafety.multivideo.split import (build_split_manifest, check_split_integrity, find_pie_data_py, freeze_split, load_frozen_split,
+                                        resolve_official_split, video_partitions)
 from pedsafety.multivideo.perception_batch import (OK_VIDEO_STATES, perception_stage_config, register_precomputed_phase3, run_perception_batch)
 from pedsafety.multivideo.preprocess import preprocess_batch, preprocess_config
 from pedsafety.multivideo.training import load_multivideo_model, train_multivideo
@@ -583,6 +585,18 @@ code(r'''
 # ---- 4.2 Official PIE split (from the PIE toolkit source) --------------------------------------------------------------------------------
 if TRACKER.require("S0_OFFICIAL_SPLIT", ["S2_DATASET_AUDIT"]):
     with TRACKER.stage("S0_OFFICIAL_SPLIT") as st:
+        if not find_pie_data_py([P["raw_pie"]]):
+            if DOWNLOAD_PIE_DATA_PY_IF_MISSING:
+                import urllib.request
+                dst = P["raw_pie"] / "utilities" / "pie_data.py"
+                dst.parent.mkdir(parents=True, exist_ok=True)
+                with urllib.request.urlopen(PIE_DATA_PY_URL, timeout=120) as resp:
+                    dst.write_bytes(resp.read())
+                print("downloaded", PIE_DATA_PY_URL, "->", dst, "sha256", sha256_file(dst))
+            elif not ALLOW_UNVERIFIED_SPLIT_REFERENCE:
+                print("pie_data.py was NOT found under %s. Fix one of: (a) copy utilities/pie_data.py from https://github.com/aras62/PIE into "
+                      "%s/utilities/ ; (b) set DOWNLOAD_PIE_DATA_PY_IF_MISSING=True ; (c) set ALLOW_UNVERIFIED_SPLIT_REFERENCE=True (split recorded as unverified)."
+                      % (P["raw_pie"], P["raw_pie"]))
         OFFICIAL = resolve_official_split([P["raw_pie"]], allow_unverified_reference=ALLOW_UNVERIFIED_SPLIT_REFERENCE)
         print("official split status:", OFFICIAL["status"])
         print("source:", [(f["path"], f["sha256"][:16]) for f in OFFICIAL["source_files"]] or OFFICIAL.get("method"))
@@ -637,7 +651,10 @@ if TRACKER.require("S0_SPLIT", ["S0_OFFICIAL_SPLIT"]):
 code(r'''
 # ---- 4.4 Shared paths and helpers for Sections 5-13 (run this cell before jumping to any later section after a restart) -----------------------
 if TRACKER.status("S0_SPLIT") not in ("COMPLETED", "REUSED_VERIFIED"):
-    raise RuntimeError("the recording-level split is not frozen (S0_SPLIT=%s): fix Section 4 first; no later stage may run without it" % TRACKER.status("S0_SPLIT"))
+    why = ["%s=%s: %s" % (n, v["status"], v.get("error") or v.get("reason") or "") for n, v in TRACKER.data["stages"].items()
+           if n.startswith("S0_") and v["status"] in ("FAILED", "BLOCKED_UPSTREAM")]
+    raise RuntimeError("the recording-level split is not frozen (S0_SPLIT=%s). Root cause (fix it, then re-run cells 4.2, 4.3 and this one):\n  %s"
+                       % (TRACKER.status("S0_SPLIT"), "\n  ".join(why) or "see the output of cells 4.2 / 4.3"))
 PRE_CFGS = {"image_kinematics": CONFIG_FILES["image_kinematics"], "interaction": CONFIG_FILES["interaction"], "windows": CONFIG_FILES["windows"]}
 TRAIN_DIR = D["art"] / "phase5_training"
 EVAL_ROOT = D["art"] / "phase5_evaluation"

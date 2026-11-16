@@ -173,7 +173,7 @@ The split is also frozen in `data/splits/<split_id>.json`; the inventory in `dat
 |---|---|
 | `git clone … failed` | push the branch, or use `REPO_SOURCE="git_bundle"` |
 | weights download fails | download `yolo11n.pt` yourself and place it in `checkpoints/yolo/` |
-| `OFFICIAL_SPLIT_UNVERIFIED` | copy `utilities/pie_data.py` from the PIE repository into `data/raw/pie/` |
+| `OFFICIAL_SPLIT_UNVERIFIED` / "split is not frozen ... BLOCKED_UPSTREAM" | cell 4.2 could not find `pie_data.py`. Either copy `utilities/pie_data.py` from the PIE repository into `data/raw/pie/utilities/`, or set `DOWNLOAD_PIE_DATA_PY_IF_MISSING=True` (downloads that one text file; it is parsed, never executed). Then re-run cells 4.2, 4.3, 4.4 |
 | `MISSING_REQUIRED_DATA` | a set folder, video or annotation is missing — see the PROBLEM lines of Section 2.2 |
 | a video fails in Phase 3 / 4 | its error is printed and stored in the index file; fix and Run all again (only that video is recomputed) |
 | `S4A_ROWS` | Task 2 quarantined rows of that video; this Phase 9 contract is kept strict on purpose — inspect `artifacts/…/phase4_task2_kinematics/` in the quarantine folder |
