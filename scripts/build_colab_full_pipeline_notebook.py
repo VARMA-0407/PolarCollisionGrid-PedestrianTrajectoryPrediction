@@ -61,6 +61,10 @@ flowchart LR
   N --> O[Phase 9 gates +<br/>experiment report]
 ```
 
+Plain-text form (Colab shows the Mermaid block above as text; GitHub renders it):
+`PIE MP4 -> decode -> YOLO11 -> ByteTrack -> agent states (pixels) -> Phase 4 Task 2 kinematics -> Task 3 interaction graphs -> P5.3 windows ->
+heterogeneous GATv2 -> causal TCN -> multimodal decoder (K=5) -> Phase 6 conflict -> Phase 7 risk -> Phase 8 alerts -> Phase 9 gates + report`
+
 | Section | Stage | Repository entry point |
 |---|---|---|
 | 1 | Colab environment, Drive, GPU, code, dependencies | `git`, `pip` (only missing packages) |
@@ -332,7 +336,7 @@ NEVER_INSTALL = {"torch", "numpy", "torchvision"}                               
 plan, problems = [], []
 for name, spec in REQUIRED.items():
     v = dist_version(name)
-    ok = v is not None and v in SpecifierSet(spec)
+    ok = v is not None and SpecifierSet(spec).contains(v, prereleases=True)
     if not ok:
         (problems if name in NEVER_INSTALL else plan).append("%s%s (installed: %s)" % (name, spec, v))
 cv = {n: dist_version(n) for n in ("opencv-python", "opencv-python-headless", "opencv-contrib-python")}
@@ -359,14 +363,15 @@ if plan:
     after = {n: dist_version(n) for n in frozen}
     if after != frozen:
         raise RuntimeError("installation changed the PyTorch/NumPy environment %s -> %s; restart the runtime" % (frozen, after))
-    chk = subprocess.run([sys.executable, "-c", "import torch, cv2; print(torch.cuda.is_available(), cv2.__version__)"], capture_output=True, text=True)
+    probe = "import torch, cv2; print(torch.cuda.is_available(), cv2.__version__)" if PERCEPTION_MODE == "raw_video" else "import torch; print(torch.cuda.is_available(), 'not-needed')"
+    chk = subprocess.run([sys.executable, "-c", probe], capture_output=True, text=True)
     if chk.returncode != 0 or (cuda_before and not chk.stdout.startswith("True")):
         raise RuntimeError("post-install check failed (CUDA must stay available, cv2 must import): %s %s" % (chk.stdout, chk.stderr[-800:]))
     print("post-install check: torch/torchvision/numpy unchanged %s; CUDA available, cv2 %s" % (after, chk.stdout.split()[-1]))
 else:
     print("all required packages present; nothing installed")
 DEP_VERSIONS = {n: dist_version(n) for n in list(REQUIRED) + OPTIONAL + list(cv)}
-still = [n for n, s in REQUIRED.items() if DEP_VERSIONS.get(n) is None or DEP_VERSIONS[n] not in SpecifierSet(s)]
+still = [n for n, s in REQUIRED.items() if DEP_VERSIONS.get(n) is None or not SpecifierSet(s).contains(DEP_VERSIONS[n], prereleases=True)]
 if still:
     raise RuntimeError("still missing after installation: %s" % still)
 PIP_FREEZE = subprocess.run([sys.executable, "-m", "pip", "freeze"], capture_output=True, text=True).stdout
@@ -513,8 +518,13 @@ LOCKED = {"split_scheme": SPLIT_SCHEME, "calibration_sets": CALIBRATION_SETS, "a
           "write_detections_jsonl": WRITE_DETECTIONS_JSONL, "video_subset": sorted(VIDEO_SUBSET), "train_epochs": TRAIN_EPOCHS, "train_batch_size": TRAIN_BATCH_SIZE,
           "train_learning_rate": TRAIN_LEARNING_RATE, "monitor_max_windows": MONITOR_MAX_WINDOWS, "pie_clips_dir": str(P["raw_pie"] / PIE_CLIPS_DIRNAME),
           "config_file_sha256": {k: sha256_file(REPO / v) for k, v in CONFIG_FILES.items()}}
-EXP = create_or_resume_experiment(P["experiments"], EXPERIMENT_ID.strip() or None, LOCKED, GIT, allow_commit_change=ALLOW_RESUME_ACROSS_COMMITS,
+_requested = EXPERIMENT_ID.strip()
+if not _requested and globals().get("_RUNTIME_EXPERIMENT_ID"):
+    _requested = _RUNTIME_EXPERIMENT_ID          # the configuration cell was re-run in this runtime: continue the experiment created here, do not start another
+    print("NOTE: EXPERIMENT_ID is empty but this runtime already created %r; continuing it (restart the runtime to start a new experiment)." % _requested)
+EXP = create_or_resume_experiment(P["experiments"], _requested or None, LOCKED, GIT, allow_commit_change=ALLOW_RESUME_ACROSS_COMMITS,
                                   prefix=EXPERIMENT_PREFIX)
+_RUNTIME_EXPERIMENT_ID = EXP["experiment_id"]
 EXPERIMENT_ID, EXP_DIR = EXP["experiment_id"], Path(EXP["dir"])
 D = {k: EXP_DIR / v for k, v in {"art": "artifacts", "q": "_quarantine", "reports": "reports", "env": "environment"}.items()}
 for d in D.values():
@@ -530,9 +540,11 @@ write_json(D["env"] / ("environment_%s.json" % SESSION), dict(ENVIRONMENT, git=G
 inv_copy = EXP_DIR / "inventory.json"
 if inv_copy.is_file():
     old = read_json(inv_copy)
-    sig = lambda inv: sorted((v["key"], v["bytes"], v.get("sha256")) for v in inv["videos"])
-    if sig(old) != sig(INVENTORY):
-        raise RuntimeError("the PIE files on Drive differ from the inventory this experiment was started with; start a new experiment")
+    a, b = ({v["key"]: v for v in inv["videos"]} for inv in (old, INVENTORY))
+    diff = sorted(k for k in set(a) | set(b) if k not in a or k not in b or a[k]["bytes"] != b[k]["bytes"]
+                  or (a[k].get("sha256") and b[k].get("sha256") and a[k]["sha256"] != b[k]["sha256"]))     # hashes compared when both runs hashed
+    if diff:
+        raise RuntimeError("the PIE files on Drive differ from the inventory this experiment was started with (%s); start a new experiment" % diff[:10])
 else:
     write_json(inv_copy, INVENTORY)
 (P["experiments"] / "LATEST_EXPERIMENT_ID.txt").write_text(EXPERIMENT_ID + "\n", encoding="utf-8")   # informational only; never read automatically
@@ -688,7 +700,16 @@ if PERCEPTION_MODE == "raw_video" and TRACKER.require("S3_WEIGHTS", ["S0_SPLIT"]
         import urllib.request
         W = Path(WEIGHTS_DRIVE_DIR) / YOLO_WEIGHTS_FILE
         prov_path = W.with_suffix(W.suffix + ".provenance.json")
-        if not W.is_file():
+        LOCAL_WEIGHTS = None
+        if not RUN_PERCEPTION and not W.is_file() and (EXP_DIR / "weights_provenance.json").is_file():
+            WEIGHTS_SHA = read_json(EXP_DIR / "weights_provenance.json")["sha256"]       # verification only: the recorded identity is enough
+            print("RUN_PERCEPTION=False: using the recorded weights identity", WEIGHTS_SHA)
+            st["status"] = "REUSED_VERIFIED"
+            st["detail"] = {"sha256": WEIGHTS_SHA, "file_present": False}
+            raise_skip = True
+        else:
+            raise_skip = False
+        if not raise_skip and not W.is_file():
             if not DOWNLOAD_WEIGHTS_IF_MISSING:
                 raise FileNotFoundError("weights %s missing and DOWNLOAD_WEIGHTS_IF_MISSING=False" % W)
             W.parent.mkdir(parents=True, exist_ok=True)
@@ -700,19 +721,21 @@ if PERCEPTION_MODE == "raw_video" and TRACKER.require("S3_WEIGHTS", ["S0_SPLIT"]
             part.replace(W)
             write_json(prov_path, {"source_url": WEIGHTS_URL, "downloaded_utc": utc_now(), "bytes": W.stat().st_size, "sha256": sha256_file(W),
                                    "licence": "AGPL-3.0 (Ultralytics code and weights): review before redistribution"})
-        WEIGHTS_SHA = sha256_file(W)
-        if EXPECTED_WEIGHTS_SHA256 and WEIGHTS_SHA != EXPECTED_WEIGHTS_SHA256.lower():
-            raise ValueError("weights sha256 %s != EXPECTED_WEIGHTS_SHA256" % WEIGHTS_SHA)
-        lock_w = EXP_DIR / "weights_provenance.json"
-        if lock_w.is_file() and read_json(lock_w)["sha256"] != WEIGHTS_SHA:
-            raise RuntimeError("this experiment was started with different weights (%s); start a new experiment" % read_json(lock_w)["sha256"])
-        write_json(lock_w, {"file": str(W), "sha256": WEIGHTS_SHA, "bytes": W.stat().st_size, "provenance": read_json(prov_path) if prov_path.is_file() else None})
-        LOCAL_WEIGHTS = Path("/content/weights" if IN_COLAB else str(WORK / "weights")) / YOLO_WEIGHTS_FILE
-        LOCAL_WEIGHTS.parent.mkdir(parents=True, exist_ok=True)
-        if not LOCAL_WEIGHTS.is_file() or sha256_file(LOCAL_WEIGHTS) != WEIGHTS_SHA:
-            shutil.copyfile(W, LOCAL_WEIGHTS)
-        print("weights:", W, "sha256", WEIGHTS_SHA)
-        st["detail"] = {"weights": str(W), "sha256": WEIGHTS_SHA}
+        if not raise_skip:
+            WEIGHTS_SHA = sha256_file(W)
+            if EXPECTED_WEIGHTS_SHA256 and WEIGHTS_SHA != EXPECTED_WEIGHTS_SHA256.lower():
+                raise ValueError("weights sha256 %s != EXPECTED_WEIGHTS_SHA256" % WEIGHTS_SHA)
+            lock_w = EXP_DIR / "weights_provenance.json"
+            if lock_w.is_file() and read_json(lock_w)["sha256"] != WEIGHTS_SHA:
+                raise RuntimeError("this experiment was started with different weights (%s); start a new experiment" % read_json(lock_w)["sha256"])
+            if not lock_w.is_file():
+                write_json(lock_w, {"file": str(W), "sha256": WEIGHTS_SHA, "bytes": W.stat().st_size, "provenance": read_json(prov_path) if prov_path.is_file() else None})
+            LOCAL_WEIGHTS = Path("/content/weights" if IN_COLAB else str(WORK / "weights")) / YOLO_WEIGHTS_FILE
+            LOCAL_WEIGHTS.parent.mkdir(parents=True, exist_ok=True)
+            if not LOCAL_WEIGHTS.is_file() or sha256_file(LOCAL_WEIGHTS) != WEIGHTS_SHA:
+                shutil.copyfile(W, LOCAL_WEIGHTS)
+            print("weights:", W, "sha256", WEIGHTS_SHA)
+            st["detail"] = {"weights": str(W), "sha256": WEIGHTS_SHA}
 ''')
 
 code(r'''
@@ -722,7 +745,7 @@ if TRACKER.require("S3_PERCEPTION", needs3):
     with TRACKER.stage("S3_PERCEPTION") as st:
         if PERCEPTION_MODE == "precomputed":
             P3 = register_precomputed_phase3(VIDEOS, PRECOMPUTED_PHASE3_ROOT)
-            P3["stage_config_sha256"] = canonical_sha256({"mode": "precomputed", "inputs": {k: r.get("detail", {}).get("sha256") for k, r in P3["results"].items()}})
+            P3["stage_config_sha256"] = canonical_sha256({"mode": "precomputed", "root": str(PRECOMPUTED_PHASE3_ROOT)})
             P3["execution_mode"] = "PRECOMPUTED_PHASE3_ARTIFACTS"
         else:
             STAGE_CFG = perception_stage_config(REPO / CONFIG_FILES["perception"], weights_sha256=WEIGHTS_SHA, device=PERCEPTION_DEVICE, max_frames=PERCEPTION_MAX_FRAMES,
@@ -886,8 +909,8 @@ if TRACKER.require("S5C_EVALUATION", ["S5B_TRAINING"]):
         print(render_evaluation_markdown(EVAL))
         st["status"] = "REUSED_VERIFIED" if EVAL.get("reused_verified") else "COMPLETED"
         st["detail"] = {"partitions": sorted(EVAL["per_partition"]), "videos": len(EVAL["per_video"]), "test_evaluated": EVALUATE_TEST_PARTITION}
-        if not EVALUATE_TEST_PARTITION:
-            TRACKER.set("S5C_TEST_PARTITION", "SKIPPED_DISABLED", reason="EVALUATE_TEST_PARTITION=False")
+        TRACKER.set("S5C_TEST_PARTITION", "COMPLETED" if "test" in EVAL["per_partition"] else "SKIPPED_DISABLED",
+                    reason=None if "test" in EVAL["per_partition"] else "test partition not evaluated (EVALUATE_TEST_PARTITION=False or no test video in scope)")
 ''')
 
 # ===================================================================================================================================== 8-10
@@ -905,6 +928,8 @@ def downstream_cell(stage, name, needs, switch, label):
 if TRACKER.require("%(name)s", %(needs)r):
     with TRACKER.stage("%(name)s") as st:
         items = downstream_items()
+        if not items:
+            raise RuntimeError("no video has a completed Phase 5 evaluation: nothing to process (a stage with zero videos is never reported as completed)")
         R = downstream_batch(REPO, items, stages=("%(stage)s",), artifacts_root=D["art"], work_root=WORK, quarantine_root=D["q"], dcfg=DCFG, git_commit=GIT["commit"],
                              verify_only=not %(switch)s)
         R["n_videos"] = len(items)
@@ -925,7 +950,7 @@ if idx.is_file():
         d = (r.get("stages", {}).get("S6_CONFLICT") or {}).get("detail", {})
         tot["pairs"] += int(d.get("pairs") or 0); tot["pairs_valid"] += int(d.get("pairs_valid") or 0)
     print("pedestrian-vehicle pairs:", tot)
-    first = next(iter(sorted(R6["results"])), None)
+    first = next((k for k in sorted(R6["results"]) if (D["art"] / "phase6_conflict" / PARTS[k]["set"] / k / "conflict_report.json").is_file()), None)
     if first:
         rep = read_json(D["art"] / "phase6_conflict" / PARTS[first]["set"] / first / "conflict_report.json")
         print(first, json.dumps({k: rep[k] for k in ("sample_status", "coordinate_system", "coordinate_unit", "pair_counts", "claims")}, indent=1))
@@ -1045,7 +1070,8 @@ code(r'''
 r = subprocess.run([sys.executable, "-m", "pedsafety.phase9", "evaluation-status", "--split-manifest", str(SPLIT_PATH)], capture_output=True, text=True, cwd=REPO)
 (D["reports"] / "phase9_evaluation_status.txt").write_text(r.stdout + "\n" + r.stderr, encoding="utf-8")
 print(r.stdout[-2500:] or r.stderr[-2500:])
-TRACKER.set("S9_EVALUATION_GATES", "COMPLETED" if r.returncode == 0 else "FAILED", exit_code=r.returncode, gate=PHASE9_GATE["status"])
+_gate = ((load_if(EVAL_ROOT / "evaluation_summary.json") or {}).get("phase9_independent_evaluation_gate") or {}).get("status")
+TRACKER.set("S9_EVALUATION_GATES", "COMPLETED" if r.returncode == 0 else "FAILED", exit_code=r.returncode, gate=_gate or "NOT_ASSESSED_NO_EVALUATION")
 if RUN_PHASE9_PILOT_REGRESSION:
     with TRACKER.stage("S9_PILOT_REGRESSION") as st:
         if not (Path(PILOT_PHASE3_DIR) / "tracked_agents.jsonl").is_file():

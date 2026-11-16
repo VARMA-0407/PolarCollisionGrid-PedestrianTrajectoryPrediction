@@ -5,8 +5,8 @@ Notebook: [`notebooks/PIE_Full_Pedestrian_Safety_Pipeline_Colab.ipynb`](../../no
 
 > **Status:** the notebook is structurally validated and its orchestration was smoke-tested locally on synthetic data in precomputed-artifact mode.
 > It has **not** been run on Google Colab, on a GPU, or on the real PIE videos. The first real run is yours; every number comes from that run.
-> Local results (16 Nov 2026): structural validation 0 problems; `tests/multivideo` 26 passed (including two full notebook executions: new and
-> resumed); full repository suite 1407 passed, 8 skipped, 1 failed — the known pre-existing `test_ttc_masks` defect only.
+> Local results (16 Nov 2026): structural validation 0 problems; `tests/multivideo` 27 passed (including two full notebook executions: new and
+> resumed); full repository suite 1408 passed, 8 skipped, 1 failed — the known pre-existing `test_ttc_masks` defect only.
 
 ## 1. What the notebook does
 

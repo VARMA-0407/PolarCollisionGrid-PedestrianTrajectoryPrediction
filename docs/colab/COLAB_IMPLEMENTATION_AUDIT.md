@@ -122,9 +122,9 @@ stored in `<experiment>/environment/`.
 | Command | Result |
 |---|---|
 | `python scripts/validate_colab_notebook.py` | PASS — 49 cells (34 code), 0 problems, every call into `pedsafety` bound to its real signature, all repository paths exist, no use-before-definition |
-| `pytest tests/multivideo` (final review) | **26 passed** (adds: downstream stale refusal, pseudo-target provenance, no fabricated calibration partition, unfiltered pytest call, install guard) |
+| `pytest tests/multivideo` (after proof-check) | **27 passed** (adds: replaced-Phase-3 stale refusal, downstream stale refusal, pseudo-target provenance, no fabricated calibration partition, unfiltered pytest call, install guard) |
 | `pytest tests/multivideo` (first pass) | 22 passed: units (inventory, AST split parsing without execution, frozen split + tamper/leak detection, experiment lock, stage tracker, markers, Phase 3 wrapper with mocked CLI), integration (real Phase 4–8 code on 4 synthetic videos: resume, stale-config refusal, train-partition-only training, byte-identical resumed training on CPU, hash-verified loader, per-partition evaluation, Phase 6/7/8 per stage, schemas, report), notebook (regenerated-from-builder check, structural validation, **local execution of every notebook cell** in precomputed mode on 6 synthetic videos, then a resumed run that verifies and skips everything) |
-| `pytest tests` (full suite, final review) | **1407 passed, 8 skipped, 1 failed** in 555 s. The failure is the documented pre-existing defect `tests/phase2/test_ttc_masks.py::test_ttc_occupancy_mask_collapses_agent_dimension` (`utils/Interaction.py`), identical to the Phase 9 baseline (1381 passed + 26 new tests). No test was modified, skipped or weakened. |
+| `pytest tests` (full suite, final review) | **1408 passed, 8 skipped, 1 failed** in 740 s (after the proof-check fixes). The failure is the documented pre-existing defect `tests/phase2/test_ttc_masks.py::test_ttc_occupancy_mask_collapses_agent_dimension` (`utils/Interaction.py`), identical to the Phase 9 baseline (1381 passed + 27 new tests). No test was modified, skipped or weakened. |
 
 Not runnable locally: raw-video Phase 3 (no OpenCV / Ultralytics / GPU in this environment — covered only by the mocked-CLI unit test), Google Drive
 mounting, Colab package versions (numpy 2 / newer Python), real PIE data, GPU training, and the optional Phase 9 pilot regression (needs git-ignored
@@ -144,6 +144,29 @@ pilot reference artifacts).
 | 8 | TTC-mask failure classified, not excluded | PASS | the notebook runs `pytest tests` with no `-k / --deselect / --ignore` (test); the failure is only classified as known pre-existing |
 | 9 | Full suite completed | PASS (only the known pre-existing failure) | `pytest tests -q -p no:cacheprovider -rfE`: **1 failed, 1407 passed, 8 skipped** in 555 s; the failure is `tests/phase2/test_ttc_masks.py::test_ttc_occupancy_mask_collapses_agent_dimension` |
 | 10 | Audit and guide updated | PASS | this section; guide sections 5, 6, 10 |
+
+## 7c. Notebook proof-check (cell-by-cell read, 16 Nov 2026)
+
+Defects found and fixed (builder → regenerated notebook; package changes are additive):
+
+| Cell | Defect | Fix |
+|---|---|---|
+| 11.2 | used `PHASE9_GATE`, which exists only if cell 7.3 ran in the same runtime → `NameError` after a restart or a failed evaluation | gate status is read from `evaluation_summary.json` |
+| 3.2 | re-running the configuration cell (which resets `EXPERIMENT_ID = ""`) and then 3.2 silently created a second experiment | the runtime continues the experiment it created and prints a notice; the lock check still applies |
+| 3.2 | resuming with `HASH_VIDEOS` switched off reported a false "files differ" | sizes always compared, hashes only when both runs hashed |
+| 6.1 / 7.1 | Phase 4/5 outputs were not tied to the Phase 3 run they came from: if a video's Phase 3 folder was recomputed or replaced, old outputs were reused | completed sub-stages must match the current Phase 3 `run_manifest.json` hash, else `STALE_ARTIFACT` (tested) |
+| 7.3 | stored predictions were not tied to the window run | evaluation markers record the window-run manifest hash; mismatch → `STALE_ARTIFACT` |
+| 7.3 | `S5C_TEST_PARTITION = SKIPPED_DISABLED` stayed forever after the test partition was later evaluated | status follows the current run |
+| 8.1 / 9.1 / 10.1 | a stage with zero videos to process was reported COMPLETED | now fails with an explicit message |
+| 8.2 | preview crashed when the first video had failed | previews the first video that has a report |
+| 5.2 | in precomputed mode one changed folder invalidated every video's outputs | per-video identity check (above) replaces the global hash |
+| 5.1 | a verify-only run (`RUN_PERCEPTION=False`) still needed / downloaded the weights | uses the recorded weights identity |
+| 1.4 | pre-release package versions (e.g. a torch release candidate) were rejected; the post-install probe required `cv2` even in precomputed mode | pre-releases accepted; `cv2` probed only in raw-video mode |
+| 0 | Mermaid is not rendered by Colab | plain-text pipeline line added beneath the diagram |
+
+Known, not changed: a FAILED status of an optional stage (e.g. the pilot regression) persists in `experiment_status.json` until that stage is re-run
+successfully; with `REPO_SOURCE="existing"` on Drive, git may refuse the folder (`safe.directory`) and provenance fields are then empty;
+cell 4.2 needs `pie_data.py` even when the split is already frozen (or `ALLOW_UNVERIFIED_SPLIT_REFERENCE=True`).
 
 ## 8. Known compatibility issues / risks
 

@@ -108,6 +108,8 @@ def evaluate_all(train_dir, window_dirs: Dict[str, Any], split: Dict[str, Any], 
             per_video[key] = {"status": "NO_WINDOWS", "partition": part}
             continue
         ds = TrainingWindowDataset(wdir)
+        if st == "COMPLETE" and mk.get("upstream", {}).get("window_run_manifest_sha256") != ds.provenance["run_manifest_sha256"]:
+            raise StageError("STALE_ARTIFACT", "%s holds predictions for a different window run of %s (windows were regenerated)" % (final, key))
         if ds.config.sha256() != wcfg.sha256():
             raise StageError("WINDOW_CONFIG_MISMATCH", "%s uses a different window configuration than the model" % key)
         if part == "test":
@@ -137,6 +139,7 @@ def evaluate_all(train_dir, window_dirs: Dict[str, Any], split: Dict[str, Any], 
             write_json(loc / "evaluation_results.json", res)
             files = publish_dir(loc, final, quarantine_root)
             write_marker(final, stage=STAGE, key=key, config_sha256=cfg_sha, files=files, git_commit=git_commit,
+                         upstream={"window_run_manifest_sha256": ds.provenance["run_manifest_sha256"]},
                          detail={"partition": part, "windows": len(ds), "windows_evaluated": neural.summary["windows_evaluated"]})
         per_video[key] = {"status": "COMPLETED", "partition": part, "dir": str(final), "windows": len(ds),
                           "ade_px_mean_primary": neural.summary["window_weighted"]["ade_px"]["mean"], "fde_px_mean_primary": neural.summary["window_weighted"]["fde_px"]["mean"],

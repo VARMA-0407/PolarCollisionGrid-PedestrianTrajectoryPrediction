@@ -55,6 +55,12 @@ def preprocess_video(repo, key: str, set_id: str, phase3_dir, artifacts_root, wo
     for s, (st, _) in states.items():
         if st == "STALE":
             raise StageError("STALE_ARTIFACT", "%s holds %s outputs of a different configuration; use a new experiment" % (finals[s], s))
+    # a completed sub-stage must have been derived from the Phase 3 run that is present NOW (its run manifest is unique per run)
+    p3_now = sha256_file(phase3_dir / "run_manifest.json") if (phase3_dir / "run_manifest.json").is_file() else None
+    for s, (st, m) in states.items():
+        if st == "COMPLETE" and m.get("upstream", {}).get("phase3_manifest_sha256") != p3_now:
+            raise StageError("STALE_ARTIFACT", "%s was computed from a different Phase 3 run of %s (Phase 3 was replaced or recomputed); use a new experiment "
+                             "or move %s aside" % (s, key, finals[s]))
     if all(st == "COMPLETE" for st, _ in states.values()):
         return {"key": key, "status": "SKIPPED_ALREADY_COMPLETE", "dirs": {s: str(d) for s, d in finals.items()},
                 "detail": {s: m.get("detail", {}) for s, (_, m) in states.items()}}

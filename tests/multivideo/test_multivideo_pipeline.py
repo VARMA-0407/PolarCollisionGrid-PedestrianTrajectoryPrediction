@@ -194,6 +194,22 @@ def test_training_uses_perceived_track_pseudo_targets_not_annotations(world, tra
         assert read_json(world["wdirs"][k] / "run_manifest.json")["config"]["content"]["target_source_mode"] == "PILOT_SMOKE"
 
 
+def test_outputs_of_a_replaced_phase3_run_are_refused(world):
+    """Phase 4/5 outputs are tied to the Phase 3 run they were computed from: if that run is replaced, the old outputs are refused, not reused."""
+    w = world
+    it = w["items"][-1]
+    man = w["p3"][it["key"]] / "run_manifest.json"
+    original = man.read_bytes()
+    try:
+        man.write_bytes(original + b"\n")                                                  # a different Phase 3 run (its manifest differs)
+        r = preprocess_batch(REPO, [it], artifacts_root=w["art"], work_root=w["work"], quarantine_root=w["q"], pcfg=w["pc"], progress=lambda s: None)
+        assert r["results"][it["key"]]["error_code"] == "STALE_ARTIFACT"
+    finally:
+        man.write_bytes(original)
+    ok = preprocess_batch(REPO, [it], artifacts_root=w["art"], work_root=w["work"], quarantine_root=w["q"], pcfg=w["pc"], progress=lambda s: None)
+    assert ok["results"][it["key"]]["status"] == "SKIPPED_ALREADY_COMPLETE"
+
+
 def test_official_split_never_fabricates_a_calibration_partition(world):
     assert world["split"]["scheme"] == "PIE_OFFICIAL" and world["split"]["partitions"]["calibration"] == []
     assert not world["split"]["deviations_from_official"]
