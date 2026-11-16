@@ -92,16 +92,28 @@ single-video pilot regression (11), report (12), tests and final validation (13)
 ## 5. Split methodology
 
 * Unit = PIE recording set (`set01`–`set06`); all clips of a set go to one partition; nothing is split at frame, window or clip level.
-* The official split is parsed from `pie_data.py` (`image_set_nums`: train `set01, set02, set04`; val `set05, set06`; test `set03` in the transcribed reference,
-  confirmed against the source file at run time). If the file is absent the stage is BLOCKED unless the user explicitly accepts the unverified reference.
+* The official split is parsed from `pie_data.py` at run time. **Verified on 16 Nov 2026 against the toolkit source**
+  (`aras62/PIE` master, `utilities/pie_data.py`, `_get_image_set_ids`): `image_set_nums = {'train': ['set01','set02','set04'], 'val': ['set05','set06'],
+  'test': ['set03'], 'all': [...]}` — identical to the transcribed reference. That function is the toolkit's `default` split type and does not shuffle.
+  The toolkit's other split types (`random`: `train_test_split` of pedestrian ids; `kfold`: shuffled `KFold` of pedestrian ids) pool pedestrians across all
+  sets and would place clips of one recording in several partitions; they are deliberately **not** used. If `pie_data.py` is absent the stage is BLOCKED
+  unless the user explicitly accepts the unverified reference.
+* Every video of a set is assigned to that set's partition; `check_split_integrity` fails on a video listed under another set, a set in two partitions,
+  or an inventoried video without a partition (tested).
 * The split is frozen (`data/splits/<split_id>.json`, id = content hash) before windows are generated; resuming verifies the same content hash.
 * Limitation: the official split has no calibration partition; with the default scheme calibration stays empty and blocked. Only six recordings exist, so
   partition-level statistics rest on very few independent units (1 test recording in the official split).
 
 ## 6. Dependencies (Colab)
 
-Kept from Colab: Python, torch (CUDA build), numpy, scipy, matplotlib, OpenCV, jsonschema, psutil. Installed only if missing / incompatible:
-`ultralytics==8.4.212`, `lapx==0.13.1` (raw-video mode), `pytest>=8` (tests). torch and numpy are never reinstalled; incompatibility stops the run.
+Kept from Colab: Python, torch (CUDA build), torchvision, numpy, scipy, matplotlib, OpenCV, jsonschema, psutil. Installed only if missing / incompatible:
+`ultralytics==8.4.212`, `lapx==0.13.1` (raw-video mode), `pytest>=8` (tests). torch, torchvision and numpy are never reinstalled: they are pinned as pip
+constraints (`-c`) during installation and compared afterwards together with `torch.cuda.is_available()` and `import cv2`; any change stops the run.
+
+PyPI check (16 Nov 2026): `ultralytics 8.4.212` exists (uploaded 13 Nov 2026, Python >= 3.8; requires `torch>=1.8`, `torchvision>=0.9`,
+`opencv-python>=4.7,!=4.13.0.90`, `numpy>=1.23`); `lapx 0.13.1` exists with cp311 / cp312 manylinux_2_28 x86_64 wheels; `opencv-python-headless 5.0.0.93`
+exists but requires `numpy>=2`. Because Ultralytics depends on `opencv-python`, the notebook no longer installs the headless wheel (two OpenCV
+distributions in one environment). Whether these resolve cleanly on a fresh Colab image is **not verified** (Colab-only check).
 `requirements.txt` (pins numpy 1.26.4 for the original PCG code) is deliberately **not** installed on Colab. Every session's versions and `pip freeze` are
 stored in `<experiment>/environment/`.
 
@@ -109,13 +121,29 @@ stored in `<experiment>/environment/`.
 
 | Command | Result |
 |---|---|
-| `python scripts/validate_colab_notebook.py` | PASS — 49 cells (34 code), 0 problems, 87 calls into `pedsafety` bound to their real signatures, all repository paths exist, no use-before-definition |
-| `pytest tests/multivideo` | 22 passed: units (inventory, AST split parsing without execution, frozen split + tamper/leak detection, experiment lock, stage tracker, markers, Phase 3 wrapper with mocked CLI), integration (real Phase 4–8 code on 4 synthetic videos: resume, stale-config refusal, train-partition-only training, byte-identical resumed training on CPU, hash-verified loader, per-partition evaluation, Phase 6/7/8 per stage, schemas, report), notebook (regenerated-from-builder check, structural validation, **local execution of every notebook cell** in precomputed mode on 6 synthetic videos, then a resumed run that verifies and skips everything) |
-| `pytest tests` (full suite) | **1403 passed, 8 skipped, 1 failed** in 12 min. The failure is the documented pre-existing defect `tests/phase2/test_ttc_masks.py::test_ttc_occupancy_mask_collapses_agent_dimension` (`utils/Interaction.py`), identical to the Phase 9 baseline (1381 passed + 22 new tests). No test was modified, skipped or weakened. |
+| `python scripts/validate_colab_notebook.py` | PASS — 49 cells (34 code), 0 problems, every call into `pedsafety` bound to its real signature, all repository paths exist, no use-before-definition |
+| `pytest tests/multivideo` (final review) | **26 passed** (adds: downstream stale refusal, pseudo-target provenance, no fabricated calibration partition, unfiltered pytest call, install guard) |
+| `pytest tests/multivideo` (first pass) | 22 passed: units (inventory, AST split parsing without execution, frozen split + tamper/leak detection, experiment lock, stage tracker, markers, Phase 3 wrapper with mocked CLI), integration (real Phase 4–8 code on 4 synthetic videos: resume, stale-config refusal, train-partition-only training, byte-identical resumed training on CPU, hash-verified loader, per-partition evaluation, Phase 6/7/8 per stage, schemas, report), notebook (regenerated-from-builder check, structural validation, **local execution of every notebook cell** in precomputed mode on 6 synthetic videos, then a resumed run that verifies and skips everything) |
+| `pytest tests` (full suite, final review) | **1407 passed, 8 skipped, 1 failed** in 555 s. The failure is the documented pre-existing defect `tests/phase2/test_ttc_masks.py::test_ttc_occupancy_mask_collapses_agent_dimension` (`utils/Interaction.py`), identical to the Phase 9 baseline (1381 passed + 26 new tests). No test was modified, skipped or weakened. |
 
 Not runnable locally: raw-video Phase 3 (no OpenCV / Ultralytics / GPU in this environment — covered only by the mocked-CLI unit test), Google Drive
 mounting, Colab package versions (numpy 2 / newer Python), real PIE data, GPU training, and the optional Phase 9 pilot regression (needs git-ignored
 pilot reference artifacts).
+
+## 7b. Final acceptance review (16 Nov 2026)
+
+| # | Check | Result | Evidence |
+|---|---|---|---|
+| 1 | Official split matches the PIE toolkit; clips of a set stay together | PASS | toolkit source quoted in section 5; AST parser test; `check_split_integrity` leak tests |
+| 2 | No fabricated calibration partition | PASS | `PIE_OFFICIAL` → `calibration: []`, no deviation recorded (test); Phase 7 calibration recorded BLOCKED |
+| 3 | Training uses perceived-track pseudo-targets; no annotation supervision claimed | PASS | window configs and training `config_resolved.json` carry `target_source_mode = PILOT_SMOKE`; claim `annotation_ground_truth_targets: false` (test) |
+| 4 | Training settings vs repository configuration | PASS (documented) | epochs 20 / batch 64 / lr 0.003 identical to `training_default.json`; device `auto` and checkpoint every epoch are documented deviations (guide section 5) |
+| 5 | Pinned packages installable without breaking PyTorch/CUDA | PARTIAL — Colab-only | pins exist on PyPI; install cell holds torch/torchvision/numpy via constraints and re-checks CUDA and cv2; headless-OpenCV double install removed. Not run on a fresh Colab runtime |
+| 6 | Restart resumes perception, training, downstream without stale artifacts | PASS (local) | tests: perception skip / verified reuse (mocked CLI), preprocess sub-stage resume, `STALE_ARTIFACT` on changed configuration, byte-identical resumed training, `STALE_TRAINING_RUN`, downstream `STALE_ARTIFACT` after predictions change, notebook resumed run skips everything, `LOCKED_CONFIG_CHANGED` / `CODE_COMMIT_CHANGED` |
+| 7 | Blocked evaluations stay blocked | PASS | final validation reports `independent_scientific_evaluation: BLOCKED`, `status_scope` = pipeline only; new check fails on any partition labelled independent or a READY gate; report Markdown states it (tests) |
+| 8 | TTC-mask failure classified, not excluded | PASS | the notebook runs `pytest tests` with no `-k / --deselect / --ignore` (test); the failure is only classified as known pre-existing |
+| 9 | Full suite completed | PASS (only the known pre-existing failure) | `pytest tests -q -p no:cacheprovider -rfE`: **1 failed, 1407 passed, 8 skipped** in 555 s; the failure is `tests/phase2/test_ttc_masks.py::test_ttc_occupancy_mask_collapses_agent_dimension` |
+| 10 | Audit and guide updated | PASS | this section; guide sections 5, 6, 10 |
 
 ## 8. Known compatibility issues / risks
 

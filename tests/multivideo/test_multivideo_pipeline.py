@@ -177,3 +177,23 @@ def test_evaluation_downstream_and_report(world, trained):
                        validation={"overall_status": "INCOMPLETE", "checks": []}, execution={"statement": "synthetic"}, deviations=["x"])
     assert rep["claims"]["calibrated_probability"] is False and rep["realtime"]["claim_supported"] is False
     assert "Final status: INCOMPLETE" in (w["tmp"] / "EXPERIMENT_REPORT.md").read_text()
+    assert "Independent scientific evaluation: BLOCKED" in (w["tmp"] / "EXPERIMENT_REPORT.md").read_text()
+    # resume safety downstream: once the Phase 5 predictions change (e.g. a retrained model), old Phase 6-8 outputs are refused, never reused
+    pred = items[0]["predictions_dir"] / "predictions_neural.npz"
+    with open(pred, "ab") as fh:
+        fh.write(b"\0")
+    stale = downstream_batch(REPO, [items[0]], stages=("S6_CONFLICT",), **kw)
+    assert stale["results"][k]["error_code"] == "STALE_ARTIFACT"
+
+
+def test_training_uses_perceived_track_pseudo_targets_not_annotations(world, trained):
+    out, m, train, _ = trained
+    assert "PSEUDO_TARGETS" in m["inputs"]["target_source"] and m["claims"]["annotation_ground_truth_targets"] is False
+    assert read_json(out / "config_resolved.json")["window_config"]["target_source_mode"] == "PILOT_SMOKE"
+    for k in train:
+        assert read_json(world["wdirs"][k] / "run_manifest.json")["config"]["content"]["target_source_mode"] == "PILOT_SMOKE"
+
+
+def test_official_split_never_fabricates_a_calibration_partition(world):
+    assert world["split"]["scheme"] == "PIE_OFFICIAL" and world["split"]["partitions"]["calibration"] == []
+    assert not world["split"]["deviations_from_official"]

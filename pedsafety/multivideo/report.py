@@ -146,7 +146,8 @@ def render_markdown(rep: Dict[str, Any]) -> str:
     f = lambda x: "—" if x is None else ("%.2f" % x if isinstance(x, float) else str(x))               # noqa: E731
     L = ["# PIE multi-video pedestrian-safety experiment `%s`" % rep["experiment_id"], "",
          "Label `%s`. Targets: %s. Coordinates: `%s` pixels only." % (rep["label"], rep["target_source"], rep["coordinate_system"]), "",
-         "**Final status: %s**" % ((rep.get("final_validation") or {}).get("overall_status", "NOT_VALIDATED")), "",
+         "**Final status: %s** (pipeline execution, artifact integrity and tests only). **Independent scientific evaluation: BLOCKED** — see the blocked "
+         "items below; held-out numbers are pseudo-target diagnostics." % ((rep.get("final_validation") or {}).get("overall_status", "NOT_VALIDATED")), "",
          "## Provenance", "", "- Git: `%s` on `%s` (clean working tree: %s)" % (rep["git"].get("commit"), rep["git"].get("branch"), rep["git"].get("working_tree_clean")),
          "- GPU: %s; Python %s; torch %s" % (rep["environment"].get("gpu"), rep["environment"].get("python"), rep["environment"].get("torch")), "",
          "## Dataset and split", "", "- Inventory status: %s; %s videos, %s GB; per set: %s" % (rep["dataset"]["status"], rep["dataset"]["n_videos"], rep["dataset"]["total_gb"],

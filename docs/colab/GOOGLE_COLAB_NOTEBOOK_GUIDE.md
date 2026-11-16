@@ -5,6 +5,8 @@ Notebook: [`notebooks/PIE_Full_Pedestrian_Safety_Pipeline_Colab.ipynb`](../../no
 
 > **Status:** the notebook is structurally validated and its orchestration was smoke-tested locally on synthetic data in precomputed-artifact mode.
 > It has **not** been run on Google Colab, on a GPU, or on the real PIE videos. The first real run is yours; every number comes from that run.
+> Local results (16 Nov 2026): structural validation 0 problems; `tests/multivideo` 26 passed (including two full notebook executions: new and
+> resumed); full repository suite 1407 passed, 8 skipped, 1 failed — the known pre-existing `test_ttc_masks` defect only.
 
 ## 1. What the notebook does
 
@@ -86,11 +88,27 @@ Edit only the **central configuration cell** (all paths and switches are there).
 
 Settings that change scientific outputs are frozen in `experiment_lock.json`; resuming with a different value is refused.
 
+### Training settings vs the repository configuration (`configs/phase5/training_default.json`)
+
+| Notebook setting | Notebook default | Repository value | Why |
+|---|---|---|---|
+| `TRAIN_EPOCHS` | 20 | 20 | identical — passed explicitly only so the value is visible and locked per experiment |
+| `TRAIN_BATCH_SIZE` | 64 | 64 | identical (same reason) |
+| `TRAIN_LEARNING_RATE` | 0.003 | 0.003 | identical (same reason). These are the pilot's a-priori engineering defaults; no tuning was done |
+| `TRAIN_DEVICE` | `auto` | `cpu` | uses the Colab GPU when present (the CPU path was the only one run before; CUDA is not bitwise reproducible — recorded) |
+| `TRAIN_TORCH_THREADS` | `None` | 1 | `None` keeps the repository value (1) |
+| `CHECKPOINT_EVERY_EPOCHS` | 1 | 10 | more frequent checkpoints so a disconnect loses at most one epoch; does not change the optimisation |
+
+All other hyperparameters (weight decay, betas, clipping, cosine schedule, seeds, encoder / decoder configuration) come unchanged from the repository files.
+
 ## 6. Select a GPU runtime
 
 Runtime → Change runtime type → Hardware accelerator **GPU** (T4 or better) → Save. Section 1.2 prints GPU name, CUDA, GPU memory, RAM and free disk,
-and stops if no GPU is attached (`REQUIRE_GPU=True`). The notebook never reinstalls torch or numpy; it installs only missing packages
-(normally `ultralytics==8.4.212` and `lapx==0.13.1`) and records `pip freeze` in the experiment.
+and stops if no GPU is attached (`REQUIRE_GPU=True`). The notebook never reinstalls torch, torchvision or numpy; it installs only missing packages
+(normally `ultralytics==8.4.212` and `lapx==0.13.1`, both confirmed on PyPI with Linux wheels) with the current torch / torchvision / numpy versions
+pinned as pip constraints, then checks that those versions are unchanged, CUDA is still available and `cv2` imports. OpenCV is not installed
+separately (Ultralytics depends on `opencv-python`, which Colab normally ships). `pip freeze` is recorded in the experiment.
+This guard has **not** been exercised on a fresh Colab runtime yet.
 
 ## 7. Run
 
@@ -131,7 +149,9 @@ The split is also frozen in `data/splits/<split_id>.json`; the inventory in `dat
 
 ## 10. Interpreting the results
 
-* **Final status** (end of Section 13) is `COMPLETED` only if every stage completed for every video in scope, all files verify, schemas validate,
+* **Final status** covers pipeline execution, artifact integrity and tests only. It is printed next to
+  `INDEPENDENT SCIENTIFIC EVALUATION: BLOCKED`; a check fails if any result is labelled independent or the Phase 9 gate reports READY.
+  The status is `COMPLETED` only if every stage completed for every video in scope, all files verify, schemas validate,
   the split is intact, the checkpoint verifies and the tests pass. `INCOMPLETE` or `FAILED` lists what is missing.
 * **ADE / FDE** (pixels) use the **most-probable mode** — the model's single forecast. **minADE@K / minFDE@K** let the ground truth pick the best of
   K = 5 modes; they are oracle diagnostics and are always shown separately.

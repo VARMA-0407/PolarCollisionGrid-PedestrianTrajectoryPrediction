@@ -326,9 +326,9 @@ REQUIRED = {"torch": ">=2.2", "numpy": ">=1.26", "scipy": ">=1.12", "matplotlib"
 if RUN_TESTS:
     REQUIRED["pytest"] = ">=8.0"
 if PERCEPTION_MODE == "raw_video":
-    REQUIRED.update({"ultralytics": "==8.4.212", "lapx": "==0.13.1"})          # versions of requirements-perception.txt
+    REQUIRED.update({"ultralytics": "==8.4.212", "lapx": "==0.13.1", "torchvision": ">=0.17"})   # versions of requirements-perception.txt
 OPTIONAL = ["psutil", "pyyaml", "pandas", "packaging"]
-NEVER_INSTALL = {"torch", "numpy"}                                            # Colab's CUDA build / ABI-sensitive: reported, not replaced
+NEVER_INSTALL = {"torch", "numpy", "torchvision"}                                          # Colab's CUDA build / ABI-sensitive: reported, not replaced
 plan, problems = [], []
 for name, spec in REQUIRED.items():
     v = dist_version(name)
@@ -336,20 +336,33 @@ for name, spec in REQUIRED.items():
     if not ok:
         (problems if name in NEVER_INSTALL else plan).append("%s%s (installed: %s)" % (name, spec, v))
 cv = {n: dist_version(n) for n in ("opencv-python", "opencv-python-headless", "opencv-contrib-python")}
-if PERCEPTION_MODE == "raw_video" and not any(cv.values()):
-    plan.append("opencv-python-headless==5.0.0.93 (installed: none)")
+# OpenCV is NOT installed separately: ultralytics 8.4.212 declares opencv-python>=4.7 (Colab normally ships it). Adding the headless wheel as well
+# would put two OpenCV distributions in one environment (requirements-perception.txt warns against that).
 if problems:
     raise RuntimeError("incompatible core packages (not reinstalled automatically): %s" % problems)
 if plan:
     print("missing / incompatible:", plan)
     if not INSTALL_MISSING_DEPENDENCIES:
         raise RuntimeError("INSTALL_MISSING_DEPENDENCIES=False and packages are missing: %s" % plan)
+    # guard the CUDA build: pip may not change torch / torchvision / numpy (it fails instead of replacing them)
+    frozen = {n: dist_version(n) for n in ("torch", "torchvision", "numpy")}
+    cons = Path(WORK_ROOT) / "pip_constraints_keep_colab_torch.txt"
+    cons.parent.mkdir(parents=True, exist_ok=True)
+    cons.write_text("".join("%s==%s\n" % (n, v) for n, v in frozen.items() if v), encoding="utf-8")
+    cuda_before = bool(HW.get("cuda_available"))
     specs = [p.split(" (")[0] for p in plan]
-    r = subprocess.run([sys.executable, "-m", "pip", "install", "-q", *specs], capture_output=True, text=True)
+    r = subprocess.run([sys.executable, "-m", "pip", "install", "-q", "-c", str(cons), *specs], capture_output=True, text=True)
     print(r.stdout[-1500:], r.stderr[-1500:])
     if r.returncode != 0:
-        raise RuntimeError("pip install failed: %s" % (r.stderr or r.stdout)[-1500:])
+        raise RuntimeError("pip install failed (torch/torchvision/numpy were held at %s): %s" % (frozen, (r.stderr or r.stdout)[-1500:]))
     importlib.invalidate_caches()
+    after = {n: dist_version(n) for n in frozen}
+    if after != frozen:
+        raise RuntimeError("installation changed the PyTorch/NumPy environment %s -> %s; restart the runtime" % (frozen, after))
+    chk = subprocess.run([sys.executable, "-c", "import torch, cv2; print(torch.cuda.is_available(), cv2.__version__)"], capture_output=True, text=True)
+    if chk.returncode != 0 or (cuda_before and not chk.stdout.startswith("True")):
+        raise RuntimeError("post-install check failed (CUDA must stay available, cv2 must import): %s %s" % (chk.stdout, chk.stderr[-800:]))
+    print("post-install check: torch/torchvision/numpy unchanged %s; CUDA available, cv2 %s" % (after, chk.stdout.split()[-1]))
 else:
     print("all required packages present; nothing installed")
 DEP_VERSIONS = {n: dist_version(n) for n in list(REQUIRED) + OPTIONAL + list(cv)}
@@ -1182,6 +1195,17 @@ def c_tests():
     if not RUN_TESTS:
         return "SKIPPED", "RUN_TESTS=False"
     return ("FAIL" if TESTS.get("status") in ("FAIL", None, "NOT_RUN") else "PASS"), TESTS.get("summary_line")
+def c_not_independent():
+    # blocked scientific evaluations must stay blocked: no partition may be labelled independent and the Phase 9 gate may not be READY
+    ev = load_if(EVAL_ROOT / "evaluation_summary.json")
+    if ev is None:
+        return "NOT_RUN", "no evaluation summary"
+    labels = {p: x["sample_status"] for p, x in ev["per_partition"].items()}
+    bad = [p for p, s in labels.items() if "INDEPENDENT" in s or not (s.startswith("IN_SAMPLE") or s.startswith("HELD_OUT_RECORDING_PSEUDO_TARGET"))]
+    gate = (ev.get("phase9_independent_evaluation_gate") or {}).get("status")
+    if gate == "READY_FOR_INDEPENDENT_EVALUATION":
+        bad.append("Phase 9 gate READY although annotation provenance / identity mapping / alignment are recorded unverified")
+    return ("FAIL" if bad or not gate else "PASS"), {"sample_status": labels, "phase9_gate": gate, "problems": bad}
 def c_claims():
     rep = read_json(EXP_DIR / "experiment_report.json")
     bad = [k for k, v in rep["claims"].items() if v]
@@ -1190,9 +1214,13 @@ def c_claims():
 if RUN_END_TO_END_VALIDATION:
     for n, f in (("stage statuses (no failed / running stage)", c_stages), ("required per-video outputs + hashes", c_files), ("JSON / JSONL schemas", c_schemas),
                  ("checkpoint existence and integrity", c_checkpoint), ("experiment manifest completeness", c_manifests), ("dataset split integrity", c_split),
-                 ("repository tests", c_tests), ("no unsupported claim flagged true", c_claims)):
+                 ("repository tests", c_tests), ("no unsupported claim flagged true", c_claims),
+                 ("held-out results not labelled independent; Phase 9 gate blocked", c_not_independent)):
         check(n, f)
-    VALIDATION = {"overall_status": final_status(CHECKS), "checks": CHECKS, "blocked_scientific_items": BLOCKED_SCIENTIFIC_ITEMS, "validated_utc": utc_now()}
+    gate = ((load_if(EVAL_ROOT / "evaluation_summary.json") or {}).get("phase9_independent_evaluation_gate") or {}).get("status")
+    VALIDATION = {"overall_status": final_status(CHECKS), "status_scope": "pipeline execution, artifact integrity and tests ONLY - not independent scientific validation",
+                  "independent_scientific_evaluation": "BLOCKED", "phase9_independent_evaluation_gate": gate, "checks": CHECKS,
+                  "blocked_scientific_items": BLOCKED_SCIENTIFIC_ITEMS, "validated_utc": utc_now()}
     write_json(EXP_DIR / "final_validation.json", VALIDATION)
 else:
     VALIDATION = {"overall_status": "NOT_VALIDATED", "checks": []}
@@ -1204,7 +1232,8 @@ REPORT = make_report(tests=TESTS, validation=VALIDATION)
 summ = TRACKER.summary()
 print("=" * 100)
 print("EXPERIMENT", EXPERIMENT_ID)
-print("FINAL STATUS:", VALIDATION["overall_status"])
+print("FINAL STATUS (pipeline execution / integrity only):", VALIDATION["overall_status"])
+print("INDEPENDENT SCIENTIFIC EVALUATION:", VALIDATION.get("independent_scientific_evaluation", "BLOCKED"), "| Phase 9 gate:", VALIDATION.get("phase9_independent_evaluation_gate"))
 for status in ("FAILED", "COMPLETED_WITH_FAILURES", "BLOCKED_UPSTREAM", "SKIPPED_DISABLED", "BLOCKED"):
     if summ.get(status):
         print("  %-24s %s" % (status, summ[status]))

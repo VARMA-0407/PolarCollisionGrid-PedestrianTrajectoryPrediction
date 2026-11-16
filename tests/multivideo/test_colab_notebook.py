@@ -42,6 +42,19 @@ def test_notebook_structure_imports_signatures_paths_and_order():
     assert r["info"]["pedsafety_calls_signature_checked"] >= 40
 
 
+def test_notebook_runs_the_whole_suite_without_excluding_the_known_failure():
+    src = next(s for s in _cells() if "13.1 Repository tests" in s)
+    cmd = src[src.index('[sys.executable, "-m", "pytest"'):].split("]")[0]
+    assert '"tests"' in cmd and not any(f in cmd for f in ("-k", "--deselect", "--ignore", "-m "))      # the TTC-mask test runs; it is only classified
+    assert "test_ttc_occupancy_mask_collapses_agent_dimension" in src and "unexpected" in src
+
+
+def test_install_cell_holds_the_colab_torch_build_and_never_adds_headless_opencv():
+    src = next(s for s in _cells() if "1.4 Dependencies" in s)
+    assert '"-c", str(cons)' in src and "installation changed the PyTorch/NumPy environment" in src
+    assert "opencv-python-headless==" not in src
+
+
 def _cells():
     nb = json.loads(NB.read_text(encoding="utf-8"))
     return ["".join(c["source"]) for c in nb["cells"] if c["cell_type"] == "code"]
@@ -93,6 +106,8 @@ def test_smoke_run_completes_every_stage_in_precomputed_mode(smoke):
     v = ns["VALIDATION"]
     res = {c["name"]: c["result"] for c in v["checks"]}
     assert res["repository tests"] == "SKIPPED" and v["overall_status"] == "INCOMPLETE"          # tests were not run -> never reported as COMPLETED
+    assert v["independent_scientific_evaluation"] == "BLOCKED" and v["phase9_independent_evaluation_gate"] != "READY_FOR_INDEPENDENT_EVALUATION"
+    assert res["held-out results not labelled independent; Phase 9 gate blocked"] == "PASS"
     assert all(r == "PASS" for n, r in res.items() if n != "repository tests"), res
     ex = ns["EXECUTION"]
     assert ex["precomputed_artifact_chains_complete"] == 6 and ex["raw_video_to_alert_chains_complete"] == 0       # precomputed is never labelled raw-video
