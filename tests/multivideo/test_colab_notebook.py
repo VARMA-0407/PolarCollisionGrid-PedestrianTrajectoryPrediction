@@ -36,6 +36,27 @@ def test_notebook_is_regenerated_from_the_builder(tmp_path):
     assert out.read_text(encoding="utf-8") == NB.read_text(encoding="utf-8"), "notebook is stale: run scripts/build_colab_full_pipeline_notebook.py"
 
 
+def _builder():
+    spec = importlib.util.spec_from_file_location("build_nb", REPO / "scripts" / "build_colab_full_pipeline_notebook.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def test_pilot6_notebook_is_regenerated_valid_and_differs_only_in_configuration(tmp_path):
+    mod = _builder()
+    out = mod.build(tmp_path / "p.ipynb", "pilot6")
+    pilot = REPO / "notebooks" / "PIE_Full_Pedestrian_Safety_Pipeline_Colab_PILOT6.ipynb"
+    assert out.read_text(encoding="utf-8") == pilot.read_text(encoding="utf-8"), "pilot notebook is stale: run the builder with --preset pilot6"
+    assert _validator().validate(pilot)["ok"]
+    a, b = (json.loads(p.read_text(encoding="utf-8"))["cells"] for p in (NB, pilot))
+    diff = [i for i, (x, y) in enumerate(zip(a, b)) if x["source"] != y["source"]]
+    assert len(a) == len(b) and diff == [0, 2]                                      # the banner cell and the central configuration cell only
+    cfg = "".join(b[2]["source"])
+    assert 'VIDEO_SUBSET = ["set01_video_0004"' in cfg and "TRAIN_EPOCHS = 2" in cfg and "DOWNLOAD_PIE_DATA_PY_IF_MISSING = True" in cfg
+    assert 'EXPERIMENT_ID = ""' in cfg and "RUN_TESTS = True" in cfg and "ALLOW_UNVERIFIED_SPLIT_REFERENCE = False" in cfg
+
+
 def test_notebook_structure_imports_signatures_paths_and_order():
     r = _validator().validate(NB)
     assert r["ok"], r["problems"]
@@ -128,3 +149,28 @@ def test_resumed_run_verifies_and_skips_completed_work(smoke):
     a = json.loads((ns1["EXP_DIR"] / "split_manifest.json").read_text())["split_id"]
     assert a == ns2["SPLIT"]["split_id"]
     assert len(list((smoke["drive"] / "experiments").glob("pie_full_*"))) == 1                    # no second experiment folder was created
+
+
+def test_video_subset_run_completes_with_all_partitions_and_ignores_other_videos(tmp_path):
+    """The pilot path: only some videos of the inventory are processed (one clip per recording set in the real pilot); every partition still has a video."""
+    os.environ.setdefault("MPLBACKEND", "Agg")
+    drive = tmp_path / "drive"
+    pie = make_pie_tree(drive / "data" / "raw", {s: 1 for s in ("set01", "set02", "set03", "set04", "set05", "set06")})
+    pre = tmp_path / "pre"
+    subset = ["set01_video_0001", "set02_video_0001", "set03_video_0001", "set05_video_0001"]                  # train, train, test, validation
+    for i, k in enumerate(subset):
+        write_phase3_dir(pre / k.split("_")[0] / k, k, seed=i)
+    over = {"DRIVE_ROOT": str(drive), "PIE_RAW_DIR": str(pie), "REPO_SOURCE": "existing", "EXISTING_REPO_DIR": str(REPO), "REQUIRE_GPU": False,
+            "INSTALL_MISSING_DEPENDENCIES": False, "WORK_ROOT": str(tmp_path / "work"), "PERCEPTION_MODE": "precomputed", "PRECOMPUTED_PHASE3_ROOT": str(pre),
+            "RUN_TESTS": False, "TRAIN_EPOCHS": 2, "TRAIN_BATCH_SIZE": 16, "TRAIN_DEVICE": "cpu", "EVAL_DEVICE": "cpu", "MONITOR_MAX_WINDOWS": 64,
+            "VIDEO_SUBSET": subset, "DOWNLOAD_PIE_DATA_PY_IF_MISSING": True}
+    ns = _run(over, [])
+    st = {k: v["status"] for k, v in ns["TRACKER"].data["stages"].items()}
+    for s in ("S0_SPLIT", "S3_PERCEPTION", "S4_GEOMETRY", "S5A_WINDOWS", "S5B_TRAINING", "S5C_EVALUATION", "S6_CONFLICT", "S7_RISK", "S8_ALERTS"):
+        assert st[s] == "COMPLETED", (s, ns["TRACKER"].data["stages"][s])
+    assert sorted(ns["VKEYS"]) == sorted(subset) and ns["EXECUTION"]["dataset_scope"] == "VIDEO_SUBSET"
+    assert ns["EXECUTION"]["precomputed_artifact_chains_complete"] == 4
+    ev = json.loads((ns["EVAL_ROOT"] / "evaluation_summary.json").read_text())
+    assert set(ev["per_video"]) == set(subset) and set(ev["per_partition"]) == {"train", "validation", "test"}
+    res = {c["name"]: c["result"] for c in ns["VALIDATION"]["checks"]}
+    assert all(r == "PASS" for n, r in res.items() if n != "repository tests"), res

@@ -1291,9 +1291,39 @@ if VALIDATION["overall_status"] != "COMPLETED":
 ''')
 
 
-def build(out: Path) -> Path:
+# Ready-to-run presets: ONLY values of the central configuration cell are replaced (the code is identical to the default notebook).
+PRESETS = {
+    "pilot6": {
+        "title": "PRESET pilot6 - one clip per recording set, 2 training epochs (first real run; creates its own experiment, nothing is shared with a full run)",
+        "values": {"VIDEO_SUBSET": '["set01_video_0004", "set02_video_0001", "set03_video_0001", "set04_video_0001", "set05_video_0001", "set06_video_0001"]',
+                   "TRAIN_EPOCHS": "2", "DOWNLOAD_PIE_DATA_PY_IF_MISSING": "True"},
+        "suffix": "_PILOT6",
+    },
+}
+
+
+def apply_preset(cells, preset):
+    import re
+    spec = PRESETS[preset]
+    out = []
+    done = set()
+    for kind, src in cells:
+        if kind == "code" and "CENTRAL CONFIGURATION" in src:
+            for name, val in spec["values"].items():
+                pat = re.compile(r"^(%s\s*=\s*)(.*?)(\s+#.*)?$" % name, re.M)
+                assert len(pat.findall(src)) == 1, name
+                src = pat.sub(lambda m: "%s%s%s" % (m.group(1), val, m.group(3) or ""), src)
+                done.add(name)
+        out.append((kind, src))
+    assert done == set(spec["values"]), set(spec["values"]) - done
+    kind0, src0 = out[0]
+    out[0] = (kind0, "> **%s.** Only the configuration values listed in the central cell differ from the default notebook.\n\n%s" % (spec["title"], src0))
+    return out
+
+
+def build(out: Path, preset=None) -> Path:
     cells = []
-    for i, (kind, src) in enumerate(CELLS):
+    for i, (kind, src) in enumerate(apply_preset(CELLS, preset) if preset else CELLS):
         lines = src.split("\n")
         source = [l + "\n" for l in lines[:-1]] + [lines[-1]]
         c = {"cell_type": kind, "id": "cell-%03d" % i, "metadata": {}, "source": source}
@@ -1311,9 +1341,11 @@ def build(out: Path) -> Path:
 
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--out", default=str(DEFAULT_OUT))
+    ap.add_argument("--out", default=None)
+    ap.add_argument("--preset", choices=sorted(PRESETS), default=None, help="build a ready-to-run variant (default: the standard notebook)")
     a = ap.parse_args(argv)
-    p = build(Path(a.out))
+    out = Path(a.out) if a.out else (DEFAULT_OUT.with_name(DEFAULT_OUT.stem + PRESETS[a.preset]["suffix"] + ".ipynb") if a.preset else DEFAULT_OUT)
+    p = build(out, a.preset)
     print("wrote %s (%d cells)" % (p, len(CELLS)))
     return 0
 
